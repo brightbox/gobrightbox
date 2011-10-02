@@ -26,6 +26,11 @@ import (
 	"io/ioutil"
 )
 
+type Authenticator interface {
+	RequestToken() os.Error
+	Token() (string, os.Error)
+}
+
 type ApiClientAuth struct {
 	id         string
 	secret     string
@@ -33,9 +38,19 @@ type ApiClientAuth struct {
 	token      string
 }
 
-//type Client struct {
+type Client struct {
+	auth       Authenticator
+	url        string
+	version    string
+}
 
-//}
+func NewClient(url string, version string, auth Authenticator) *Client {
+	c := new(Client)
+	c.url = url
+	c.auth = auth
+	c.version = version
+	return c
+}
 
 func NewApiClientAuth(url string, id string, secret string) *ApiClientAuth {
 	c := new(ApiClientAuth)
@@ -43,6 +58,47 @@ func NewApiClientAuth(url string, id string, secret string) *ApiClientAuth {
 	c.id = id
 	c.secret = secret
 	return c
+}
+
+func (client *Client) DoRequest(method string, path string, body string) ([]interface{}, *http.Response, os.Error) { 
+	var s []uint8
+	var res *http.Response
+	var err os.Error
+	var token string
+	var req *http.Request
+	token, err = client.auth.Token()
+	if err != nil {
+		return nil, nil, err
+	}
+	req, err = http.NewRequest(method, client.url + "/" + client.version + path, strings.NewReader(body))
+	req.Header.Set("Authorization", "OAuth " + token)
+	res, err = http.DefaultClient.Do(req)
+	// FIXME: If this errors due to expired token, we should get a new token and retry
+	if err != nil {
+		return nil, res, err
+	}
+	s, err = ioutil.ReadAll(res.Body)
+	if err != nil {
+		return nil, res, err
+	}
+	res.Body.Close()
+	var rjson []interface{}
+
+	err = json.Unmarshal(s, &rjson)
+	if err != nil {
+		return nil, res, err
+	}
+	return rjson, res, err
+}
+
+func (auth *ApiClientAuth) Token() (string, os.Error) {
+	if auth.token == "" {
+		err := auth.RequestToken()
+		if err != nil {
+			return "", err
+		}
+	}
+	return auth.token, nil
 }
 
 func (auth *ApiClientAuth) RequestToken() os.Error {
@@ -62,7 +118,7 @@ func RequestToken(auth *ApiClientAuth) (string, os.Error) {
 	var s []uint8
 	var err os.Error
 	s, err = json.Marshal(treq)
-		
+
 	req, err := http.NewRequest("POST", auth.url + "/token", strings.NewReader(string(s)))
 	defer req.Body.Close()
 	req.SetBasicAuth(auth.id, auth.secret)
