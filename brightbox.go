@@ -1,7 +1,9 @@
 /*
 Copyright 2011 Brightbox Systems Ltd.
 
-This program is free software: you can redistribute it and/or modify
+This file is part of Brightbox.go
+
+brightbox.go is free software: you can redistribute it and/or modify
 it under the terms of the Lesser GNU General Public License as
 published by the Free Software Foundation, either version 3 of the
 License, or (at your option) any later version.
@@ -60,7 +62,7 @@ func NewApiClientAuth(url string, id string, secret string) *ApiClientAuth {
 	return c
 }
 
-func (client *Client) DoRequest(method string, path string, body string) ([]interface{}, *http.Response, os.Error) { 
+func (client *Client) DoRequest(method string, path string, body string) (interface{}, *http.Response, os.Error) { 
 	var s []uint8
 	var res *http.Response
 	var err os.Error
@@ -82,7 +84,7 @@ func (client *Client) DoRequest(method string, path string, body string) ([]inte
 		return nil, res, err
 	}
 	res.Body.Close()
-	var rjson []interface{}
+	var rjson interface{}
 
 	err = json.Unmarshal(s, &rjson)
 	if err != nil {
