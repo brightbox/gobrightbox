@@ -23,6 +23,8 @@ package brightbox
 import (
 	"testing"
 	"os"
+	"regexp"
+	"time"
 )
 
 func TestNewApiClientAuth(t *testing.T) {
@@ -30,7 +32,7 @@ func TestNewApiClientAuth(t *testing.T) {
 	if c.url != "auth" {
 		t.Error("url not set correctly")
 	}
-	if c.id != "cli-xxxxx" {
+	if c.Id != "cli-xxxxx" {
 		t.Error("id not set correcty")
 	}
 	if c.secret != "asdf1234" {
@@ -43,9 +45,12 @@ func TestNewApiClientAuth(t *testing.T) {
 
 func TestRequestTokenWithInvalidDetails(t *testing.T) {
 	c := NewApiClientAuth("https://api.gb1.brightbox.com", "test", "asdf1234")
-	token, err := RequestToken(c)
+	token, expires, err := RequestToken(c)
 	if token != "" {
 		t.Errorf("token should be empty")
+	}
+	if expires != 0 {
+		t.Errorf("expires should be 0")
 	}
 	if err == nil || err.String() != "Token not granted" {
 		t.Errorf("err should be 'Token not granted'")
@@ -57,9 +62,12 @@ func TestRequestToken(t *testing.T) {
 		t.Fatal("Test requires CLIENT and SECRET env variables set")
 	}
 	c := NewApiClientAuth("https://api.gb1.brightbox.com", os.Getenv("CLIENT"), os.Getenv("SECRET"))
-	token, err := RequestToken(c)
+	token, expires, err := RequestToken(c)
 	if token == "" {
 		t.Errorf("token should not be nil")
+	}
+	if expires < time.Seconds() {
+		t.Errorf("expires should be in the future")
 	}
 	if err != nil {
 		t.Errorf("err should be nil")
@@ -125,3 +133,18 @@ func TestClientDoRequestWithInvalidAuth(t *testing.T) {
 		t.Errorf("err should not be nil")
 	}
 }
+
+func TestClientListServers(t *testing.T) {
+	auth := NewApiClientAuth("https://api.gb1.brightbox.com", os.Getenv("CLIENT"), os.Getenv("SECRET"))
+	c := NewClient("https://api.gb1.brightbox.com", "1.0", auth)
+	servers := c.ListServers()
+	if servers == nil {		
+		t.Errorf("servers should not be nil")
+	}
+	if len(servers) == 0 {
+		t.Errorf("servers should not be empty")
+	}
+	if m, _ := regexp.Match("^srv\\-", []uint8(servers[0].Id)) ;  m != true  {
+		t.Errorf("first server's id didn't look right")
+	}
+} 
