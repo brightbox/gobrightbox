@@ -33,7 +33,7 @@ type Server struct {
 	Status     string
 	ServerType ServerType
 	Zone       Zone
-	// Image   Image
+	Image      Image
   Name       string
 }
 
@@ -51,6 +51,7 @@ func NewServerFromJson(json_data interface{}) (Server, os.Error) {
 	}
 	server.Zone, err = NewZoneFromJson(j_server["zone"])
 	server.Name = j_server["name"].(string)
+	server.Image, err = NewImageFromJson(j_server["image"])
 	return *server, nil
 }
 

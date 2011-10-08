@@ -29,7 +29,6 @@ import (
 	"strings"
 	"os"
 	"io/ioutil"
-	"fmt"
 	"compress/gzip"
 )
 
@@ -60,6 +59,10 @@ type ServerType struct {
 type Zone struct {
 	Id         string
   Handle     string
+}
+
+type Image struct {
+	Id         string
 }
 
 
@@ -139,28 +142,9 @@ func NewServerTypeFromJson(json_data interface{}) (ServerType, os.Error) {
 	return *st, nil
 }
 
-// SetupAuthenticatorCache tries to read a cached token from the local filesystem
-func SetupAuthenticatorCache(auth Authenticator) os.Error {
-	var (
-		err       os.Error
-		token     string
-		expires   int64
-		f         *os.File
-	)
-	cache_filename := "/home/john/.brightbox/" + auth.String() + ".oauth_token.v2"
-	f, err = os.Open(cache_filename)
-	if f != nil {
-		_, err = fmt.Fscanf(f, "%s", &token)
-		_, err = fmt.Fscanf(f, "%d", &expires)
-		f.Close()
-	}
-	if auth.SetToken(token, expires) != nil {
-		token, expires, err = auth.Token()
-		if err != nil {
-			return nil
-		}
-		// BUG(johnl): should write to temp file and rename
-		ioutil.WriteFile(cache_filename, []uint8(fmt.Sprintf("%s %d", token, expires)), 0600)
-	}
-	return nil
+func NewImageFromJson(json_data interface{}) (Image, os.Error) {
+	var j_img = json_data.(map[string]interface{})
+	img := new(Image)
+	img.Id = j_img["id"].(string)
+	return *img, nil
 }
