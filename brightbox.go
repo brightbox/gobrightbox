@@ -29,11 +29,9 @@ import (
 	"strings"
 	"os"
 	"io/ioutil"
-	"time"
 	"fmt"
 	"compress/gzip"
 )
-
 
 var (
   ErrTokenExpired      = os.NewError("brightbox: authentication token has expired")
@@ -45,15 +43,6 @@ type Authenticator interface {
 	Token() (string, int64, os.Error)
 	SetToken(string, int64) os.Error
 	String()   string
-}
-
-// ApiClientAuth represents an ApiClient used for OAuth authentication
-type ApiClientAuth struct {
-	Id         string
-	secret     string
-	url        string
-	token      string
-	expires    int64
 }
 
 // Client represents a connection to the API with a given Authenticator
@@ -73,15 +62,6 @@ type Zone struct {
   Handle     string
 }
 
-// Server represents a Cloud Server
-type Server struct {
-	Id         string
-	Status     string
-	ServerType ServerType
-	Zone       Zone
-	// Image   Image
-  Name       string
-}
 
 // NewClient returns a new Client structure instantiated with the
 // given API url, the API version and Authenticator
@@ -90,16 +70,6 @@ func NewClient(url string, version string, auth Authenticator) *Client {
 	c.url = url
 	c.auth = auth
 	c.version = version
-	return c
-}
-
-// NewApiClientAuth returns a new ApiClientAuth structure instantiated
-// with the given data
-func NewApiClientAuth(url string, id string, secret string) *ApiClientAuth {
-	c := new(ApiClientAuth)
-	c.url = url
-	c.Id = id
-	c.secret = secret
 	return c
 }
 
@@ -148,84 +118,6 @@ func (client *Client) DoRequest(method string, path string, body string) (interf
 	return rjson, res, err
 }
 
-// Token() returns the OAuth token. If it has no token, or the token
-// is expired, it requests one using RequestToken()
-func (auth *ApiClientAuth) Token() (string, int64, os.Error) {
-	if auth.token == "" || auth.expires < time.Seconds() + 60 {
-		err := auth.RequestToken()
-		if err != nil {
-			return "", 0, err
-		}
-	}
-	return auth.token, auth.expires, nil
-}
-
-func (auth *ApiClientAuth) SetToken(token string, expires int64) os.Error {
-	if token == "" {
-		return ErrInvalidToken
-	}
-	if expires < time.Seconds() + 60 {
-		return ErrTokenExpired
-	}
-	auth.token = token
-	auth.expires = expires
-	return nil
-}
-
-func (auth *ApiClientAuth) String() string {
-	return auth.Id
-}
-
-// ApiClientAuth.RequestToken
-func (auth *ApiClientAuth) RequestToken() os.Error {
-	token, expires, err := RequestToken(auth)
-	if err != nil {
-		return err
-	}
-	return auth.SetToken(token, expires)
-}
-
-// RequestToken makes an authenticated request to the API and returns
-// the OAuth token and the expiry time
-func RequestToken(auth *ApiClientAuth) (string, int64, os.Error) {
-	treq := map[string]string{}
-	treq["client_id"] = auth.Id
-	treq["grant_type"] = "none"
-
-	var s []uint8
-	var err os.Error
-	s, err = json.Marshal(treq)
-
-	req, err := http.NewRequest("POST", auth.url + "/token", strings.NewReader(string(s)))
-	defer req.Body.Close()
-	req.SetBasicAuth(auth.Id, auth.secret)
-	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("User-Agent", "brightbox.go")
-	res, err := http.DefaultClient.Do(req)
-
-	if err != nil {
-		return "", 0, err
-	}
-
-	s, err = ioutil.ReadAll(res.Body)
-	if err != nil {
-		return "", 0, err
-	}
-
-	var tokres map[string]interface{}
-	err = json.Unmarshal(s, &tokres)
-	if err != nil {
-		return "", 0, err
-	}
-
-	token := tokres["access_token"]
-	if token != nil && token != "" {
-		// BUG(johnl): should use expiry time from server
-		return token.(string), time.Seconds() + 7200, nil
-	}
-	return "", 0, os.NewError("Token not granted")
-}
-
 func NewZoneFromJson(json_data interface{}) (Zone, os.Error) {
 	var j_z = json_data.(map[string]interface{})
 	z := new(Zone)
@@ -245,41 +137,6 @@ func NewServerTypeFromJson(json_data interface{}) (ServerType, os.Error) {
 	}
 	// BUG(johnl): Other fields
 	return *st, nil
-}
-
-// NewServerFromJson returns a new Server structure instantiated from
-// json data returned by the API
-func NewServerFromJson(json_data interface{}) (Server, os.Error) {
-	var j_server = json_data.(map[string]interface{})
-	var err os.Error
-	server := new(Server)
-	server.Id = j_server["id"].(string)
-	server.Status = j_server["status"].(string)
-	server.ServerType, err = NewServerTypeFromJson(j_server["server_type"])
-	if err != nil {
-		panic(err)
-	}
-	server.Zone, err = NewZoneFromJson(j_server["zone"])
-	server.Name = j_server["name"].(string)
-	return *server, nil
-}
-
-// ListServers gets a list of the Servers via the API and returns a
-// slice of Server structures.
-func (client *Client) ListServers() []Server {
-	j_servers, _, err := client.DoRequest("GET", "/servers", "")
-	if err != nil {
-		panic(err)
-	}
-	servers := make([]Server, len(j_servers.([]interface{})))
-	for i, s := range j_servers.([]interface{}) {
-		server, err := NewServerFromJson(s)
-		if err != nil {
-			panic(err)
-		}
-		servers[i] = server
-	}
-	return servers
 }
 
 // SetupAuthenticatorCache tries to read a cached token from the local filesystem
