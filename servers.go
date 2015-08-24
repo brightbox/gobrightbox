@@ -75,3 +75,59 @@ func (c *Client) DestroyServer(identifier string) (error) {
 	}
 	return nil
 }
+
+func (c *Client) StopServer(identifier string) (error) {
+	_, err := c.MakeApiRequest("POST", "/1.0/servers/"+identifier+"/stop", nil, nil)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (c *Client) StartServer(identifier string) (error) {
+	_, err := c.MakeApiRequest("POST", "/1.0/servers/"+identifier+"/start", nil, nil)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (c *Client) RebootServer(identifier string) (error) {
+	_, err := c.MakeApiRequest("POST", "/1.0/servers/"+identifier+"/reboot", nil, nil)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (c *Client) ResetServer(identifier string) (error) {
+	_, err := c.MakeApiRequest("POST", "/1.0/servers/"+identifier+"/reset", nil, nil)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (c *Client) ShutdownServer(identifier string) (error) {
+	_, err := c.MakeApiRequest("POST", "/1.0/servers/"+identifier+"/shutdown", nil, nil)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (c *Client) LockServer(identifier string) (error) {
+	_, err := c.MakeApiRequest("PUT", "/1.0/servers/"+identifier+"/lock_resource", nil, nil)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (c *Client) UnlockServer(identifier string) (error) {
+	_, err := c.MakeApiRequest("PUT", "/1.0/servers/"+identifier+"/unlock_resource", nil, nil)
+	if err != nil {
+		return err
+	}
+	return nil
+}
