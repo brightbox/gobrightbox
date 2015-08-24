@@ -2,6 +2,7 @@ package brightbox
 
 import (
 	"time"
+	"regexp"
 )
 
 type Server struct {
@@ -130,4 +131,19 @@ func (c *Client) UnlockServer(identifier string) (error) {
 		return err
 	}
 	return nil
+}
+
+func (c *Client) SnapshotServer(identifier string) (*Image, error) {
+	res, err := c.MakeApiRequest("POST", "/1.0/servers/"+identifier+"/snapshot", nil, nil)
+	if err != nil {
+		return nil, err
+	}
+	re := regexp.MustCompile("img-.....")
+	imageId := re.FindString(res.Header.Get("Link"))
+	if imageId != "" {
+		img := new(Image)
+		img.Id = imageId
+		return img, nil
+	}
+	return nil, nil
 }
