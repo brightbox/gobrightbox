@@ -1,75 +1,77 @@
-/*
-Copyright 2011 Brightbox Systems Ltd.
-
-This file is part of Brightbox.go
-
-brightbox.go is free software: you can redistribute it and/or modify
-it under the terms of the Lesser GNU General Public License as
-published by the Free Software Foundation, either version 3 of the
-License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful, but
-WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the Lesser
-GNU General Public License for more details.
-	
-You should have received a copy of the Lesser GNU General Public
-License along with this program.  If not, see
-<http://www.gnu.org/licenses/>
-*/
-
-// The brightbox package provides a GO interface to the Brightbox
-// Cloud API. See http://brightbox.com or
-// http://docs.brightbox.com/reference/api/ for more details.
 package brightbox
 
 import (
-	"os"
+	"time"
 )
 
-// Server represents a Cloud Server
 type Server struct {
-	Id         string
-	Status     string
-	ServerType ServerType
-	Zone       Zone
-	Image      Image
-  Name       string
+	Resource
+	Name              string
+	Status            string
+	Locked            bool
+	Hostname          string
+	Fqdn              string
+	CreatedAt         *time.Time `json:"created_at"`
+	DeletedAt         *time.Time `json:"deleted_at"`
+	ServerType        ServerType `json:"server_type"`
+	CompatabilityMode bool       `json:"compatibility_mode"`
+	Zone              Zone
+	Image             Image
+	CloudIPs          []CloudIP `json:"cloud_ips"`
+	Interfaces        []ServerInterface
+	Snapshots         []Image
+	ServerGroups      []ServerGroup `json:"server_groups"`
 }
 
-// NewServerFromJson returns a new Server structure instantiated from
-// json data returned by the API
-func NewServerFromJson(json_data interface{}) (Server, os.Error) {
-	var j_server = json_data.(map[string]interface{})
-	var err os.Error
+type CreateServerOptions struct {
+	Identifier string `json:"-"`
+	Image string `json:"image"`
+	Name string `json:"name,omitempty"`
+	ServerType string `json:"server_type,omitempty"`
+	Zone string `json:"zone,omitempty"`
+	UserData string `json:"user_data,omitempty"`
+	ServerGroups []string `json:"server_groups,omitempty"`
+}
+
+
+type ServerInterface struct {
+	Resource
+	MacAddress  string `json:"mac_address"`
+	IPv4Address string `json:"ipv4_address"`
+	IPv6Address string `json:"ipv6_address"`
+}
+
+func (c *Client) Servers() (*[]Server, error) {
+	servers := new([]Server)
+	_, err := c.MakeApiRequest("GET", "/1.0/servers", nil, servers)
+	if err != nil {
+		return nil, err
+	}
+	return servers, err
+}
+
+func (c *Client) Server(identifier string) (*Server, error) {
 	server := new(Server)
-	server.Id = j_server["id"].(string)
-	server.Status = j_server["status"].(string)
-	server.ServerType, err = NewServerTypeFromJson(j_server["server_type"])
+	_, err := c.MakeApiRequest("GET", "/1.0/servers/"+identifier, nil, server)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
-	server.Zone, err = NewZoneFromJson(j_server["zone"])
-	server.Name = j_server["name"].(string)
-	server.Image, err = NewImageFromJson(j_server["image"])
-	return *server, nil
+	return server, err
 }
 
-// ListServers gets a list of the Servers via the API and returns a
-// slice of Server structures.
-func (client *Client) ListServers() []Server {
-	j_servers, _, err := client.DoRequest("GET", "/servers", "")
+func (c *Client) CreateServer(newServer *CreateServerOptions) (*Server, error) {
+	server := new(Server)
+	_, err := c.MakeApiRequest("POST", "/1.0/servers", newServer, &server)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
-	servers := make([]Server, len(j_servers.([]interface{})))
-	for i, s := range j_servers.([]interface{}) {
-		server, err := NewServerFromJson(s)
-		if err != nil {
-			panic(err)
-		}
-		servers[i] = server
-	}
-	return servers
+	return server, nil
 }
 
+func (c *Client) DestroyServer(identifier string) (error) {
+	_, err := c.MakeApiRequest("DELETE", "/1.0/servers/"+identifier, nil, nil)
+	if err != nil {
+		return err
+	}
+	return nil
+}
