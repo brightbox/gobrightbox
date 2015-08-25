@@ -42,3 +42,11 @@ func (c *Client) Image(identifier string) (*Image, error) {
 	}
 	return image, err
 }
+
+func (c *Client) DestroyImage(identifier string) (error) {
+	_, err := c.MakeApiRequest("DELETE", "/1.0/images/"+identifier, nil, nil)
+	if err != nil {
+		return err
+	}
+	return nil
+}
