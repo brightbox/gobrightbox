@@ -1,6 +1,7 @@
 package brightbox
 
 import (
+	"net/url"
 	"regexp"
 	"time"
 )
@@ -157,4 +158,24 @@ func (c *Client) ActivateConsoleForServer(identifier string) (*Server, error) {
 		return nil, err
 	}
 	return server, nil
+}
+
+// FullConsoleUrl returns the console url for the server with the token in the
+// query string.  Server needs a ConsoleUrl and ConsoleToken, retrieved using
+// ActivateConsoleForServer
+func (s *Server) FullConsoleUrl() string {
+	if s.ConsoleUrl == "" || s.ConsoleToken == "" {
+		return s.ConsoleUrl
+	}
+	u, err := url.Parse(s.ConsoleUrl)
+	if u == nil || err != nil {
+		return s.ConsoleUrl
+	}
+	values := u.Query()
+	if values.Get("password") != "" {
+		return s.ConsoleUrl
+	}
+	values.Set("password", s.ConsoleToken)
+	u.RawQuery = values.Encode()
+	return u.String()
 }
