@@ -2,3 +2,4 @@
 *.6
 _obj
 _test*
+*.test
