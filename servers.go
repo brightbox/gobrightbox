@@ -16,7 +16,7 @@ type Server struct {
 	CreatedAt           *time.Time `json:"created_at"`
 	DeletedAt           *time.Time `json:"deleted_at"`
 	ServerType          ServerType `json:"server_type"`
-	CompatabilityMode   bool       `json:"compatibility_mode"`
+	CompatibilityMode   bool       `json:"compatibility_mode"`
 	Zone                Zone
 	Image               Image
 	CloudIPs            []CloudIP `json:"cloud_ips"`
@@ -28,14 +28,16 @@ type Server struct {
 	ConsoleTokenExpires *time.Time    `json:"console_token_expires"`
 }
 
-type CreateServerOptions struct {
-	Identifier   string   `json:"-"`
-	Image        string   `json:"image"`
-	Name         string   `json:"name,omitempty"`
-	ServerType   string   `json:"server_type,omitempty"`
-	Zone         string   `json:"zone,omitempty"`
-	UserData     string   `json:"user_data,omitempty"`
-	ServerGroups []string `json:"server_groups,omitempty"`
+// Used to create and update servers
+type ServerOptions struct {
+	Identifier        string    `json:"-"`
+	Image             string    `json:"image"`
+	Name              *string   `json:"name,omitempty"`
+	ServerType        string    `json:"server_type,omitempty"`
+	Zone              string    `json:"zone,omitempty"`
+	UserData          *string   `json:"user_data"`
+	ServerGroups      *[]string `json:"server_groups,omitempty"`
+	CompatibilityMode *bool     `json:"compatibility_mode,omitempty"`
 }
 
 type ServerInterface struct {
@@ -63,9 +65,18 @@ func (c *Client) Server(identifier string) (*Server, error) {
 	return server, err
 }
 
-func (c *Client) CreateServer(newServer *CreateServerOptions) (*Server, error) {
+func (c *Client) CreateServer(newServer *ServerOptions) (*Server, error) {
 	server := new(Server)
 	_, err := c.MakeApiRequest("POST", "/1.0/servers", newServer, &server)
+	if err != nil {
+		return nil, err
+	}
+	return server, nil
+}
+
+func (c *Client) UpdateServer(updateServer *ServerOptions) (*Server, error) {
+	server := new(Server)
+	_, err := c.MakeApiRequest("PUT", "/1.0/servers/"+updateServer.Identifier, updateServer, &server)
 	if err != nil {
 		return nil, err
 	}
