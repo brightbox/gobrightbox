@@ -7,16 +7,17 @@ import (
 	"golang.org/x/oauth2/clientcredentials"
 )
 
-// Authenticate using a api client identifier and secret
+// Authenticate using an API Client identifier and secret, and get a list of
+// servers
 func Example() {
 	apiUrl := "https://api.gb1.brightbox.com"
-	applicationId := "cli-xxxxx"
-	applicationSecret := "somesecret"
+	clientId := "cli-xxxxx"
+	clientSecret := "somesecret"
 
 	// Setup OAuth2 authentication
 	conf := clientcredentials.Config{
-		ClientID:     applicationId,
-		ClientSecret: applicationSecret,
+		ClientID:     clientId,
+		ClientSecret: clientSecret,
 		Scopes:       []string{},
 		TokenURL:     apiUrl + "/token",
 	}
