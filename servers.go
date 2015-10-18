@@ -20,6 +20,7 @@ type Server struct {
 	DeletedAt         *time.Time `json:"deleted_at"`
 	ServerType        ServerType `json:"server_type"`
 	CompatibilityMode bool       `json:"compatibility_mode"`
+	Account           Account
 	Zone              Zone
 	Image             Image
 	CloudIPs          []CloudIP `json:"cloud_ips"`
