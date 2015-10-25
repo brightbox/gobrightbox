@@ -12,10 +12,12 @@ type CloudIP struct {
 	ReverseDns      string           `json:"reverse_dns"`
 	PortTranslators []PortTranslator `json:"port_translators"`
 	Account         Account
+	Fqdn            string
 	Interface       *ServerInterface
 	Server          *Server
-	//LoadBalancer
-	//DatabaseServer
+	ServerGroup     *ServerGroup    `json:"server_group"`
+	LoadBalancer    *LoadBalancer   `json:"load_balancer"`
+	DatabaseServer  *DatabaseServer `json:"database_server"`
 }
 
 type PortTranslator struct {
