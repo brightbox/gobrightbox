@@ -3,7 +3,7 @@
 `gobrightbox` is a [Brightbox Cloud](https://www.brightbox.com) [API](https://api.gb1.brightbox.com/1.0/)
 client implementation written in [Go](http://golang.org/).
 
-Documentation is available at [godoc.org](godoc.org/github.com/brightbox/gobrightbox).
+Documentation is available at [godoc.org](http://godoc.org/github.com/brightbox/gobrightbox).
 
 ## Authentication
 
