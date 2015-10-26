@@ -6,7 +6,7 @@ import (
 
 type Zone struct {
 	Resource
-	Handle            string
+	Handle string
 }
 
 func (c *Client) Zones() (*[]Zone, error) {

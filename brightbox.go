@@ -33,30 +33,30 @@ type Client struct {
 // messages provided by the API, along with other details about the response.
 type ApiError struct {
 	// StatusCode will hold the HTTP status code from the request that errored
-	StatusCode           int
+	StatusCode int
 	// Status will hold the HTTP status line from the request that errored
-	Status               string
+	Status string
 	// AuthError will hold any available OAuth "error" field contents. See
 	// https://api.gb1.brightbox.com/1.0/#errors
-	AuthError            string   `json:"error"`
+	AuthError string `json:"error"`
 	// AuthErrorDescription will hold any available OAuth "error_description"
 	// field contents. See https://api.gb1.brightbox.com/1.0/#errors
-	AuthErrorDescription string   `json:"error_description"`
+	AuthErrorDescription string `json:"error_description"`
 	// ErrorName will hold any available Brightbox API "error_name" field
 	// contents. See https://api.gb1.brightbox.com/1.0/#request_errors
-	ErrorName            string   `json:"error_name"`
+	ErrorName string `json:"error_name"`
 	// Errors will hold any available Brightbox API "errors" field contents. See
 	// https://api.gb1.brightbox.com/1.0/#request_errors
-	Errors               []string `json:"errors"`
+	Errors []string `json:"errors"`
 	// ParseError will hold any errors from the JSON parser whilst parsing an
 	// API response
-	ParseError           *error
+	ParseError *error
 	// RequestUrl will hold the full URL used to make the request that errored,
 	// if available
-	RequestUrl           *url.URL
+	RequestUrl *url.URL
 	// ResponseBody will hold the raw respose body of the request that errored,
 	// if available
-	ResponseBody         *[]byte
+	ResponseBody *[]byte
 }
 
 func (e ApiError) Error() string {

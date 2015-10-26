@@ -18,9 +18,9 @@ type Image struct {
 	Public            bool
 	Owner             string
 	SourceType        string `json:"source_type"`
-	VirtualSize       int `json:"virtual_size"`
-	DiskSize          int `json:"disk_size"`
-	CompatibilityMode bool `json:"compatibility_mode"`
+	VirtualSize       int    `json:"virtual_size"`
+	DiskSize          int    `json:"disk_size"`
+	CompatibilityMode bool   `json:"compatibility_mode"`
 	AncestorId        string `json:"ancestor_id"`
 	LicenseName       string `json:"license_name"`
 }
@@ -43,7 +43,7 @@ func (c *Client) Image(identifier string) (*Image, error) {
 	return image, err
 }
 
-func (c *Client) DestroyImage(identifier string) (error) {
+func (c *Client) DestroyImage(identifier string) error {
 	_, err := c.MakeApiRequest("DELETE", "/1.0/images/"+identifier, nil, nil)
 	if err != nil {
 		return err

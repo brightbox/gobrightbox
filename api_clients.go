@@ -10,7 +10,7 @@ type ApiClient struct {
 }
 
 func (c *Client) ApiClients() (*[]ApiClient, error) {
-	apiClients := make([]ApiClient,1)
+	apiClients := make([]ApiClient, 1)
 	_, err := c.MakeApiRequest("GET", "/1.0/api_clients", nil, apiClients)
 	if err != nil {
 		return nil, err
@@ -26,4 +26,3 @@ func (c *Client) ApiClient(identifier string) (*ApiClient, error) {
 	}
 	return apiClient, err
 }
-

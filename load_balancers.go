@@ -38,4 +38,3 @@ func (c *Client) LoadBalancer(identifier string) (*LoadBalancer, error) {
 	}
 	return lb, err
 }
-
