@@ -31,7 +31,7 @@ func ExamplePasswordCredentials() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	oc := oauth2.NewClient(oauth2.NoContext, conf.TokenSource(oauth2.NoContext, token))
+	oc := conf.Client(oauth2.NoContext, token)
 
 	// Setup connection to API
 	client, err := brightbox.NewClient(apiUrl, accountId, oc)
