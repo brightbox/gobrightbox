@@ -118,9 +118,7 @@ func NewClient(apiUrl string, accountId string, httpClient *http.Client) (*Clien
 	c := &Client{
 		client:  httpClient,
 		BaseURL: au,
-	}
-	if accountId != "" {
-		c.AccountId = accountId
+		AccountId: accountId,
 	}
 	return c, nil
 }
