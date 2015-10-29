@@ -17,9 +17,9 @@ import (
 	"net/url"
 )
 
-// API URL Base constants. Use these with NewClient
+// ApiURL for the default region. Use with NewClient.
 const (
-	RegionGB1 = "https://api.gb1.brightbox.com/"
+	DefaultRegionApiURL = "https://api.gb1.brightbox.com/"
 )
 
 // Client represents a connection to the Brightbox API. You should use NewClient
