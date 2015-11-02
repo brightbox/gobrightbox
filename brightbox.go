@@ -17,6 +17,11 @@ import (
 	"net/url"
 )
 
+// ApiURL for the default region. Use with NewClient.
+const (
+	DefaultRegionApiURL = "https://api.gb1.brightbox.com/"
+)
+
 // Client represents a connection to the Brightbox API. You should use NewClient
 // to allocate and configure Clients. Authentication is handled externally by a
 // http.Client with the appropriate Transport, such as those provided by
@@ -95,7 +100,8 @@ type Resource struct {
 // NewClient allocates and configures a Client for interacting with the API.
 //
 // apiUrl should be an url of the form https://api.region.brightbox.com,
-// e.g: https://api.gb1.brightbox.com
+// e.g: https://api.gb1.brightbox.com. You can use the default defined in
+// this package instead, i.e. brightbox.DefaultRegionApiURL
 //
 // accountId should be the identifier of the default account to be used with
 // this Client. Clients authenticated with Brightbox ApiClient credentials are
