@@ -36,7 +36,7 @@ func Example() {
 		fmt.Println(err)
 		return
 	}
-	for _, server := range *servers {
+	for _, server := range servers {
 		fmt.Printf("id:%s name:%s\n", server.Id, server.Name)
 	}
 }

@@ -26,13 +26,13 @@ type PortTranslator struct {
 	Protocol string
 }
 
-func (c *Client) CloudIPs() (*[]CloudIP, error) {
+func (c *Client) CloudIPs() ([]CloudIP, error) {
 	cloudips := new([]CloudIP)
 	_, err := c.MakeApiRequest("GET", "/1.0/cloud_ips", nil, cloudips)
 	if err != nil {
 		return nil, err
 	}
-	return cloudips, err
+	return *cloudips, err
 }
 
 func (c *Client) CloudIP(identifier string) (*CloudIP, error) {

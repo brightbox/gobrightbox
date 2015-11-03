@@ -27,10 +27,10 @@ func TestServers(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if len(*servers) != 1 {
+	if len(servers) != 1 {
 		t.Fatal("Wrong number of servers returned")
 	}
-	cs := *servers
+	cs := servers
 	s := cs[0]
 	if s.Id != "srv-lv426" {
 		t.Errorf("server Id incorrect")

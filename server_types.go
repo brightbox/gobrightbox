@@ -14,13 +14,13 @@ type ServerType struct {
 	DiskSize int `json:"disk_size"`
 }
 
-func (c *Client) ServerTypes() (*[]ServerType, error) {
+func (c *Client) ServerTypes() ([]ServerType, error) {
 	servertypes := new([]ServerType)
 	_, err := c.MakeApiRequest("GET", "/1.0/server_types", nil, servertypes)
 	if err != nil {
 		return nil, err
 	}
-	return servertypes, err
+	return *servertypes, err
 }
 
 func (c *Client) ServerType(identifier string) (*ServerType, error) {
@@ -37,7 +37,7 @@ func (c *Client) ServerTypeByHandle(handle string) (*ServerType, error) {
 	if err != nil {
 		return nil, err
 	}
-	for _, servertype := range *servertypes {
+	for _, servertype := range servertypes {
 		if servertype.Handle == handle {
 			return &servertype, nil
 		}
