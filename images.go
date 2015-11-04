@@ -26,12 +26,12 @@ type Image struct {
 }
 
 func (c *Client) Images() ([]Image, error) {
-	images := new([]Image)
-	_, err := c.MakeApiRequest("GET", "/1.0/images", nil, images)
+	var images []Image
+	_, err := c.MakeApiRequest("GET", "/1.0/images", nil, &images)
 	if err != nil {
 		return nil, err
 	}
-	return *images, err
+	return images, err
 }
 
 func (c *Client) Image(identifier string) (*Image, error) {

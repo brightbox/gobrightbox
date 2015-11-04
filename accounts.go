@@ -45,12 +45,12 @@ type Account struct {
 // API Clients are only ever associated with one single account. User clients
 // can have multiple accounts, through collaborations.
 func (c *Client) Accounts() ([]Account, error) {
-	accounts := new([]Account)
-	_, err := c.MakeApiRequest("GET", "/1.0/accounts", nil, accounts)
+	var accounts []Account
+	_, err := c.MakeApiRequest("GET", "/1.0/accounts", nil, &accounts)
 	if err != nil {
 		return nil, err
 	}
-	return *accounts, err
+	return accounts, err
 }
 
 // Account retrieves a detailed view of one account

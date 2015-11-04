@@ -10,12 +10,12 @@ type Zone struct {
 }
 
 func (c *Client) Zones() ([]Zone, error) {
-	zones := new([]Zone)
-	_, err := c.MakeApiRequest("GET", "/1.0/zones", nil, zones)
+	var zones []Zone
+	_, err := c.MakeApiRequest("GET", "/1.0/zones", nil, &zones)
 	if err != nil {
 		return nil, err
 	}
-	return *zones, err
+	return zones, err
 }
 
 func (c *Client) Zone(identifier string) (*Zone, error) {

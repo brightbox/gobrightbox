@@ -61,12 +61,12 @@ type ServerInterface struct {
 
 // Servers retrieves a list of all servers
 func (c *Client) Servers() ([]Server, error) {
-	servers := new([]Server)
-	_, err := c.MakeApiRequest("GET", "/1.0/servers", nil, servers)
+	var servers []Server
+	_, err := c.MakeApiRequest("GET", "/1.0/servers", nil, &servers)
 	if err != nil {
 		return nil, err
 	}
-	return *servers, err
+	return servers, err
 }
 
 // Server retrieves a detailed view of one server

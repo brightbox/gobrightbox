@@ -15,12 +15,12 @@ type ServerType struct {
 }
 
 func (c *Client) ServerTypes() ([]ServerType, error) {
-	servertypes := new([]ServerType)
-	_, err := c.MakeApiRequest("GET", "/1.0/server_types", nil, servertypes)
+	var servertypes []ServerType
+	_, err := c.MakeApiRequest("GET", "/1.0/server_types", nil, &servertypes)
 	if err != nil {
 		return nil, err
 	}
-	return *servertypes, err
+	return servertypes, err
 }
 
 func (c *Client) ServerType(identifier string) (*ServerType, error) {
