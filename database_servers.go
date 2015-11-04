@@ -33,13 +33,13 @@ type DatabaseServerType struct {
 	Ram         int
 }
 
-func (c *Client) DatabaseServers() (*[]DatabaseServer, error) {
+func (c *Client) DatabaseServers() ([]DatabaseServer, error) {
 	dbs := new([]DatabaseServer)
 	_, err := c.MakeApiRequest("GET", "/1.0/database_servers", nil, dbs)
 	if err != nil {
 		return nil, err
 	}
-	return dbs, err
+	return *dbs, err
 }
 
 func (c *Client) DatabaseServer(identifier string) (*DatabaseServer, error) {

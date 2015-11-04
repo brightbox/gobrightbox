@@ -9,13 +9,13 @@ type ApiClient struct {
 	Account          Account
 }
 
-func (c *Client) ApiClients() (*[]ApiClient, error) {
-	apiClients := make([]ApiClient, 1)
+func (c *Client) ApiClients() ([]ApiClient, error) {
+	apiClients := new([]ApiClient)
 	_, err := c.MakeApiRequest("GET", "/1.0/api_clients", nil, apiClients)
 	if err != nil {
 		return nil, err
 	}
-	return &apiClients, err
+	return *apiClients, err
 }
 
 func (c *Client) ApiClient(identifier string) (*ApiClient, error) {

@@ -21,13 +21,13 @@ type Collaboration struct {
 }
 
 // Collaborations retrieves a list of all the current user's collaborations
-func (c *Client) Collaborations() (*[]Collaboration, error) {
+func (c *Client) Collaborations() ([]Collaboration, error) {
 	cl := new([]Collaboration)
 	_, err := c.MakeApiRequest("GET", "/1.0/user/collaborations", nil, cl)
 	if err != nil {
 		return nil, err
 	}
-	return cl, err
+	return *cl, err
 }
 
 // Collaboration retrieves a detailed view of one of the current user's

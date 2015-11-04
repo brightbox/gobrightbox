@@ -34,13 +34,13 @@ type serverGroupMember struct {
 }
 
 // ServerGroups retrieves a list of all server groups
-func (c *Client) ServerGroups() (*[]ServerGroup, error) {
+func (c *Client) ServerGroups() ([]ServerGroup, error) {
 	groups := new([]ServerGroup)
 	_, err := c.MakeApiRequest("GET", "/1.0/server_groups", nil, groups)
 	if err != nil {
 		return nil, err
 	}
-	return groups, err
+	return *groups, err
 }
 
 // ServerGroup retrieves a detailed view on one server group

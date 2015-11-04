@@ -21,13 +21,13 @@ type LoadBalancer struct {
 	// Healthcheck FIXME
 }
 
-func (c *Client) LoadBalancers() (*[]LoadBalancer, error) {
+func (c *Client) LoadBalancers() ([]LoadBalancer, error) {
 	lbs := new([]LoadBalancer)
 	_, err := c.MakeApiRequest("GET", "/1.0/load_balancers", nil, lbs)
 	if err != nil {
 		return nil, err
 	}
-	return lbs, err
+	return *lbs, err
 }
 
 func (c *Client) LoadBalancer(identifier string) (*LoadBalancer, error) {

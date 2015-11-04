@@ -9,13 +9,13 @@ type Zone struct {
 	Handle string
 }
 
-func (c *Client) Zones() (*[]Zone, error) {
+func (c *Client) Zones() ([]Zone, error) {
 	zones := new([]Zone)
 	_, err := c.MakeApiRequest("GET", "/1.0/zones", nil, zones)
 	if err != nil {
 		return nil, err
 	}
-	return zones, err
+	return *zones, err
 }
 
 func (c *Client) Zone(identifier string) (*Zone, error) {
@@ -32,7 +32,7 @@ func (c *Client) ZoneByHandle(handle string) (*Zone, error) {
 	if err != nil {
 		return nil, err
 	}
-	for _, zone := range *zones {
+	for _, zone := range zones {
 		if zone.Handle == handle {
 			return &zone, nil
 		}
