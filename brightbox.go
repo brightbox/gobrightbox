@@ -122,8 +122,8 @@ func NewClient(apiUrl string, accountId string, httpClient *http.Client) (*Clien
 	}
 
 	c := &Client{
-		client:  httpClient,
-		BaseURL: au,
+		client:    httpClient,
+		BaseURL:   au,
 		AccountId: accountId,
 	}
 	return c, nil
