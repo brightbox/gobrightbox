@@ -46,7 +46,7 @@ type Account struct {
 // can have multiple accounts, through collaborations.
 func (c *Client) Accounts() ([]Account, error) {
 	var accounts []Account
-	_, err := c.MakeApiRequest("GET", "/1.0/accounts", nil, &accounts)
+	_, err := c.MakeApiRequest("GET", "/1.0/accounts?nested=false", nil, &accounts)
 	if err != nil {
 		return nil, err
 	}
