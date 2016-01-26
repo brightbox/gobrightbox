@@ -9,6 +9,7 @@ type CloudIP struct {
 	Name            string
 	PublicIP        string `json:"public_ip"`
 	Status          string
+	Locked          bool
 	ReverseDns      string           `json:"reverse_dns"`
 	PortTranslators []PortTranslator `json:"port_translators"`
 	Account         Account
@@ -21,11 +22,21 @@ type CloudIP struct {
 }
 
 type PortTranslator struct {
-	Incoming int
-	Outgoing int
-	Protocol string
+	Incoming int    `json:"incoming"`
+	Outgoing int    `json:"outgoing"`
+	Protocol string `json:"protocol"`
 }
 
+// CloudIPOptions is used in conjunction with CreateCloudIP and UpdateCloudIP to
+// create and update cloud IPs.
+type CloudIPOptions struct {
+	Id              string            `json:"-"`
+	ReverseDns      *string           `json:"reverse_dns,omitempty"`
+	Name            *string           `json:"name,omitempty"`
+	PortTranslators *[]PortTranslator `json:"port_translators,omitempty"`
+}
+
+// CloudIPs retrieves a list of all cloud ips
 func (c *Client) CloudIPs() ([]CloudIP, error) {
 	var cloudips []CloudIP
 	_, err := c.MakeApiRequest("GET", "/1.0/cloud_ips", nil, &cloudips)
@@ -35,6 +46,7 @@ func (c *Client) CloudIPs() ([]CloudIP, error) {
 	return cloudips, err
 }
 
+// CloudIP retrieves a detailed view of one cloud ip
 func (c *Client) CloudIP(identifier string) (*CloudIP, error) {
 	cloudip := new(CloudIP)
 	_, err := c.MakeApiRequest("GET", "/1.0/cloud_ips/"+identifier, nil, cloudip)
@@ -44,12 +56,27 @@ func (c *Client) CloudIP(identifier string) (*CloudIP, error) {
 	return cloudip, err
 }
 
+// DestroyCloudIP issues a request to destroy the cloud ip
 func (c *Client) DestroyCloudIP(identifier string) error {
 	_, err := c.MakeApiRequest("DELETE", "/1.0/cloud_ips/"+identifier, nil, nil)
 	if err != nil {
 		return err
 	}
 	return nil
+}
+
+// CreateCloudIP creates a new Cloud IP.
+//
+// It takes a CloudIPOptions struct for specifying name and other attributes.
+// identifier. Not all attributes can be specified at create time (such as Id,
+// which is allocated for you)
+func (c *Client) CreateCloudIP(newCloudIP *CloudIPOptions) (*CloudIP, error) {
+	cloudip := new(CloudIP)
+	_, err := c.MakeApiRequest("POST", "/1.0/cloud_ips", newCloudIP, &cloudip)
+	if err != nil {
+		return nil, err
+	}
+	return cloudip, nil
 }
 
 // MapCloudIP issues a request to map the cloud ip to the destination. The

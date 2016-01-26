@@ -82,7 +82,7 @@ func (c *Client) Server(identifier string) (*Server, error) {
 // CreateServer creates a new server.
 //
 // It takes a ServerOptions struct which requires, at minimum, a valid Image
-// identifier. Not all attributed can be specified at create time (such as Id,
+// identifier. Not all attributes can be specified at create time (such as Id,
 // which is allocated for you)
 func (c *Client) CreateServer(newServer *ServerOptions) (*Server, error) {
 	server := new(Server)
