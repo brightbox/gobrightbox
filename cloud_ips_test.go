@@ -120,3 +120,66 @@ func TestCreateCloudIPWithPortTranslator(t *testing.T) {
 
 }
 
+
+func TestUpdateCloudIP(t *testing.T) {
+	handler := ApiMock{
+		T:            t,
+		ExpectMethod: "PUT",
+		ExpectUrl:    "/1.0/cloud_ips/cip-k4a25",
+		ExpectBody:   `{"name":"product website ip"}`,
+		GiveBody:     readJson("cloud_ip"),
+	}
+	ts := httptest.NewServer(&handler)
+	defer ts.Close()
+
+	client, err := brightbox.NewClient(ts.URL, "", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	name := "product website ip"
+	opts := brightbox.CloudIPOptions{Id: "cip-k4a25", Name: &name}
+	cip, err := client.UpdateCloudIP(&opts)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if cip == nil {
+		t.Errorf("Didn't return a Cloud IP")
+	}
+}
+
+func TestUpdateCloudIPPostTranslator(t *testing.T) {
+	handler := ApiMock{
+		T:            t,
+		ExpectMethod: "PUT",
+		ExpectUrl:    "/1.0/cloud_ips/cip-k4a25",
+		ExpectBody:   `{"port_translators":[{"incoming":443,"outgoing":2443,"protocol":"tcp"}]}`,
+		GiveBody:     readJson("cloud_ip"),
+	}
+	ts := httptest.NewServer(&handler)
+	defer ts.Close()
+
+	client, err := brightbox.NewClient(ts.URL, "", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	pt := brightbox.PortTranslator {
+		Incoming: 443,
+		Outgoing: 2443,
+		Protocol: "tcp",
+	}
+	opts := brightbox.CloudIPOptions{
+		Id: "cip-k4a25",
+		PortTranslators: &[]brightbox.PortTranslator{
+			pt,
+		},
+	}
+	cip, err := client.UpdateCloudIP(&opts)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if cip == nil {
+		t.Errorf("Didn't return a Cloud IP")
+	}
+}

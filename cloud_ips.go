@@ -79,6 +79,20 @@ func (c *Client) CreateCloudIP(newCloudIP *CloudIPOptions) (*CloudIP, error) {
 	return cloudip, nil
 }
 
+// UpdateCloudIP updates an existing cloud ip's attributes. Not all attributes
+// can be changed after creation time (such as Id, which is allocated for you).
+//
+// Specify the cloud ip you want to update using the CloudIPOptions Id field
+func (c *Client) UpdateCloudIP(updateCloudIP *CloudIPOptions) (*CloudIP, error) {
+	cip := new(CloudIP)
+	_, err := c.MakeApiRequest("PUT", "/1.0/cloud_ips/"+updateCloudIP.Id, updateCloudIP, &cip)
+	if err != nil {
+		return nil, err
+	}
+	return cip, nil
+}
+
+
 // MapCloudIP issues a request to map the cloud ip to the destination. The
 // destination can be an identifier of any resource capable of receiving a Cloud
 // IP, such as a server interface, a load balancer, or a cloud sql instace.
