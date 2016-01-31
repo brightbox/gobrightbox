@@ -183,3 +183,49 @@ func TestUpdateCloudIPPostTranslator(t *testing.T) {
 		t.Errorf("Didn't return a Cloud IP")
 	}
 }
+
+func TestLockCloudIP(t *testing.T) {
+	handler := ApiMock{
+		T:            t,
+		ExpectMethod: "PUT",
+		ExpectUrl:    "/1.0/cloud_ips/cip-k4a25/lock_resource",
+		ExpectBody:   "",
+		GiveBody:     "",
+	}
+	ts := httptest.NewServer(&handler)
+	defer ts.Close()
+
+	client, err := brightbox.NewClient(ts.URL, "", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	cip := new(brightbox.CloudIP)
+	cip.Id = "cip-k4a25"
+	err = client.LockResource(cip)
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestUnLockCloudIP(t *testing.T) {
+	handler := ApiMock{
+		T:            t,
+		ExpectMethod: "PUT",
+		ExpectUrl:    "/1.0/cloud_ips/cip-k4a25/unlock_resource",
+		ExpectBody:   "",
+		GiveBody:     "",
+	}
+	ts := httptest.NewServer(&handler)
+	defer ts.Close()
+
+	client, err := brightbox.NewClient(ts.URL, "", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	cip := new(brightbox.CloudIP)
+	cip.Id = "cip-k4a25"
+	err = client.UnLockResource(cip)
+	if err != nil {
+		t.Fatal(err)
+	}
+}

@@ -143,3 +143,49 @@ func TestCreateServerWithOptionalFields(t *testing.T) {
 	}
 
 }
+
+func TestLockServer(t *testing.T) {
+	handler := ApiMock{
+		T:            t,
+		ExpectMethod: "PUT",
+		ExpectUrl:    "/1.0/servers/srv-lv426/lock_resource",
+		ExpectBody:   "",
+		GiveBody:     "",
+	}
+	ts := httptest.NewServer(&handler)
+	defer ts.Close()
+
+	client, err := brightbox.NewClient(ts.URL, "", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	s := new(brightbox.Server)
+	s.Id = "srv-lv426"
+	err = client.LockResource(s)
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestUnLockServer(t *testing.T) {
+	handler := ApiMock{
+		T:            t,
+		ExpectMethod: "PUT",
+		ExpectUrl:    "/1.0/servers/srv-lv426/unlock_resource",
+		ExpectBody:   "",
+		GiveBody:     "",
+	}
+	ts := httptest.NewServer(&handler)
+	defer ts.Close()
+
+	client, err := brightbox.NewClient(ts.URL, "", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	s := new(brightbox.Server)
+	s.Id = "srv-lv426"
+	err = client.UnLockResource(s)
+	if err != nil {
+		t.Fatal(err)
+	}
+}

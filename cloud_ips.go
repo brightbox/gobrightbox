@@ -4,6 +4,8 @@ import (
 	"fmt"
 )
 
+// Server represents a Cloud IP
+// https://api.gb1.brightbox.com/1.0/#cloud_ip
 type CloudIP struct {
 	Resource
 	Name            string
@@ -21,6 +23,7 @@ type CloudIP struct {
 	DatabaseServer  *DatabaseServer `json:"database_server"`
 }
 
+// PortTranslator represents a port translator on a Cloud IP
 type PortTranslator struct {
 	Incoming int    `json:"incoming"`
 	Outgoing int    `json:"outgoing"`
@@ -91,7 +94,6 @@ func (c *Client) UpdateCloudIP(updateCloudIP *CloudIPOptions) (*CloudIP, error) 
 	}
 	return cip, nil
 }
-
 
 // MapCloudIP issues a request to map the cloud ip to the destination. The
 // destination can be an identifier of any resource capable of receiving a Cloud

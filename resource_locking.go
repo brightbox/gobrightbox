@@ -1,0 +1,44 @@
+package brightbox
+
+import (
+	"fmt"
+)
+
+func resourcePath(resource interface{}) (string, error) {
+	switch resource := resource.(type) {
+	default:
+		return "", fmt.Errorf("Unknown resource type %s", resource)
+	case *CloudIP:
+		return "cloud_ips/" + resource.Id, nil
+	case *Server:
+		return "servers/" + resource.Id, nil
+	case *Image:
+		return "images/" + resource.Id, nil
+	}
+}
+
+// LockResource locks a resource against destroy requests. Support brightbox.CloudIP, brightbox.Server and brightbox.Image
+func (c *Client) LockResource(resource interface{}) error {
+	rpath, err := resourcePath(resource)
+	if err != nil {
+		return err
+	}
+	_, err = c.MakeApiRequest("PUT", fmt.Sprintf("/1.0/%s/lock_resource", rpath), nil, nil)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// UnLockResource unlocks a resource, renabling destroy requests
+func (c *Client) UnLockResource(resource interface{}) error {
+	rpath, err := resourcePath(resource)
+	if err != nil {
+		return err
+	}
+	_, err = c.MakeApiRequest("PUT", fmt.Sprintf("/1.0/%s/unlock_resource", rpath), nil, nil)
+	if err != nil {
+		return err
+	}
+	return nil
+}

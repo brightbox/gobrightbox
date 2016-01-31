@@ -16,7 +16,7 @@ tokens.
 
 * Full [Server](https://api.gb1.brightbox.com/1.0/#server) support
 * Full [Server Group](https://api.gb1.brightbox.com/1.0/#server_group) support
-* Basic [CloudIP](https://api.gb1.brightbox.com/1.0/#cloud_ip) support
+* Full [CloudIP](https://api.gb1.brightbox.com/1.0/#cloud_ip) support
 * Basic [Image](https://api.gb1.brightbox.com/1.0/#image) support
 * Basic [Api Client](https://api.gb1.brightbox.com/1.0/#api_client) support
 * Basic event stream support
