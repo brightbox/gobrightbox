@@ -4,6 +4,8 @@ import (
 	"time"
 )
 
+// Image represents a Machine Image
+// https://api.gb1.brightbox.com/1.0/#image
 type Image struct {
 	Resource
 	Name              string
@@ -25,6 +27,7 @@ type Image struct {
 	LicenseName       string `json:"license_name"`
 }
 
+// Images retrieves a list of all images
 func (c *Client) Images() ([]Image, error) {
 	var images []Image
 	_, err := c.MakeApiRequest("GET", "/1.0/images", nil, &images)
@@ -34,6 +37,7 @@ func (c *Client) Images() ([]Image, error) {
 	return images, err
 }
 
+// Image retrieves a detailed view of one image
 func (c *Client) Image(identifier string) (*Image, error) {
 	image := new(Image)
 	_, err := c.MakeApiRequest("GET", "/1.0/images/"+identifier, nil, image)
@@ -43,6 +47,7 @@ func (c *Client) Image(identifier string) (*Image, error) {
 	return image, err
 }
 
+// DestroyImage issues a request to destroy the image
 func (c *Client) DestroyImage(identifier string) error {
 	_, err := c.MakeApiRequest("DELETE", "/1.0/images/"+identifier, nil, nil)
 	if err != nil {
