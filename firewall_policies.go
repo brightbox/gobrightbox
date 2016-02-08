@@ -48,8 +48,8 @@ func (c *Client) FirewallPolicy(identifier string) (*FirewallPolicy, error) {
 // CreateFirewallPolicy creates a new firewall policy.
 //
 // It takes a FirewallPolicyOptions struct for specifying name and other
-// attributes.  identifier. Not all attributes can be specified at create time
-// (such as Id, which is allocated for you)
+// attributes. Not all attributes can be specified at create time (such as Id,
+// which is allocated for you)
 func (c *Client) CreateFirewallPolicy(policyOptions *FirewallPolicyOptions) (*FirewallPolicy, error) {
 	policy := new(FirewallPolicy)
 	_, err := c.MakeApiRequest("POST", "/1.0/firewall_policies", policyOptions, &policy)
@@ -62,8 +62,8 @@ func (c *Client) CreateFirewallPolicy(policyOptions *FirewallPolicyOptions) (*Fi
 // UpdateFirewallPolicy updates an existing firewall policy.
 //
 // It takes a FirewallPolicyOptions struct for specifying name and other
-// attributes. Not all attributes can be changed after creation time (such as
-// server_group which is instead changed with ApplyFirewallPolicy).
+// attributes. Not all attributes can be update(such as server_group which is
+// instead changed with ApplyFirewallPolicy).
 //
 // Specify the policy you want to update using the Id field
 func (c *Client) UpdateFirewallPolicy(policyOptions *FirewallPolicyOptions) (*FirewallPolicy, error) {
