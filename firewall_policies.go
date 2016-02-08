@@ -58,3 +58,54 @@ func (c *Client) CreateFirewallPolicy(policyOptions *FirewallPolicyOptions) (*Fi
 	}
 	return policy, nil
 }
+
+// UpdateFirewallPolicy updates an existing firewall policy.
+//
+// It takes a FirewallPolicyOptions struct for specifying name and other
+// attributes. Not all attributes can be changed after creation time (such as
+// server_group which is instead changed with ApplyFirewallPolicy).
+//
+// Specify the policy you want to update using the Id field
+func (c *Client) UpdateFirewallPolicy(policyOptions *FirewallPolicyOptions) (*FirewallPolicy, error) {
+	policy := new(FirewallPolicy)
+	_, err := c.MakeApiRequest("PUT", "/1.0/firewall_policies/"+policyOptions.Id, policyOptions, &policy)
+	if err != nil {
+		return nil, err
+	}
+	return policy, nil
+}
+
+// DestroyFirewallPolicy issues a request to destroy the firewall policy
+func (c *Client) DestroyFirewallPolicy(identifier string) error {
+	_, err := c.MakeApiRequest("DELETE", "/1.0/firewall_policies/"+identifier, nil, nil)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// ApplyFirewallPolicy issues a request to apply the given firewall policy to
+// the given server group.
+//
+func (c *Client) ApplyFirewallPolicy(policyId string, serverGroupId string) (*FirewallPolicy, error) {
+	policy := new(FirewallPolicy)
+	_, err := c.MakeApiRequest("POST", "/1.0/firewall_policies/"+policyId+"/apply_to",
+		map[string]string{"server_group": serverGroupId}, &policy)
+	if err != nil {
+		return nil, err
+	}
+	return policy, nil
+}
+
+// RemoveFirewallPolicy issues a request to remove the given firewall policy from
+// the given server group.
+//
+func (c *Client) RemoveFirewallPolicy(policyId string, serverGroupId string) (*FirewallPolicy, error) {
+	policy := new(FirewallPolicy)
+	_, err := c.MakeApiRequest("POST", "/1.0/firewall_policies/"+policyId+"/remove",
+		map[string]string{"server_group": serverGroupId}, &policy)
+	if err != nil {
+		return nil, err
+	}
+	return policy, nil
+}

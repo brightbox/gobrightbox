@@ -101,3 +101,93 @@ func TestCreateFirewallPolicyWithServerGroup(t *testing.T) {
 		t.Fatal(err)
 	}
 }
+
+func TestUpdateFirewallPolicy(t *testing.T) {
+	handler := ApiMock{
+		T:            t,
+		ExpectMethod: "PUT",
+		ExpectUrl:    "/1.0/firewall_policies/fwp-j3654",
+		ExpectBody:   `{"name":"mail servers"}`,
+		GiveBody:     readJson("firewall_policy"),
+	}
+	ts := httptest.NewServer(&handler)
+	defer ts.Close()
+
+	client, err := brightbox.NewClient(ts.URL, "", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	name := "mail servers"
+	opts := brightbox.FirewallPolicyOptions{Id: "fwp-j3654", Name: &name}
+	_, err = client.UpdateFirewallPolicy(&opts)
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestDestroyFirewallPolicy(t *testing.T) {
+	handler := ApiMock{
+		T:            t,
+		ExpectMethod: "DELETE",
+		ExpectUrl:    "/1.0/firewall_policies/fwp-j3654",
+		ExpectBody:   ``,
+		GiveBody:     readJson("firewall_policy"),
+	}
+	ts := httptest.NewServer(&handler)
+	defer ts.Close()
+
+	client, err := brightbox.NewClient(ts.URL, "", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	err = client.DestroyFirewallPolicy("fwp-j3654")
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestApplyFirewallPolicy(t *testing.T) {
+	handler := ApiMock{
+		T:            t,
+		ExpectMethod: "POST",
+		ExpectUrl:    "/1.0/firewall_policies/fwp-j3654/apply_to",
+		ExpectBody:   `{"server_group":"grp-abcde"}`,
+		GiveBody:     readJson("firewall_policy"),
+	}
+	ts := httptest.NewServer(&handler)
+	defer ts.Close()
+
+	client, err := brightbox.NewClient(ts.URL, "", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	_, err = client.ApplyFirewallPolicy("fwp-j3654", "grp-abcde")
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestRemoveFirewallPolicy(t *testing.T) {
+	handler := ApiMock{
+		T:            t,
+		ExpectMethod: "POST",
+		ExpectUrl:    "/1.0/firewall_policies/fwp-j3654/remove",
+		ExpectBody:   `{"server_group":"grp-abcde"}`,
+		GiveBody:     readJson("firewall_policy"),
+	}
+	ts := httptest.NewServer(&handler)
+	defer ts.Close()
+
+	client, err := brightbox.NewClient(ts.URL, "", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	_, err = client.RemoveFirewallPolicy("fwp-j3654", "grp-abcde")
+	if err != nil {
+		t.Fatal(err)
+	}
+}
