@@ -48,7 +48,10 @@ func (a *ApiMock) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			a.Fatalf("Couldn't parse request body json: %s", err)
 		}
 		for key, value := range expectBody {
-			if expectBody[key] != decodedReqBody[key] {
+			decodedVal, ok := decodedReqBody[key]
+			if !ok {
+				a.Errorf("Expected key %q in request body but was missing", key)
+			} else if expectBody[key] != decodedVal {
 				a.Errorf("Expected key %q in request body json to be %q but was %q", key, value, decodedReqBody[key]);
 			}
 		}
