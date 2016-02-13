@@ -11,8 +11,12 @@ func TestCreateFirewallRule(t *testing.T) {
 		T:            t,
 		ExpectMethod: "POST",
 		ExpectUrl:    "/1.0/firewall_rules",
-		ExpectBody:   `{"firewall_policy":"fwp-j3654","protocol":"tcp","source":"grp-xxxxx","destination":""}`,
-		GiveBody:     readJson("firewall_rule"),
+		ExpectBody: map[string]string{
+			"firewall_policy": "fwp-j3654",
+			"protocol":        "tcp",
+			"source":          "grp-xxxxx",
+			"destination":     ""},
+		GiveBody: readJson("firewall_rule"),
 	}
 	ts := httptest.NewServer(&handler)
 	defer ts.Close()
@@ -50,11 +54,11 @@ func TestUpdateFirewallRule(t *testing.T) {
 		T:            t,
 		ExpectMethod: "PUT",
 		ExpectUrl:    "/1.0/firewall_rules/fwr-k32ls",
-		ExpectBody:   map[string]string{
-			"protocol":"tcp",
-			"source":"grp-xxxxx",
-			"destination":""},
-		GiveBody:     readJson("firewall_rule"),
+		ExpectBody: map[string]string{
+			"protocol":    "tcp",
+			"source":      "grp-xxxxx",
+			"destination": ""},
+		GiveBody: readJson("firewall_rule"),
 	}
 	ts := httptest.NewServer(&handler)
 	defer ts.Close()
@@ -68,7 +72,7 @@ func TestUpdateFirewallRule(t *testing.T) {
 	dst := ""
 	src := "grp-xxxxx"
 	opts := brightbox.FirewallRuleOptions{
-		Id: "fwr-k32ls",
+		Id:          "fwr-k32ls",
 		Protocol:    &proto,
 		Source:      &src,
 		Destination: &dst,
@@ -83,5 +87,4 @@ func TestUpdateFirewallRule(t *testing.T) {
 	if p.Id != "fwr-k32ls" {
 		t.Errorf("firewall rule id is %s", p.Id)
 	}
-
 }

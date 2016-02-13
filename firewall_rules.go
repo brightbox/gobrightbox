@@ -19,6 +19,8 @@ type FirewallRule struct {
 	FirewallPolicy  FirewallPolicy `json:"firewall_policy"`
 }
 
+// FirewallRuleOptions is used in conjunction with CreateFirewallRule and
+// UpdateFirewallRule to create and update firewall rules.
 type FirewallRuleOptions struct {
 	Id              string  `json:"-"`
 	FirewallPolicy  string  `json:"firewall_policy,omitempty"`
