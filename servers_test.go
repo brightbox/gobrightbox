@@ -149,6 +149,38 @@ func TestCreateServerWithOptionalFields(t *testing.T) {
 
 }
 
+func TestUpdateServerWithEmptyGroupsList(t *testing.T) {
+	handler := ApiMock{
+		T:            t,
+		ExpectMethod: "PUT",
+		ExpectUrl:    "/1.0/servers/srv-lv426",
+		ExpectBody:   map[string]string{"server_groups": "[]"},
+		GiveBody:     readJson("server"),
+	}
+	ts := httptest.NewServer(&handler)
+	defer ts.Close()
+
+	client, err := brightbox.NewClient(ts.URL, "", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	groups := []string{}
+	opts := brightbox.ServerOptions{Id: "srv-lv426", ServerGroups: &groups}
+	s, err := client.UpdateServer(&opts)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if s == nil {
+		t.Errorf("Didn't return a Server")
+	}
+	if s.Id != "srv-lv426" {
+		t.Errorf("server Id is %s", s.Id)
+	}
+
+}
+
+
 func TestLockServer(t *testing.T) {
 	handler := ApiMock{
 		T:            t,
