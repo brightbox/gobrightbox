@@ -2,6 +2,7 @@ package brightbox_test
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"strings"
@@ -40,8 +41,9 @@ func (a *ApiMock) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		if expectBody != tb {
 			a.Fatalf("Expected request body %q but got %q", expectBody, tb)
 		}
+	case map[string]interface{}:
 	case map[string]string:
-		var decodedReqBody map[string]string
+		var decodedReqBody map[string]interface{}
 		b, _ := ioutil.ReadAll(r.Body)
 		err := json.Unmarshal(b, &decodedReqBody)
 		if err != nil {
@@ -51,8 +53,8 @@ func (a *ApiMock) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			decodedVal, ok := decodedReqBody[key]
 			if !ok {
 				a.Errorf("Expected key %q in request body but was missing", key)
-			} else if expectBody[key] != decodedVal {
-				a.Errorf("Expected key %q in request body json to be %q but was %q", key, value, decodedReqBody[key]);
+			} else if fmt.Sprintf("%s", expectBody[key]) != fmt.Sprintf("%s", decodedVal) {
+				a.Errorf("Expected key %q in request body json to be %s but was %s", key, value, decodedReqBody[key])
 			}
 		}
 		for key, _ := range decodedReqBody {
