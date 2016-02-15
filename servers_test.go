@@ -81,7 +81,7 @@ func TestCreateServerWithImage(t *testing.T) {
 		T:            t,
 		ExpectMethod: "POST",
 		ExpectUrl:    "/1.0/servers",
-		ExpectBody:   `{"image":"img-12345"}`,
+		ExpectBody:   map[string]string{"image": "img-12345"},
 		GiveBody:     readJson("server"),
 	}
 	ts := httptest.NewServer(&handler)
@@ -111,8 +111,13 @@ func TestCreateServerWithOptionalFields(t *testing.T) {
 		T:            t,
 		ExpectMethod: "POST",
 		ExpectUrl:    "/1.0/servers",
-		ExpectBody:   `{"image":"img-12345","name":"myserver","server_groups":["grp-aaaaa","grp-bbbbb"],"compatibility_mode":true}`,
-		GiveBody:     readJson("server"),
+		ExpectBody: map[string]interface{}{
+			"image":              "img-12345",
+			"name":               "myserver",
+			"server_groups":      []string{"grp-aaaaa", "grp-bbbbb"},
+			"compatibility_mode": true,
+		},
+		GiveBody: readJson("server"),
 	}
 	ts := httptest.NewServer(&handler)
 	defer ts.Close()
