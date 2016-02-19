@@ -52,6 +52,14 @@ func TestLoadBalancer(t *testing.T) {
 	require.NotNil(t, lb, "LoadBalancer() returned nil")
 	assert.Equal(t, "lba-1235f", lb.Id, "load balancer id incorrect")
 	require.Equal(t, 1, len(lb.Nodes), "not enough nodes returned")
+
 	node := lb.Nodes[0]
 	assert.Equal(t, "srv-lv426", node.Id, "node Id incorrect")
+
+	require.Equal(t, 1, len(lb.Listeners), "not enough listeners")
+	lnr := lb.Listeners[0]
+	assert.Equal(t, 80, lnr.In, "listener in port incorrect")
+	assert.Equal(t, 80, lnr.Out, "listener out port incorrect")
+	assert.Equal(t, 50000, lnr.Timeout, "listener timeout incorrect")
+	assert.Equal(t, "http", lnr.Protocol, "listener protocol incorrect")
 }

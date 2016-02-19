@@ -16,9 +16,16 @@ type LoadBalancer struct {
 	CloudIPs   []CloudIP `json:"cloud_ips"`
 	Policy     string
 	BufferSize int `json:"buffer_size"`
+	Listeners  []LoadBalancerListener
 	// Certificate FIXME
-	// Listeners FIXME
 	// Healthcheck FIXME
+}
+
+type LoadBalancerListener struct {
+	Protocol string `json:"protocol"`
+	In       int    `json:"in"`
+	Out      int    `json:"out"`
+	Timeout  int    `json:"timeout"`
 }
 
 func (c *Client) LoadBalancers() ([]LoadBalancer, error) {
