@@ -97,7 +97,7 @@ func TestCreateCloudIPWithPortTranslator(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	pt := brightbox.PortTranslator {
+	pt := brightbox.PortTranslator{
 		Incoming: 443,
 		Outgoing: 2443,
 		Protocol: "tcp",
@@ -119,7 +119,6 @@ func TestCreateCloudIPWithPortTranslator(t *testing.T) {
 	}
 
 }
-
 
 func TestUpdateCloudIP(t *testing.T) {
 	handler := ApiMock{
@@ -164,7 +163,7 @@ func TestUpdateCloudIPPostTranslator(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	pt := brightbox.PortTranslator {
+	pt := brightbox.PortTranslator{
 		Incoming: 443,
 		Outgoing: 2443,
 		Protocol: "tcp",

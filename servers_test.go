@@ -180,7 +180,6 @@ func TestUpdateServerWithEmptyGroupsList(t *testing.T) {
 
 }
 
-
 func TestLockServer(t *testing.T) {
 	handler := ApiMock{
 		T:            t,
