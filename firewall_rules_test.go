@@ -88,3 +88,25 @@ func TestUpdateFirewallRule(t *testing.T) {
 		t.Errorf("firewall rule id is %s", p.Id)
 	}
 }
+
+func TestDestroyFirewallRule(t *testing.T) {
+	handler := ApiMock{
+		T:            t,
+		ExpectMethod: "DELETE",
+		ExpectUrl:    "/1.0/firewall_rules/fwr-j3654",
+		ExpectBody:   ``,
+		GiveBody:     readJson("firewall_rule"),
+	}
+	ts := httptest.NewServer(&handler)
+	defer ts.Close()
+
+	client, err := brightbox.NewClient(ts.URL, "", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	err = client.DestroyFirewallRule("fwr-j3654")
+	if err != nil {
+		t.Fatal(err)
+	}
+}

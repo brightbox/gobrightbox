@@ -69,3 +69,12 @@ func (c *Client) UpdateFirewallRule(ruleOptions *FirewallRuleOptions) (*Firewall
 	}
 	return rule, nil
 }
+
+// DestroyFirewallRule destroys an existing firewall rule
+func (c *Client) DestroyFirewallRule(identifier string) error {
+	_, err := c.MakeApiRequest("DELETE", "/1.0/firewall_rules/"+identifier, nil, nil)
+	if err != nil {
+		return err
+	}
+	return nil
+}
