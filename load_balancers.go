@@ -32,7 +32,7 @@ func (c *Client) LoadBalancers() ([]LoadBalancer, error) {
 
 func (c *Client) LoadBalancer(identifier string) (*LoadBalancer, error) {
 	lb := new(LoadBalancer)
-	_, err := c.MakeApiRequest("GET", "/1.0/load_balancer/"+identifier, nil, lb)
+	_, err := c.MakeApiRequest("GET", "/1.0/load_balancers/"+identifier, nil, lb)
 	if err != nil {
 		return nil, err
 	}
