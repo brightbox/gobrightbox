@@ -2,10 +2,10 @@ package brightbox_test
 
 import (
 	"github.com/brightbox/gobrightbox"
-	"net/http/httptest"
-	"testing"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"net/http/httptest"
+	"testing"
 )
 
 func TestLoadBalancers(t *testing.T) {
@@ -21,7 +21,7 @@ func TestLoadBalancers(t *testing.T) {
 
 	client, err := brightbox.NewClient(ts.URL, "", nil)
 	require.Nil(t, err, "NewClient returned an error")
-	
+
 	p, err := client.LoadBalancers()
 	require.Nil(t, err, "LoadBalancers() returned an error")
 	require.NotNil(t, p, "LoadBalancers() returned nil")
@@ -46,7 +46,7 @@ func TestLoadBalancer(t *testing.T) {
 
 	client, err := brightbox.NewClient(ts.URL, "", nil)
 	require.Nil(t, err, "NewClient returned an error")
-	
+
 	lb, err := client.LoadBalancer("lba-1235f")
 	require.Nil(t, err, "LoadBalancer() returned an error")
 	require.NotNil(t, lb, "LoadBalancer() returned nil")

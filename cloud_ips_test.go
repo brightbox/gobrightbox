@@ -2,52 +2,36 @@ package brightbox_test
 
 import (
 	"github.com/brightbox/gobrightbox"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"net/http/httptest"
 	"testing"
 )
 
 func TestCloudIPs(t *testing.T) {
-
 	handler := ApiMock{
 		T:            t,
 		ExpectMethod: "GET",
 		ExpectUrl:    "/1.0/cloud_ips",
-		ExpectBody:   ``,
+		ExpectBody:   "",
 		GiveBody:     readJson("cloud_ips"),
 	}
 	ts := httptest.NewServer(&handler)
 	defer ts.Close()
 
 	client, err := brightbox.NewClient(ts.URL, "", nil)
-	if err != nil {
-		t.Fatal(err)
-	}
+	require.Nil(t, err, "NewClient returned an error")
 
 	cips, err := client.CloudIPs()
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(cips) != 1 {
-		t.Fatal("Wrong number of cloud ips returned")
-	}
-	cs := cips
-	s := cs[0]
-	if s.Id != "cip-k4a25" {
-		t.Errorf("cloud Id incorrect")
-	}
-	if len(s.PortTranslators) != 1 {
-		t.Fatal("cloud ip port translators incorrect")
-	}
-	pt := s.PortTranslators[0]
-	if pt.Protocol != "http" {
-		t.Errorf("cloud ip port translator protocol incorrect")
-	}
-	if pt.Incoming != 443 {
-		t.Errorf("cloud ip port translator incoming port incorrect")
-	}
-	if pt.Outgoing != 2443 {
-		t.Errorf("cloud ip port translator outgoing port incorrect")
-	}
+	require.Nil(t, err, "CloudIPs() returned an error")
+	require.Equal(t, 1, len(cips), "Wrong number of cloud ips returned")
+	cip := cips[0]
+	assert.Equal(t, "cip-k4a25", cip.Id, "id doesn't match")
+	require.Equal(t, 1, len(cip.PortTranslators), "port translators list")
+	pt := cip.PortTranslators[0]
+	assert.Equal(t, "http", pt.Protocol, "port translator protocol")
+	assert.Equal(t, 443, pt.Incoming, "port translator incoming port")
+	assert.Equal(t, 2443, pt.Outgoing, "port translator outgoing port")
 }
 
 func TestCreateCloudIP(t *testing.T) {
@@ -55,30 +39,21 @@ func TestCreateCloudIP(t *testing.T) {
 		T:            t,
 		ExpectMethod: "POST",
 		ExpectUrl:    "/1.0/cloud_ips",
-		ExpectBody:   `{"name":"product website ip"}`,
+		ExpectBody:   map[string]string{"name": "product website ip"},
 		GiveBody:     readJson("cloud_ip"),
 	}
 	ts := httptest.NewServer(&handler)
 	defer ts.Close()
 
 	client, err := brightbox.NewClient(ts.URL, "", nil)
-	if err != nil {
-		t.Fatal(err)
-	}
+	require.Nil(t, err, "NewClient returned an error")
 
 	name := "product website ip"
 	opts := brightbox.CloudIPOptions{Name: &name}
-	s, err := client.CreateCloudIP(&opts)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if s == nil {
-		t.Errorf("Didn't return a Cloud IP")
-	}
-	if s.Id != "cip-k4a25" {
-		t.Errorf("cloud ip id is %s", s.Id)
-	}
-
+	cip, err := client.CreateCloudIP(&opts)
+	require.Nil(t, err, "CloudIP() returned an error")
+	require.NotNil(t, cip, "didn't return a cloud ip")
+	assert.Equal(t, "cip-k4a25", cip.Id, "cloud ip id")
 }
 
 func TestCreateCloudIPWithPortTranslator(t *testing.T) {
@@ -93,9 +68,7 @@ func TestCreateCloudIPWithPortTranslator(t *testing.T) {
 	defer ts.Close()
 
 	client, err := brightbox.NewClient(ts.URL, "", nil)
-	if err != nil {
-		t.Fatal(err)
-	}
+	require.Nil(t, err, "NewClient returned an error")
 
 	pt := brightbox.PortTranslator{
 		Incoming: 443,
@@ -107,16 +80,10 @@ func TestCreateCloudIPWithPortTranslator(t *testing.T) {
 			pt,
 		},
 	}
-	s, err := client.CreateCloudIP(&opts)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if s == nil {
-		t.Errorf("Didn't return a Cloud IP")
-	}
-	if s.Id != "cip-k4a25" {
-		t.Errorf("cloud ip id is %s", s.Id)
-	}
+	cip, err := client.CreateCloudIP(&opts)
+	require.Nil(t, err, "CreateCloudIP returned an error")
+	require.NotNil(t, cip, "Didn't return a Cloud IP")
+	assert.Equal(t, "cip-k4a25", cip.Id, "Cloud IP id didn't match")
 
 }
 
@@ -125,26 +92,20 @@ func TestUpdateCloudIP(t *testing.T) {
 		T:            t,
 		ExpectMethod: "PUT",
 		ExpectUrl:    "/1.0/cloud_ips/cip-k4a25",
-		ExpectBody:   `{"name":"product website ip"}`,
+		ExpectBody:   map[string]string{"name": "product website ip"},
 		GiveBody:     readJson("cloud_ip"),
 	}
 	ts := httptest.NewServer(&handler)
 	defer ts.Close()
 
 	client, err := brightbox.NewClient(ts.URL, "", nil)
-	if err != nil {
-		t.Fatal(err)
-	}
+	require.Nil(t, err, "NewClient returned an error")
 
 	name := "product website ip"
 	opts := brightbox.CloudIPOptions{Id: "cip-k4a25", Name: &name}
 	cip, err := client.UpdateCloudIP(&opts)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if cip == nil {
-		t.Errorf("Didn't return a Cloud IP")
-	}
+	require.Nil(t, err, "NewClient returned an error")
+	require.NotNil(t, cip, "Didn't return a Cloud IP")
 }
 
 func TestUpdateCloudIPPostTranslator(t *testing.T) {
@@ -159,9 +120,7 @@ func TestUpdateCloudIPPostTranslator(t *testing.T) {
 	defer ts.Close()
 
 	client, err := brightbox.NewClient(ts.URL, "", nil)
-	if err != nil {
-		t.Fatal(err)
-	}
+	require.Nil(t, err, "NewClient returned an error")
 
 	pt := brightbox.PortTranslator{
 		Incoming: 443,
@@ -175,12 +134,8 @@ func TestUpdateCloudIPPostTranslator(t *testing.T) {
 		},
 	}
 	cip, err := client.UpdateCloudIP(&opts)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if cip == nil {
-		t.Errorf("Didn't return a Cloud IP")
-	}
+	require.Nil(t, err, "UpdateCloudIP returned an error")
+	require.NotNil(t, cip, "UpdateCloudIP didn't return a cloud ip")
 }
 
 func TestLockCloudIP(t *testing.T) {
@@ -195,15 +150,12 @@ func TestLockCloudIP(t *testing.T) {
 	defer ts.Close()
 
 	client, err := brightbox.NewClient(ts.URL, "", nil)
-	if err != nil {
-		t.Fatal(err)
-	}
+	require.Nil(t, err, "NewClient returned an error")
+
 	cip := new(brightbox.CloudIP)
 	cip.Id = "cip-k4a25"
 	err = client.LockResource(cip)
-	if err != nil {
-		t.Fatal(err)
-	}
+	assert.Nil(t, err, "LockResource returned an error")
 }
 
 func TestUnLockCloudIP(t *testing.T) {
@@ -218,13 +170,10 @@ func TestUnLockCloudIP(t *testing.T) {
 	defer ts.Close()
 
 	client, err := brightbox.NewClient(ts.URL, "", nil)
-	if err != nil {
-		t.Fatal(err)
-	}
+	require.Nil(t, err, "NewClient returned an error")
+
 	cip := new(brightbox.CloudIP)
 	cip.Id = "cip-k4a25"
 	err = client.UnLockResource(cip)
-	if err != nil {
-		t.Fatal(err)
-	}
+	assert.Nil(t, err, "UnLockResource returned an error")
 }

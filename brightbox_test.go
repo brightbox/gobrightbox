@@ -3,6 +3,8 @@ package brightbox_test
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"io/ioutil"
 	"net/http"
 	"strings"
@@ -28,10 +30,10 @@ type ApiMock struct {
 
 func (a *ApiMock) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if a.ExpectMethod != "" && r.Method != a.ExpectMethod {
-		a.Fatalf("Expected method %q but got %q", a.ExpectMethod, r.Method)
+		require.Equal(a, a.ExpectMethod, r.Method, "method didn't match")
 	}
 	if a.ExpectUrl != "" && r.URL.String() != a.ExpectUrl {
-		a.Fatalf("Expected url %q but got %q", a.ExpectUrl, r.URL.String())
+		require.Equal(a, a.ExpectUrl, r.URL.String(), "url didn't match")
 	}
 
 	switch expectBody := a.ExpectBody.(type) {
@@ -54,7 +56,7 @@ func (a *ApiMock) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			if !ok {
 				a.Errorf("Expected key %q in request body but was missing", key)
 			} else if fmt.Sprintf("%s", expectBody[key]) != fmt.Sprintf("%s", decodedVal) {
-				a.Errorf("Expected key %q in request body json to be %s but was %s", key, value, decodedReqBody[key])
+				assert.Equal(a, value, decodedReqBody[key], fmt.Sprintf("Key %q in request body doesn't match", key))
 			}
 		}
 		for key, _ := range decodedReqBody {
