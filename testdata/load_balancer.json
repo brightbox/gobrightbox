@@ -21,7 +21,12 @@
    "timeout": 5000,
    "threshold_up": 3,
    "threshold_down": 3},
- "certificate": null,
+ "certificate":
+  {"issuer": "/O=Root CA/OU=http://www.cacert.org/CN=CA Cert Signing Authority/emailAddress=support@cacert.org",
+   "subject": "/CN=www.example.com",
+   "sslv3": false,
+   "valid_from": "2012-08-01T21:41:26Z",
+   "expires_at": "2013-01-28T21:41:26Z"},
  "account":
   {"id": "acc-43ks4",
    "resource_type": "account",

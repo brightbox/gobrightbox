@@ -62,4 +62,11 @@ func TestLoadBalancer(t *testing.T) {
 	assert.Equal(t, 80, lnr.Out, "listener out port incorrect")
 	assert.Equal(t, 50000, lnr.Timeout, "listener timeout incorrect")
 	assert.Equal(t, "http", lnr.Protocol, "listener protocol incorrect")
+
+	assert.Equal(t, "http", lb.Healthcheck.Type, "healthcheck type incorrect")
+	assert.Equal(t, "/", lb.Healthcheck.Request, "healthcheck request incorrect")
+	assert.Equal(t, 80, lb.Healthcheck.Port, "healthchech port incorrect")
+
+	require.NotNil(t, lb.Certificate, "certificate is nil")
+	assert.Equal(t, "/CN=www.example.com", lb.Certificate.Subject, "certificate subject is incorrect")
 }
