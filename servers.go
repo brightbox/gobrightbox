@@ -163,23 +163,15 @@ func (c *Client) ShutdownServer(identifier string) error {
 }
 
 // LockServer locks an existing server, preventing it's destruction without
-// first unlocking
+// first unlocking. Deprecated, use LockResource instead.
 func (c *Client) LockServer(identifier string) error {
-	_, err := c.MakeApiRequest("PUT", "/1.0/servers/"+identifier+"/lock_resource", nil, nil)
-	if err != nil {
-		return err
-	}
-	return nil
+	return c.LockResource(Server{Id: identifier})
 }
 
 // UnlockServer unlocks a previously locked existing server, allowing
-// destruction again
+// destruction again. Deprecated, use UnLockResource instead.
 func (c *Client) UnlockServer(identifier string) error {
-	_, err := c.MakeApiRequest("PUT", "/1.0/servers/"+identifier+"/unlock_resource", nil, nil)
-	if err != nil {
-		return err
-	}
-	return nil
+	return c.UnLockResource(Server{Id: identifier})
 }
 
 // SnapshotServer issues a request to snapshot the disk of an existing
