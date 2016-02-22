@@ -8,12 +8,12 @@ import (
 
 func TestServers(t *testing.T) {
 
-	handler := ApiMock{
+	handler := APIMock{
 		T:            t,
 		ExpectMethod: "GET",
-		ExpectUrl:    "/1.0/servers",
+		ExpectURL:    "/1.0/servers",
 		ExpectBody:   ``,
-		GiveBody:     readJson("servers"),
+		GiveBody:     readJSON("servers"),
 	}
 	ts := httptest.NewServer(&handler)
 	defer ts.Close()
@@ -39,12 +39,12 @@ func TestServers(t *testing.T) {
 
 func TestServer(t *testing.T) {
 
-	handler := ApiMock{
+	handler := APIMock{
 		T:            t,
 		ExpectMethod: "GET",
-		ExpectUrl:    "/1.0/servers/srv-lv426",
+		ExpectURL:    "/1.0/servers/srv-lv426",
 		ExpectBody:   ``,
-		GiveBody:     readJson("server"),
+		GiveBody:     readJSON("server"),
 	}
 	ts := httptest.NewServer(&handler)
 	defer ts.Close()
@@ -77,12 +77,12 @@ func TestServer(t *testing.T) {
 }
 
 func TestCreateServerWithImage(t *testing.T) {
-	handler := ApiMock{
+	handler := APIMock{
 		T:            t,
 		ExpectMethod: "POST",
-		ExpectUrl:    "/1.0/servers",
+		ExpectURL:    "/1.0/servers",
 		ExpectBody:   map[string]string{"image": "img-12345"},
-		GiveBody:     readJson("server"),
+		GiveBody:     readJSON("server"),
 	}
 	ts := httptest.NewServer(&handler)
 	defer ts.Close()
@@ -107,17 +107,17 @@ func TestCreateServerWithImage(t *testing.T) {
 }
 
 func TestCreateServerWithOptionalFields(t *testing.T) {
-	handler := ApiMock{
+	handler := APIMock{
 		T:            t,
 		ExpectMethod: "POST",
-		ExpectUrl:    "/1.0/servers",
+		ExpectURL:    "/1.0/servers",
 		ExpectBody: map[string]interface{}{
 			"image":              "img-12345",
 			"name":               "myserver",
 			"server_groups":      []string{"grp-aaaaa", "grp-bbbbb"},
 			"compatibility_mode": true,
 		},
-		GiveBody: readJson("server"),
+		GiveBody: readJSON("server"),
 	}
 	ts := httptest.NewServer(&handler)
 	defer ts.Close()
@@ -150,12 +150,12 @@ func TestCreateServerWithOptionalFields(t *testing.T) {
 }
 
 func TestUpdateServerWithEmptyGroupsList(t *testing.T) {
-	handler := ApiMock{
+	handler := APIMock{
 		T:            t,
 		ExpectMethod: "PUT",
-		ExpectUrl:    "/1.0/servers/srv-lv426",
+		ExpectURL:    "/1.0/servers/srv-lv426",
 		ExpectBody:   map[string]string{"server_groups": "[]"},
-		GiveBody:     readJson("server"),
+		GiveBody:     readJSON("server"),
 	}
 	ts := httptest.NewServer(&handler)
 	defer ts.Close()
@@ -181,10 +181,10 @@ func TestUpdateServerWithEmptyGroupsList(t *testing.T) {
 }
 
 func TestLockServer(t *testing.T) {
-	handler := ApiMock{
+	handler := APIMock{
 		T:            t,
 		ExpectMethod: "PUT",
-		ExpectUrl:    "/1.0/servers/srv-lv426/lock_resource",
+		ExpectURL:    "/1.0/servers/srv-lv426/lock_resource",
 		ExpectBody:   "",
 		GiveBody:     "",
 	}
@@ -204,10 +204,10 @@ func TestLockServer(t *testing.T) {
 }
 
 func TestUnLockServer(t *testing.T) {
-	handler := ApiMock{
+	handler := APIMock{
 		T:            t,
 		ExpectMethod: "PUT",
-		ExpectUrl:    "/1.0/servers/srv-lv426/unlock_resource",
+		ExpectURL:    "/1.0/servers/srv-lv426/unlock_resource",
 		ExpectBody:   "",
 		GiveBody:     "",
 	}

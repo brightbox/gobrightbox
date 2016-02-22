@@ -11,7 +11,7 @@ import (
 	"testing"
 )
 
-func readJson(name string) string {
+func readJSON(name string) string {
 	content, err := ioutil.ReadFile("testdata/" + name + ".json")
 	if err != nil {
 		panic(err)
@@ -19,21 +19,21 @@ func readJson(name string) string {
 	return string(content)
 }
 
-type ApiMock struct {
+type APIMock struct {
 	*testing.T
 	ExpectMethod string
-	ExpectUrl    string
+	ExpectURL    string
 	ExpectBody   interface{}
 	GiveStatus   int
 	GiveBody     string
 }
 
-func (a *ApiMock) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func (a *APIMock) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if a.ExpectMethod != "" && r.Method != a.ExpectMethod {
 		require.Equal(a, a.ExpectMethod, r.Method, "method didn't match")
 	}
-	if a.ExpectUrl != "" && r.URL.String() != a.ExpectUrl {
-		require.Equal(a, a.ExpectUrl, r.URL.String(), "url didn't match")
+	if a.ExpectURL != "" && r.URL.String() != a.ExpectURL {
+		require.Equal(a, a.ExpectURL, r.URL.String(), "url didn't match")
 	}
 
 	switch expectBody := a.ExpectBody.(type) {

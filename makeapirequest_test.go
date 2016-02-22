@@ -9,7 +9,7 @@ import (
 
 func TestGET(t *testing.T) {
 
-	handler := ApiMock{T: t, ExpectMethod: "GET", ExpectUrl: "/some/path"}
+	handler := APIMock{T: t, ExpectMethod: "GET", ExpectURL: "/some/path"}
 	ts := httptest.NewServer(&handler)
 	defer ts.Close()
 
@@ -30,10 +30,10 @@ func TestGET(t *testing.T) {
 
 func TestPOST(t *testing.T) {
 
-	handler := ApiMock{
+	handler := APIMock{
 		T:            t,
 		ExpectMethod: "POST",
-		ExpectUrl:    "/some/resource",
+		ExpectURL:    "/some/resource",
 		ExpectBody:   `{"hello":"world"}`,
 	}
 	ts := httptest.NewServer(&handler)
@@ -51,7 +51,7 @@ func TestPOST(t *testing.T) {
 }
 
 func TestApiError403(t *testing.T) {
-	handler := ApiMock{
+	handler := APIMock{
 		GiveStatus: 403,
 		GiveBody: `{
 "error":"error title",
@@ -99,7 +99,7 @@ func TestApiError403(t *testing.T) {
 }
 
 func TestApiError500WithoutErrorJson(t *testing.T) {
-	handler := ApiMock{
+	handler := APIMock{
 		GiveStatus: 500,
 		GiveBody:   `some error message`,
 	}
@@ -127,7 +127,7 @@ func TestApiError500WithoutErrorJson(t *testing.T) {
 }
 
 func TestParseError(t *testing.T) {
-	handler := ApiMock{
+	handler := APIMock{
 		GiveStatus: 200,
 		GiveBody:   `{"name": 1000}`,
 	}

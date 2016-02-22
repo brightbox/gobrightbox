@@ -7,16 +7,16 @@ import (
 )
 
 func TestCreateFirewallRule(t *testing.T) {
-	handler := ApiMock{
+	handler := APIMock{
 		T:            t,
 		ExpectMethod: "POST",
-		ExpectUrl:    "/1.0/firewall_rules",
+		ExpectURL:    "/1.0/firewall_rules",
 		ExpectBody: map[string]string{
 			"firewall_policy": "fwp-j3654",
 			"protocol":        "tcp",
 			"source":          "grp-xxxxx",
 			"destination":     ""},
-		GiveBody: readJson("firewall_rule"),
+		GiveBody: readJSON("firewall_rule"),
 	}
 	ts := httptest.NewServer(&handler)
 	defer ts.Close()
@@ -50,15 +50,15 @@ func TestCreateFirewallRule(t *testing.T) {
 }
 
 func TestUpdateFirewallRule(t *testing.T) {
-	handler := ApiMock{
+	handler := APIMock{
 		T:            t,
 		ExpectMethod: "PUT",
-		ExpectUrl:    "/1.0/firewall_rules/fwr-k32ls",
+		ExpectURL:    "/1.0/firewall_rules/fwr-k32ls",
 		ExpectBody: map[string]string{
 			"protocol":    "tcp",
 			"source":      "grp-xxxxx",
 			"destination": ""},
-		GiveBody: readJson("firewall_rule"),
+		GiveBody: readJSON("firewall_rule"),
 	}
 	ts := httptest.NewServer(&handler)
 	defer ts.Close()
@@ -90,12 +90,12 @@ func TestUpdateFirewallRule(t *testing.T) {
 }
 
 func TestDestroyFirewallRule(t *testing.T) {
-	handler := ApiMock{
+	handler := APIMock{
 		T:            t,
 		ExpectMethod: "DELETE",
-		ExpectUrl:    "/1.0/firewall_rules/fwr-j3654",
+		ExpectURL:    "/1.0/firewall_rules/fwr-j3654",
 		ExpectBody:   ``,
-		GiveBody:     readJson("firewall_rule"),
+		GiveBody:     readJSON("firewall_rule"),
 	}
 	ts := httptest.NewServer(&handler)
 	defer ts.Close()

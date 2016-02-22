@@ -9,12 +9,12 @@ import (
 )
 
 func TestCloudIPs(t *testing.T) {
-	handler := ApiMock{
+	handler := APIMock{
 		T:            t,
 		ExpectMethod: "GET",
-		ExpectUrl:    "/1.0/cloud_ips",
+		ExpectURL:    "/1.0/cloud_ips",
 		ExpectBody:   "",
-		GiveBody:     readJson("cloud_ips"),
+		GiveBody:     readJSON("cloud_ips"),
 	}
 	ts := httptest.NewServer(&handler)
 	defer ts.Close()
@@ -35,12 +35,12 @@ func TestCloudIPs(t *testing.T) {
 }
 
 func TestCreateCloudIP(t *testing.T) {
-	handler := ApiMock{
+	handler := APIMock{
 		T:            t,
 		ExpectMethod: "POST",
-		ExpectUrl:    "/1.0/cloud_ips",
+		ExpectURL:    "/1.0/cloud_ips",
 		ExpectBody:   map[string]string{"name": "product website ip"},
-		GiveBody:     readJson("cloud_ip"),
+		GiveBody:     readJSON("cloud_ip"),
 	}
 	ts := httptest.NewServer(&handler)
 	defer ts.Close()
@@ -57,12 +57,12 @@ func TestCreateCloudIP(t *testing.T) {
 }
 
 func TestCreateCloudIPWithPortTranslator(t *testing.T) {
-	handler := ApiMock{
+	handler := APIMock{
 		T:            t,
 		ExpectMethod: "POST",
-		ExpectUrl:    "/1.0/cloud_ips",
+		ExpectURL:    "/1.0/cloud_ips",
 		ExpectBody:   `{"port_translators":[{"incoming":443,"outgoing":2443,"protocol":"tcp"}]}`,
-		GiveBody:     readJson("cloud_ip"),
+		GiveBody:     readJSON("cloud_ip"),
 	}
 	ts := httptest.NewServer(&handler)
 	defer ts.Close()
@@ -88,12 +88,12 @@ func TestCreateCloudIPWithPortTranslator(t *testing.T) {
 }
 
 func TestUpdateCloudIP(t *testing.T) {
-	handler := ApiMock{
+	handler := APIMock{
 		T:            t,
 		ExpectMethod: "PUT",
-		ExpectUrl:    "/1.0/cloud_ips/cip-k4a25",
+		ExpectURL:    "/1.0/cloud_ips/cip-k4a25",
 		ExpectBody:   map[string]string{"name": "product website ip"},
-		GiveBody:     readJson("cloud_ip"),
+		GiveBody:     readJSON("cloud_ip"),
 	}
 	ts := httptest.NewServer(&handler)
 	defer ts.Close()
@@ -109,12 +109,12 @@ func TestUpdateCloudIP(t *testing.T) {
 }
 
 func TestUpdateCloudIPPostTranslator(t *testing.T) {
-	handler := ApiMock{
+	handler := APIMock{
 		T:            t,
 		ExpectMethod: "PUT",
-		ExpectUrl:    "/1.0/cloud_ips/cip-k4a25",
+		ExpectURL:    "/1.0/cloud_ips/cip-k4a25",
 		ExpectBody:   `{"port_translators":[{"incoming":443,"outgoing":2443,"protocol":"tcp"}]}`,
-		GiveBody:     readJson("cloud_ip"),
+		GiveBody:     readJSON("cloud_ip"),
 	}
 	ts := httptest.NewServer(&handler)
 	defer ts.Close()
@@ -139,10 +139,10 @@ func TestUpdateCloudIPPostTranslator(t *testing.T) {
 }
 
 func TestLockCloudIP(t *testing.T) {
-	handler := ApiMock{
+	handler := APIMock{
 		T:            t,
 		ExpectMethod: "PUT",
-		ExpectUrl:    "/1.0/cloud_ips/cip-k4a25/lock_resource",
+		ExpectURL:    "/1.0/cloud_ips/cip-k4a25/lock_resource",
 		ExpectBody:   "",
 		GiveBody:     "",
 	}
@@ -159,10 +159,10 @@ func TestLockCloudIP(t *testing.T) {
 }
 
 func TestUnLockCloudIP(t *testing.T) {
-	handler := ApiMock{
+	handler := APIMock{
 		T:            t,
 		ExpectMethod: "PUT",
-		ExpectUrl:    "/1.0/cloud_ips/cip-k4a25/unlock_resource",
+		ExpectURL:    "/1.0/cloud_ips/cip-k4a25/unlock_resource",
 		ExpectBody:   "",
 		GiveBody:     "",
 	}

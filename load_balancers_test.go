@@ -9,12 +9,12 @@ import (
 )
 
 func TestLoadBalancers(t *testing.T) {
-	handler := ApiMock{
+	handler := APIMock{
 		T:            t,
 		ExpectMethod: "GET",
-		ExpectUrl:    "/1.0/load_balancers",
+		ExpectURL:    "/1.0/load_balancers",
 		ExpectBody:   "",
-		GiveBody:     readJson("load_balancers"),
+		GiveBody:     readJSON("load_balancers"),
 	}
 	ts := httptest.NewServer(&handler)
 	defer ts.Close()
@@ -34,12 +34,12 @@ func TestLoadBalancers(t *testing.T) {
 }
 
 func TestLoadBalancer(t *testing.T) {
-	handler := ApiMock{
+	handler := APIMock{
 		T:            t,
 		ExpectMethod: "GET",
-		ExpectUrl:    "/1.0/load_balancers/lba-1235f",
+		ExpectURL:    "/1.0/load_balancers/lba-1235f",
 		ExpectBody:   "",
-		GiveBody:     readJson("load_balancer"),
+		GiveBody:     readJSON("load_balancer"),
 	}
 	ts := httptest.NewServer(&handler)
 	defer ts.Close()

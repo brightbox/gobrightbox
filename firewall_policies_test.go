@@ -8,12 +8,12 @@ import (
 
 func TestFirewallPolicies(t *testing.T) {
 
-	handler := ApiMock{
+	handler := APIMock{
 		T:            t,
 		ExpectMethod: "GET",
-		ExpectUrl:    "/1.0/firewall_policies",
+		ExpectURL:    "/1.0/firewall_policies",
 		ExpectBody:   ``,
-		GiveBody:     readJson("firewall_policies"),
+		GiveBody:     readJSON("firewall_policies"),
 	}
 	ts := httptest.NewServer(&handler)
 	defer ts.Close()
@@ -47,12 +47,12 @@ func TestFirewallPolicies(t *testing.T) {
 }
 
 func TestCreateFirewallPolicy(t *testing.T) {
-	handler := ApiMock{
+	handler := APIMock{
 		T:            t,
 		ExpectMethod: "POST",
-		ExpectUrl:    "/1.0/firewall_policies",
+		ExpectURL:    "/1.0/firewall_policies",
 		ExpectBody:   `{"name":"web servers"}`,
-		GiveBody:     readJson("firewall_policy"),
+		GiveBody:     readJSON("firewall_policy"),
 	}
 	ts := httptest.NewServer(&handler)
 	defer ts.Close()
@@ -78,12 +78,12 @@ func TestCreateFirewallPolicy(t *testing.T) {
 }
 
 func TestCreateFirewallPolicyWithServerGroup(t *testing.T) {
-	handler := ApiMock{
+	handler := APIMock{
 		T:            t,
 		ExpectMethod: "POST",
-		ExpectUrl:    "/1.0/firewall_policies",
+		ExpectURL:    "/1.0/firewall_policies",
 		ExpectBody:   `{"name":"web servers","server_group":"grp-abcde"}`,
-		GiveBody:     readJson("firewall_policy"),
+		GiveBody:     readJSON("firewall_policy"),
 	}
 	ts := httptest.NewServer(&handler)
 	defer ts.Close()
@@ -103,12 +103,12 @@ func TestCreateFirewallPolicyWithServerGroup(t *testing.T) {
 }
 
 func TestUpdateFirewallPolicy(t *testing.T) {
-	handler := ApiMock{
+	handler := APIMock{
 		T:            t,
 		ExpectMethod: "PUT",
-		ExpectUrl:    "/1.0/firewall_policies/fwp-j3654",
+		ExpectURL:    "/1.0/firewall_policies/fwp-j3654",
 		ExpectBody:   `{"name":"mail servers"}`,
-		GiveBody:     readJson("firewall_policy"),
+		GiveBody:     readJSON("firewall_policy"),
 	}
 	ts := httptest.NewServer(&handler)
 	defer ts.Close()
@@ -127,12 +127,12 @@ func TestUpdateFirewallPolicy(t *testing.T) {
 }
 
 func TestDestroyFirewallPolicy(t *testing.T) {
-	handler := ApiMock{
+	handler := APIMock{
 		T:            t,
 		ExpectMethod: "DELETE",
-		ExpectUrl:    "/1.0/firewall_policies/fwp-j3654",
+		ExpectURL:    "/1.0/firewall_policies/fwp-j3654",
 		ExpectBody:   ``,
-		GiveBody:     readJson("firewall_policy"),
+		GiveBody:     readJSON("firewall_policy"),
 	}
 	ts := httptest.NewServer(&handler)
 	defer ts.Close()
@@ -149,12 +149,12 @@ func TestDestroyFirewallPolicy(t *testing.T) {
 }
 
 func TestApplyFirewallPolicy(t *testing.T) {
-	handler := ApiMock{
+	handler := APIMock{
 		T:            t,
 		ExpectMethod: "POST",
-		ExpectUrl:    "/1.0/firewall_policies/fwp-j3654/apply_to",
+		ExpectURL:    "/1.0/firewall_policies/fwp-j3654/apply_to",
 		ExpectBody:   `{"server_group":"grp-abcde"}`,
-		GiveBody:     readJson("firewall_policy"),
+		GiveBody:     readJSON("firewall_policy"),
 	}
 	ts := httptest.NewServer(&handler)
 	defer ts.Close()
@@ -171,12 +171,12 @@ func TestApplyFirewallPolicy(t *testing.T) {
 }
 
 func TestRemoveFirewallPolicy(t *testing.T) {
-	handler := ApiMock{
+	handler := APIMock{
 		T:            t,
 		ExpectMethod: "POST",
-		ExpectUrl:    "/1.0/firewall_policies/fwp-j3654/remove",
+		ExpectURL:    "/1.0/firewall_policies/fwp-j3654/remove",
 		ExpectBody:   `{"server_group":"grp-abcde"}`,
-		GiveBody:     readJson("firewall_policy"),
+		GiveBody:     readJSON("firewall_policy"),
 	}
 	ts := httptest.NewServer(&handler)
 	defer ts.Close()
