@@ -7,7 +7,7 @@ import (
 // LoadBalancer represents a Load Balancer
 // https://api.gb1.brightbox.com/1.0/#load_balancer
 type LoadBalancer struct {
-	Resource
+	Id          string
 	Name        string
 	Status      string
 	CreatedAt   *time.Time `json:"created_at"`

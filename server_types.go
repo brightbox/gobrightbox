@@ -5,7 +5,7 @@ import (
 )
 
 type ServerType struct {
-	Resource
+	Id       string
 	Name     string
 	Status   string
 	Handle   string

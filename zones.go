@@ -5,7 +5,7 @@ import (
 )
 
 type Zone struct {
-	Resource
+	Id     string
 	Handle string
 }
 

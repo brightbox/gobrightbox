@@ -7,7 +7,7 @@ import (
 // Account represents a Brightbox Cloud Account
 // https://api.gb1.brightbox.com/1.0/#account
 type Account struct {
-	Resource
+	Id                    string
 	Name                  string
 	Status                string
 	Address1              string `json:"address_1"`

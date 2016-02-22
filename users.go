@@ -3,7 +3,7 @@ package brightbox
 // Account represents a Brightbox User
 // https://api.gb1.brightbox.com/1.0/#user
 type User struct {
-	Resource
+	Id             string
 	Name           string
 	EmailAddress   string `json:"email_address"`
 	EmailVerified  bool   `json:"email_verified"`

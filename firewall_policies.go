@@ -7,7 +7,7 @@ import (
 // FirewallPolicy represents a firewall policy.
 // https://api.gb1.brightbox.com/1.0/#firewall_policy
 type FirewallPolicy struct {
-	Resource
+	Id          string
 	Name        string
 	Default     bool
 	CreatedAt   time.Time `json:"created_at"`

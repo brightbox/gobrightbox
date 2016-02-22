@@ -7,7 +7,7 @@ import (
 // CloudIP represents a Cloud IP
 // https://api.gb1.brightbox.com/1.0/#cloud_ip
 type CloudIP struct {
-	Resource
+	Id              string
 	Name            string
 	PublicIP        string `json:"public_ip"`
 	Status          string

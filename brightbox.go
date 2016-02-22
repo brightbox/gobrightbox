@@ -92,11 +92,6 @@ func (e ApiError) Error() string {
 	return msg
 }
 
-// Resource is embedded in other cloud resource types
-type Resource struct {
-	Id string
-}
-
 // NewClient allocates and configures a Client for interacting with the API.
 //
 // apiUrl should be an url of the form https://api.region.brightbox.com,

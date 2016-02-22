@@ -7,7 +7,7 @@ import (
 // Collaboration represents a User's links to it's Accounts
 // https://api.gb1.brightbox.com/1.0/#user
 type Collaboration struct {
-	Resource
+	Id         string
 	Email      string
 	Role       string
 	RoleLabel  string `json:"role_label"`

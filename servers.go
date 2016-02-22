@@ -9,7 +9,7 @@ import (
 // Server represents a Cloud Server
 // https://api.gb1.brightbox.com/1.0/#server
 type Server struct {
-	Resource
+	Id        string
 	Name      string
 	Status    string
 	Locked    bool
@@ -53,7 +53,7 @@ type ServerOptions struct {
 
 // ServerInterface represent a server's network interface(s)
 type ServerInterface struct {
-	Resource
+	Id          string
 	MacAddress  string `json:"mac_address"`
 	IPv4Address string `json:"ipv4_address"`
 	IPv6Address string `json:"ipv6_address"`

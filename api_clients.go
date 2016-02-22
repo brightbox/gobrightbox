@@ -1,7 +1,7 @@
 package brightbox
 
 type ApiClient struct {
-	Resource
+	Id               string
 	Name             string
 	Description      string
 	Secret           string

@@ -7,7 +7,7 @@ import (
 // FirewallRule represents a firewall rule.
 // https://api.gb1.brightbox.com/1.0/#firewall_rule
 type FirewallRule struct {
-	Resource
+	Id              string
 	Source          string         `json:"source"`
 	SourcePort      string         `json:"source_port"`
 	Destination     string         `json:"destination"`

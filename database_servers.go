@@ -5,7 +5,7 @@ import (
 )
 
 type DatabaseServer struct {
-	Resource
+	Id                 string
 	Name               string
 	Description        string
 	Status             string
