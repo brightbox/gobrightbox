@@ -19,7 +19,7 @@ type LoadBalancer struct {
 	Policy      string
 	BufferSize  int `json:"buffer_size"`
 	Listeners   []LoadBalancerListener
-	Healthcheck LoadBalancerHealthCheck
+	Healthcheck LoadBalancerHealthcheck
 	Certificate *LoadBalancerCertificate
 }
 
@@ -32,8 +32,8 @@ type LoadBalancerCertificate struct {
 	Subject   string    `json:"subject"`
 }
 
-// LoadBalancerHealthCheck represents a health check on a LoadBalancer
-type LoadBalancerHealthCheck struct {
+// LoadBalancerHealthcheck represents a health check on a LoadBalancer
+type LoadBalancerHealthcheck struct {
 	Type          string `json:"type"`
 	Port          int    `json:"port"`
 	Request       string `json:"request,omitempty"`
@@ -45,10 +45,33 @@ type LoadBalancerHealthCheck struct {
 
 // LoadBalancerListener represents a listener on a LoadBalancer
 type LoadBalancerListener struct {
-	Protocol string `json:"protocol"`
-	In       int    `json:"in"`
-	Out      int    `json:"out"`
+	Protocol string `json:"protocol,omitempty"`
+	In       int    `json:"in,omitempty"`
+	Out      int    `json:"out,omitempty"`
 	Timeout  int    `json:"timeout,omitempty"`
+}
+
+// LoadBalancerOptions is used in conjunction with CreateLoadBalancer and
+// UpdateLoadBalancer to create and update load balancers
+type LoadBalancerOptions struct {
+	Id             string                   `json:"-"`
+	Name           *string                  `json:"name,omitempty"`
+	Nodes          *[]LoadBalancerNode      `json:"nodes,omitempty"`
+	Policy         *string                  `json:"policy,omitempty"`
+	BufferSize     *int                     `json:"buffer_size,omitempty"`
+	Listeners      *[]LoadBalancerListener  `json:"listeners,omitempty"`
+	Healthcheck    *LoadBalancerHealthcheck `json:"healthcheck,omitempty"`
+	CertificatePem *string                  `json:"certificate_pem,omitempty"`
+	CertificateKey *string                  `json:"certificate_key,omitempty"`
+	SslV3          *bool                    `json:"sslv3,omitempty"`
+}
+
+// LoadBalancerNode is used in conjunction with LoadBalancerOptions,
+// AddNodesToLoadBalancer, RemoveNodesFromLoadBalancer to specify a list of
+// servers to use as load balancer nodes. The Node parameter should be a server
+// identifier.
+type LoadBalancerNode struct {
+	Node string `json:"node"`
 }
 
 // LoadBalancers retrieves a list of all load balancers
@@ -69,4 +92,80 @@ func (c *Client) LoadBalancer(identifier string) (*LoadBalancer, error) {
 		return nil, err
 	}
 	return lb, err
+}
+
+// CreateLoadBalancer creates a new load balancer.
+//
+// It takes a LoadBalancerOptions struct for specifying name and other
+// attributes.  Not all attributes can be specified at create time (such as Id,
+// which is allocated for you)
+func (c *Client) CreateLoadBalancer(newLB *LoadBalancerOptions) (*LoadBalancer, error) {
+	lb := new(LoadBalancer)
+	_, err := c.MakeApiRequest("POST", "/1.0/load_balancers", newLB, &lb)
+	if err != nil {
+		return nil, err
+	}
+	return lb, nil
+}
+
+// UpdateLoadBalancer updates an existing load balancer.
+//
+// It takes a LoadBalancerOptions struct for specifying name and other
+// attributes. Provide the identifier using the Id attribute.
+func (c *Client) UpdateLoadBalancer(newLB *LoadBalancerOptions) (*LoadBalancer, error) {
+	lb := new(LoadBalancer)
+	_, err := c.MakeApiRequest("PUT", "/1.0/load_balancers/"+newLB.Id, newLB, &lb)
+	if err != nil {
+		return nil, err
+	}
+	return lb, nil
+}
+
+// DestroyLoadBalancer issues a request to destroy the load balancer
+func (c *Client) DestroyLoadBalancer(identifier string) error {
+	_, err := c.MakeApiRequest("DELETE", "/1.0/load_balancers/"+identifier, nil, nil)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// AddNodesToLoadBalancer adds nodes to an existing load balancer.
+func (c *Client) AddNodesToLoadBalancer(loadBalancerID string, nodes []LoadBalancerNode) (*LoadBalancer, error) {
+	lb := new(LoadBalancer)
+	_, err := c.MakeApiRequest("POST", "/1.0/load_balancers/"+loadBalancerID+"/add_nodes", nodes, &lb)
+	if err != nil {
+		return nil, err
+	}
+	return lb, nil
+}
+
+// RemoveNodesFromLoadBalancer removes nodes from an existing load balancer.
+func (c *Client) RemoveNodesFromLoadBalancer(loadBalancerID string, nodes []LoadBalancerNode) (*LoadBalancer, error) {
+	lb := new(LoadBalancer)
+	_, err := c.MakeApiRequest("POST", "/1.0/load_balancers/"+loadBalancerID+"/remove_nodes", nodes, &lb)
+	if err != nil {
+		return nil, err
+	}
+	return lb, nil
+}
+
+// AddListenersToLoadBalancer adds listeners to an existing load balancer.
+func (c *Client) AddListenersToLoadBalancer(loadBalancerID string, listeners []LoadBalancerListener) (*LoadBalancer, error) {
+	lb := new(LoadBalancer)
+	_, err := c.MakeApiRequest("POST", "/1.0/load_balancers/"+loadBalancerID+"/add_listeners", listeners, &lb)
+	if err != nil {
+		return nil, err
+	}
+	return lb, nil
+}
+
+// RemoveListenersFromLoadBalancer removes listeners to an existing load balancer.
+func (c *Client) RemoveListenersFromLoadBalancer(loadBalancerID string, listeners []LoadBalancerListener) (*LoadBalancer, error) {
+	lb := new(LoadBalancer)
+	_, err := c.MakeApiRequest("POST", "/1.0/load_balancers/"+loadBalancerID+"/remove_listeners", listeners, &lb)
+	if err != nil {
+		return nil, err
+	}
+	return lb, nil
 }

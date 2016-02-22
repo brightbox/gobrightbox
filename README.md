@@ -18,13 +18,13 @@ tokens.
 * Full [Server Group](https://api.gb1.brightbox.com/1.0/#server_group) support
 * Full [CloudIP](https://api.gb1.brightbox.com/1.0/#cloud_ip) support
 * Full [Firewall Policy](https://api.gb1.brightbox.com/1.0/#firewall_policy) support
+* Full [Load Balancer](https://api.gb1.brightbox.com/1.0/#load_balancer) support
 * Basic [Image](https://api.gb1.brightbox.com/1.0/#image) support
 * Basic [Api Client](https://api.gb1.brightbox.com/1.0/#api_client) support
 * Basic event stream support
 
 ## TODO
 
-* Load Balancer support
 * Orbit storage support
 * Collaboration support
 * Cloud SQL support
@@ -37,4 +37,4 @@ If you need help using this library, drop an email to support at brightbox dot c
 
 This code is released under an MIT License.
 
-Copyright (c) 2015 Brightbox Systems Ltd.
+Copyright (c) 2015-2016 Brightbox Systems Ltd.
