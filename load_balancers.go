@@ -4,6 +4,8 @@ import (
 	"time"
 )
 
+// LoadBalancer represents a Load Balancer
+// https://api.gb1.brightbox.com/1.0/#load_balancer
 type LoadBalancer struct {
 	Resource
 	Name        string
@@ -21,6 +23,7 @@ type LoadBalancer struct {
 	Certificate *LoadBalancerCertificate
 }
 
+// LoadBalancerCertificate represents a certificate on a LoadBalancer
 type LoadBalancerCertificate struct {
 	ExpiresAt time.Time `json:"expires_at"`
 	ValidFrom time.Time `json:"valid_from"`
@@ -29,6 +32,7 @@ type LoadBalancerCertificate struct {
 	Subject   string    `json:"subject"`
 }
 
+// LoadBalancerHealthCheck represents a health check on a LoadBalancer
 type LoadBalancerHealthCheck struct {
 	Type          string `json:"type"`
 	Port          int    `json:"port"`
@@ -39,6 +43,7 @@ type LoadBalancerHealthCheck struct {
 	ThresholdDown int    `json:"threshold_down,omitempty"`
 }
 
+// LoadBalancerListener represents a listener on a LoadBalancer
 type LoadBalancerListener struct {
 	Protocol string `json:"protocol"`
 	In       int    `json:"in"`
@@ -46,6 +51,7 @@ type LoadBalancerListener struct {
 	Timeout  int    `json:"timeout,omitempty"`
 }
 
+// LoadBalancers retrieves a list of all load balancers
 func (c *Client) LoadBalancers() ([]LoadBalancer, error) {
 	var lbs []LoadBalancer
 	_, err := c.MakeApiRequest("GET", "/1.0/load_balancers", nil, &lbs)
@@ -55,6 +61,7 @@ func (c *Client) LoadBalancers() ([]LoadBalancer, error) {
 	return lbs, err
 }
 
+// LoadBalancer retrieves a detailed view of one load balancer
 func (c *Client) LoadBalancer(identifier string) (*LoadBalancer, error) {
 	lb := new(LoadBalancer)
 	_, err := c.MakeApiRequest("GET", "/1.0/load_balancers/"+identifier, nil, lb)
