@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-// Server represents a Cloud IP
+// CloudIP represents a Cloud IP
 // https://api.gb1.brightbox.com/1.0/#cloud_ip
 type CloudIP struct {
 	Resource
@@ -71,8 +71,8 @@ func (c *Client) DestroyCloudIP(identifier string) error {
 // CreateCloudIP creates a new Cloud IP.
 //
 // It takes a CloudIPOptions struct for specifying name and other attributes.
-// identifier. Not all attributes can be specified at create time (such as Id,
-// which is allocated for you)
+// Not all attributes can be specified at create time (such as Id, which is
+// allocated for you)
 func (c *Client) CreateCloudIP(newCloudIP *CloudIPOptions) (*CloudIP, error) {
 	cloudip := new(CloudIP)
 	_, err := c.MakeApiRequest("POST", "/1.0/cloud_ips", newCloudIP, &cloudip)
@@ -110,8 +110,9 @@ func (c *Client) MapCloudIP(identifier string, destination string) error {
 	return nil
 }
 
-// Convenience method to map a Cloud IP to a server. First looks up the server
-// to get the network interface id. Uses the first interface found.
+// MapCloudIPtoServer is a convenience method to map a Cloud IP to a
+// server. First looks up the server to get the network interface id. Uses the
+// first interface found.
 func (c *Client) MapCloudIPtoServer(identifier string, serverid string) error {
 	server, err := c.Server(serverid)
 	if err != nil {
