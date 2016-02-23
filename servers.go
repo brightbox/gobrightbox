@@ -2,7 +2,6 @@ package brightbox
 
 import (
 	"net/url"
-	"regexp"
 	"time"
 )
 
@@ -182,11 +181,10 @@ func (c *Client) SnapshotServer(identifier string) (*Image, error) {
 	if err != nil {
 		return nil, err
 	}
-	re := regexp.MustCompile("img-.....")
-	imageId := re.FindString(res.Header.Get("Link"))
-	if imageId != "" {
+	imageID := getLinkRel(res.Header.Get("Link"), "img", "snapshot")
+	if imageID != nil {
 		img := new(Image)
-		img.Id = imageId
+		img.Id = *imageID
 		return img, nil
 	}
 	return nil, nil

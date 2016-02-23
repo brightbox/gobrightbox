@@ -11,10 +11,12 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/tomnomnom/linkheader"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"regexp"
 )
 
 // ApiURL for the default region. Use with NewClient.
@@ -217,4 +219,16 @@ func (c *Client) MakeApiRequest(method string, path string, reqBody interface{},
 		apierr.ResponseBody = &body
 		return res, apierr
 	}
+}
+
+func getLinkRel(header string, prefix string, rel string) *string {
+	links := linkheader.Parse(header)
+	re := regexp.MustCompile( prefix + "-[^/]+")
+	for _, link := range links {
+		id := re.FindString(link.URL)
+		if id != "" && link.Rel == rel {
+			return &id
+		}
+	}
+	return nil
 }

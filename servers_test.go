@@ -2,6 +2,8 @@ package brightbox_test
 
 import (
 	"github.com/brightbox/gobrightbox"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"net/http/httptest"
 	"testing"
 )
@@ -224,4 +226,25 @@ func TestUnLockServer(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+}
+
+func TestSnapshotServer(t *testing.T) {
+	handler := APIMock{
+		T:            t,
+		ExpectMethod: "POST",
+		ExpectURL:    "/1.0/servers/srv-aaaaa/snapshot",
+		ExpectBody:   "",
+		GiveBody:     readJSON("server"),
+		GiveHeaders:  map[string]string{"Link": "<https://api.gb1.brightbox.com/1.0/images/img-bbbbb>; rel=snapshot"},
+	}
+	ts := httptest.NewServer(&handler)
+	defer ts.Close()
+
+	client, err := brightbox.NewClient(ts.URL, "", nil)
+	require.Nil(t, err, "NewClient returned an error")
+
+	snap, err := client.SnapshotServer("srv-aaaaa")
+	require.Nil(t, err, "SnapshotServer() returned an error")
+	require.NotNil(t, snap, "SnapshotServer() returned nil")
+	assert.Equal(t, "img-bbbbb", snap.Id, "Image id incorrect")
 }

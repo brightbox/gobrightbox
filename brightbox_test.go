@@ -26,6 +26,7 @@ type APIMock struct {
 	ExpectBody   interface{}
 	GiveStatus   int
 	GiveBody     string
+	GiveHeaders  map[string]string
 }
 
 func (a *APIMock) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -67,13 +68,16 @@ func (a *APIMock) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	w.Header().Set("Content-Type", "application/json")
+	for k, v := range a.GiveHeaders {
+		w.Header().Set(k, v)
+	}
+
 	if a.GiveStatus > 0 {
 		w.WriteHeader(a.GiveStatus)
 	} else {
 		w.WriteHeader(200)
 	}
-	w.Header().Set("Content-Type", "application/json")
-
 	if a.GiveBody != "" {
 		w.Write([]byte(a.GiveBody))
 	}
