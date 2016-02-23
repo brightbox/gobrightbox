@@ -19,9 +19,9 @@ type DatabaseServer struct {
 	CreatedAt          *time.Time `json:"created_at"`
 	UpdatedAt          *time.Time `json:"updated_at"`
 	DeletedAt          *time.Time `json:"deleted_at"`
-	AllowAccess        []string `json:"allow_access"`
-	MaintenanceWeekday int `json:"maintenance_weekday"`
-	MaintenanceHour    int `json:"maintenance_hour"`
+	AllowAccess        []string   `json:"allow_access"`
+	MaintenanceWeekday int        `json:"maintenance_weekday"`
+	MaintenanceHour    int        `json:"maintenance_hour"`
 	Locked             bool
 	CloudIPs           []CloudIP `json:"cloud_ips"`
 	Zone               Zone
@@ -35,12 +35,13 @@ type DatabaseServerType struct {
 	Name        string
 	Description string
 	DiskSize    int `json:"disk_size"`
-	Ram         int
+	RAM         int
 }
 
 // DatabaseServerOptions is used in conjunction with CreateDatabaseServer and
 // UpdateDatabaseServer to create and update database servers.
 type DatabaseServerOptions struct {
+	Id          string    `json:"-"`
 	Name        *string   `json:"name,omitempty"`
 	Description *string   `json:"description,omitempty"`
 	Engine      *string   `json:"engine,omitempty"`
@@ -82,4 +83,39 @@ func (c *Client) CreateDatabaseServer(options *DatabaseServerOptions) (*Database
 		return nil, err
 	}
 	return dbs, nil
+}
+
+// UpdateDatabaseServer updates an existing database server.
+//
+// It takes a DatabaseServerOptions struct for specifying Id, name and other
+// attributes. Not all attributes can be specified at update time.
+func (c *Client) UpdateDatabaseServer(options *DatabaseServerOptions) (*DatabaseServer, error) {
+	dbs := new(DatabaseServer)
+	_, err := c.MakeApiRequest("PUT", "/1.0/database_servers/"+options.Id, options, &dbs)
+	if err != nil {
+		return nil, err
+	}
+	return dbs, nil
+}
+
+// DestroyDatabaseServer issues a request to deletes an existing database server
+func (c *Client) DestroyDatabaseServer(identifier string) (error) {
+	_, err := c.MakeApiRequest("DELETE", "/1.0/database_servers/"+identifier, nil, nil)
+	return err
+}
+
+// SnapshotDatabaseServer requests a snapshot of an existing database server.
+func (c *Client) SnapshotDatabaseServer(identifier string) (*DatabaseSnapshot, error) {
+	dbs := new(DatabaseServer)
+	res, err := c.MakeApiRequest("POST", "/1.0/database_servers/"+identifier+"/snapshot", nil, &dbs)
+	if err != nil {
+		return nil, err
+	}
+	snapID := getLinkRel(res.Header.Get("Link"), "dbi", "snapshot")
+	if snapID != nil {
+		snap := new(DatabaseSnapshot)
+		snap.Id = *snapID
+		return snap, nil
+	}
+	return nil, nil
 }
