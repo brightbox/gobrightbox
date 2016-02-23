@@ -19,6 +19,7 @@ tokens.
 * Full [CloudIP](https://api.gb1.brightbox.com/1.0/#cloud_ip) support
 * Full [Firewall Policy](https://api.gb1.brightbox.com/1.0/#firewall_policy) support
 * Full [Load Balancer](https://api.gb1.brightbox.com/1.0/#load_balancer) support
+* Basic [Cloud SQL](https://api.gb1.brightbox.com/1.0/#database_server) support
 * Basic [Image](https://api.gb1.brightbox.com/1.0/#image) support
 * Basic [Api Client](https://api.gb1.brightbox.com/1.0/#api_client) support
 * Basic event stream support
@@ -27,7 +28,10 @@ tokens.
 
 * Orbit storage support
 * Collaboration support
-* Cloud SQL support
+* User support
+* Account support
+* Database Snapshot support
+* Database Type support
 
 ## Help
 
