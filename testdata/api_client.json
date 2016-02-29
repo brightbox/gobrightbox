@@ -1,0 +1,14 @@
+{"id": "cli-dsse2",
+ "resource_type": "api_client",
+ "url": "https://api.gb1.brightbox.com/1.0/api_clients/cli-dsse2",
+ "name": "dev client",
+ "description": "Development client from laptop",
+ "secret": null,
+ "revoked_at": null,
+ "permissions_group": "full",
+ "account":
+  {"id": "acc-43ks4",
+   "resource_type": "account",
+   "url": "https://api.gb1.brightbox.com/1.0/accounts/acc-43ks4",
+   "name": "Brightbox",
+   "status": "active"}}

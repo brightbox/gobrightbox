@@ -28,6 +28,10 @@ func resourcePath(resource interface{}) (string, error) {
 		return "database_servers/" + resource.Id, nil
 	case DatabaseServer:
 		return "database_servers/" + resource.Id, nil
+	case *ApiClient:
+		return "api_clients/" + resource.Id, nil
+	case ApiClient:
+		return "api_clients/" + resource.Id, nil
 	}
 }
 

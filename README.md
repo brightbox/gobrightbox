@@ -20,8 +20,8 @@ tokens.
 * Full [Firewall Policy](https://api.gb1.brightbox.com/1.0/#firewall_policy) support
 * Full [Load Balancer](https://api.gb1.brightbox.com/1.0/#load_balancer) support
 * Full [Cloud SQL](https://api.gb1.brightbox.com/1.0/#database_server) support
+* Full [Api Client](https://api.gb1.brightbox.com/1.0/#api_client) support
 * Basic [Image](https://api.gb1.brightbox.com/1.0/#image) support
-* Basic [Api Client](https://api.gb1.brightbox.com/1.0/#api_client) support
 * Basic event stream support
 
 ## TODO
