@@ -80,7 +80,7 @@ func TestCreateDatabaseServerWithAllowAccess(t *testing.T) {
 		ExpectMethod: "POST",
 		ExpectURL:    "/1.0/database_servers",
 		ExpectBody:   `{"allow_access":["1.2.3.4","5.6.7.8"]}`,
-		GiveBody:     readJSON("database_server"),
+		GiveBody:     readJSON("database_server_with_password"),
 	}
 	ts := httptest.NewServer(&handler)
 	defer ts.Close()
@@ -155,4 +155,43 @@ func TestSnapshotDatabaseServer(t *testing.T) {
 	require.Nil(t, err, "SnapshotDatabaseServer() returned an error")
 	require.NotNil(t, snap, "SnapshotDatabaseServer() returned nil")
 	assert.Equal(t, "dbi-zlms8", snap.Id, "DatabaseSnapshot id incorrect")
+}
+
+func TestResetPasswordForDatabaseServer(t *testing.T) {
+	handler := APIMock{
+		T:            t,
+		ExpectMethod: "POST",
+		ExpectURL:    "/1.0/database_servers/dbs-123ab/reset_password",
+		ExpectBody:   "",
+		GiveBody:     readJSON("database_server_with_password"),
+	}
+	ts := httptest.NewServer(&handler)
+	defer ts.Close()
+
+	client, err := brightbox.NewClient(ts.URL, "", nil)
+	require.Nil(t, err, "NewClient returned an error")
+
+	dbs, err := client.ResetPasswordForDatabaseServer("dbs-123ab")
+	require.Nil(t, err, "ResetPasswordForDatabaseServer() returned an error")
+	require.NotNil(t, dbs, "ResetPasswordForDatabaseServer() returned nil")
+	assert.Equal(t, "admin", dbs.AdminUsername, "Database admin_username incorrect")
+	assert.Equal(t, "k43;2kd432f", dbs.AdminPassword, "Database admin_password incorrect")
+}
+
+func TestLockDatabaseServer(t *testing.T) {
+	handler := APIMock{
+		T:            t,
+		ExpectMethod: "PUT",
+		ExpectURL:    "/1.0/database_servers/dbs-aaaaa/lock_resource",
+		ExpectBody:   ``,
+		GiveBody:     ``,
+	}
+	ts := httptest.NewServer(&handler)
+	defer ts.Close()
+
+	client, err := brightbox.NewClient(ts.URL, "", nil)
+	require.Nil(t, err, "NewClient returned an error")
+
+	err = client.LockResource(brightbox.DatabaseServer{Id: "dbs-aaaaa"})
+	require.Nil(t, err, "LockDatabaseServer() returned an error")
 }

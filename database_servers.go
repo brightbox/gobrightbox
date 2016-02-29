@@ -119,3 +119,13 @@ func (c *Client) SnapshotDatabaseServer(identifier string) (*DatabaseSnapshot, e
 	}
 	return nil, nil
 }
+
+// ResetPasswordForDatabaseServer requests a snapshot of an existing database server.
+func (c *Client) ResetPasswordForDatabaseServer(identifier string) (*DatabaseServer, error) {
+	dbs := new(DatabaseServer)
+	_, err := c.MakeApiRequest("POST", "/1.0/database_servers/"+identifier+"/reset_password", nil, &dbs)
+	if err != nil {
+		return nil, err
+	}
+	return dbs, nil
+}

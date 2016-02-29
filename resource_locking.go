@@ -24,6 +24,10 @@ func resourcePath(resource interface{}) (string, error) {
 		return "load_balancers/" + resource.Id, nil
 	case LoadBalancer:
 		return "load_balancers/" + resource.Id, nil
+	case *DatabaseServer:
+		return "database_servers/" + resource.Id, nil
+	case DatabaseServer:
+		return "database_servers/" + resource.Id, nil
 	}
 }
 
