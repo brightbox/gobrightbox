@@ -54,16 +54,16 @@ type LoadBalancerListener struct {
 // LoadBalancerOptions is used in conjunction with CreateLoadBalancer and
 // UpdateLoadBalancer to create and update load balancers
 type LoadBalancerOptions struct {
-	Id             string                   `json:"-"`
-	Name           *string                  `json:"name,omitempty"`
-	Nodes          *[]LoadBalancerNode      `json:"nodes,omitempty"`
-	Policy         *string                  `json:"policy,omitempty"`
-	BufferSize     *int                     `json:"buffer_size,omitempty"`
-	Listeners      *[]LoadBalancerListener  `json:"listeners,omitempty"`
-	Healthcheck    *LoadBalancerHealthcheck `json:"healthcheck,omitempty"`
-	CertificatePem *string                  `json:"certificate_pem,omitempty"`
-	CertificateKey *string                  `json:"certificate_key,omitempty"`
-	SslV3          *bool                    `json:"sslv3,omitempty"`
+	Id                    string                   `json:"-"`
+	Name                  *string                  `json:"name,omitempty"`
+	Nodes                 *[]LoadBalancerNode      `json:"nodes,omitempty"`
+	Policy                *string                  `json:"policy,omitempty"`
+	BufferSize            *int                     `json:"buffer_size,omitempty"`
+	Listeners             *[]LoadBalancerListener  `json:"listeners,omitempty"`
+	Healthcheck           *LoadBalancerHealthcheck `json:"healthcheck,omitempty"`
+	CertificatePem        *string                  `json:"certificate_pem,omitempty"`
+	CertificatePrivateKey *string                  `json:"certificate_private_key,omitempty"`
+	SslV3                 *bool                    `json:"sslv3,omitempty"`
 }
 
 // LoadBalancerNode is used in conjunction with LoadBalancerOptions,

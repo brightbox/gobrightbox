@@ -223,7 +223,7 @@ func (c *Client) MakeApiRequest(method string, path string, reqBody interface{},
 
 func getLinkRel(header string, prefix string, rel string) *string {
 	links := linkheader.Parse(header)
-	re := regexp.MustCompile( prefix + "-[^/]+")
+	re := regexp.MustCompile(prefix + "-[^/]+")
 	for _, link := range links {
 		id := re.FindString(link.URL)
 		if id != "" && link.Rel == rel {

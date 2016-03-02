@@ -143,7 +143,7 @@ func TestSnapshotDatabaseServer(t *testing.T) {
 		ExpectURL:    "/1.0/database_servers/dbs-123ab/snapshot",
 		ExpectBody:   "",
 		GiveBody:     readJSON("database_server"),
-		GiveHeaders:   map[string]string{"Link": "<https://api.gb1.brightbox.com/1.0/database_snapshots/dbi-zlms8>; rel=snapshot"},
+		GiveHeaders:  map[string]string{"Link": "<https://api.gb1.brightbox.com/1.0/database_snapshots/dbi-zlms8>; rel=snapshot"},
 	}
 	ts := httptest.NewServer(&handler)
 	defer ts.Close()

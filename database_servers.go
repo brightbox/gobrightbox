@@ -99,7 +99,7 @@ func (c *Client) UpdateDatabaseServer(options *DatabaseServerOptions) (*Database
 }
 
 // DestroyDatabaseServer issues a request to deletes an existing database server
-func (c *Client) DestroyDatabaseServer(identifier string) (error) {
+func (c *Client) DestroyDatabaseServer(identifier string) error {
 	_, err := c.MakeApiRequest("DELETE", "/1.0/database_servers/"+identifier, nil, nil)
 	return err
 }
