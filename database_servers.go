@@ -48,7 +48,7 @@ type DatabaseServerOptions struct {
 	Version     *string   `json:"version,omitempty"`
 	AllowAccess *[]string `json:"allow_access,omitempty"`
 	Snapshot    *string   `json:"snapshot,omitempty"`
-	Zone        *string   `json:"snapshot,omitempty"`
+	Zone        *string   `json:"zone,omitempty"`
 }
 
 // DatabaseServers retrieves a list of all database servers
