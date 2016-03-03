@@ -44,11 +44,11 @@ type DatabaseServerOptions struct {
 	Id          string    `json:"-"`
 	Name        *string   `json:"name,omitempty"`
 	Description *string   `json:"description,omitempty"`
-	Engine      *string   `json:"engine,omitempty"`
-	Version     *string   `json:"version,omitempty"`
+	Engine      string   `json:"engine,omitempty"`
+	Version     string   `json:"version,omitempty"`
 	AllowAccess *[]string `json:"allow_access,omitempty"`
-	Snapshot    *string   `json:"snapshot,omitempty"`
-	Zone        *string   `json:"zone,omitempty"`
+	Snapshot    string   `json:"snapshot,omitempty"`
+	Zone        string   `json:"zone,omitempty"`
 }
 
 // DatabaseServers retrieves a list of all database servers
