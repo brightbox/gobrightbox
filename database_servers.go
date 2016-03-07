@@ -41,14 +41,16 @@ type DatabaseServerType struct {
 // DatabaseServerOptions is used in conjunction with CreateDatabaseServer and
 // UpdateDatabaseServer to create and update database servers.
 type DatabaseServerOptions struct {
-	Id          string    `json:"-"`
-	Name        *string   `json:"name,omitempty"`
-	Description *string   `json:"description,omitempty"`
-	Engine      string   `json:"engine,omitempty"`
-	Version     string   `json:"version,omitempty"`
-	AllowAccess *[]string `json:"allow_access,omitempty"`
-	Snapshot    string   `json:"snapshot,omitempty"`
-	Zone        string   `json:"zone,omitempty"`
+	Id                 string    `json:"-"`
+	Name               *string   `json:"name,omitempty"`
+	Description        *string   `json:"description,omitempty"`
+	Engine             string    `json:"engine,omitempty"`
+	Version            string    `json:"version,omitempty"`
+	AllowAccess        *[]string `json:"allow_access,omitempty"`
+	Snapshot           string    `json:"snapshot,omitempty"`
+	Zone               string    `json:"zone,omitempty"`
+	MaintenanceWeekday *int      `json:"maintenance_weekday,omitempty"`
+	MaintenanceHour    *int      `json:"maintenance_hour,omitempty"`
 }
 
 // DatabaseServers retrieves a list of all database servers
