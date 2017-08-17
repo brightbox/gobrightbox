@@ -24,7 +24,7 @@ type Image struct {
 	DiskSize          int    `json:"disk_size"`
 	CompatibilityMode bool   `json:"compatibility_mode"`
 	AncestorId        string `json:"ancestor_id"`
-	LicenseName       string `json:"license_name"`
+	LicenceName       string `json:"licence_name"`
 }
 
 // Images retrieves a list of all images
