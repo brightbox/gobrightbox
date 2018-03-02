@@ -10,7 +10,7 @@ pipeline {
     docker {
       image 'golang'
       label "docker"
-      args '-v $HOME/.cache:/.cache'
+      args "-v /tmp:/.cache"
     }
   }
   stages {
