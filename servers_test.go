@@ -108,6 +108,43 @@ func TestCreateServerWithImage(t *testing.T) {
 
 }
 
+func TestCreateServerWithEmptyGroupList(t *testing.T) {
+	handler := APIMock{
+		T:            t,
+		ExpectMethod: "POST",
+		ExpectURL:    "/1.0/servers",
+		ExpectBody: map[string]interface{}{
+			"image":              "img-12345",
+			"server_groups":      []string{},
+		},
+		GiveBody: readJSON("server"),
+	}
+	ts := httptest.NewServer(&handler)
+	defer ts.Close()
+
+	client, err := brightbox.NewClient(ts.URL, "", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	groups := []string{}
+	opts := brightbox.ServerOptions{
+		Image:             "img-12345",
+		ServerGroups:      &groups,
+	}
+	s, err := client.CreateServer(&opts)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if s == nil {
+		t.Errorf("Didn't return a Server")
+	}
+	if s.Id != "srv-lv426" {
+		t.Errorf("server Id is %s", s.Id)
+	}
+
+}
+
 func TestCreateServerWithOptionalFields(t *testing.T) {
 	handler := APIMock{
 		T:            t,
