@@ -14,7 +14,7 @@ type ServerGroup struct {
 	Default        bool
 	Account        Account `json:"account"`
 	Servers        []Server
-	FirewallPolicy FirewallPolicy
+	FirewallPolicy *FirewallPolicy `json:"firewall_policy"`
 }
 
 // ServerGroupOptions is used in combination with CreateServerGroup and
