@@ -89,7 +89,7 @@ func TestCreateDatabaseServerWithAllowAccess(t *testing.T) {
 	require.Nil(t, err, "NewClient returned an error")
 
 	access := []string{"1.2.3.4", "5.6.7.8"}
-	newDBS := brightbox.DatabaseServerOptions{AllowAccess: &access}
+	newDBS := brightbox.DatabaseServerOptions{AllowAccess: access}
 	dbs, err := client.CreateDatabaseServer(&newDBS)
 	require.Nil(t, err, "CreateDatabaseServer() returned an error")
 	require.NotNil(t, dbs, "CreateDatabaseServer() returned nil")

@@ -114,8 +114,8 @@ func TestCreateServerWithEmptyGroupList(t *testing.T) {
 		ExpectMethod: "POST",
 		ExpectURL:    "/1.0/servers",
 		ExpectBody: map[string]interface{}{
-			"image":              "img-12345",
-			"server_groups":      []string{},
+			"image":         "img-12345",
+			"server_groups": []string{},
 		},
 		GiveBody: readJSON("server"),
 	}
@@ -129,8 +129,8 @@ func TestCreateServerWithEmptyGroupList(t *testing.T) {
 
 	groups := []string{}
 	opts := brightbox.ServerOptions{
-		Image:             "img-12345",
-		ServerGroups:      &groups,
+		Image:        "img-12345",
+		ServerGroups: groups,
 	}
 	s, err := client.CreateServer(&opts)
 	if err != nil {
@@ -172,7 +172,7 @@ func TestCreateServerWithOptionalFields(t *testing.T) {
 	opts := brightbox.ServerOptions{
 		Image:             "img-12345",
 		Name:              &name,
-		ServerGroups:      &groups,
+		ServerGroups:      groups,
 		CompatibilityMode: &compat,
 	}
 	s, err := client.CreateServer(&opts)
@@ -205,7 +205,7 @@ func TestUpdateServerWithEmptyGroupsList(t *testing.T) {
 	}
 
 	groups := []string{}
-	opts := brightbox.ServerOptions{Id: "srv-lv426", ServerGroups: &groups}
+	opts := brightbox.ServerOptions{Id: "srv-lv426", ServerGroups: groups}
 	s, err := client.UpdateServer(&opts)
 	if err != nil {
 		t.Fatal(err)

@@ -63,7 +63,7 @@ type ApiError struct {
 	RequestUrl *url.URL
 	// ResponseBody will hold the raw respose body of the request that errored,
 	// if available
-	ResponseBody *[]byte
+	ResponseBody []byte
 }
 
 func (e ApiError) Error() string {
@@ -216,7 +216,7 @@ func (c *Client) MakeApiRequest(method string, path string, reqBody interface{},
 		}
 		body, _ := ioutil.ReadAll(res.Body)
 		err = json.Unmarshal(body, &apierr)
-		apierr.ResponseBody = &body
+		apierr.ResponseBody = body
 		return res, apierr
 	}
 }
