@@ -129,7 +129,7 @@ func TestCreateLoadBalancerWithListeners(t *testing.T) {
 
 	l := brightbox.LoadBalancerListener{Protocol: "http", In: 80, Out: 8080}
 	ls := []brightbox.LoadBalancerListener{l}
-	newLB := brightbox.LoadBalancerOptions{Listeners: &ls}
+	newLB := brightbox.LoadBalancerOptions{Listeners: ls}
 	lb, err := client.CreateLoadBalancer(&newLB)
 	require.Nil(t, err, "CreateLoadBalancer() returned an error")
 	require.NotNil(t, lb, "CreateLoadBalancer() returned nil")
@@ -151,7 +151,7 @@ func TestCreateLoadBalancerWithNodes(t *testing.T) {
 
 	n := brightbox.LoadBalancerNode{Node: "srv-aaaaa"}
 	ns := []brightbox.LoadBalancerNode{n}
-	newLB := brightbox.LoadBalancerOptions{Nodes: &ns}
+	newLB := brightbox.LoadBalancerOptions{Nodes: ns}
 	lb, err := client.CreateLoadBalancer(&newLB)
 	require.Nil(t, err, "CreateLoadBalancer() returned an error")
 	require.NotNil(t, lb, "CreateLoadBalancer() returned nil")

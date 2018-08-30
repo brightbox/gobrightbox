@@ -21,6 +21,7 @@ type LoadBalancer struct {
 	Listeners   []LoadBalancerListener
 	Healthcheck LoadBalancerHealthcheck
 	Certificate *LoadBalancerCertificate
+	Acme        *LoadBalancerAcme
 }
 
 // LoadBalancerCertificate represents a certificate on a LoadBalancer
@@ -30,6 +31,28 @@ type LoadBalancerCertificate struct {
 	SslV3     bool      `json:"sslv3"`
 	Issuer    string    `json:"issuer"`
 	Subject   string    `json:"subject"`
+}
+
+// LoadBalancerAcme represents an ACME object on a LoadBalancer
+type LoadBalancerAcme struct {
+	Certificate *LoadBalancerAcmeCertificate `json:"certificate"`
+	Domains     []LoadBalancerAcmeDomain     `json:domains"`
+}
+
+// LoadBalancerAcmeCertificate represents an ACME issued certificate on
+// a LoadBalancer
+type LoadBalancerAcmeCertificate struct {
+	Fingerprint string    `json:"fingerprint"`
+	ExpiresAt   time.Time `json:"expires_at"`
+	IssuedAt    time.Time `json:"issued_at"`
+}
+
+// LoadBalancerAcmeDomains represents a domain for which ACME support
+// has been requested
+type LoadBalancerAcmeDomain struct {
+	Identifier  string `json:"identifier"`
+	Status      string `json:"status"`
+	LastMessage string `json:"last_message"`
 }
 
 // LoadBalancerHealthcheck represents a health check on a LoadBalancer
@@ -56,11 +79,12 @@ type LoadBalancerListener struct {
 type LoadBalancerOptions struct {
 	Id                    string                   `json:"-"`
 	Name                  *string                  `json:"name,omitempty"`
-	Nodes                 *[]LoadBalancerNode      `json:"nodes,omitempty"`
+	Nodes                 []LoadBalancerNode       `json:"nodes,omitempty"`
 	Policy                *string                  `json:"policy,omitempty"`
 	BufferSize            *int                     `json:"buffer_size,omitempty"`
-	Listeners             *[]LoadBalancerListener  `json:"listeners,omitempty"`
+	Listeners             []LoadBalancerListener   `json:"listeners,omitempty"`
 	Healthcheck           *LoadBalancerHealthcheck `json:"healthcheck,omitempty"`
+	Domains               []string                 `json:"domains,omitempty"`
 	CertificatePem        *string                  `json:"certificate_pem,omitempty"`
 	CertificatePrivateKey *string                  `json:"certificate_private_key,omitempty"`
 	SslV3                 *bool                    `json:"sslv3,omitempty"`
