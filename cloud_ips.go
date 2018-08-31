@@ -10,6 +10,8 @@ type CloudIP struct {
 	Id              string
 	Name            string
 	PublicIP        string `json:"public_ip"`
+	PublicIPv4      string `json:"public_ipv4"`
+	PublicIPv6      string `json:"public_ipv6"`
 	Status          string
 	Locked          bool
 	ReverseDns      string           `json:"reverse_dns"`
