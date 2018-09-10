@@ -114,8 +114,7 @@ func TestCreateServerWithEmptyGroupList(t *testing.T) {
 		ExpectMethod: "POST",
 		ExpectURL:    "/1.0/servers",
 		ExpectBody: map[string]interface{}{
-			"image":         "img-12345",
-			"server_groups": []string{},
+			"image": "img-12345",
 		},
 		GiveBody: readJSON("server"),
 	}
@@ -193,7 +192,7 @@ func TestUpdateServerWithEmptyGroupsList(t *testing.T) {
 		T:            t,
 		ExpectMethod: "PUT",
 		ExpectURL:    "/1.0/servers/srv-lv426",
-		ExpectBody:   map[string]string{"server_groups": "[]"},
+		ExpectBody:   map[string]string{},
 		GiveBody:     readJSON("server"),
 	}
 	ts := httptest.NewServer(&handler)
