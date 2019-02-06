@@ -68,10 +68,11 @@ type LoadBalancerHealthcheck struct {
 
 // LoadBalancerListener represents a listener on a LoadBalancer
 type LoadBalancerListener struct {
-	Protocol string `json:"protocol,omitempty"`
-	In       int    `json:"in,omitempty"`
-	Out      int    `json:"out,omitempty"`
-	Timeout  int    `json:"timeout,omitempty"`
+	Protocol      string `json:"protocol,omitempty"`
+	In            int    `json:"in,omitempty"`
+	Out           int    `json:"out,omitempty"`
+	Timeout       int    `json:"timeout,omitempty"`
+	ProxyProtocol string `json:"proxy_protocol,omitempty"`
 }
 
 // LoadBalancerOptions is used in conjunction with CreateLoadBalancer and

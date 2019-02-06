@@ -62,6 +62,7 @@ func TestLoadBalancer(t *testing.T) {
 	assert.Equal(t, 80, lnr.Out, "listener out port incorrect")
 	assert.Equal(t, 50000, lnr.Timeout, "listener timeout incorrect")
 	assert.Equal(t, "http", lnr.Protocol, "listener protocol incorrect")
+	assert.Empty(t, lnr.ProxyProtocol, "proxy protocol should be empty")
 
 	assert.Equal(t, "http", lb.Healthcheck.Type, "healthcheck type incorrect")
 	assert.Equal(t, "/", lb.Healthcheck.Request, "healthcheck request incorrect")
