@@ -25,6 +25,11 @@ pipeline {
         sh 'go test -v | go-junit-report | tee report.xml'
       }
       post {
+	failure {
+	    mail to: 'sysadmin@brightbox.co.uk',
+		 subject: "Gobrightbox Tests Failed: ${currentBuild.fullDisplayName}",
+		 body: "${env.BUILD_URL}"
+	}
         always {
           junit "report.xml"
         }
