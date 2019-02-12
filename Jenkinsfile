@@ -8,7 +8,7 @@ pipeline {
   }
   agent {
     docker {
-      image 'golang'
+      image 'golang:1.11'
       label "docker"
       args "-v /tmp:/.cache"
     }
@@ -17,7 +17,7 @@ pipeline {
     stage("Prepare dependencies") {
       steps {
 	sh 'go get -u github.com/jstemmer/go-junit-report'
-        sh 'go get -t -v -d'
+        sh 'go mod download'
       }
     }
     stage("Test") {
