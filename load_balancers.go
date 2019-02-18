@@ -90,6 +90,7 @@ type LoadBalancerOptions struct {
 	CertificatePem        *string                  `json:"certificate_pem,omitempty"`
 	CertificatePrivateKey *string                  `json:"certificate_private_key,omitempty"`
 	SslV3                 *bool                    `json:"sslv3,omitempty"`
+	HttpsRedirect         *bool                    `json:"https_redirect,omitempty"`
 }
 
 // LoadBalancerNode is used in conjunction with LoadBalancerOptions,
