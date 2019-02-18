@@ -2,17 +2,19 @@
  "resource_type": "load_balancer",
  "url": "https://api.gb1.brightbox.com/1.0/load_balancers/lba-1235f",
  "name": "",
- "policy": "least-connections",
  "status": "creating",
  "locked": false,
- "buffer_size": 4096,
  "created_at": "2011-10-01T01:00:00Z",
  "deleted_at": null,
+ "policy": "least-connections",
+ "buffer_size": 4096,
+ "https_redirect": false,
  "listeners":
   [{"protocol": "http",
     "in": 80,
     "out": 80,
-    "timeout": 50000}],
+    "timeout": 50000,
+    "proxy_protocol": null}],
  "healthcheck":
   {"type": "http",
    "request": "/",
@@ -21,6 +23,10 @@
    "timeout": 5000,
    "threshold_up": 3,
    "threshold_down": 3},
+ "acme":
+  {"certificate": null,
+   "domains":
+    []},
  "certificate":
   {"issuer": "/O=Root CA/OU=http://www.cacert.org/CN=CA Cert Signing Authority/emailAddress=support@cacert.org",
    "subject": "/CN=www.example.com",
