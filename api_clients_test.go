@@ -92,6 +92,7 @@ func TestCreateApiClientWithPermissionsGroup(t *testing.T) {
 	require.Nil(t, err, "CreateApiClient() returned an error")
 	require.NotNil(t, ac, "CreateApiClient() returned nil")
 	assert.Equal(t, "cli-dsse2", ac.Id)
+	assert.Equal(t, pg, ac.PermissionsGroup)
 }
 
 func TestUpdateApiClient(t *testing.T) {

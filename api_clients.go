@@ -7,7 +7,7 @@ type ApiClient struct {
 	Name             string
 	Description      string
 	Secret           string
-	PermissionsGroup string
+	PermissionsGroup string `json:"permissions_group"`
 	Account          Account
 }
 
