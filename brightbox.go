@@ -19,8 +19,8 @@ import (
 	"regexp"
 )
 
-// ApiURL for the default region. Use with NewClient.
 const (
+	// ApiURL for the default region. Use with NewClient.
 	DefaultRegionApiURL = "https://api.gb1.brightbox.com/"
 )
 
