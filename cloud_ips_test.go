@@ -108,7 +108,7 @@ func TestUpdateCloudIP(t *testing.T) {
 	require.NotNil(t, cip, "Didn't return a Cloud IP")
 }
 
-func TestUpdateCloudIPPostTranslator(t *testing.T) {
+func TestUpdateCloudIPPortTranslator(t *testing.T) {
 	handler := APIMock{
 		T:            t,
 		ExpectMethod: "PUT",
