@@ -8,7 +8,7 @@ pipeline {
   }
   agent {
     docker {
-      image 'golang:1.11'
+      image 'golang:1.13'
       label "docker"
       args "-v /tmp:/.cache"
     }
