@@ -76,7 +76,7 @@ func TestCreateCloudIPWithPortTranslator(t *testing.T) {
 		Protocol: "tcp",
 	}
 	opts := brightbox.CloudIPOptions{
-		PortTranslators: &[]brightbox.PortTranslator{
+		PortTranslators: []brightbox.PortTranslator{
 			pt,
 		},
 	}
@@ -129,7 +129,7 @@ func TestUpdateCloudIPPortTranslator(t *testing.T) {
 	}
 	opts := brightbox.CloudIPOptions{
 		Id: "cip-k4a25",
-		PortTranslators: &[]brightbox.PortTranslator{
+		PortTranslators: []brightbox.PortTranslator{
 			pt,
 		},
 	}
