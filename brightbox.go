@@ -11,17 +11,19 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/tomnomnom/linkheader"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"net/url"
 	"regexp"
+
+	"github.com/tomnomnom/linkheader"
 )
 
 const (
-	// ApiURL for the default region. Use with NewClient.
+	// DefaultRegionApiURL is the default API URL for the region. Use with NewClient.
 	DefaultRegionApiURL = "https://api.gb1.brightbox.com/"
+	// DefaultOrbitAuthURL is the default Auth URL for Orbit.
 	DefaultOrbitAuthURL = "https://orbit.brightbox.com/v1/"
 )
 
@@ -97,7 +99,7 @@ func (e ApiError) Error() string {
 
 // NewClient allocates and configures a Client for interacting with the API.
 //
-// apiUrl should be an url of the form https://api.region.brightbox.com,
+// apiURL should be an url of the form https://api.region.brightbox.com,
 // e.g: https://api.gb1.brightbox.com. You can use the default defined in
 // this package instead, i.e. brightbox.DefaultRegionApiURL
 //
@@ -110,11 +112,11 @@ func (e ApiError) Error() string {
 // httpClient should be a http.Client with a transport that will handle the
 // OAuth token authentication, such as those provided by
 // https://github.com/golang/oauth2/
-func NewClient(apiUrl string, accountId string, httpClient *http.Client) (*Client, error) {
+func NewClient(apiURL string, accountID string, httpClient *http.Client) (*Client, error) {
 	if httpClient == nil {
 		httpClient = http.DefaultClient
 	}
-	au, err := url.Parse(apiUrl)
+	au, err := url.Parse(apiURL)
 	if err != nil {
 		return nil, err
 	}
@@ -122,7 +124,7 @@ func NewClient(apiUrl string, accountId string, httpClient *http.Client) (*Clien
 	c := &Client{
 		client:    httpClient,
 		BaseURL:   au,
-		AccountId: accountId,
+		AccountId: accountID,
 	}
 	return c, nil
 }
@@ -209,17 +211,16 @@ func (c *Client) MakeApiRequest(method string, path string, reqBody interface{},
 			}
 		}
 		return res, nil
-	} else {
-		apierr := ApiError{
-			RequestUrl: res.Request.URL,
-			StatusCode: res.StatusCode,
-			Status:     res.Status,
-		}
-		body, _ := ioutil.ReadAll(res.Body)
-		err = json.Unmarshal(body, &apierr)
-		apierr.ResponseBody = body
-		return res, apierr
 	}
+	apierr := ApiError{
+		RequestUrl: res.Request.URL,
+		StatusCode: res.StatusCode,
+		Status:     res.Status,
+	}
+	body, _ := ioutil.ReadAll(res.Body)
+	err = json.Unmarshal(body, &apierr)
+	apierr.ResponseBody = body
+	return res, apierr
 }
 
 func getLinkRel(header string, prefix string, rel string) *string {
