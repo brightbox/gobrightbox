@@ -1,0 +1,6 @@
+{"id": "cfg-dsse2",
+ "resource_type": "config_map",
+ "url": "https://api.gb1.brightbox.com/1.0/config_maps/cfg-dsse2",
+ "name": "example.test",
+ "data":
+  {"setting": 45}}

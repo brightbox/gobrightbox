@@ -1,0 +1,126 @@
+package brightbox_test
+
+import (
+	"net/http/httptest"
+	"testing"
+
+	brightbox "github.com/brightbox/gobrightbox"
+
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+)
+
+func TestConfigMaps(t *testing.T) {
+	handler := APIMock{
+		T:            t,
+		ExpectMethod: "GET",
+		ExpectURL:    "/1.0/config_maps",
+		ExpectBody:   "",
+		GiveBody:     readJSON("config_maps"),
+	}
+	ts := httptest.NewServer(&handler)
+	defer ts.Close()
+
+	client, err := brightbox.NewClient(ts.URL, "", nil)
+	require.Nil(t, err, "NewClient returned an error")
+
+	p, err := client.ConfigMaps()
+	require.Nil(t, err, "ConfigMaps() returned an error")
+	require.NotNil(t, p, "ConfigMaps() returned nil")
+	require.Equal(t, 1, len(p), "wrong number of config map returned")
+	ac := p[0]
+	assert.Equal(t, "cfg-dsse2", ac.Id, "config map id incorrect")
+}
+
+func TestConfigMap(t *testing.T) {
+	handler := APIMock{
+		T:            t,
+		ExpectMethod: "GET",
+		ExpectURL:    "/1.0/config_maps/cfg-dsse2",
+		ExpectBody:   "",
+		GiveBody:     readJSON("config_map"),
+	}
+	ts := httptest.NewServer(&handler)
+	defer ts.Close()
+
+	client, err := brightbox.NewClient(ts.URL, "", nil)
+	require.Nil(t, err, "NewClient returned an error")
+
+	ac, err := client.ConfigMap("cfg-dsse2")
+	require.Nil(t, err, "ConfigMap() returned an error")
+	require.NotNil(t, ac, "ConfigMap() returned nil")
+	assert.Equal(t, "cfg-dsse2", ac.Id, "config map id incorrect")
+	assert.Equal(t, "example.test", ac.Name, "config map name incorrect")
+}
+
+func TestCreateConfigMap(t *testing.T) {
+	handler := APIMock{
+		T:            t,
+		ExpectMethod: "POST",
+		ExpectURL:    "/1.0/config_maps",
+		ExpectBody:   "{}",
+		GiveBody:     readJSON("config_map"),
+	}
+	ts := httptest.NewServer(&handler)
+	defer ts.Close()
+
+	client, err := brightbox.NewClient(ts.URL, "", nil)
+	require.Nil(t, err, "NewClient returned an error")
+
+	newAC := brightbox.ConfigMapOptions{}
+	ac, err := client.CreateConfigMap(&newAC)
+	require.Nil(t, err, "CreateConfigMap() returned an error")
+	require.NotNil(t, ac, "CreateConfigMap() returned nil")
+	assert.Equal(t, "cfg-dsse2", ac.Id)
+}
+
+func TestUpdateConfigMap(t *testing.T) {
+	handler := APIMock{
+		T:            t,
+		ExpectMethod: "PUT",
+		ExpectURL:    "/1.0/config_maps/cfg-dsse2",
+		ExpectBody:   `{"name":"test_update","data":{"first":1,"second":"two","three":{"nest1":"one","nest2":2,"nest3":"maybe three"}}}`,
+		GiveBody:     readJSON("config_map"),
+	}
+	ts := httptest.NewServer(&handler)
+	defer ts.Close()
+
+	client, err := brightbox.NewClient(ts.URL, "", nil)
+	require.Nil(t, err, "NewClient returned an error")
+
+	uac := brightbox.ConfigMapOptions{
+		Id:   "cfg-dsse2",
+		Name: "test_update",
+		Data: map[string]interface{}{
+			"first":  1,
+			"second": "two",
+			"three": map[string]interface{}{
+				"nest1": "one",
+				"nest2": 2,
+				"nest3": "maybe three",
+			},
+		},
+	}
+	ac, err := client.UpdateConfigMap(&uac)
+	require.Nil(t, err, "UpdateConfigMap() returned an error")
+	require.NotNil(t, ac, "UpdateConfigMap() returned nil")
+	assert.Equal(t, "cfg-dsse2", ac.Id)
+}
+
+func TestDestroyConfigMap(t *testing.T) {
+	handler := APIMock{
+		T:            t,
+		ExpectMethod: "DELETE",
+		ExpectURL:    "/1.0/config_maps/cfg-dsse2",
+		ExpectBody:   "",
+		GiveBody:     "",
+	}
+	ts := httptest.NewServer(&handler)
+	defer ts.Close()
+
+	client, err := brightbox.NewClient(ts.URL, "", nil)
+	require.Nil(t, err, "NewClient returned an error")
+
+	err = client.DestroyConfigMap("cfg-dsse2")
+	require.Nil(t, err, "DestroyConfigMap() returned an error")
+}
