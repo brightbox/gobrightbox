@@ -3,16 +3,17 @@ package brightbox
 // ConfigMap represents a config map
 // https://api.gb1.brightbox.com/1.0/#config_maps
 type ConfigMap struct {
-	Id string `json:"id"`
-	ConfigMapOptions
+	Id   string                 `json:"id"`
+	Name string                 `json:"name"`
+	Data map[string]interface{} `json:"data"`
 }
 
 // ConfigMapOptions is used in combination with CreateConfigMap and
 // UpdateConfigMap to create and update config maps
 type ConfigMapOptions struct {
-	Id   string                 `json:"-"`
-	Name string                 `json:"name,omitempty"`
-	Data map[string]interface{} `json:"data,omitempty"`
+	Id   string                  `json:"-"`
+	Name *string                 `json:"name,omitempty"`
+	Data *map[string]interface{} `json:"data,omitempty"`
 }
 
 // ConfigMaps retrieves a list of all config maps

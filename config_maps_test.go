@@ -79,7 +79,7 @@ func TestUpdateConfigMap(t *testing.T) {
 		T:            t,
 		ExpectMethod: "PUT",
 		ExpectURL:    "/1.0/config_maps/cfg-dsse2",
-		ExpectBody:   `{"name":"test_update","data":{"first":1,"second":"two","three":{"nest1":"one","nest2":2,"nest3":"maybe three"}}}`,
+		ExpectBody:   `{"name":"","data":{"first":1,"second":"two","three":{"nest1":"one","nest2":2,"nest3":"maybe three"}}}`,
 		GiveBody:     readJSON("config_map"),
 	}
 	ts := httptest.NewServer(&handler)
@@ -88,18 +88,20 @@ func TestUpdateConfigMap(t *testing.T) {
 	client, err := brightbox.NewClient(ts.URL, "", nil)
 	require.Nil(t, err, "NewClient returned an error")
 
+	name := ""
+	data := map[string]interface{}{
+		"first":  1,
+		"second": "two",
+		"three": map[string]interface{}{
+			"nest1": "one",
+			"nest2": 2,
+			"nest3": "maybe three",
+		},
+	}
 	uac := brightbox.ConfigMapOptions{
 		Id:   "cfg-dsse2",
-		Name: "test_update",
-		Data: map[string]interface{}{
-			"first":  1,
-			"second": "two",
-			"three": map[string]interface{}{
-				"nest1": "one",
-				"nest2": 2,
-				"nest3": "maybe three",
-			},
-		},
+		Name: &name,
+		Data: &data,
 	}
 	ac, err := client.UpdateConfigMap(&uac)
 	require.Nil(t, err, "UpdateConfigMap() returned an error")
