@@ -12,6 +12,7 @@ type ServerGroup struct {
 	CreatedAt      *time.Time `json:"created_at"`
 	Description    string
 	Default        bool
+	Fqdn           string
 	Account        Account `json:"account"`
 	Servers        []Server
 	FirewallPolicy *FirewallPolicy `json:"firewall_policy"`
