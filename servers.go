@@ -51,6 +51,7 @@ type ServerOptions struct {
 	UserData          *string  `json:"user_data,omitempty"`
 	ServerGroups      []string `json:"server_groups,omitempty"`
 	CompatibilityMode *bool    `json:"compatibility_mode,omitempty"`
+	DiskEncrypted     *bool    `json:"disk_encrypted,omitempty"`
 }
 
 // ServerInterface represent a server's network interface(s)
