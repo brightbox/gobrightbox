@@ -20,6 +20,7 @@ type Server struct {
 	StartedAt         *time.Time `json:"started_at"`
 	UserData          string     `json:"user_data"`
 	CompatibilityMode bool       `json:"compatibility_mode"`
+	DiskEncrypted     bool       `json:"disk_encrypted"`
 	ServerConsole
 	Account      Account
 	Image        Image

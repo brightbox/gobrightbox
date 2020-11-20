@@ -1,11 +1,12 @@
 package brightbox_test
 
 import (
-	"github.com/brightbox/gobrightbox"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 	"net/http/httptest"
 	"testing"
+
+	brightbox "github.com/brightbox/gobrightbox"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestServers(t *testing.T) {
@@ -64,6 +65,9 @@ func TestServer(t *testing.T) {
 		t.Error("server Id incorrect")
 	}
 
+	if !s.DiskEncrypted {
+		t.Errorf("server DiskEncrypted was %v, should be true", s.DiskEncrypted)
+	}
 	if s.DeletedAt != nil {
 		t.Errorf("server DeletedAt was %v, should be nil", s.DeletedAt)
 	}
