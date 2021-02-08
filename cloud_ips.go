@@ -13,7 +13,6 @@ type CloudIP struct {
 	PublicIPv4      string `json:"public_ipv4"`
 	PublicIPv6      string `json:"public_ipv6"`
 	Status          string
-	Locked          bool
 	ReverseDns      string           `json:"reverse_dns"`
 	PortTranslators []PortTranslator `json:"port_translators"`
 	Account         Account

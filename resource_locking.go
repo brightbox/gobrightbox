@@ -8,10 +8,6 @@ func resourcePath(resource interface{}) (string, error) {
 	switch resource := resource.(type) {
 	default:
 		return "", fmt.Errorf("Unknown resource type %s", resource)
-	case *CloudIP:
-		return "cloud_ips/" + resource.Id, nil
-	case CloudIP:
-		return "cloud_ips/" + resource.Id, nil
 	case *Server:
 		return "servers/" + resource.Id, nil
 	case Server:
@@ -35,7 +31,7 @@ func resourcePath(resource interface{}) (string, error) {
 	}
 }
 
-// LockResource locks a resource against destroy requests. Support brightbox.CloudIP, brightbox.Server, brightbox.Image and brightbox.LoadBalancer
+// LockResource locks a resource against destroy requests. Support brightbox.Server, brightbox.Image, brightbox.DatabaseServer and brightbox.LoadBalancer
 func (c *Client) LockResource(resource interface{}) error {
 	rpath, err := resourcePath(resource)
 	if err != nil {

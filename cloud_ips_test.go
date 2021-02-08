@@ -1,11 +1,12 @@
 package brightbox_test
 
 import (
-	"github.com/brightbox/gobrightbox"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 	"net/http/httptest"
 	"testing"
+
+	brightbox "github.com/brightbox/gobrightbox"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestCloudIPs(t *testing.T) {
@@ -155,7 +156,7 @@ func TestLockCloudIP(t *testing.T) {
 	cip := new(brightbox.CloudIP)
 	cip.Id = "cip-k4a25"
 	err = client.LockResource(cip)
-	assert.Nil(t, err, "LockResource returned an error")
+	require.NotNil(t, err, "LockResource should return an error")
 }
 
 func TestUnLockCloudIP(t *testing.T) {
@@ -175,5 +176,5 @@ func TestUnLockCloudIP(t *testing.T) {
 	cip := new(brightbox.CloudIP)
 	cip.Id = "cip-k4a25"
 	err = client.UnLockResource(cip)
-	assert.Nil(t, err, "UnLockResource returned an error")
+	require.NotNil(t, err, "UnLockResource should return an error")
 }
