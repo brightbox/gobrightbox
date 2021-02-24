@@ -37,7 +37,7 @@ type LoadBalancerCertificate struct {
 // LoadBalancerAcme represents an ACME object on a LoadBalancer
 type LoadBalancerAcme struct {
 	Certificate *LoadBalancerAcmeCertificate `json:"certificate"`
-	Domains     []LoadBalancerAcmeDomain     `json:domains"`
+	Domains     []LoadBalancerAcmeDomain     `json:"domains"`
 }
 
 // LoadBalancerAcmeCertificate represents an ACME issued certificate on
@@ -48,7 +48,7 @@ type LoadBalancerAcmeCertificate struct {
 	IssuedAt    time.Time `json:"issued_at"`
 }
 
-// LoadBalancerAcmeDomains represents a domain for which ACME support
+// LoadBalancerAcmeDomain represents a domain for which ACME support
 // has been requested
 type LoadBalancerAcmeDomain struct {
 	Identifier  string `json:"identifier"`
