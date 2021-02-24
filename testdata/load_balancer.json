@@ -27,6 +27,7 @@
   {"certificate": null,
    "domains":
     []},
+ "ssl_minimum_version": "TLSv1.2",
  "certificate":
   {"issuer": "/O=Root CA/OU=http://www.cacert.org/CN=CA Cert Signing Authority/emailAddress=support@cacert.org",
    "subject": "/CN=www.example.com",

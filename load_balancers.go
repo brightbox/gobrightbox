@@ -7,22 +7,23 @@ import (
 // LoadBalancer represents a Load Balancer
 // https://api.gb1.brightbox.com/1.0/#load_balancer
 type LoadBalancer struct {
-	Id            string
-	Name          string
-	Status        string
-	CreatedAt     *time.Time `json:"created_at"`
-	DeletedAt     *time.Time `json:"deleted_at"`
-	Locked        bool
-	HttpsRedirect bool `json:"https_redirect"`
-	Account       Account
-	Nodes         []Server
-	CloudIPs      []CloudIP `json:"cloud_ips"`
-	Policy        string
-	BufferSize    int `json:"buffer_size"`
-	Listeners     []LoadBalancerListener
-	Healthcheck   LoadBalancerHealthcheck
-	Certificate   *LoadBalancerCertificate
-	Acme          *LoadBalancerAcme
+	Id                string
+	Name              string
+	Status            string
+	CreatedAt         *time.Time `json:"created_at"`
+	DeletedAt         *time.Time `json:"deleted_at"`
+	Locked            bool
+	HttpsRedirect     bool   `json:"https_redirect"`
+	SslMinimumVersion string `json:"ssl_minimum_version"`
+	Account           Account
+	Nodes             []Server
+	CloudIPs          []CloudIP `json:"cloud_ips"`
+	Policy            string
+	BufferSize        int `json:"buffer_size"`
+	Listeners         []LoadBalancerListener
+	Healthcheck       LoadBalancerHealthcheck
+	Certificate       *LoadBalancerCertificate
+	Acme              *LoadBalancerAcme
 }
 
 // LoadBalancerCertificate represents a certificate on a LoadBalancer
@@ -89,6 +90,7 @@ type LoadBalancerOptions struct {
 	Domains               []string                 `json:"domains,omitempty"`
 	CertificatePem        *string                  `json:"certificate_pem,omitempty"`
 	CertificatePrivateKey *string                  `json:"certificate_private_key,omitempty"`
+	SslMinimumVersion     *string                  `json:"ssl_minimum_version,omitempty"`
 	SslV3                 *bool                    `json:"sslv3,omitempty"`
 	HttpsRedirect         *bool                    `json:"https_redirect,omitempty"`
 }
