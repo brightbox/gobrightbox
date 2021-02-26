@@ -87,7 +87,7 @@ type LoadBalancerOptions struct {
 	BufferSize            *int                     `json:"buffer_size,omitempty"`
 	Listeners             []LoadBalancerListener   `json:"listeners,omitempty"`
 	Healthcheck           *LoadBalancerHealthcheck `json:"healthcheck,omitempty"`
-	Domains               []string                 `json:"domains,omitempty"`
+	Domains               *[]string                `json:"domains,omitempty"`
 	CertificatePem        *string                  `json:"certificate_pem,omitempty"`
 	CertificatePrivateKey *string                  `json:"certificate_private_key,omitempty"`
 	SslMinimumVersion     *string                  `json:"ssl_minimum_version,omitempty"`
