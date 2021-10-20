@@ -1,30 +1,31 @@
-package brightbox_test
+package gobrightbox_test
 
 import (
 	"fmt"
-	"github.com/brightbox/gobrightbox"
+
+	brightbox "github.com/brightbox/gobrightbox"
 	"golang.org/x/oauth2"
 )
 
 // Authenticate using OAuth2 password credentials
 func ExamplePasswordCredentials() {
-	apiUrl := "https://api.gb1.brightbox.com"
+	apiURL := "https://api.gb1.brightbox.com"
 	// Brightbox username and password
 	userName := "john@example.com"
 	password := "mypassword"
 	// Users can have multiple accounts, so you need to specify which one
-	accountId := "acc-h3nbk"
+	accountID := "acc-h3nbk"
 	// These OAuth2 application credentials are public, distributed with the
 	// cli.
-	applicationId := "app-12345"
+	applicationID := "app-12345"
 	applicationSecret := "mocbuipbiaa6k6c"
 
 	// Setup OAuth2 authentication.
 	conf := oauth2.Config{
-		ClientID:     applicationId,
+		ClientID:     applicationID,
 		ClientSecret: applicationSecret,
 		Endpoint: oauth2.Endpoint{
-			TokenURL: apiUrl + "/token",
+			TokenURL: apiURL + "/token",
 		},
 	}
 	token, err := conf.PasswordCredentialsToken(oauth2.NoContext, userName, password)
@@ -34,7 +35,7 @@ func ExamplePasswordCredentials() {
 	oc := conf.Client(oauth2.NoContext, token)
 
 	// Setup connection to API
-	client, err := brightbox.NewClient(apiUrl, accountId, oc)
+	client, err := brightbox.NewClient(apiURL, accountID, oc)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -47,6 +48,6 @@ func ExamplePasswordCredentials() {
 		return
 	}
 	for _, server := range servers {
-		fmt.Printf("id:%s name:%s\n", server.Id, server.Name)
+		fmt.Printf("id:%s name:%s\n", server.ID, server.Name)
 	}
 }

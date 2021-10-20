@@ -1,10 +1,11 @@
-package brightbox_test
+package gobrightbox_test
 
 import (
-	"github.com/brightbox/gobrightbox"
 	"net/http/httptest"
 	"reflect"
 	"testing"
+
+	brightbox "github.com/brightbox/gobrightbox"
 )
 
 func TestGET(t *testing.T) {
@@ -17,7 +18,7 @@ func TestGET(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	res, err := client.MakeApiRequest("GET", "/some/path", nil, nil)
+	res, err := client.MakeAPIRequest("GET", "/some/path", nil, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -44,13 +45,13 @@ func TestPOST(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	_, err = client.MakeApiRequest("POST", "/some/resource", map[string]string{"hello": "world"}, nil)
+	_, err = client.MakeAPIRequest("POST", "/some/resource", map[string]string{"hello": "world"}, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
 }
 
-func TestApiError403(t *testing.T) {
+func TestAPIError403(t *testing.T) {
 	handler := APIMock{
 		GiveStatus: 403,
 		GiveBody: `{
@@ -68,18 +69,18 @@ func TestApiError403(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	_, err = client.MakeApiRequest("POST", "/some/resource", nil, nil)
+	_, err = client.MakeAPIRequest("POST", "/some/resource", nil, nil)
 	if err == nil {
 		t.Fatal("Expected error")
 	}
 	errt := reflect.TypeOf(err).String()
-	if errt != "brightbox.ApiError" {
-		t.Fatalf("Returned error was %q, wanted ApiError", errt)
+	if errt != "gobrightbox.APIError" {
+		t.Fatalf("Returned error was %q, wanted gobrightbox.APIError", errt)
 	}
-	apierr := err.(brightbox.ApiError)
-	u := apierr.RequestUrl.RequestURI()
+	apierr := err.(brightbox.APIError)
+	u := apierr.RequestURL.RequestURI()
 	if u != "/some/resource" {
-		t.Fatalf("err.RequestUrl was %q, wanted /some/resource", u)
+		t.Fatalf("err.RequestURL was %q, wanted /some/resource", u)
 	}
 	if apierr.StatusCode != 403 {
 		t.Fatalf("err.StatusCode was %d, wanted 403", apierr.StatusCode)
@@ -98,7 +99,7 @@ func TestApiError403(t *testing.T) {
 	}
 }
 
-func TestApiError500WithoutErrorJson(t *testing.T) {
+func TestAPIError500WithoutErrorJson(t *testing.T) {
 	handler := APIMock{
 		GiveStatus: 500,
 		GiveBody:   `some error message`,
@@ -111,18 +112,18 @@ func TestApiError500WithoutErrorJson(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	_, err = client.MakeApiRequest("POST", "/some/resource", nil, nil)
+	_, err = client.MakeAPIRequest("POST", "/some/resource", nil, nil)
 	if err == nil {
 		t.Fatal("Expected error")
 	}
 	errt := reflect.TypeOf(err).String()
-	if errt != "brightbox.ApiError" {
-		t.Fatalf("Returned error was %q, wanted ApiError", errt)
+	if errt != "gobrightbox.APIError" {
+		t.Fatalf("Returned error was %q, wanted gobrightbox.APIError", errt)
 	}
-	apierr := err.(brightbox.ApiError)
-	u := apierr.RequestUrl.RequestURI()
+	apierr := err.(brightbox.APIError)
+	u := apierr.RequestURL.RequestURI()
 	if u != "/some/resource" {
-		t.Fatalf("err.RequestUrl was %q, wanted /some/resource", u)
+		t.Fatalf("err.RequestURL was %q, wanted /some/resource", u)
 	}
 }
 
@@ -140,15 +141,15 @@ func TestParseError(t *testing.T) {
 	}
 
 	o := make(map[string]string)
-	_, err = client.MakeApiRequest("GET", "/some/resource", nil, &o)
+	_, err = client.MakeAPIRequest("GET", "/some/resource", nil, &o)
 	if err == nil {
 		t.Fatal("Expected error")
 	}
 	errt := reflect.TypeOf(err).String()
-	if errt != "brightbox.ApiError" {
-		t.Fatalf("Returned error was %q, wanted ApiError", errt)
+	if errt != "gobrightbox.APIError" {
+		t.Fatalf("Returned error was %q, wanted gobrightbox.APIError", errt)
 	}
-	apierr := err.(brightbox.ApiError)
+	apierr := err.(brightbox.APIError)
 	if apierr.ParseError == nil {
 		t.Fatalf("err.ParseError was nil")
 	}

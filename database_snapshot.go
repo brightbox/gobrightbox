@@ -1,13 +1,13 @@
-package brightbox
+package gobrightbox
 
 import (
 	"time"
 )
 
 // DatabaseSnapshot represents a snapshot of a database server.
-// https://api.gb1.brightbox.com/1.0/#database_snapshot
+// https://api.gb1.brightbox.com/1.0/#databaseSnapshot
 type DatabaseSnapshot struct {
-	Id              string
+	ID              string
 	Name            string
 	Description     string
 	Status          string
@@ -23,27 +23,27 @@ type DatabaseSnapshot struct {
 
 // DatabaseSnapshots retrieves a list of all database snapshot
 func (c *Client) DatabaseSnapshots() ([]DatabaseSnapshot, error) {
-	var database_snapshot []DatabaseSnapshot
-	_, err := c.MakeApiRequest("GET", "/1.0/database_snapshots", nil, &database_snapshot)
+	var databaseSnapshot []DatabaseSnapshot
+	_, err := c.MakeAPIRequest("GET", "/1.0/databaseSnapshots", nil, &databaseSnapshot)
 	if err != nil {
 		return nil, err
 	}
-	return database_snapshot, err
+	return databaseSnapshot, err
 }
 
 // DatabaseSnapshot retrieves a detailed view of one database snapshot
 func (c *Client) DatabaseSnapshot(identifier string) (*DatabaseSnapshot, error) {
-	database_snapshot := new(DatabaseSnapshot)
-	_, err := c.MakeApiRequest("GET", "/1.0/database_snapshots/"+identifier, nil, database_snapshot)
+	databaseSnapshot := new(DatabaseSnapshot)
+	_, err := c.MakeAPIRequest("GET", "/1.0/databaseSnapshots/"+identifier, nil, databaseSnapshot)
 	if err != nil {
 		return nil, err
 	}
-	return database_snapshot, err
+	return databaseSnapshot, err
 }
 
 // DestroyDatabaseSnapshot issues a request to destroy the database snapshot
 func (c *Client) DestroyDatabaseSnapshot(identifier string) error {
-	_, err := c.MakeApiRequest("DELETE", "/1.0/database_snapshots/"+identifier, nil, nil)
+	_, err := c.MakeAPIRequest("DELETE", "/1.0/databaseSnapshots/"+identifier, nil, nil)
 	if err != nil {
 		return err
 	}

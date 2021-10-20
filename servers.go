@@ -1,4 +1,4 @@
-package brightbox
+package gobrightbox
 
 import (
 	"net/url"
@@ -8,7 +8,7 @@ import (
 // Server represents a Cloud Server
 // https://api.gb1.brightbox.com/1.0/#server
 type Server struct {
-	Id        string
+	ID        string
 	Name      string
 	Status    string
 	Locked    bool
@@ -32,18 +32,18 @@ type Server struct {
 	ServerGroups []ServerGroup `json:"server_groups"`
 }
 
-// ServerConsole is embedded into Server and contains the fields used in reponse
+// ServerConsole is embedded into Server and contains the fields used in response
 // to an ActivateConsoleForServer request.
 type ServerConsole struct {
 	ConsoleToken        string     `json:"console_token"`
-	ConsoleUrl          string     `json:"console_url"`
+	ConsoleURL          string     `json:"console_url"`
 	ConsoleTokenExpires *time.Time `json:"console_token_expires"`
 }
 
 // ServerOptions is used in conjunction with CreateServer and UpdateServer to
 // create and update servers.
 type ServerOptions struct {
-	Id                string   `json:"-"`
+	ID                string   `json:"-"`
 	Image             string   `json:"image,omitempty"`
 	Name              *string  `json:"name,omitempty"`
 	ServerType        string   `json:"server_type,omitempty"`
@@ -56,7 +56,7 @@ type ServerOptions struct {
 
 // ServerInterface represent a server's network interface(s)
 type ServerInterface struct {
-	Id          string
+	ID          string
 	MacAddress  string `json:"mac_address"`
 	IPv4Address string `json:"ipv4_address"`
 	IPv6Address string `json:"ipv6_address"`
@@ -65,7 +65,7 @@ type ServerInterface struct {
 // Servers retrieves a list of all servers
 func (c *Client) Servers() ([]Server, error) {
 	var servers []Server
-	_, err := c.MakeApiRequest("GET", "/1.0/servers", nil, &servers)
+	_, err := c.MakeAPIRequest("GET", "/1.0/servers", nil, &servers)
 	if err != nil {
 		return nil, err
 	}
@@ -75,7 +75,7 @@ func (c *Client) Servers() ([]Server, error) {
 // Server retrieves a detailed view of one server
 func (c *Client) Server(identifier string) (*Server, error) {
 	server := new(Server)
-	_, err := c.MakeApiRequest("GET", "/1.0/servers/"+identifier, nil, server)
+	_, err := c.MakeAPIRequest("GET", "/1.0/servers/"+identifier, nil, server)
 	if err != nil {
 		return nil, err
 	}
@@ -85,11 +85,11 @@ func (c *Client) Server(identifier string) (*Server, error) {
 // CreateServer creates a new server.
 //
 // It takes a ServerOptions struct which requires, at minimum, a valid Image
-// identifier. Not all attributes can be specified at create time (such as Id,
+// identifier. Not all attributes can be specified at create time (such as ID,
 // which is allocated for you)
 func (c *Client) CreateServer(newServer *ServerOptions) (*Server, error) {
 	server := new(Server)
-	_, err := c.MakeApiRequest("POST", "/1.0/servers", newServer, &server)
+	_, err := c.MakeAPIRequest("POST", "/1.0/servers", newServer, &server)
 	if err != nil {
 		return nil, err
 	}
@@ -99,10 +99,10 @@ func (c *Client) CreateServer(newServer *ServerOptions) (*Server, error) {
 // UpdateServer updates an existing server's attributes. Not all attributes can
 // be changed after creation time (such as Image, ServerType and Zone).
 //
-// Specify the server you want to update using the ServerOptions Id field
+// Specify the server you want to update using the ServerOptions ID field
 func (c *Client) UpdateServer(updateServer *ServerOptions) (*Server, error) {
 	server := new(Server)
-	_, err := c.MakeApiRequest("PUT", "/1.0/servers/"+updateServer.Id, updateServer, &server)
+	_, err := c.MakeAPIRequest("PUT", "/1.0/servers/"+updateServer.ID, updateServer, &server)
 	if err != nil {
 		return nil, err
 	}
@@ -111,7 +111,7 @@ func (c *Client) UpdateServer(updateServer *ServerOptions) (*Server, error) {
 
 // DestroyServer issues a request to destroy the server
 func (c *Client) DestroyServer(identifier string) error {
-	_, err := c.MakeApiRequest("DELETE", "/1.0/servers/"+identifier, nil, nil)
+	_, err := c.MakeAPIRequest("DELETE", "/1.0/servers/"+identifier, nil, nil)
 	if err != nil {
 		return err
 	}
@@ -120,7 +120,7 @@ func (c *Client) DestroyServer(identifier string) error {
 
 // StopServer issues a request to stop ("power off") an existing server
 func (c *Client) StopServer(identifier string) error {
-	_, err := c.MakeApiRequest("POST", "/1.0/servers/"+identifier+"/stop", nil, nil)
+	_, err := c.MakeAPIRequest("POST", "/1.0/servers/"+identifier+"/stop", nil, nil)
 	if err != nil {
 		return err
 	}
@@ -129,7 +129,7 @@ func (c *Client) StopServer(identifier string) error {
 
 // StartServer issues a request to start ("power on") an existing server
 func (c *Client) StartServer(identifier string) error {
-	_, err := c.MakeApiRequest("POST", "/1.0/servers/"+identifier+"/start", nil, nil)
+	_, err := c.MakeAPIRequest("POST", "/1.0/servers/"+identifier+"/start", nil, nil)
 	if err != nil {
 		return err
 	}
@@ -139,7 +139,7 @@ func (c *Client) StartServer(identifier string) error {
 // RebootServer issues a request to reboot ("ctrl+alt+delete") an existing
 // server
 func (c *Client) RebootServer(identifier string) error {
-	_, err := c.MakeApiRequest("POST", "/1.0/servers/"+identifier+"/reboot", nil, nil)
+	_, err := c.MakeAPIRequest("POST", "/1.0/servers/"+identifier+"/reboot", nil, nil)
 	if err != nil {
 		return err
 	}
@@ -148,7 +148,7 @@ func (c *Client) RebootServer(identifier string) error {
 
 // ResetServer issues a request to reset ("power cycle") an existing server
 func (c *Client) ResetServer(identifier string) error {
-	_, err := c.MakeApiRequest("POST", "/1.0/servers/"+identifier+"/reset", nil, nil)
+	_, err := c.MakeAPIRequest("POST", "/1.0/servers/"+identifier+"/reset", nil, nil)
 	if err != nil {
 		return err
 	}
@@ -158,7 +158,7 @@ func (c *Client) ResetServer(identifier string) error {
 // ShutdownServer issues a request to shut down ("tap the power button") an
 // existing server
 func (c *Client) ShutdownServer(identifier string) error {
-	_, err := c.MakeApiRequest("POST", "/1.0/servers/"+identifier+"/shutdown", nil, nil)
+	_, err := c.MakeAPIRequest("POST", "/1.0/servers/"+identifier+"/shutdown", nil, nil)
 	if err != nil {
 		return err
 	}
@@ -168,58 +168,58 @@ func (c *Client) ShutdownServer(identifier string) error {
 // LockServer locks an existing server, preventing it's destruction without
 // first unlocking. Deprecated, use LockResource instead.
 func (c *Client) LockServer(identifier string) error {
-	return c.LockResource(Server{Id: identifier})
+	return c.LockResource(Server{ID: identifier})
 }
 
 // UnlockServer unlocks a previously locked existing server, allowing
 // destruction again. Deprecated, use UnLockResource instead.
 func (c *Client) UnlockServer(identifier string) error {
-	return c.UnLockResource(Server{Id: identifier})
+	return c.UnLockResource(Server{ID: identifier})
 }
 
 // SnapshotServer issues a request to snapshot the disk of an existing
-// server. The snapshot is allocated an Image Id which is returned within an
+// server. The snapshot is allocated an Image ID which is returned within an
 // instance of Image.
 func (c *Client) SnapshotServer(identifier string) (*Image, error) {
-	res, err := c.MakeApiRequest("POST", "/1.0/servers/"+identifier+"/snapshot", nil, nil)
+	res, err := c.MakeAPIRequest("POST", "/1.0/servers/"+identifier+"/snapshot", nil, nil)
 	if err != nil {
 		return nil, err
 	}
 	imageID := getLinkRel(res.Header.Get("Link"), "img", "snapshot")
 	if imageID != nil {
 		img := new(Image)
-		img.Id = *imageID
+		img.ID = *imageID
 		return img, nil
 	}
 	return nil, nil
 }
 
 // ActivateConsoleForServer issues a request to enable the graphical console for
-// an existing server. The temporarily allocated ConsoleUrl, ConsoleToken and
+// an existing server. The temporarily allocated ConsoleURL, ConsoleToken and
 // ConsoleTokenExpires data are returned within an instance of Server.
 func (c *Client) ActivateConsoleForServer(identifier string) (*Server, error) {
 	server := new(Server)
-	_, err := c.MakeApiRequest("POST", "/1.0/servers/"+identifier+"/activate_console", nil, server)
+	_, err := c.MakeAPIRequest("POST", "/1.0/servers/"+identifier+"/activate_console", nil, server)
 	if err != nil {
 		return nil, err
 	}
 	return server, nil
 }
 
-// FullConsoleUrl returns the console url for the server with the token in the
-// query string.  Server needs a ConsoleUrl and ConsoleToken, retrieved using
+// FullConsoleURL returns the console url for the server with the token in the
+// query string.  Server needs a ConsoleURL and ConsoleToken, retrieved using
 // ActivateConsoleForServer
-func (s *Server) FullConsoleUrl() string {
-	if s.ConsoleUrl == "" || s.ConsoleToken == "" {
-		return s.ConsoleUrl
+func (s *Server) FullConsoleURL() string {
+	if s.ConsoleURL == "" || s.ConsoleToken == "" {
+		return s.ConsoleURL
 	}
-	u, err := url.Parse(s.ConsoleUrl)
+	u, err := url.Parse(s.ConsoleURL)
 	if u == nil || err != nil {
-		return s.ConsoleUrl
+		return s.ConsoleURL
 	}
 	values := u.Query()
 	if values.Get("password") != "" {
-		return s.ConsoleUrl
+		return s.ConsoleURL
 	}
 	values.Set("password", s.ConsoleToken)
 	u.RawQuery = values.Encode()

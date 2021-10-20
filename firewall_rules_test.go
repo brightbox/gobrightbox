@@ -1,9 +1,10 @@
-package brightbox_test
+package gobrightbox_test
 
 import (
-	"github.com/brightbox/gobrightbox"
 	"net/http/httptest"
 	"testing"
+
+	brightbox "github.com/brightbox/gobrightbox"
 )
 
 func TestCreateFirewallRule(t *testing.T) {
@@ -43,8 +44,8 @@ func TestCreateFirewallRule(t *testing.T) {
 	if p == nil {
 		t.Errorf("Didn't return a firewall rule")
 	}
-	if p.Id != "fwr-k32ls" {
-		t.Errorf("firewall rule id is %s", p.Id)
+	if p.ID != "fwr-k32ls" {
+		t.Errorf("firewall rule id is %s", p.ID)
 	}
 
 }
@@ -72,7 +73,7 @@ func TestUpdateFirewallRule(t *testing.T) {
 	dst := ""
 	src := "grp-xxxxx"
 	opts := brightbox.FirewallRuleOptions{
-		Id:          "fwr-k32ls",
+		ID:          "fwr-k32ls",
 		Protocol:    &proto,
 		Source:      &src,
 		Destination: &dst,
@@ -84,8 +85,8 @@ func TestUpdateFirewallRule(t *testing.T) {
 	if p == nil {
 		t.Errorf("Didn't return a firewall rule")
 	}
-	if p.Id != "fwr-k32ls" {
-		t.Errorf("firewall rule id is %s", p.Id)
+	if p.ID != "fwr-k32ls" {
+		t.Errorf("firewall rule id is %s", p.ID)
 	}
 }
 

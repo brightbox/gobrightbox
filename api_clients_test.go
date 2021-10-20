@@ -1,14 +1,15 @@
-package brightbox_test
+package gobrightbox_test
 
 import (
+	"net/http/httptest"
+	"testing"
+
 	"github.com/brightbox/gobrightbox"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"net/http/httptest"
-	"testing"
 )
 
-func TestApiClients(t *testing.T) {
+func TestAPIClients(t *testing.T) {
 	handler := APIMock{
 		T:            t,
 		ExpectMethod: "GET",
@@ -19,18 +20,18 @@ func TestApiClients(t *testing.T) {
 	ts := httptest.NewServer(&handler)
 	defer ts.Close()
 
-	client, err := brightbox.NewClient(ts.URL, "", nil)
+	client, err := gobrightbox.NewClient(ts.URL, "", nil)
 	require.Nil(t, err, "NewClient returned an error")
 
-	p, err := client.ApiClients()
-	require.Nil(t, err, "ApiClients() returned an error")
-	require.NotNil(t, p, "ApiClients() returned nil")
+	p, err := client.APIClients()
+	require.Nil(t, err, "APIClients() returned an error")
+	require.NotNil(t, p, "APIClients() returned nil")
 	require.Equal(t, 1, len(p), "wrong number of api client returned")
 	ac := p[0]
-	assert.Equal(t, "cli-dsse2", ac.Id, "api client id incorrect")
+	assert.Equal(t, "cli-dsse2", ac.ID, "api client id incorrect")
 }
 
-func TestApiClient(t *testing.T) {
+func TestAPIClient(t *testing.T) {
 	handler := APIMock{
 		T:            t,
 		ExpectMethod: "GET",
@@ -41,17 +42,17 @@ func TestApiClient(t *testing.T) {
 	ts := httptest.NewServer(&handler)
 	defer ts.Close()
 
-	client, err := brightbox.NewClient(ts.URL, "", nil)
+	client, err := gobrightbox.NewClient(ts.URL, "", nil)
 	require.Nil(t, err, "NewClient returned an error")
 
-	ac, err := client.ApiClient("cli-dsse2")
-	require.Nil(t, err, "ApiClient() returned an error")
-	require.NotNil(t, ac, "ApiClient() returned nil")
-	assert.Equal(t, "cli-dsse2", ac.Id, "api client id incorrect")
+	ac, err := client.APIClient("cli-dsse2")
+	require.Nil(t, err, "APIClient() returned an error")
+	require.NotNil(t, ac, "APIClient() returned nil")
+	assert.Equal(t, "cli-dsse2", ac.ID, "api client id incorrect")
 	assert.Equal(t, "dev client", ac.Name, "api client name incorrect")
 }
 
-func TestCreateApiClient(t *testing.T) {
+func TestCreateAPIClient(t *testing.T) {
 	handler := APIMock{
 		T:            t,
 		ExpectMethod: "POST",
@@ -62,17 +63,17 @@ func TestCreateApiClient(t *testing.T) {
 	ts := httptest.NewServer(&handler)
 	defer ts.Close()
 
-	client, err := brightbox.NewClient(ts.URL, "", nil)
+	client, err := gobrightbox.NewClient(ts.URL, "", nil)
 	require.Nil(t, err, "NewClient returned an error")
 
-	newAC := brightbox.ApiClientOptions{}
-	ac, err := client.CreateApiClient(&newAC)
-	require.Nil(t, err, "CreateApiClient() returned an error")
-	require.NotNil(t, ac, "CreateApiClient() returned nil")
-	assert.Equal(t, "cli-dsse2", ac.Id)
+	newAC := gobrightbox.APIClientOptions{}
+	ac, err := client.CreateAPIClient(&newAC)
+	require.Nil(t, err, "CreateAPIClient() returned an error")
+	require.NotNil(t, ac, "CreateAPIClient() returned nil")
+	assert.Equal(t, "cli-dsse2", ac.ID)
 }
 
-func TestCreateApiClientWithPermissionsGroup(t *testing.T) {
+func TestCreateAPIClientWithPermissionsGroup(t *testing.T) {
 	handler := APIMock{
 		T:            t,
 		ExpectMethod: "POST",
@@ -83,19 +84,19 @@ func TestCreateApiClientWithPermissionsGroup(t *testing.T) {
 	ts := httptest.NewServer(&handler)
 	defer ts.Close()
 
-	client, err := brightbox.NewClient(ts.URL, "", nil)
+	client, err := gobrightbox.NewClient(ts.URL, "", nil)
 	require.Nil(t, err, "NewClient returned an error")
 
 	pg := "full"
-	newAC := brightbox.ApiClientOptions{PermissionsGroup: &pg}
-	ac, err := client.CreateApiClient(&newAC)
-	require.Nil(t, err, "CreateApiClient() returned an error")
-	require.NotNil(t, ac, "CreateApiClient() returned nil")
-	assert.Equal(t, "cli-dsse2", ac.Id)
+	newAC := gobrightbox.APIClientOptions{PermissionsGroup: &pg}
+	ac, err := client.CreateAPIClient(&newAC)
+	require.Nil(t, err, "CreateAPIClient() returned an error")
+	require.NotNil(t, ac, "CreateAPIClient() returned nil")
+	assert.Equal(t, "cli-dsse2", ac.ID)
 	assert.Equal(t, pg, ac.PermissionsGroup)
 }
 
-func TestUpdateApiClient(t *testing.T) {
+func TestUpdateAPIClient(t *testing.T) {
 	handler := APIMock{
 		T:            t,
 		ExpectMethod: "PUT",
@@ -106,18 +107,18 @@ func TestUpdateApiClient(t *testing.T) {
 	ts := httptest.NewServer(&handler)
 	defer ts.Close()
 
-	client, err := brightbox.NewClient(ts.URL, "", nil)
+	client, err := gobrightbox.NewClient(ts.URL, "", nil)
 	require.Nil(t, err, "NewClient returned an error")
 
 	name := "dev client"
-	uac := brightbox.ApiClientOptions{Id: "cli-dsse2", Name: &name}
-	ac, err := client.UpdateApiClient(&uac)
-	require.Nil(t, err, "UpdateApiClient() returned an error")
-	require.NotNil(t, ac, "UpdateApiClient() returned nil")
-	assert.Equal(t, "cli-dsse2", ac.Id)
+	uac := gobrightbox.APIClientOptions{ID: "cli-dsse2", Name: &name}
+	ac, err := client.UpdateAPIClient(&uac)
+	require.Nil(t, err, "UpdateAPIClient() returned an error")
+	require.NotNil(t, ac, "UpdateAPIClient() returned nil")
+	assert.Equal(t, "cli-dsse2", ac.ID)
 }
 
-func TestDestroyApiClient(t *testing.T) {
+func TestDestroyAPIClient(t *testing.T) {
 	handler := APIMock{
 		T:            t,
 		ExpectMethod: "DELETE",
@@ -128,14 +129,14 @@ func TestDestroyApiClient(t *testing.T) {
 	ts := httptest.NewServer(&handler)
 	defer ts.Close()
 
-	client, err := brightbox.NewClient(ts.URL, "", nil)
+	client, err := gobrightbox.NewClient(ts.URL, "", nil)
 	require.Nil(t, err, "NewClient returned an error")
 
-	err = client.DestroyApiClient("cli-dsse2")
-	require.Nil(t, err, "DestroyApiClient() returned an error")
+	err = client.DestroyAPIClient("cli-dsse2")
+	require.Nil(t, err, "DestroyAPIClient() returned an error")
 }
 
-func TestResetSecretForApiClient(t *testing.T) {
+func TestResetSecretForAPIClient(t *testing.T) {
 	handler := APIMock{
 		T:            t,
 		ExpectMethod: "POST",
@@ -146,15 +147,15 @@ func TestResetSecretForApiClient(t *testing.T) {
 	ts := httptest.NewServer(&handler)
 	defer ts.Close()
 
-	client, err := brightbox.NewClient(ts.URL, "", nil)
+	client, err := gobrightbox.NewClient(ts.URL, "", nil)
 	require.Nil(t, err, "NewClient returned an error")
 
-	ac, err := client.ResetSecretForApiClient("cli-dsse2")
-	require.Nil(t, err, "ResetPasswordForApiClient() returned an error")
-	require.NotNil(t, ac, "ResetPasswordForApiClient() returned nil")
+	ac, err := client.ResetSecretForAPIClient("cli-dsse2")
+	require.Nil(t, err, "ResetPasswordForAPIClient() returned an error")
+	require.NotNil(t, ac, "ResetPasswordForAPIClient() returned nil")
 }
 
-func TestLockApiClient(t *testing.T) {
+func TestLockAPIClient(t *testing.T) {
 	handler := APIMock{
 		T:            t,
 		ExpectMethod: "PUT",
@@ -165,9 +166,9 @@ func TestLockApiClient(t *testing.T) {
 	ts := httptest.NewServer(&handler)
 	defer ts.Close()
 
-	client, err := brightbox.NewClient(ts.URL, "", nil)
+	client, err := gobrightbox.NewClient(ts.URL, "", nil)
 	require.Nil(t, err, "NewClient returned an error")
 
-	err = client.LockResource(brightbox.ApiClient{Id: "cli-dsse2"})
-	require.Nil(t, err, "LockApiClient() returned an error")
+	err = client.LockResource(gobrightbox.APIClient{ID: "cli-dsse2"})
+	require.Nil(t, err, "LockAPIClient() returned an error")
 }

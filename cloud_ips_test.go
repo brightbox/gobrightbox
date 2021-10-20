@@ -1,4 +1,4 @@
-package brightbox_test
+package gobrightbox_test
 
 import (
 	"net/http/httptest"
@@ -27,7 +27,7 @@ func TestCloudIPs(t *testing.T) {
 	require.Nil(t, err, "CloudIPs() returned an error")
 	require.Equal(t, 1, len(cips), "Wrong number of cloud ips returned")
 	cip := cips[0]
-	assert.Equal(t, "cip-k4a25", cip.Id, "id doesn't match")
+	assert.Equal(t, "cip-k4a25", cip.ID, "id doesn't match")
 	require.Equal(t, 1, len(cip.PortTranslators), "port translators list")
 	pt := cip.PortTranslators[0]
 	assert.Equal(t, "http", pt.Protocol, "port translator protocol")
@@ -54,7 +54,7 @@ func TestCreateCloudIP(t *testing.T) {
 	cip, err := client.CreateCloudIP(&opts)
 	require.Nil(t, err, "CloudIP() returned an error")
 	require.NotNil(t, cip, "didn't return a cloud ip")
-	assert.Equal(t, "cip-k4a25", cip.Id, "cloud ip id")
+	assert.Equal(t, "cip-k4a25", cip.ID, "cloud ip id")
 }
 
 func TestCreateCloudIPWithPortTranslator(t *testing.T) {
@@ -84,7 +84,7 @@ func TestCreateCloudIPWithPortTranslator(t *testing.T) {
 	cip, err := client.CreateCloudIP(&opts)
 	require.Nil(t, err, "CreateCloudIP returned an error")
 	require.NotNil(t, cip, "Didn't return a Cloud IP")
-	assert.Equal(t, "cip-k4a25", cip.Id, "Cloud IP id didn't match")
+	assert.Equal(t, "cip-k4a25", cip.ID, "Cloud IP id didn't match")
 
 }
 
@@ -103,7 +103,7 @@ func TestUpdateCloudIP(t *testing.T) {
 	require.Nil(t, err, "NewClient returned an error")
 
 	name := "product website ip"
-	opts := brightbox.CloudIPOptions{Id: "cip-k4a25", Name: &name}
+	opts := brightbox.CloudIPOptions{ID: "cip-k4a25", Name: &name}
 	cip, err := client.UpdateCloudIP(&opts)
 	require.Nil(t, err, "NewClient returned an error")
 	require.NotNil(t, cip, "Didn't return a Cloud IP")
@@ -129,7 +129,7 @@ func TestUpdateCloudIPPortTranslator(t *testing.T) {
 		Protocol: "tcp",
 	}
 	opts := brightbox.CloudIPOptions{
-		Id: "cip-k4a25",
+		ID: "cip-k4a25",
 		PortTranslators: []brightbox.PortTranslator{
 			pt,
 		},
@@ -154,7 +154,7 @@ func TestLockCloudIP(t *testing.T) {
 	require.Nil(t, err, "NewClient returned an error")
 
 	cip := new(brightbox.CloudIP)
-	cip.Id = "cip-k4a25"
+	cip.ID = "cip-k4a25"
 	err = client.LockResource(cip)
 	require.NotNil(t, err, "LockResource should return an error")
 }
@@ -174,7 +174,7 @@ func TestUnLockCloudIP(t *testing.T) {
 	require.Nil(t, err, "NewClient returned an error")
 
 	cip := new(brightbox.CloudIP)
-	cip.Id = "cip-k4a25"
+	cip.ID = "cip-k4a25"
 	err = client.UnLockResource(cip)
 	require.NotNil(t, err, "UnLockResource should return an error")
 }

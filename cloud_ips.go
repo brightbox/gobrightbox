@@ -1,4 +1,4 @@
-package brightbox
+package gobrightbox
 
 import (
 	"fmt"
@@ -7,13 +7,13 @@ import (
 // CloudIP represents a Cloud IP
 // https://api.gb1.brightbox.com/1.0/#cloud_ip
 type CloudIP struct {
-	Id              string
+	ID              string
 	Name            string
 	PublicIP        string `json:"public_ip"`
 	PublicIPv4      string `json:"public_ipv4"`
 	PublicIPv6      string `json:"public_ipv6"`
 	Status          string
-	ReverseDns      string           `json:"reverse_dns"`
+	ReverseDNS      string           `json:"reverse_dns"`
 	PortTranslators []PortTranslator `json:"port_translators"`
 	Account         Account
 	Fqdn            string
@@ -34,8 +34,8 @@ type PortTranslator struct {
 // CloudIPOptions is used in conjunction with CreateCloudIP and UpdateCloudIP to
 // create and update cloud IPs.
 type CloudIPOptions struct {
-	Id              string           `json:"-"`
-	ReverseDns      *string          `json:"reverse_dns,omitempty"`
+	ID              string           `json:"-"`
+	ReverseDNS      *string          `json:"reverse_dns,omitempty"`
 	Name            *string          `json:"name,omitempty"`
 	PortTranslators []PortTranslator `json:"port_translators,omitempty"`
 }
@@ -43,7 +43,7 @@ type CloudIPOptions struct {
 // CloudIPs retrieves a list of all cloud ips
 func (c *Client) CloudIPs() ([]CloudIP, error) {
 	var cloudips []CloudIP
-	_, err := c.MakeApiRequest("GET", "/1.0/cloud_ips", nil, &cloudips)
+	_, err := c.MakeAPIRequest("GET", "/1.0/cloud_ips", nil, &cloudips)
 	if err != nil {
 		return nil, err
 	}
@@ -53,7 +53,7 @@ func (c *Client) CloudIPs() ([]CloudIP, error) {
 // CloudIP retrieves a detailed view of one cloud ip
 func (c *Client) CloudIP(identifier string) (*CloudIP, error) {
 	cloudip := new(CloudIP)
-	_, err := c.MakeApiRequest("GET", "/1.0/cloud_ips/"+identifier, nil, cloudip)
+	_, err := c.MakeAPIRequest("GET", "/1.0/cloud_ips/"+identifier, nil, cloudip)
 	if err != nil {
 		return nil, err
 	}
@@ -62,7 +62,7 @@ func (c *Client) CloudIP(identifier string) (*CloudIP, error) {
 
 // DestroyCloudIP issues a request to destroy the cloud ip
 func (c *Client) DestroyCloudIP(identifier string) error {
-	_, err := c.MakeApiRequest("DELETE", "/1.0/cloud_ips/"+identifier, nil, nil)
+	_, err := c.MakeAPIRequest("DELETE", "/1.0/cloud_ips/"+identifier, nil, nil)
 	if err != nil {
 		return err
 	}
@@ -72,11 +72,11 @@ func (c *Client) DestroyCloudIP(identifier string) error {
 // CreateCloudIP creates a new Cloud IP.
 //
 // It takes a CloudIPOptions struct for specifying name and other attributes.
-// Not all attributes can be specified at create time (such as Id, which is
+// Not all attributes can be specified at create time (such as ID, which is
 // allocated for you)
 func (c *Client) CreateCloudIP(newCloudIP *CloudIPOptions) (*CloudIP, error) {
 	cloudip := new(CloudIP)
-	_, err := c.MakeApiRequest("POST", "/1.0/cloud_ips", newCloudIP, &cloudip)
+	_, err := c.MakeAPIRequest("POST", "/1.0/cloud_ips", newCloudIP, &cloudip)
 	if err != nil {
 		return nil, err
 	}
@@ -84,12 +84,12 @@ func (c *Client) CreateCloudIP(newCloudIP *CloudIPOptions) (*CloudIP, error) {
 }
 
 // UpdateCloudIP updates an existing cloud ip's attributes. Not all attributes
-// can be changed after creation time (such as Id, which is allocated for you).
+// can be changed after creation time (such as ID, which is allocated for you).
 //
-// Specify the cloud ip you want to update using the CloudIPOptions Id field
+// Specify the cloud ip you want to update using the CloudIPOptions ID field
 func (c *Client) UpdateCloudIP(updateCloudIP *CloudIPOptions) (*CloudIP, error) {
 	cip := new(CloudIP)
-	_, err := c.MakeApiRequest("PUT", "/1.0/cloud_ips/"+updateCloudIP.Id, updateCloudIP, &cip)
+	_, err := c.MakeAPIRequest("PUT", "/1.0/cloud_ips/"+updateCloudIP.ID, updateCloudIP, &cip)
 	if err != nil {
 		return nil, err
 	}
@@ -103,7 +103,7 @@ func (c *Client) UpdateCloudIP(updateCloudIP *CloudIPOptions) (*CloudIP, error) 
 // To map a Cloud IP to a server, first lookup the server to get it's interface
 // identifier (or use the MapCloudIPtoServer convenience method)
 func (c *Client) MapCloudIP(identifier string, destination string) error {
-	_, err := c.MakeApiRequest("POST", "/1.0/cloud_ips/"+identifier+"/map",
+	_, err := c.MakeAPIRequest("POST", "/1.0/cloud_ips/"+identifier+"/map",
 		map[string]string{"destination": destination}, nil)
 	if err != nil {
 		return err
@@ -120,9 +120,9 @@ func (c *Client) MapCloudIPtoServer(identifier string, serverid string) error {
 		return err
 	}
 	if len(server.Interfaces) == 0 {
-		return fmt.Errorf("Server %s has no interfaces to map cloud ip %s to", server.Id, identifier)
+		return fmt.Errorf("Server %s has no interfaces to map cloud ip %s to", server.ID, identifier)
 	}
-	destination := server.Interfaces[0].Id
+	destination := server.Interfaces[0].ID
 	err = c.MapCloudIP(identifier, destination)
 	if err != nil {
 		return err
@@ -132,7 +132,7 @@ func (c *Client) MapCloudIPtoServer(identifier string, serverid string) error {
 
 // UnMapCloudIP issues a request to unmap the cloud ip.
 func (c *Client) UnMapCloudIP(identifier string) error {
-	_, err := c.MakeApiRequest("POST", "/1.0/cloud_ips/"+identifier+"/unmap", nil, nil)
+	_, err := c.MakeAPIRequest("POST", "/1.0/cloud_ips/"+identifier+"/unmap", nil, nil)
 	if err != nil {
 		return err
 	}

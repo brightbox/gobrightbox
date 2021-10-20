@@ -1,4 +1,4 @@
-package brightbox
+package gobrightbox
 
 import (
 	"time"
@@ -7,7 +7,7 @@ import (
 // FirewallRule represents a firewall rule.
 // https://api.gb1.brightbox.com/1.0/#firewall_rule
 type FirewallRule struct {
-	Id              string
+	ID              string
 	Source          string         `json:"source"`
 	SourcePort      string         `json:"source_port"`
 	Destination     string         `json:"destination"`
@@ -22,7 +22,7 @@ type FirewallRule struct {
 // FirewallRuleOptions is used in conjunction with CreateFirewallRule and
 // UpdateFirewallRule to create and update firewall rules.
 type FirewallRuleOptions struct {
-	Id              string  `json:"-"`
+	ID              string  `json:"-"`
 	FirewallPolicy  string  `json:"firewall_policy,omitempty"`
 	Protocol        *string `json:"protocol,omitempty"`
 	Source          *string `json:"source,omitempty"`
@@ -36,7 +36,7 @@ type FirewallRuleOptions struct {
 // FirewallRule retrieves a detailed view of one firewall rule
 func (c *Client) FirewallRule(identifier string) (*FirewallRule, error) {
 	rule := new(FirewallRule)
-	_, err := c.MakeApiRequest("GET", "/1.0/firewall_rules/"+identifier, nil, rule)
+	_, err := c.MakeAPIRequest("GET", "/1.0/firewall_rules/"+identifier, nil, rule)
 	if err != nil {
 		return nil, err
 	}
@@ -47,10 +47,10 @@ func (c *Client) FirewallRule(identifier string) (*FirewallRule, error) {
 //
 // It takes a FirewallRuleOptions struct for specifying name and other
 // attributes. Not all attributes can be specified at create time
-// (such as Id, which is allocated for you)
+// (such as ID, which is allocated for you)
 func (c *Client) CreateFirewallRule(ruleOptions *FirewallRuleOptions) (*FirewallRule, error) {
 	rule := new(FirewallRule)
-	_, err := c.MakeApiRequest("POST", "/1.0/firewall_rules", ruleOptions, &rule)
+	_, err := c.MakeAPIRequest("POST", "/1.0/firewall_rules", ruleOptions, &rule)
 	if err != nil {
 		return nil, err
 	}
@@ -63,7 +63,7 @@ func (c *Client) CreateFirewallRule(ruleOptions *FirewallRuleOptions) (*Firewall
 // attributes can be updated (such as firewall_policy)
 func (c *Client) UpdateFirewallRule(ruleOptions *FirewallRuleOptions) (*FirewallRule, error) {
 	rule := new(FirewallRule)
-	_, err := c.MakeApiRequest("PUT", "/1.0/firewall_rules/"+ruleOptions.Id, ruleOptions, &rule)
+	_, err := c.MakeAPIRequest("PUT", "/1.0/firewall_rules/"+ruleOptions.ID, ruleOptions, &rule)
 	if err != nil {
 		return nil, err
 	}
@@ -72,7 +72,7 @@ func (c *Client) UpdateFirewallRule(ruleOptions *FirewallRuleOptions) (*Firewall
 
 // DestroyFirewallRule destroys an existing firewall rule
 func (c *Client) DestroyFirewallRule(identifier string) error {
-	_, err := c.MakeApiRequest("DELETE", "/1.0/firewall_rules/"+identifier, nil, nil)
+	_, err := c.MakeAPIRequest("DELETE", "/1.0/firewall_rules/"+identifier, nil, nil)
 	if err != nil {
 		return err
 	}

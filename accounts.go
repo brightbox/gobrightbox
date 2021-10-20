@@ -1,4 +1,4 @@
-package brightbox
+package gobrightbox
 
 import (
 	"time"
@@ -7,7 +7,7 @@ import (
 // Account represents a Brightbox Cloud Account
 // https://api.gb1.brightbox.com/1.0/#account
 type Account struct {
-	Id                    string
+	ID                    string
 	Name                  string
 	Status                string
 	Address1              string `json:"address_1"`
@@ -22,15 +22,15 @@ type Account struct {
 	TelephoneVerified     bool       `json:"telephone_verified"`
 	VerifiedTelephone     string     `json:"verified_telephone"`
 	VerifiedAt            *time.Time `json:"verified_at"`
-	VerifiedIp            string     `json:"verified_ip"`
+	VerifiedIP            string     `json:"verified_ip"`
 	ValidCreditCard       bool       `json:"valid_credit_card"`
 	CreatedAt             *time.Time `json:"created_at"`
-	RamLimit              int        `json:"ram_limit"`
-	RamUsed               int        `json:"ram_used"`
-	DbsRamLimit           int        `json:"dbs_ram_limit"`
-	DbsRamUsed            int        `json:"dbs_ram_used"`
-	CloudIpsLimit         int        `json:"cloud_ips_limit"`
-	CloudIpsUsed          int        `json:"cloud_ips_used"`
+	RAMLimit              int        `json:"ram_limit"`
+	RAMUsed               int        `json:"ram_used"`
+	DbsRAMLimit           int        `json:"dbs_ram_limit"`
+	DbsRAMUsed            int        `json:"dbs_ram_used"`
+	CloudIPsLimit         int        `json:"cloud_ips_limit"`
+	CloudIPsUsed          int        `json:"cloud_ips_used"`
 	LoadBalancersLimit    int        `json:"load_balancers_limit"`
 	LoadBalancersUsed     int        `json:"load_balancers_used"`
 	LibraryFtpHost        string     `json:"library_ftp_host"`
@@ -46,7 +46,7 @@ type Account struct {
 // can have multiple accounts, through collaborations.
 func (c *Client) Accounts() ([]Account, error) {
 	var accounts []Account
-	_, err := c.MakeApiRequest("GET", "/1.0/accounts?nested=false", nil, &accounts)
+	_, err := c.MakeAPIRequest("GET", "/1.0/accounts?nested=false", nil, &accounts)
 	if err != nil {
 		return nil, err
 	}
@@ -56,7 +56,7 @@ func (c *Client) Accounts() ([]Account, error) {
 // Account retrieves a detailed view of one account
 func (c *Client) Account(identifier string) (*Account, error) {
 	account := new(Account)
-	_, err := c.MakeApiRequest("GET", "/1.0/accounts/"+identifier, nil, account)
+	_, err := c.MakeAPIRequest("GET", "/1.0/accounts/"+identifier, nil, account)
 	if err != nil {
 		return nil, err
 	}

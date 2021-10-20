@@ -1,11 +1,12 @@
-package brightbox_test
+package gobrightbox_test
 
 import (
-	"github.com/brightbox/gobrightbox"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 	"net/http/httptest"
 	"testing"
+
+	brightbox "github.com/brightbox/gobrightbox"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestLoadBalancers(t *testing.T) {
@@ -27,10 +28,10 @@ func TestLoadBalancers(t *testing.T) {
 	require.NotNil(t, p, "LoadBalancers() returned nil")
 	require.Equal(t, 1, len(p), "wrong number of load balancers returned")
 	lb := p[0]
-	assert.Equal(t, "lba-1235f", lb.Id, "load balancer id incorrect")
+	assert.Equal(t, "lba-1235f", lb.ID, "load balancer id incorrect")
 	require.Equal(t, 1, len(lb.Nodes), "not enough nodes returned")
 	node := lb.Nodes[0]
-	assert.Equal(t, "srv-lv426", node.Id, "node Id incorrect")
+	assert.Equal(t, "srv-lv426", node.ID, "node ID incorrect")
 }
 
 func TestLoadBalancer(t *testing.T) {
@@ -50,11 +51,11 @@ func TestLoadBalancer(t *testing.T) {
 	lb, err := client.LoadBalancer("lba-1235f")
 	require.Nil(t, err, "LoadBalancer() returned an error")
 	require.NotNil(t, lb, "LoadBalancer() returned nil")
-	assert.Equal(t, "lba-1235f", lb.Id, "load balancer id incorrect")
+	assert.Equal(t, "lba-1235f", lb.ID, "load balancer id incorrect")
 	require.Equal(t, 1, len(lb.Nodes), "not enough nodes returned")
 
 	node := lb.Nodes[0]
-	assert.Equal(t, "srv-lv426", node.Id, "node Id incorrect")
+	assert.Equal(t, "srv-lv426", node.ID, "node ID incorrect")
 
 	require.Equal(t, 1, len(lb.Listeners), "not enough listeners")
 	lnr := lb.Listeners[0]
@@ -68,7 +69,7 @@ func TestLoadBalancer(t *testing.T) {
 	assert.Equal(t, "/", lb.Healthcheck.Request, "healthcheck request incorrect")
 	assert.Equal(t, 80, lb.Healthcheck.Port, "healthchech port incorrect")
 
-	assert.Empty(t, lb.HttpsRedirect, "https redirect should be off")
+	assert.Empty(t, lb.HTTPSRedirect, "https redirect should be off")
 	require.NotNil(t, lb.Certificate, "certificate is nil")
 	assert.Equal(t, "/CN=www.example.com", lb.Certificate.Subject, "certificate subject is incorrect")
 }
@@ -88,7 +89,7 @@ func TestUpdateLoadBalancer(t *testing.T) {
 	require.Nil(t, err, "NewClient returned an error")
 
 	name := "my lb"
-	newLB := brightbox.LoadBalancerOptions{Id: "lba-aaaaa", Name: &name}
+	newLB := brightbox.LoadBalancerOptions{ID: "lba-aaaaa", Name: &name}
 	lb, err := client.UpdateLoadBalancer(&newLB)
 	require.Nil(t, err, "UpdateLoadBalancer() returned an error")
 	require.NotNil(t, lb, "UpdateLoadBalancer() returned nil")
@@ -291,7 +292,7 @@ func TestLockLoadBalancer(t *testing.T) {
 	client, err := brightbox.NewClient(ts.URL, "", nil)
 	require.Nil(t, err, "NewClient returned an error")
 
-	err = client.LockResource(brightbox.LoadBalancer{Id: "lba-aaaaa"})
+	err = client.LockResource(brightbox.LoadBalancer{ID: "lba-aaaaa"})
 	require.Nil(t, err, "LockLoadBalancer() returned an error")
 }
 
@@ -309,6 +310,6 @@ func TestUnLockLoadBalancer(t *testing.T) {
 	client, err := brightbox.NewClient(ts.URL, "", nil)
 	require.Nil(t, err, "NewClient returned an error")
 
-	err = client.UnLockResource(brightbox.LoadBalancer{Id: "lba-aaaaa"})
+	err = client.UnLockResource(brightbox.LoadBalancer{ID: "lba-aaaaa"})
 	require.Nil(t, err, "UnLockLoadBalancer() returned an error")
 }

@@ -1,4 +1,4 @@
-package brightbox_test
+package gobrightbox_test
 
 import (
 	"net/http/httptest"
@@ -35,8 +35,8 @@ func TestServers(t *testing.T) {
 	}
 	cs := servers
 	s := cs[0]
-	if s.Id != "srv-lv426" {
-		t.Errorf("server Id incorrect")
+	if s.ID != "srv-lv426" {
+		t.Errorf("server ID incorrect")
 	}
 }
 
@@ -61,8 +61,8 @@ func TestServer(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if s.Id != "srv-lv426" {
-		t.Error("server Id incorrect")
+	if s.ID != "srv-lv426" {
+		t.Error("server ID incorrect")
 	}
 
 	if !s.DiskEncrypted {
@@ -71,14 +71,14 @@ func TestServer(t *testing.T) {
 	if s.DeletedAt != nil {
 		t.Errorf("server DeletedAt was %v, should be nil", s.DeletedAt)
 	}
-	if len(s.ServerGroups) != 1 || s.ServerGroups[0].Id != "grp-sda44" {
+	if len(s.ServerGroups) != 1 || s.ServerGroups[0].ID != "grp-sda44" {
 		t.Errorf("server groups is %v", s.ServerGroups)
 	}
-	if s.Image.Id != "img-3ikco" {
-		t.Errorf("image is %q", s.Image.Id)
+	if s.Image.ID != "img-3ikco" {
+		t.Errorf("image is %q", s.Image.ID)
 	}
-	if s.Account.Id != "acc-43ks4" {
-		t.Errorf("account is %q", s.Account.Id)
+	if s.Account.ID != "acc-43ks4" {
+		t.Errorf("account is %q", s.Account.ID)
 	}
 }
 
@@ -106,8 +106,8 @@ func TestCreateServerWithImage(t *testing.T) {
 	if s == nil {
 		t.Errorf("Didn't return a Server")
 	}
-	if s.Id != "srv-lv426" {
-		t.Errorf("server Id is %s", s.Id)
+	if s.ID != "srv-lv426" {
+		t.Errorf("server ID is %s", s.ID)
 	}
 
 }
@@ -142,8 +142,8 @@ func TestCreateServerWithEmptyGroupList(t *testing.T) {
 	if s == nil {
 		t.Errorf("Didn't return a Server")
 	}
-	if s.Id != "srv-lv426" {
-		t.Errorf("server Id is %s", s.Id)
+	if s.ID != "srv-lv426" {
+		t.Errorf("server ID is %s", s.ID)
 	}
 
 }
@@ -185,8 +185,8 @@ func TestCreateServerWithOptionalFields(t *testing.T) {
 	if s == nil {
 		t.Errorf("Didn't return a Server")
 	}
-	if s.Id != "srv-lv426" {
-		t.Errorf("server Id is %s", s.Id)
+	if s.ID != "srv-lv426" {
+		t.Errorf("server ID is %s", s.ID)
 	}
 
 }
@@ -208,7 +208,7 @@ func TestUpdateServerWithEmptyGroupsList(t *testing.T) {
 	}
 
 	groups := []string{}
-	opts := brightbox.ServerOptions{Id: "srv-lv426", ServerGroups: groups}
+	opts := brightbox.ServerOptions{ID: "srv-lv426", ServerGroups: groups}
 	s, err := client.UpdateServer(&opts)
 	if err != nil {
 		t.Fatal(err)
@@ -216,8 +216,8 @@ func TestUpdateServerWithEmptyGroupsList(t *testing.T) {
 	if s == nil {
 		t.Errorf("Didn't return a Server")
 	}
-	if s.Id != "srv-lv426" {
-		t.Errorf("server Id is %s", s.Id)
+	if s.ID != "srv-lv426" {
+		t.Errorf("server ID is %s", s.ID)
 	}
 
 }
@@ -238,7 +238,7 @@ func TestLockServer(t *testing.T) {
 		t.Fatal(err)
 	}
 	s := new(brightbox.Server)
-	s.Id = "srv-lv426"
+	s.ID = "srv-lv426"
 	err = client.LockResource(s)
 	if err != nil {
 		t.Fatal(err)
@@ -261,7 +261,7 @@ func TestUnLockServer(t *testing.T) {
 		t.Fatal(err)
 	}
 	s := new(brightbox.Server)
-	s.Id = "srv-lv426"
+	s.ID = "srv-lv426"
 	err = client.UnLockResource(s)
 	if err != nil {
 		t.Fatal(err)
@@ -286,5 +286,5 @@ func TestSnapshotServer(t *testing.T) {
 	snap, err := client.SnapshotServer("srv-aaaaa")
 	require.Nil(t, err, "SnapshotServer() returned an error")
 	require.NotNil(t, snap, "SnapshotServer() returned nil")
-	assert.Equal(t, "img-bbbbb", snap.Id, "Image id incorrect")
+	assert.Equal(t, "img-bbbbb", snap.ID, "Image id incorrect")
 }

@@ -1,11 +1,12 @@
-package brightbox_test
+package gobrightbox_test
 
 import (
-	"github.com/brightbox/gobrightbox"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 	"net/http/httptest"
 	"testing"
+
+	brightbox "github.com/brightbox/gobrightbox"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestDatabaseServers(t *testing.T) {
@@ -27,7 +28,7 @@ func TestDatabaseServers(t *testing.T) {
 	require.NotNil(t, p, "DatabaseServers() returned nil")
 	require.Equal(t, 1, len(p), "wrong number of database servers returned")
 	dbs := p[0]
-	assert.Equal(t, "dbs-123ab", dbs.Id, "database server id incorrect")
+	assert.Equal(t, "dbs-123ab", dbs.ID, "database server id incorrect")
 }
 
 func TestDatabaseServer(t *testing.T) {
@@ -47,10 +48,10 @@ func TestDatabaseServer(t *testing.T) {
 	dbs, err := client.DatabaseServer("dbs-123ab")
 	require.Nil(t, err, "DatabaseServer() returned an error")
 	require.NotNil(t, dbs, "DatabaseServer() returned nil")
-	assert.Equal(t, "dbs-123ab", dbs.Id, "database server id incorrect")
+	assert.Equal(t, "dbs-123ab", dbs.ID, "database server id incorrect")
 	require.Equal(t, 2, len(dbs.AllowAccess), "not enough entries in the allow access list")
 	stype := dbs.DatabaseServerType
-	assert.Equal(t, "dbt-12345", stype.Id, "database server type Id incorrect")
+	assert.Equal(t, "dbt-12345", stype.ID, "database server type ID incorrect")
 }
 
 func TestCreateDatabaseServer(t *testing.T) {
@@ -71,7 +72,7 @@ func TestCreateDatabaseServer(t *testing.T) {
 	dbs, err := client.CreateDatabaseServer(&newDBS)
 	require.Nil(t, err, "CreateDatabaseServer() returned an error")
 	require.NotNil(t, dbs, "CreateDatabaseServer() returned nil")
-	assert.Equal(t, "dbs-123ab", dbs.Id)
+	assert.Equal(t, "dbs-123ab", dbs.ID)
 }
 
 func TestCreateDatabaseServerWithAllowAccess(t *testing.T) {
@@ -93,7 +94,7 @@ func TestCreateDatabaseServerWithAllowAccess(t *testing.T) {
 	dbs, err := client.CreateDatabaseServer(&newDBS)
 	require.Nil(t, err, "CreateDatabaseServer() returned an error")
 	require.NotNil(t, dbs, "CreateDatabaseServer() returned nil")
-	assert.Equal(t, "dbs-123ab", dbs.Id)
+	assert.Equal(t, "dbs-123ab", dbs.ID)
 }
 
 func TestUpdateDatabaseServer(t *testing.T) {
@@ -111,11 +112,11 @@ func TestUpdateDatabaseServer(t *testing.T) {
 	require.Nil(t, err, "NewClient returned an error")
 
 	name := "db server"
-	udbs := brightbox.DatabaseServerOptions{Id: "dbs-123ab", Name: &name}
+	udbs := brightbox.DatabaseServerOptions{ID: "dbs-123ab", Name: &name}
 	dbs, err := client.UpdateDatabaseServer(&udbs)
 	require.Nil(t, err, "UpdateDatabaseServer() returned an error")
 	require.NotNil(t, dbs, "UpdateDatabaseServer() returned nil")
-	assert.Equal(t, "dbs-123ab", dbs.Id)
+	assert.Equal(t, "dbs-123ab", dbs.ID)
 }
 
 func TestDestroyDatabaseServer(t *testing.T) {
@@ -154,7 +155,7 @@ func TestSnapshotDatabaseServer(t *testing.T) {
 	snap, err := client.SnapshotDatabaseServer("dbs-123ab")
 	require.Nil(t, err, "SnapshotDatabaseServer() returned an error")
 	require.NotNil(t, snap, "SnapshotDatabaseServer() returned nil")
-	assert.Equal(t, "dbi-zlms8", snap.Id, "DatabaseSnapshot id incorrect")
+	assert.Equal(t, "dbi-zlms8", snap.ID, "DatabaseSnapshot id incorrect")
 }
 
 func TestResetPasswordForDatabaseServer(t *testing.T) {
@@ -192,6 +193,6 @@ func TestLockDatabaseServer(t *testing.T) {
 	client, err := brightbox.NewClient(ts.URL, "", nil)
 	require.Nil(t, err, "NewClient returned an error")
 
-	err = client.LockResource(brightbox.DatabaseServer{Id: "dbs-aaaaa"})
+	err = client.LockResource(brightbox.DatabaseServer{ID: "dbs-aaaaa"})
 	require.Nil(t, err, "LockDatabaseServer() returned an error")
 }

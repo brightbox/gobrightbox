@@ -1,4 +1,4 @@
-package brightbox
+package gobrightbox
 
 import (
 	"time"
@@ -7,7 +7,7 @@ import (
 // DatabaseServer represents a database server.
 // https://api.gb1.brightbox.com/1.0/#database_server
 type DatabaseServer struct {
-	Id                      string
+	ID                      string
 	Name                    string
 	Description             string
 	Status                  string
@@ -33,7 +33,7 @@ type DatabaseServer struct {
 // DatabaseServerOptions is used in conjunction with CreateDatabaseServer and
 // UpdateDatabaseServer to create and update database servers.
 type DatabaseServerOptions struct {
-	Id                 string   `json:"-"`
+	ID                 string   `json:"-"`
 	Name               *string  `json:"name,omitempty"`
 	Description        *string  `json:"description,omitempty"`
 	Engine             string   `json:"engine,omitempty"`
@@ -50,7 +50,7 @@ type DatabaseServerOptions struct {
 // DatabaseServers retrieves a list of all database servers
 func (c *Client) DatabaseServers() ([]DatabaseServer, error) {
 	var dbs []DatabaseServer
-	_, err := c.MakeApiRequest("GET", "/1.0/database_servers", nil, &dbs)
+	_, err := c.MakeAPIRequest("GET", "/1.0/database_servers", nil, &dbs)
 	if err != nil {
 		return nil, err
 	}
@@ -60,7 +60,7 @@ func (c *Client) DatabaseServers() ([]DatabaseServer, error) {
 // DatabaseServer retrieves a detailed view of one database server
 func (c *Client) DatabaseServer(identifier string) (*DatabaseServer, error) {
 	dbs := new(DatabaseServer)
-	_, err := c.MakeApiRequest("GET", "/1.0/database_servers/"+identifier, nil, dbs)
+	_, err := c.MakeAPIRequest("GET", "/1.0/database_servers/"+identifier, nil, dbs)
 	if err != nil {
 		return nil, err
 	}
@@ -71,10 +71,10 @@ func (c *Client) DatabaseServer(identifier string) (*DatabaseServer, error) {
 //
 // It takes a DatabaseServerOptions struct for specifying name and other
 // attributes. Not all attributes can be specified at create time
-// (such as Id, which is allocated for you)
+// (such as ID, which is allocated for you)
 func (c *Client) CreateDatabaseServer(options *DatabaseServerOptions) (*DatabaseServer, error) {
 	dbs := new(DatabaseServer)
-	_, err := c.MakeApiRequest("POST", "/1.0/database_servers", options, &dbs)
+	_, err := c.MakeAPIRequest("POST", "/1.0/database_servers", options, &dbs)
 	if err != nil {
 		return nil, err
 	}
@@ -83,11 +83,11 @@ func (c *Client) CreateDatabaseServer(options *DatabaseServerOptions) (*Database
 
 // UpdateDatabaseServer updates an existing database server.
 //
-// It takes a DatabaseServerOptions struct for specifying Id, name and other
+// It takes a DatabaseServerOptions struct for specifying ID, name and other
 // attributes. Not all attributes can be specified at update time.
 func (c *Client) UpdateDatabaseServer(options *DatabaseServerOptions) (*DatabaseServer, error) {
 	dbs := new(DatabaseServer)
-	_, err := c.MakeApiRequest("PUT", "/1.0/database_servers/"+options.Id, options, &dbs)
+	_, err := c.MakeAPIRequest("PUT", "/1.0/database_servers/"+options.ID, options, &dbs)
 	if err != nil {
 		return nil, err
 	}
@@ -96,21 +96,21 @@ func (c *Client) UpdateDatabaseServer(options *DatabaseServerOptions) (*Database
 
 // DestroyDatabaseServer issues a request to deletes an existing database server
 func (c *Client) DestroyDatabaseServer(identifier string) error {
-	_, err := c.MakeApiRequest("DELETE", "/1.0/database_servers/"+identifier, nil, nil)
+	_, err := c.MakeAPIRequest("DELETE", "/1.0/database_servers/"+identifier, nil, nil)
 	return err
 }
 
 // SnapshotDatabaseServer requests a snapshot of an existing database server.
 func (c *Client) SnapshotDatabaseServer(identifier string) (*DatabaseSnapshot, error) {
 	dbs := new(DatabaseServer)
-	res, err := c.MakeApiRequest("POST", "/1.0/database_servers/"+identifier+"/snapshot", nil, &dbs)
+	res, err := c.MakeAPIRequest("POST", "/1.0/database_servers/"+identifier+"/snapshot", nil, &dbs)
 	if err != nil {
 		return nil, err
 	}
 	snapID := getLinkRel(res.Header.Get("Link"), "dbi", "snapshot")
 	if snapID != nil {
 		snap := new(DatabaseSnapshot)
-		snap.Id = *snapID
+		snap.ID = *snapID
 		return snap, nil
 	}
 	return nil, nil
@@ -119,7 +119,7 @@ func (c *Client) SnapshotDatabaseServer(identifier string) (*DatabaseSnapshot, e
 // ResetPasswordForDatabaseServer requests a snapshot of an existing database server.
 func (c *Client) ResetPasswordForDatabaseServer(identifier string) (*DatabaseServer, error) {
 	dbs := new(DatabaseServer)
-	_, err := c.MakeApiRequest("POST", "/1.0/database_servers/"+identifier+"/reset_password", nil, &dbs)
+	_, err := c.MakeAPIRequest("POST", "/1.0/database_servers/"+identifier+"/reset_password", nil, &dbs)
 	if err != nil {
 		return nil, err
 	}

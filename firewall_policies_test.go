@@ -1,9 +1,10 @@
-package brightbox_test
+package gobrightbox_test
 
 import (
-	"github.com/brightbox/gobrightbox"
 	"net/http/httptest"
 	"testing"
+
+	brightbox "github.com/brightbox/gobrightbox"
 )
 
 func TestFirewallPolicies(t *testing.T) {
@@ -31,7 +32,7 @@ func TestFirewallPolicies(t *testing.T) {
 		t.Fatal("Wrong number of policies returned")
 	}
 	p := policies[0]
-	if p.Id != "fwp-j3654" {
+	if p.ID != "fwp-j3654" {
 		t.Errorf("policy id incorrect")
 	}
 	if p.ServerGroup.Name != "default" {
@@ -40,7 +41,7 @@ func TestFirewallPolicies(t *testing.T) {
 	if len(p.Rules) != 1 {
 		t.Errorf("policy rules incorrect")
 	} else {
-		if p.Rules[0].Id != "fwr-k32ls" {
+		if p.Rules[0].ID != "fwr-k32ls" {
 			t.Errorf("policy rule id incorrext")
 		}
 	}
@@ -71,8 +72,8 @@ func TestCreateFirewallPolicy(t *testing.T) {
 	if p == nil {
 		t.Errorf("Didn't return a firewall policy")
 	}
-	if p.Id != "fwp-j3654" {
-		t.Errorf("firewall policy id is %s", p.Id)
+	if p.ID != "fwp-j3654" {
+		t.Errorf("firewall policy id is %s", p.ID)
 	}
 
 }
@@ -119,7 +120,7 @@ func TestUpdateFirewallPolicy(t *testing.T) {
 	}
 
 	name := "mail servers"
-	opts := brightbox.FirewallPolicyOptions{Id: "fwp-j3654", Name: &name}
+	opts := brightbox.FirewallPolicyOptions{ID: "fwp-j3654", Name: &name}
 	_, err = client.UpdateFirewallPolicy(&opts)
 	if err != nil {
 		t.Fatal(err)

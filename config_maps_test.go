@@ -1,4 +1,4 @@
-package brightbox_test
+package gobrightbox_test
 
 import (
 	"net/http/httptest"
@@ -29,7 +29,7 @@ func TestConfigMaps(t *testing.T) {
 	require.NotNil(t, p, "ConfigMaps() returned nil")
 	require.Equal(t, 1, len(p), "wrong number of config map returned")
 	ac := p[0]
-	assert.Equal(t, "cfg-dsse2", ac.Id, "config map id incorrect")
+	assert.Equal(t, "cfg-dsse2", ac.ID, "config map id incorrect")
 }
 
 func TestConfigMap(t *testing.T) {
@@ -49,7 +49,7 @@ func TestConfigMap(t *testing.T) {
 	ac, err := client.ConfigMap("cfg-dsse2")
 	require.Nil(t, err, "ConfigMap() returned an error")
 	require.NotNil(t, ac, "ConfigMap() returned nil")
-	assert.Equal(t, "cfg-dsse2", ac.Id, "config map id incorrect")
+	assert.Equal(t, "cfg-dsse2", ac.ID, "config map id incorrect")
 	assert.Equal(t, "example.test", ac.Name, "config map name incorrect")
 }
 
@@ -71,7 +71,7 @@ func TestCreateConfigMap(t *testing.T) {
 	ac, err := client.CreateConfigMap(&newAC)
 	require.Nil(t, err, "CreateConfigMap() returned an error")
 	require.NotNil(t, ac, "CreateConfigMap() returned nil")
-	assert.Equal(t, "cfg-dsse2", ac.Id)
+	assert.Equal(t, "cfg-dsse2", ac.ID)
 }
 
 func TestUpdateConfigMap(t *testing.T) {
@@ -99,14 +99,14 @@ func TestUpdateConfigMap(t *testing.T) {
 		},
 	}
 	uac := brightbox.ConfigMapOptions{
-		Id:   "cfg-dsse2",
+		ID:   "cfg-dsse2",
 		Name: &name,
 		Data: &data,
 	}
 	ac, err := client.UpdateConfigMap(&uac)
 	require.Nil(t, err, "UpdateConfigMap() returned an error")
 	require.NotNil(t, ac, "UpdateConfigMap() returned nil")
-	assert.Equal(t, "cfg-dsse2", ac.Id)
+	assert.Equal(t, "cfg-dsse2", ac.ID)
 }
 
 func TestUpdateConfigMapToEmpty(t *testing.T) {
@@ -126,14 +126,14 @@ func TestUpdateConfigMapToEmpty(t *testing.T) {
 	name := ""
 	data := map[string]interface{}{}
 	uac := brightbox.ConfigMapOptions{
-		Id:   "cfg-dsse2",
+		ID:   "cfg-dsse2",
 		Name: &name,
 		Data: &data,
 	}
 	ac, err := client.UpdateConfigMap(&uac)
 	require.Nil(t, err, "UpdateConfigMap() returned an error")
 	require.NotNil(t, ac, "UpdateConfigMap() returned nil")
-	assert.Equal(t, "cfg-dsse2", ac.Id)
+	assert.Equal(t, "cfg-dsse2", ac.ID)
 }
 
 func TestUpdateConfigMapClearName(t *testing.T) {
@@ -152,13 +152,13 @@ func TestUpdateConfigMapClearName(t *testing.T) {
 
 	name := ""
 	uac := brightbox.ConfigMapOptions{
-		Id:   "cfg-dsse2",
+		ID:   "cfg-dsse2",
 		Name: &name,
 	}
 	ac, err := client.UpdateConfigMap(&uac)
 	require.Nil(t, err, "UpdateConfigMap() returned an error")
 	require.NotNil(t, ac, "UpdateConfigMap() returned nil")
-	assert.Equal(t, "cfg-dsse2", ac.Id)
+	assert.Equal(t, "cfg-dsse2", ac.ID)
 }
 
 func TestUpdateConfigMapClearData(t *testing.T) {
@@ -177,13 +177,13 @@ func TestUpdateConfigMapClearData(t *testing.T) {
 
 	data := map[string]interface{}{}
 	uac := brightbox.ConfigMapOptions{
-		Id:   "cfg-dsse2",
+		ID:   "cfg-dsse2",
 		Data: &data,
 	}
 	ac, err := client.UpdateConfigMap(&uac)
 	require.Nil(t, err, "UpdateConfigMap() returned an error")
 	require.NotNil(t, ac, "UpdateConfigMap() returned nil")
-	assert.Equal(t, "cfg-dsse2", ac.Id)
+	assert.Equal(t, "cfg-dsse2", ac.ID)
 }
 
 func TestDestroyConfigMap(t *testing.T) {

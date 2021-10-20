@@ -1,8 +1,9 @@
-package brightbox_test
+package gobrightbox_test
 
 import (
 	"fmt"
-	"github.com/brightbox/gobrightbox"
+
+	brightbox "github.com/brightbox/gobrightbox"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/clientcredentials"
 )
@@ -10,21 +11,21 @@ import (
 // Authenticate using an API Client identifier and secret, and get a list of
 // servers
 func Example() {
-	apiUrl := "https://api.gb1.brightbox.com"
-	clientId := "cli-xxxxx"
+	apiURL := "https://api.gb1.brightbox.com"
+	clientID := "cli-xxxxx"
 	clientSecret := "somesecret"
 
 	// Setup OAuth2 authentication
 	conf := clientcredentials.Config{
-		ClientID:     clientId,
+		ClientID:     clientID,
 		ClientSecret: clientSecret,
 		Scopes:       []string{},
-		TokenURL:     apiUrl + "/token",
+		TokenURL:     apiURL + "/token",
 	}
 	oc := conf.Client(oauth2.NoContext)
 
 	// Setup connection to API
-	client, err := brightbox.NewClient(apiUrl, "", oc)
+	client, err := brightbox.NewClient(apiURL, "", oc)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -37,6 +38,6 @@ func Example() {
 		return
 	}
 	for _, server := range servers {
-		fmt.Printf("id:%s name:%s\n", server.Id, server.Name)
+		fmt.Printf("id:%s name:%s\n", server.ID, server.Name)
 	}
 }

@@ -1,11 +1,11 @@
-// Package brightbox is for interacting with the Brightbox Cloud API
+// Package gobrightbox is for interacting with the Brightbox Cloud API
 //
 // Brightbox Cloud is a UK-based infrastructure-as-a-service
 // provider. More details available at https://www.brightbox.com
 //
 // The Brightbox Cloud API documentation is available at
 // https://api.gb1.brightbox.com/1.0/
-package brightbox
+package gobrightbox
 
 import (
 	"bytes"
@@ -21,8 +21,8 @@ import (
 )
 
 const (
-	// DefaultRegionApiURL is the default API URL for the region. Use with NewClient.
-	DefaultRegionApiURL = "https://api.gb1.brightbox.com/"
+	// DefaultRegionAPIURL is the default API URL for the region. Use with NewClient.
+	DefaultRegionAPIURL = "https://api.gb1.brightbox.com/"
 	// DefaultOrbitAuthURL is the default Auth URL for Orbit.
 	DefaultOrbitAuthURL = "https://orbit.brightbox.com/v1/"
 )
@@ -36,12 +36,12 @@ type Client struct {
 	client    *http.Client
 	UserAgent string
 	// The identifier of the account to use by default with this Client.
-	AccountId string
+	AccountID string
 }
 
-// ApiError can be returned when an API request fails. It provides any error
+// APIError can be returned when an API request fails. It provides any error
 // messages provided by the API, along with other details about the response.
-type ApiError struct {
+type APIError struct {
 	// StatusCode will hold the HTTP status code from the request that errored
 	StatusCode int
 	// Status will hold the HTTP status line from the request that errored
@@ -61,18 +61,18 @@ type ApiError struct {
 	// ParseError will hold any errors from the JSON parser whilst parsing an
 	// API response
 	ParseError *error
-	// RequestUrl will hold the full URL used to make the request that errored,
+	// RequestURL will hold the full URL used to make the request that errored,
 	// if available
-	RequestUrl *url.URL
+	RequestURL *url.URL
 	// ResponseBody will hold the raw respose body of the request that errored,
 	// if available
 	ResponseBody []byte
 }
 
-func (e ApiError) Error() string {
+func (e APIError) Error() string {
 	var url string
-	if e.RequestUrl != nil {
-		url = e.RequestUrl.String()
+	if e.RequestURL != nil {
+		url = e.RequestURL.String()
 	}
 	if e.ParseError != nil {
 		return fmt.Sprintf("%d: %s: %s", e.StatusCode, url, *e.ParseError)
@@ -101,10 +101,10 @@ func (e ApiError) Error() string {
 //
 // apiURL should be an url of the form https://api.region.brightbox.com,
 // e.g: https://api.gb1.brightbox.com. You can use the default defined in
-// this package instead, i.e. brightbox.DefaultRegionApiURL
+// this package instead, i.e. brightbox.DefaultRegionAPIURL
 //
 // accountId should be the identifier of the default account to be used with
-// this Client. Clients authenticated with Brightbox ApiClient credentials are
+// this Client. Clients authenticated with Brightbox APIClient credentials are
 // only ever associated with one single Account, so you can leave this empty for
 // those. Client's authenticated with Brightbox User credentials can have access
 // to multiple accounts, so this parameter should be provided.
@@ -124,7 +124,7 @@ func NewClient(apiURL string, accountID string, httpClient *http.Client) (*Clien
 	c := &Client{
 		client:    httpClient,
 		BaseURL:   au,
-		AccountId: accountID,
+		AccountID: accountID,
 	}
 	return c, nil
 }
@@ -144,9 +144,9 @@ func (c *Client) NewRequest(method, urlStr string, body interface{}) (*http.Requ
 
 	u := c.BaseURL.ResolveReference(rel)
 
-	if c.AccountId != "" {
+	if c.AccountID != "" {
 		q := u.Query()
-		q.Set("account_id", c.AccountId)
+		q.Set("account_id", c.AccountID)
 		u.RawQuery = q.Encode()
 	}
 
@@ -173,8 +173,8 @@ func (c *Client) NewRequest(method, urlStr string, body interface{}) (*http.Requ
 	return req, nil
 }
 
-// MakeApiRequest makes a http request to the API, JSON encoding any given data
-// and decoding any JSON reponse.
+// MakeAPIRequest makes a http request to the API, JSON encoding any given data
+// and decoding any JSON response.
 //
 // method should be the desired http method, e.g: "GET", "POST", "PUT" etc.
 //
@@ -186,9 +186,9 @@ func (c *Client) NewRequest(method, urlStr string, body interface{}) (*http.Requ
 // Optionally, the response body will be Unmarshaled from JSON into whatever
 // resBody is a pointer to. Leave nil to skip.
 //
-// If the response is non-2xx, MakeApiRequest will try to parse the error
-// message and return an ApiError struct.
-func (c *Client) MakeApiRequest(method string, path string, reqBody interface{}, resBody interface{}) (*http.Response, error) {
+// If the response is non-2xx, MakeAPIRequest will try to parse the error
+// message and return an APIError struct.
+func (c *Client) MakeAPIRequest(method string, path string, reqBody interface{}, resBody interface{}) (*http.Response, error) {
 	req, err := c.NewRequest(method, path, reqBody)
 	if err != nil {
 		return nil, err
@@ -202,8 +202,8 @@ func (c *Client) MakeApiRequest(method string, path string, reqBody interface{},
 		if resBody != nil {
 			err := json.NewDecoder(res.Body).Decode(resBody)
 			if err != nil {
-				return res, ApiError{
-					RequestUrl: res.Request.URL,
+				return res, APIError{
+					RequestURL: res.Request.URL,
 					StatusCode: res.StatusCode,
 					Status:     res.Status,
 					ParseError: &err,
@@ -212,8 +212,8 @@ func (c *Client) MakeApiRequest(method string, path string, reqBody interface{},
 		}
 		return res, nil
 	}
-	apierr := ApiError{
-		RequestUrl: res.Request.URL,
+	apierr := APIError{
+		RequestURL: res.Request.URL,
 		StatusCode: res.StatusCode,
 		Status:     res.Status,
 	}

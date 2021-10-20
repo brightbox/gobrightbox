@@ -1,4 +1,4 @@
-package brightbox
+package gobrightbox
 
 import (
 	"time"
@@ -7,7 +7,7 @@ import (
 // Collaboration represents a User's links to it's Accounts
 // https://api.gb1.brightbox.com/1.0/#user
 type Collaboration struct {
-	Id         string
+	ID         string
 	Email      string
 	Role       string
 	RoleLabel  string `json:"role_label"`
@@ -23,7 +23,7 @@ type Collaboration struct {
 // Collaborations retrieves a list of all the current user's collaborations
 func (c *Client) Collaborations() ([]Collaboration, error) {
 	var cl []Collaboration
-	_, err := c.MakeApiRequest("GET", "/1.0/user/collaborations", nil, &cl)
+	_, err := c.MakeAPIRequest("GET", "/1.0/user/collaborations", nil, &cl)
 	if err != nil {
 		return nil, err
 	}
@@ -34,7 +34,7 @@ func (c *Client) Collaborations() ([]Collaboration, error) {
 // collaborations
 func (c *Client) Collaboration(identifier string) (*Collaboration, error) {
 	col := new(Collaboration)
-	_, err := c.MakeApiRequest("GET", "/1.0/user/collaborations/"+identifier, nil, col)
+	_, err := c.MakeAPIRequest("GET", "/1.0/user/collaborations/"+identifier, nil, col)
 	if err != nil {
 		return nil, err
 	}

@@ -1,4 +1,4 @@
-package brightbox
+package gobrightbox
 
 import (
 	"time"
@@ -7,13 +7,13 @@ import (
 // LoadBalancer represents a Load Balancer
 // https://api.gb1.brightbox.com/1.0/#load_balancer
 type LoadBalancer struct {
-	Id                string
+	ID                string
 	Name              string
 	Status            string
 	CreatedAt         *time.Time `json:"created_at"`
 	DeletedAt         *time.Time `json:"deleted_at"`
 	Locked            bool
-	HttpsRedirect     bool   `json:"https_redirect"`
+	HTTPSRedirect     bool   `json:"https_redirect"`
 	SslMinimumVersion string `json:"ssl_minimum_version"`
 	Account           Account
 	Nodes             []Server
@@ -52,7 +52,7 @@ type LoadBalancerAcmeCertificate struct {
 // LoadBalancerAcmeDomain represents a domain for which ACME support
 // has been requested
 type LoadBalancerAcmeDomain struct {
-	Identifier  string `json:"identifier"`
+	IDentifier  string `json:"identifier"`
 	Status      string `json:"status"`
 	LastMessage string `json:"last_message"`
 }
@@ -80,7 +80,7 @@ type LoadBalancerListener struct {
 // LoadBalancerOptions is used in conjunction with CreateLoadBalancer and
 // UpdateLoadBalancer to create and update load balancers
 type LoadBalancerOptions struct {
-	Id                    string                   `json:"-"`
+	ID                    string                   `json:"-"`
 	Name                  *string                  `json:"name,omitempty"`
 	Nodes                 []LoadBalancerNode       `json:"nodes,omitempty"`
 	Policy                *string                  `json:"policy,omitempty"`
@@ -92,7 +92,7 @@ type LoadBalancerOptions struct {
 	CertificatePrivateKey *string                  `json:"certificate_private_key,omitempty"`
 	SslMinimumVersion     *string                  `json:"ssl_minimum_version,omitempty"`
 	SslV3                 *bool                    `json:"sslv3,omitempty"`
-	HttpsRedirect         *bool                    `json:"https_redirect,omitempty"`
+	HTTPSRedirect         *bool                    `json:"https_redirect,omitempty"`
 }
 
 // LoadBalancerNode is used in conjunction with LoadBalancerOptions,
@@ -106,7 +106,7 @@ type LoadBalancerNode struct {
 // LoadBalancers retrieves a list of all load balancers
 func (c *Client) LoadBalancers() ([]LoadBalancer, error) {
 	var lbs []LoadBalancer
-	_, err := c.MakeApiRequest("GET", "/1.0/load_balancers", nil, &lbs)
+	_, err := c.MakeAPIRequest("GET", "/1.0/load_balancers", nil, &lbs)
 	if err != nil {
 		return nil, err
 	}
@@ -116,7 +116,7 @@ func (c *Client) LoadBalancers() ([]LoadBalancer, error) {
 // LoadBalancer retrieves a detailed view of one load balancer
 func (c *Client) LoadBalancer(identifier string) (*LoadBalancer, error) {
 	lb := new(LoadBalancer)
-	_, err := c.MakeApiRequest("GET", "/1.0/load_balancers/"+identifier, nil, lb)
+	_, err := c.MakeAPIRequest("GET", "/1.0/load_balancers/"+identifier, nil, lb)
 	if err != nil {
 		return nil, err
 	}
@@ -126,11 +126,11 @@ func (c *Client) LoadBalancer(identifier string) (*LoadBalancer, error) {
 // CreateLoadBalancer creates a new load balancer.
 //
 // It takes a LoadBalancerOptions struct for specifying name and other
-// attributes.  Not all attributes can be specified at create time (such as Id,
+// attributes.  Not all attributes can be specified at create time (such as ID,
 // which is allocated for you)
 func (c *Client) CreateLoadBalancer(newLB *LoadBalancerOptions) (*LoadBalancer, error) {
 	lb := new(LoadBalancer)
-	_, err := c.MakeApiRequest("POST", "/1.0/load_balancers", newLB, &lb)
+	_, err := c.MakeAPIRequest("POST", "/1.0/load_balancers", newLB, &lb)
 	if err != nil {
 		return nil, err
 	}
@@ -140,10 +140,10 @@ func (c *Client) CreateLoadBalancer(newLB *LoadBalancerOptions) (*LoadBalancer, 
 // UpdateLoadBalancer updates an existing load balancer.
 //
 // It takes a LoadBalancerOptions struct for specifying name and other
-// attributes. Provide the identifier using the Id attribute.
+// attributes. Provide the identifier using the ID attribute.
 func (c *Client) UpdateLoadBalancer(newLB *LoadBalancerOptions) (*LoadBalancer, error) {
 	lb := new(LoadBalancer)
-	_, err := c.MakeApiRequest("PUT", "/1.0/load_balancers/"+newLB.Id, newLB, &lb)
+	_, err := c.MakeAPIRequest("PUT", "/1.0/load_balancers/"+newLB.ID, newLB, &lb)
 	if err != nil {
 		return nil, err
 	}
@@ -152,7 +152,7 @@ func (c *Client) UpdateLoadBalancer(newLB *LoadBalancerOptions) (*LoadBalancer, 
 
 // DestroyLoadBalancer issues a request to destroy the load balancer
 func (c *Client) DestroyLoadBalancer(identifier string) error {
-	_, err := c.MakeApiRequest("DELETE", "/1.0/load_balancers/"+identifier, nil, nil)
+	_, err := c.MakeAPIRequest("DELETE", "/1.0/load_balancers/"+identifier, nil, nil)
 	if err != nil {
 		return err
 	}
@@ -162,7 +162,7 @@ func (c *Client) DestroyLoadBalancer(identifier string) error {
 // AddNodesToLoadBalancer adds nodes to an existing load balancer.
 func (c *Client) AddNodesToLoadBalancer(loadBalancerID string, nodes []LoadBalancerNode) (*LoadBalancer, error) {
 	lb := new(LoadBalancer)
-	_, err := c.MakeApiRequest("POST", "/1.0/load_balancers/"+loadBalancerID+"/add_nodes", nodes, &lb)
+	_, err := c.MakeAPIRequest("POST", "/1.0/load_balancers/"+loadBalancerID+"/add_nodes", nodes, &lb)
 	if err != nil {
 		return nil, err
 	}
@@ -172,7 +172,7 @@ func (c *Client) AddNodesToLoadBalancer(loadBalancerID string, nodes []LoadBalan
 // RemoveNodesFromLoadBalancer removes nodes from an existing load balancer.
 func (c *Client) RemoveNodesFromLoadBalancer(loadBalancerID string, nodes []LoadBalancerNode) (*LoadBalancer, error) {
 	lb := new(LoadBalancer)
-	_, err := c.MakeApiRequest("POST", "/1.0/load_balancers/"+loadBalancerID+"/remove_nodes", nodes, &lb)
+	_, err := c.MakeAPIRequest("POST", "/1.0/load_balancers/"+loadBalancerID+"/remove_nodes", nodes, &lb)
 	if err != nil {
 		return nil, err
 	}
@@ -182,7 +182,7 @@ func (c *Client) RemoveNodesFromLoadBalancer(loadBalancerID string, nodes []Load
 // AddListenersToLoadBalancer adds listeners to an existing load balancer.
 func (c *Client) AddListenersToLoadBalancer(loadBalancerID string, listeners []LoadBalancerListener) (*LoadBalancer, error) {
 	lb := new(LoadBalancer)
-	_, err := c.MakeApiRequest("POST", "/1.0/load_balancers/"+loadBalancerID+"/add_listeners", listeners, &lb)
+	_, err := c.MakeAPIRequest("POST", "/1.0/load_balancers/"+loadBalancerID+"/add_listeners", listeners, &lb)
 	if err != nil {
 		return nil, err
 	}
@@ -192,7 +192,7 @@ func (c *Client) AddListenersToLoadBalancer(loadBalancerID string, listeners []L
 // RemoveListenersFromLoadBalancer removes listeners to an existing load balancer.
 func (c *Client) RemoveListenersFromLoadBalancer(loadBalancerID string, listeners []LoadBalancerListener) (*LoadBalancer, error) {
 	lb := new(LoadBalancer)
-	_, err := c.MakeApiRequest("POST", "/1.0/load_balancers/"+loadBalancerID+"/remove_listeners", listeners, &lb)
+	_, err := c.MakeAPIRequest("POST", "/1.0/load_balancers/"+loadBalancerID+"/remove_listeners", listeners, &lb)
 	if err != nil {
 		return nil, err
 	}
