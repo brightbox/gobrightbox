@@ -24,7 +24,7 @@ type DatabaseSnapshot struct {
 // DatabaseSnapshots retrieves a list of all database snapshot
 func (c *Client) DatabaseSnapshots() ([]DatabaseSnapshot, error) {
 	var databaseSnapshot []DatabaseSnapshot
-	_, err := c.MakeAPIRequest("GET", "/1.0/databaseSnapshots", nil, &databaseSnapshot)
+	_, err := c.MakeAPIRequest("GET", "/1.0/database_snapshots", nil, &databaseSnapshot)
 	if err != nil {
 		return nil, err
 	}
@@ -34,7 +34,7 @@ func (c *Client) DatabaseSnapshots() ([]DatabaseSnapshot, error) {
 // DatabaseSnapshot retrieves a detailed view of one database snapshot
 func (c *Client) DatabaseSnapshot(identifier string) (*DatabaseSnapshot, error) {
 	databaseSnapshot := new(DatabaseSnapshot)
-	_, err := c.MakeAPIRequest("GET", "/1.0/databaseSnapshots/"+identifier, nil, databaseSnapshot)
+	_, err := c.MakeAPIRequest("GET", "/1.0/database_snapshots/"+identifier, nil, databaseSnapshot)
 	if err != nil {
 		return nil, err
 	}
@@ -43,7 +43,7 @@ func (c *Client) DatabaseSnapshot(identifier string) (*DatabaseSnapshot, error) 
 
 // DestroyDatabaseSnapshot issues a request to destroy the database snapshot
 func (c *Client) DestroyDatabaseSnapshot(identifier string) error {
-	_, err := c.MakeAPIRequest("DELETE", "/1.0/databaseSnapshots/"+identifier, nil, nil)
+	_, err := c.MakeAPIRequest("DELETE", "/1.0/database_snapshots/"+identifier, nil, nil)
 	if err != nil {
 		return err
 	}

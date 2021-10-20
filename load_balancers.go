@@ -52,7 +52,7 @@ type LoadBalancerAcmeCertificate struct {
 // LoadBalancerAcmeDomain represents a domain for which ACME support
 // has been requested
 type LoadBalancerAcmeDomain struct {
-	IDentifier  string `json:"identifier"`
+	Identifier  string `json:"identifier"`
 	Status      string `json:"status"`
 	LastMessage string `json:"last_message"`
 }
