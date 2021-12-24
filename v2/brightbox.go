@@ -58,5 +58,21 @@ func NewQuerier[T resource](c *Client) *Querier[T] {
 // All returns the result of making a collection call to the Brightbox API
 // for the instantiated Brightbox resource. 
 func (q *Querier[T]) All() ([]T, error) {
-	// implementation
+	var collection []T
+	var instance T
+	_, err := q.client.MakeAPIRequest("GET", instance.APIPath(), nil, &collection)
+	if err != nil {
+		return nil, err
+	}
+	return collection, err
+}
+
+// Instance retrieves a detailed view of one resource instance
+func (q *Querier[T]) Instance(identifier string) (*T, error) {
+	var instance *T = new(T)
+	_, err := q.client.MakeAPIRequest("GET", (*instance).APIPath(), nil, new(T))
+	if err != nil {
+		return nil, err
+	}
+	return instance, err
 }
