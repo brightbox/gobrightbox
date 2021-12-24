@@ -8,8 +8,8 @@ import (
 
 func ExampleAPIURL() {
 	testConfig := &endpoint.Config{
-		"https://api.gb2.brightbox.com",
-		"2.0",
+		BaseURL: "https://api.gb2.brightbox.com",
+		Version: "2.0",
 	}
 	u, err := testConfig.APIURL()
 	if err == nil {

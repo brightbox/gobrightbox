@@ -30,6 +30,7 @@ func ExamplePasswordCredentials() {
 		Secret:   applicationSecret,
 		Config: endpoint.Config{
 			Account: accountID,
+			Scopes:  endpoint.InfrastructureScope,
 		},
 	}
 
