@@ -10,6 +10,12 @@ const (
 	DefaultVersion = "1.0"
 )
 
+// InfrastructureScope tokens are used to access the Brightbox API
+var InfrastructureScope = []string{"infrastructure"}
+
+// OrbitScope tokens restrict access to Orbit files only
+var OrbitScope = []string{"orbit"}
+
 // Brightbox is the default oauth2 endpoint
 // As Brightbox is a direct access API using oauth2 mechanisms there is
 // no AuthURL. Everything is driven via the TokenURL.

@@ -11,12 +11,6 @@ import (
 	"golang.org/x/oauth2"
 )
 
-// InfrastructureScope tokens are used to access the Brightbox API
-var InfrastructureScope = []string{"infrastructure"}
-
-// OrbitScope tokens restrict access to Orbit files only
-var OrbitScope = []string{"orbit"}
-
 // Config contains the endpoint,version and account of the Brightbox API
 //
 // BaseURL should be an url of the form https://api.region.brightbox.com,
