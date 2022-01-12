@@ -12,15 +12,6 @@ type oauth2 interface {
 	APIURL() (*url.URL, error)
 }
 
-// Client represents a connection to the Brightbox API. You should use NewConnect
-// to allocate and configure Clients, and pass in either a
-// clientcredentials or password configuration.
-type Client struct {
-	UserAgent string
-	baseURL   *url.URL
-	client    *http.Client
-}
-
 // Connect allocates and configures a Client for interacting with the API.
 func Connect(ctx context.Context, config oauth2) (*Client, error) {
 	baseURL, err := config.APIURL()
@@ -38,41 +29,79 @@ func Connect(ctx context.Context, config oauth2) (*Client, error) {
 }
 
 // Local interface type specifying the minimum API interface for a Brightbox resource
-type resource interface {
+type queriable interface {
+	APIPath() string
 }
 
-// Querier is a generic facilitator type that can be instantied with any
-// Brightbox Resource type
-type Querier[T resource] struct {
-	client *Client
-}
-
-// NewQuerier returns a client that is primed to interact with a
-// particular Brightbox Resource.
-func NewQuerier[T resource](c *Client) *Querier[T] {
-	return &Querier[T]{
-		client: c,
-	}
+type optionID interface{
+	ID() string
 }
 
 // All returns the result of making a collection call to the Brightbox API
 // for the instantiated Brightbox resource. 
-func (q *Querier[T]) All() ([]T, error) {
+func All[T queriable](q *Client) ([]T, error) {
 	var collection []T
-	var instance T
-	_, err := q.client.MakeAPIRequest("GET", instance.APIPath(), nil, &collection)
-	if err != nil {
-		return nil, err
-	}
+	var resource T
+	_, err := q.MakeAPIRequest(
+		"GET",
+		resource.APIPath(),
+		nil,
+		&collection,
+	)
 	return collection, err
 }
 
 // Instance retrieves a detailed view of one resource instance
-func (q *Querier[T]) Instance(identifier string) (*T, error) {
-	var instance *T = new(T)
-	_, err := q.client.MakeAPIRequest("GET", (*instance).APIPath(), nil, new(T))
-	if err != nil {
-		return nil, err
-	}
-	return instance, err
+func Instance[T queriable](q *Client, identifier string) (T, error) {
+	var resource T
+	_, err := q.MakeAPIRequest(
+		"GET",
+		resource.APIPath() + "/" + identifier,
+		nil,
+		&resource,
+	)
+	return resource, err
+}
+
+// Create creates a new resource from the supplied option map
+//
+// It takes an instance of Options. Not all attributes can be
+// specified at create time (such as ID, which is allocated for you).
+func Create[T queriable, O optionID](q *Client, newOptions *O) (T, error) {
+	var resource T
+	_, err := q.MakeAPIRequest(
+		"POST",
+		resource.APIPath(),
+		newOptions,
+		&resource,
+	)
+	return resource, err
+}
+
+// Update updates an existing resources's attributes. Not all
+// attributes can be changed (such as ID).
+//
+// Specify the resource you want to update using the ID field
+// field.
+func Update[T queriable, O optionID](q *Client, updateOptions *O) (T, error) {
+	var resource T
+	_, err := q.MakeAPIRequest(
+		"PUT",
+		resource.APIPath() + "/" + (*updateOptions).ID(),
+		updateOptions,
+		&resource,
+	)
+	return resource, err
+}
+
+// Destroy destroys an existing resource.
+func Destroy[T queriable](q *Client, identifier string) error {
+	var resource T
+	_, err := q.MakeAPIRequest(
+		"DELETE",
+		resource.APIPath() + "/" + identifier,
+		nil,
+		nil,
+	)
+	return err
 }

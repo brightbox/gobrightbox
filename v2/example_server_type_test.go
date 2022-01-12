@@ -11,7 +11,7 @@ import (
 
 // Authenticate using an API Client identifier and secret, and get a list of
 // configMaps
-func ExampleClientCredentials() {
+func ExampleServerType() {
 	// Brightbox client details issued on a specific account
 	clientID := "cli-xxxxx"
 	clientSecret := "somesecret"
@@ -31,12 +31,10 @@ func ExampleClientCredentials() {
 		log.Fatal(err)
 	}
 
-	// Get a list of configMaps
-	configMaps, err := brightbox.All[brightbox.ConfigMap](client)
+	// Get a server type by handle
+	serverType, err := brightbox.ByHandle[*brightbox.ServerType](client, "2gb.ssd")
 	if err != nil {
 		log.Fatal(err)
 	}
-	for _, configMap := range configMaps {
-		fmt.Printf("id:%s name:%s\n", configMap.ID, configMap.Name)
-	}
+	fmt.Printf("id:%s name:%s\n", serverType.ID, serverType.Name)
 }

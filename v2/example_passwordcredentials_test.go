@@ -10,7 +10,7 @@ import (
 	"github.com/brightbox/gobrightbox/v2/passwordcredentials"
 )
 
-// Authenticate using OAuth2 password credentials, and get a list of servers
+// Authenticate using OAuth2 password credentials, and get a list of configMaps
 func ExamplePasswordCredentials() {
 	// Brightbox username and password
 	userName := "john@example.com"
@@ -43,13 +43,12 @@ func ExamplePasswordCredentials() {
 		log.Fatal(err)
 	}
 
-	// Get a list of servers
-	serverQuerier := brightbox.NewQuerier[brightbox.Server](client)
-	servers, err := serverQuerier.All()
+	// Get a list of configMaps
+	configMaps, err := brightbox.All[brightbox.ConfigMap](client)
 	if err != nil {
 		log.Fatal(err)
 	}
-	for _, server := range servers {
-		fmt.Printf("id:%s name:%s\n", server.ID, server.Name)
+	for _, configMap := range configMaps {
+		fmt.Printf("id:%s name:%s\n", configMap.ID, configMap.Name)
 	}
 }
