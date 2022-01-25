@@ -19,3 +19,15 @@ type ConfigMapOptions struct {
 func (_c ConfigMap) APIPath() string {
 	return "config_maps"
 }
+
+func (c ConfigMap) Extract() *ConfigMapOptions {
+	return &ConfigMapOptions{
+		ID: c.ID,
+		Name: &c.Name,
+		Data: &c.Data,
+	}
+}
+
+func (c ConfigMapOptions) FetchID() string {
+	return c.ID
+}

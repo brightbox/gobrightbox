@@ -39,4 +39,19 @@ func ExampleClientCredentials() {
 	for _, configMap := range configMaps {
 		fmt.Printf("id:%s name:%s\n", configMap.ID, configMap.Name)
 	}
+
+	// Create a new configMap
+	name := "new_map"
+	data := map[string]interface{}{
+		"attribute": 42,
+	}
+	newMap := brightbox.ConfigMapOptions{
+		Name: &name,
+		Data: &data,
+	}
+	configMap, err := brightbox.Create[*brightbox.ConfigMap](client, &newMap)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("id:%s name:%s\n", configMap.ID, configMap.Name)
 }

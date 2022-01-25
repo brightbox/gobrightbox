@@ -16,7 +16,7 @@ type ServerType struct {
 	DiskSize int `json:"disk_size"`
 }
 
-func (_c *ServerType) APIPath() string {
+func (_c ServerType) APIPath() string {
 	return "server_types"
 }
 

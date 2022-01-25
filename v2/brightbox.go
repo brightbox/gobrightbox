@@ -34,7 +34,7 @@ type queriable interface {
 }
 
 type optionID interface{
-	ID() string
+	FetchID() string
 }
 
 // All returns the result of making a collection call to the Brightbox API
@@ -63,11 +63,16 @@ func Instance[T queriable](q *Client, identifier string) (T, error) {
 	return resource, err
 }
 
+type crudable[I optionID] interface {
+	queriable
+	Extract() I
+}
+
 // Create creates a new resource from the supplied option map
 //
 // It takes an instance of Options. Not all attributes can be
 // specified at create time (such as ID, which is allocated for you).
-func Create[T queriable, O optionID](q *Client, newOptions *O) (T, error) {
+func Create[T crudable[I], I optionID](q *Client, newOptions I) (T, error) {
 	var resource T
 	_, err := q.MakeAPIRequest(
 		"POST",
@@ -83,11 +88,11 @@ func Create[T queriable, O optionID](q *Client, newOptions *O) (T, error) {
 //
 // Specify the resource you want to update using the ID field
 // field.
-func Update[T queriable, O optionID](q *Client, updateOptions *O) (T, error) {
+func Update[T crudable[I], I optionID](q *Client, updateOptions I) (T, error) {
 	var resource T
 	_, err := q.MakeAPIRequest(
 		"PUT",
-		resource.APIPath() + "/" + (*updateOptions).ID(),
+		resource.APIPath() + "/" + updateOptions.FetchID(),
 		updateOptions,
 		&resource,
 	)
