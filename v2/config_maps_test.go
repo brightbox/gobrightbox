@@ -1,8 +1,6 @@
 package brightbox
 
 import (
-	"context"
-	"net/http/httptest"
 	"testing"
 
 	"gotest.tools/assert"
@@ -10,26 +8,16 @@ import (
 )
 
 func TestConfigMaps(t *testing.T) {
-	handler := APIMock{
-		T:            t,
-		ExpectMethod: "GET",
-		ExpectURL:    "/1.0/config_maps",
-		ExpectBody:   "",
-		GiveBody:     readJSON("config_maps"),
-	}
-	ts := httptest.NewServer(&handler)
+	ts, client, err := SetupConnection(
+		&APIMock{
+			T:            t,
+			ExpectMethod: "GET",
+			ExpectURL:    "/1.0/config_maps",
+			ExpectBody:   "",
+			GiveBody:     readJSON("config_maps"),
+		},
+	)
 	defer ts.Close()
-
-	// Setup Mock Config
-	conf := &MockAuth{
-		url: ts.URL,
-	}
-
-	// Underlying network connection context.
-	ctx := context.Background()
-
-	// Setup connection to API
-	client, err := Connect(ctx, conf)
 	assert.Assert(t, is.Nil(err), "Connect returned an error")
 
 	p, err := All[ConfigMap](client)
