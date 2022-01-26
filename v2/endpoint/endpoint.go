@@ -62,7 +62,7 @@ func (c *Config) APIURL() (*url.URL, error) {
 	} else {
 		rawVersion = c.Version
 	}
-	return u.Parse(rawVersion)
+	return u.Parse(rawVersion+"/")
 }
 
 // TokenURL provides the OAuth2 URL from the Config BaseURL entries. Where

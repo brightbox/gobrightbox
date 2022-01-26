@@ -15,7 +15,7 @@ func ExampleAPIURL() {
 	if err == nil {
 		fmt.Println(u.String())
 	}
-	// Output: https://api.gb2.brightbox.com/2.0
+	// Output: https://api.gb2.brightbox.com/2.0/
 }
 
 func ExampleAPIURL_defaults() {
@@ -24,7 +24,7 @@ func ExampleAPIURL_defaults() {
 	if err == nil {
 		fmt.Println(u.String())
 	}
-	// Output: https://api.gb1.brightbox.com/1.0
+	// Output: https://api.gb1.brightbox.com/1.0/
 }
 
 func ExampleTokenURL() {
@@ -33,5 +33,5 @@ func ExampleTokenURL() {
 	if err == nil {
 		fmt.Println(url)
 	}
-	// Output: https://api.gb1.brightbox.com/token
+	// Output: https://api.gb1.brightbox.com/token/
 }

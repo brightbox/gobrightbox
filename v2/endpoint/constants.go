@@ -20,6 +20,6 @@ var OrbitScope = []string{"orbit"}
 // As Brightbox is a direct access API using oauth2 mechanisms there is
 // no AuthURL. Everything is driven via the TokenURL.
 var Brightbox = oauth2.Endpoint{
-	TokenURL:  DefaultBaseURL + "token",
+	TokenURL:  DefaultBaseURL + "token/",
 	AuthStyle: oauth2.AuthStyleInHeader,
 }
