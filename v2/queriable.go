@@ -9,10 +9,10 @@ type queriable interface {
 // for the instantiated Brightbox resource. 
 func All[T queriable](q *Client) ([]T, error) {
 	var collection []T
-	var resource T
+	var zero T
 	_, err := q.MakeAPIRequest(
 		"GET",
-		resource.APIPath(),
+		zero.APIPath(),
 		nil,
 		&collection,
 	)
@@ -20,7 +20,7 @@ func All[T queriable](q *Client) ([]T, error) {
 }
 
 // Instance retrieves a detailed view of one resource instance
-func Instance[T queriable](q *Client, identifier string) (T, error) {
+func Instance[T queriable](q *Client, identifier string) (*T, error) {
 	var resource T
 	_, err := q.MakeAPIRequest(
 		"GET",
@@ -28,5 +28,5 @@ func Instance[T queriable](q *Client, identifier string) (T, error) {
 		nil,
 		&resource,
 	)
-	return resource, err
+	return &resource, err
 }

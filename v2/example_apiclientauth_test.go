@@ -49,7 +49,7 @@ func ExampleClientCredentials() {
 		Name: &name,
 		Data: &data,
 	}
-	configMap, err := brightbox.Create[*brightbox.ConfigMap](client, &newMap)
+	configMap, err := brightbox.Create[brightbox.ConfigMap](client, &newMap)
 	if err != nil {
 		log.Fatal(err)
 	}

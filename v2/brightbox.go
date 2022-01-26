@@ -27,3 +27,15 @@ func Connect(ctx context.Context, config oauth2) (*Client, error) {
 		client:  httpClient,
 	}, nil
 }
+
+// ResetSecret requests a snapshot of an existing APIClient with a new secret.
+func ResetSecret(q *Client, resource *APIClient) (*APIClient, error) {
+	ac := new(APIClient)
+	_, err := q.MakeAPIRequest(
+		"POST",
+		resource.LockID()+"/reset_secret",
+		nil,
+		ac,
+	)
+	return ac, err
+}
