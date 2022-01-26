@@ -8,26 +8,29 @@ type ConfigMap struct {
 	Data map[string]interface{} `json:"data"`
 }
 
-// ConfigMapOptions is used in combination with CreateConfigMap and
-// UpdateConfigMap to create and update config maps
+// ConfigMapOptions is used to create and update config maps
 type ConfigMapOptions struct {
 	ID   string                  `json:"-"`
 	Name *string                 `json:"name,omitempty"`
 	Data *map[string]interface{} `json:"data,omitempty"`
 }
 
-func (_c ConfigMap) APIPath() string {
+// APIPath returns the relative URL path to the config map collection
+func (c ConfigMap) APIPath() string {
 	return "config_maps"
 }
 
+// Extract copies a ConfigMap object to a ConfigMapOptions object
 func (c ConfigMap) Extract() *ConfigMapOptions {
 	return &ConfigMapOptions{
-		ID: c.ID,
+		ID:   c.ID,
 		Name: &c.Name,
 		Data: &c.Data,
 	}
 }
 
+// FetchID returns the ID field from a ConfigMapOptions object
+// ID will be blank for create, and set for update
 func (c ConfigMapOptions) FetchID() string {
 	return c.ID
 }
