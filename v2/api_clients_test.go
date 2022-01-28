@@ -1,69 +1,32 @@
 package brightbox
 
 import (
-	"context"
-	"net/http/httptest"
 	"testing"
 
 	"gotest.tools/assert"
 	is "gotest.tools/assert/cmp"
 )
 
-func SetupConnection(handler *APIMock) (*httptest.Server, *Client, error) {
-	ts := httptest.NewServer(handler)
-
-	// Setup Mock Config
-	conf := &MockAuth{
-		url: ts.URL,
-	}
-
-	// Underlying network connection context.
-	ctx := context.Background()
-
-	// Setup connection to API
-	client, err := Connect(ctx, conf)
-	return ts, client, err
-}
-
 func TestAPIClients(t *testing.T) {
-	ts, client, err := SetupConnection(
-		&APIMock{
-			T:            t,
-			ExpectMethod: "GET",
-			ExpectURL:    "/1.0/api_clients",
-			ExpectBody:   "",
-			GiveBody:     readJSON("api_clients"),
-		},
+	instance := testAll[APIClient](
+		t,
+		"APIClient",
+		"api_clients",
+		"api client",
 	)
-	defer ts.Close()
-	assert.Assert(t, is.Nil(err), "Connect returned an error")
-
-	p, err := All[APIClient](client)
-	assert.Assert(t, is.Nil(err), "All[APIClient]() returned an error")
-	assert.Assert(t, p != nil, "All[APIClient]() returned nil")
-	assert.Equal(t, 1, len(p), "wrong number of api clients returned")
-	ac := p[0]
-	assert.Equal(t, "cli-dsse2", ac.ID, "api client id incorrect")
+	assert.Equal(t, "cli-dsse2", instance.ID, "api client id incorrect")
 }
 
 func TestAPIClient(t *testing.T) {
-	ts, client, err := SetupConnection(
-		&APIMock{
-			T:            t,
-			ExpectMethod: "GET",
-			ExpectURL:    "/1.0/api_clients/cli-dsse2",
-			ExpectBody:   "",
-			GiveBody:     readJSON("api_client"),
-		},
+	instance := testInstance[APIClient](
+		t,
+		"APIClient",
+		"api_clients",
+		"api_client",
+		"cli-dsse2",
 	)
-	defer ts.Close()
-	assert.Assert(t, is.Nil(err), "Connect returned an error")
-
-	ac, err := Instance[APIClient](client, "cli-dsse2")
-	assert.Assert(t, is.Nil(err), "Instance[APIClient] returned an error")
-	assert.Assert(t, ac != nil, "Instance[APIClient] returned nil")
-	assert.Equal(t, "cli-dsse2", ac.ID, "api client id incorrect")
-	assert.Equal(t, "dev client", ac.Name, "api client name incorrect")
+	assert.Equal(t, "cli-dsse2", instance.ID, "api client id incorrect")
+	assert.Equal(t, "dev client", instance.Name, "api client name incorrect")
 }
 
 func TestCreateAPIClient(t *testing.T) {
@@ -144,24 +107,6 @@ func TestDestroyAPIClient(t *testing.T) {
 
 	err = Destroy[APIClient](client, "cli-dsse2")
 	assert.Assert(t, is.Nil(err), "DestroyAPIClient() returned an error")
-}
-
-func TestResetSecret(t *testing.T) {
-	ts, client, err := SetupConnection(
-		&APIMock{
-			T:            t,
-			ExpectMethod: "POST",
-			ExpectURL:    "/1.0/api_clients/cli-dsse2/reset_secret",
-			ExpectBody:   "",
-			GiveBody:     readJSON("api_client"),
-		},
-	)
-	defer ts.Close()
-	assert.Assert(t, is.Nil(err), "Connect returned an error")
-
-	nc, err := ResetSecret(client, &APIClient{ID: "cli-dsse2"})
-	assert.Assert(t, is.Nil(err), "ResetSecret() returned an error")
-	assert.Assert(t, nc != nil, "ResetSecret() returned nil")
 }
 
 func TestLockAPIClient(t *testing.T) {

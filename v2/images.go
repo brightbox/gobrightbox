@@ -29,14 +29,14 @@ type Image struct {
 
 // ImageOptions is used to create and update machine images
 type ImageOptions struct {
-	ID                string `json:"-"`
+	ID                string  `json:"-"`
 	Name              *string `json:"name,omitempty"`
 	Username          *string `json:"username,omitempty"`
 	Status            *string `json:"status,omitempty"`
 	Description       *string `json:"description,omitempty"`
 	Source            *string `json:"source,omitempty"`
 	Arch              *string `json:"arch,omitempty"`
-	Public            *bool `json:"public,omitempty"`
+	Public            *bool   `json:"public,omitempty"`
 	CompatibilityMode *bool   `json:"compatibility_mode,omitempty"`
 }
 
@@ -48,15 +48,15 @@ func (c Image) APIPath() string {
 // Extract copies an Image object to a ImageOptions object
 func (c Image) Extract() *ImageOptions {
 	return &ImageOptions{
-		ID:               c.ID,
-		Name:             &c.Name,
-		Username:	  &c.Username,
-		Status:      &c.Status,
-		Description:      &c.Description,
-		Source:      &c.Source,
-		Arch:      &c.Arch,
-		Public:      &c.Public,
-		CompatibilityMode:      &c.CompatibilityMode,
+		ID:                c.ID,
+		Name:              &c.Name,
+		Username:          &c.Username,
+		Status:            &c.Status,
+		Description:       &c.Description,
+		Source:            &c.Source,
+		Arch:              &c.Arch,
+		Public:            &c.Public,
+		CompatibilityMode: &c.CompatibilityMode,
 	}
 }
 

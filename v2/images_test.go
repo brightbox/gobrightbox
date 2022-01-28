@@ -8,44 +8,25 @@ import (
 )
 
 func TestImages(t *testing.T) {
-	ts, client, err := SetupConnection(
-		&APIMock{
-			T:            t,
-			ExpectMethod: "GET",
-			ExpectURL:    "/1.0/images",
-			ExpectBody:   "",
-			GiveBody:     readJSON("images"),
-		},
+	instance := testAll[Image](
+		t,
+		"Image",
+		"images",
+		"image",
 	)
-	defer ts.Close()
-	assert.Assert(t, is.Nil(err), "Connect returned an error")
-
-	p, err := All[Image](client)
-	assert.Assert(t, is.Nil(err), "All[Image]() returned an error")
-	assert.Assert(t, p != nil, "All[Image]() returned nil")
-	assert.Equal(t, 1, len(p), "wrong number of images returned")
-	ac := p[0]
-	assert.Equal(t, "img-3ikco", ac.ID, "image id incorrect")
+	assert.Equal(t, "img-3ikco", instance.ID, "image id incorrect")
 }
 
 func TestImage(t *testing.T) {
-	ts, client, err := SetupConnection(
-		&APIMock{
-			T:            t,
-			ExpectMethod: "GET",
-			ExpectURL:    "/1.0/images/img-3ikco",
-			ExpectBody:   "",
-			GiveBody:     readJSON("image"),
-		},
+	instance := testInstance[Image](
+		t,
+		"Image",
+		"images",
+		"image",
+		"img-3ikco",
 	)
-	defer ts.Close()
-	assert.Assert(t, is.Nil(err), "Connect returned an error")
-
-	ac, err := Instance[Image](client, "img-3ikco")
-	assert.Assert(t, is.Nil(err), "Instance[Image] returned an error")
-	assert.Assert(t, ac != nil, "Instance[Image] returned nil")
-	assert.Equal(t, "img-3ikco", ac.ID, "image id incorrect")
-	assert.Equal(t, "Ubuntu Lucid 10.04 server", ac.Name, "image name incorrect")
+	assert.Equal(t, "img-3ikco", instance.ID, "image id incorrect")
+	assert.Equal(t, "Ubuntu Lucid 10.04 server", instance.Name, "image name incorrect")
 }
 
 func TestCreateImage(t *testing.T) {
