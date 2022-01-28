@@ -14,7 +14,7 @@ func TestAPIClients(t *testing.T) {
 		"api_clients",
 		"api client",
 	)
-	assert.Equal(t, "cli-dsse2", instance.ID, "api client id incorrect")
+	assert.Equal(t, instance.ID, "cli-dsse2")
 }
 
 func TestAPIClient(t *testing.T) {
@@ -25,50 +25,36 @@ func TestAPIClient(t *testing.T) {
 		"api_client",
 		"cli-dsse2",
 	)
-	assert.Equal(t, "cli-dsse2", instance.ID, "api client id incorrect")
-	assert.Equal(t, "dev client", instance.Name, "api client name incorrect")
+	assert.Equal(t, instance.ID, "cli-dsse2")
+	assert.Equal(t, instance.Name, "dev client")
 }
 
 func TestCreateAPIClient(t *testing.T) {
-	ts, client, err := SetupConnection(
-		&APIMock{
-			T:            t,
-			ExpectMethod: "POST",
-			ExpectURL:    "/1.0/api_clients",
-			ExpectBody:   "{}",
-			GiveBody:     readJSON("api_client"),
-		},
-	)
-	defer ts.Close()
-	assert.Assert(t, is.Nil(err), "Connect returned an error")
-
 	newAC := APIClientOptions{}
-	ac, err := Create[APIClient](client, &newAC)
-	assert.Assert(t, is.Nil(err), "Create[APIClient] returned an error")
-	assert.Assert(t, ac != nil, "Create[APIClient] returned nil")
-	assert.Equal(t, "cli-dsse2", ac.ID)
+	_ = testCreate[APIClient](
+		t,
+		"APIClient",
+		"api_clients",
+		"api_client",
+		"cli-dsse2",
+		&newAC,
+		"{}",
+	)
 }
 
 func TestCreateAPIClientWithPermissionsGroup(t *testing.T) {
-	ts, client, err := SetupConnection(
-		&APIMock{
-			T:            t,
-			ExpectMethod: "POST",
-			ExpectURL:    "/1.0/api_clients",
-			ExpectBody:   `{"permissions_group":"full"}`,
-			GiveBody:     readJSON("api_client"),
-		},
-	)
-	defer ts.Close()
-	assert.Assert(t, is.Nil(err), "Connect returned an error")
-
 	pg := "full"
 	newAC := APIClientOptions{PermissionsGroup: &pg}
-	ac, err := Create[APIClient](client, &newAC)
-	assert.Assert(t, is.Nil(err), "CreateAPIClient() returned an error")
-	assert.Assert(t, ac != nil, "CreateAPIClient() returned nil")
-	assert.Equal(t, "cli-dsse2", ac.ID)
-	assert.Equal(t, pg, ac.PermissionsGroup)
+	instance := testCreate[APIClient](
+		t,
+		"APIClient",
+		"api_clients",
+		"api_client",
+		"cli-dsse2",
+		&newAC,
+		`{"permissions_group":"full"}`,
+	)
+	assert.Equal(t, instance.PermissionsGroup, pg)
 }
 
 func TestUpdateAPIClient(t *testing.T) {
