@@ -1,0 +1,23 @@
+{"id": "usr-kl435",
+ "resource_type": "user",
+ "url": "https://api.gb1.brightbox.com/1.0/users/usr-kl435",
+ "name": "John Jarvis",
+ "email_address": "jjarvis@example.com",
+ "email_verified": true,
+ "ssh_key": "",
+ "messaging_pref": true,
+ "created_at": null,
+ "2fa":
+  {"enabled": false},
+ "default_account":
+  {"id": "acc-43ks4",
+   "resource_type": "account",
+   "url": "https://api.gb1.brightbox.com/1.0/accounts/acc-43ks4",
+   "name": "Brightbox",
+   "status": "active"},
+ "accounts":
+  [{"id": "acc-43ks4",
+    "resource_type": "account",
+    "url": "https://api.gb1.brightbox.com/1.0/accounts/acc-43ks4",
+    "name": "Brightbox",
+    "status": "active"}]}
