@@ -13,7 +13,7 @@ func TestConfigMaps(t *testing.T) {
 		"config_maps",
 		"config map",
 	)
-	assert.Equal(t, "cfg-dsse2", instance.ID, "config map if incorrect")
+	assert.Equal(t, instance.ID, "cfg-dsse2")
 }
 
 func TestConfigMap(t *testing.T) {
@@ -24,6 +24,6 @@ func TestConfigMap(t *testing.T) {
 		"config_map",
 		"cfg-dsse2",
 	)
-	assert.Equal(t, "cfg-dsse2", instance.ID, "config map if incorrect")
-	assert.Equal(t, "example.test", instance.Name, "config map name incorrect")
+	assert.Equal(t, instance.ID, "cfg-dsse2")
+	assert.Equal(t, instance.Name, "example.test")
 }

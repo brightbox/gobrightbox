@@ -14,7 +14,7 @@ func TestImages(t *testing.T) {
 		"images",
 		"image",
 	)
-	assert.Equal(t, "img-3ikco", instance.ID, "image id incorrect")
+	assert.Equal(t, instance.ID, "img-3ikco")
 }
 
 func TestImage(t *testing.T) {
@@ -25,50 +25,36 @@ func TestImage(t *testing.T) {
 		"image",
 		"img-3ikco",
 	)
-	assert.Equal(t, "img-3ikco", instance.ID, "image id incorrect")
-	assert.Equal(t, "Ubuntu Lucid 10.04 server", instance.Name, "image name incorrect")
+	assert.Equal(t, instance.ID, "img-3ikco")
+	assert.Equal(t, instance.Name, "Ubuntu Lucid 10.04 server")
 }
 
 func TestCreateImage(t *testing.T) {
-	ts, client, err := SetupConnection(
-		&APIMock{
-			T:            t,
-			ExpectMethod: "POST",
-			ExpectURL:    "/1.0/images",
-			ExpectBody:   "{}",
-			GiveBody:     readJSON("image"),
-		},
-	)
-	defer ts.Close()
-	assert.Assert(t, is.Nil(err), "Connect returned an error")
-
 	newAC := ImageOptions{}
-	ac, err := Create[Image](client, &newAC)
-	assert.Assert(t, is.Nil(err), "Create[Image] returned an error")
-	assert.Assert(t, ac != nil, "Create[Image] returned nil")
-	assert.Equal(t, "img-3ikco", ac.ID)
+	_ = testCreate[Image](
+		t,
+		"Image",
+		"images",
+		"image",
+		"img-3ikco",
+		&newAC,
+		"{}",
+	)
 }
 
 func TestCreateImageWithSource(t *testing.T) {
-	ts, client, err := SetupConnection(
-		&APIMock{
-			T:            t,
-			ExpectMethod: "POST",
-			ExpectURL:    "/1.0/images",
-			ExpectBody:   `{"source":"ubuntu-lucid-daily-i64-server-20110509"}`,
-			GiveBody:     readJSON("image"),
-		},
-	)
-	defer ts.Close()
-	assert.Assert(t, is.Nil(err), "Connect returned an error")
-
 	pg := "ubuntu-lucid-daily-i64-server-20110509"
 	newAC := ImageOptions{Source: &pg}
-	ac, err := Create[Image](client, &newAC)
-	assert.Assert(t, is.Nil(err), "CreateImage() returned an error")
-	assert.Assert(t, ac != nil, "CreateImage() returned nil")
-	assert.Equal(t, "img-3ikco", ac.ID)
-	assert.Equal(t, pg, ac.Source)
+	instance := testCreate[Image](
+		t,
+		"Image",
+		"images",
+		"image",
+		"img-3ikco",
+		&newAC,
+		`{"source":"ubuntu-lucid-daily-i64-server-20110509"}`,
+	)
+	assert.Equal(t, instance.Source, pg)
 }
 
 func TestUpdateImage(t *testing.T) {

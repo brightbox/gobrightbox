@@ -13,7 +13,7 @@ func TestUsers(t *testing.T) {
 		"users",
 		"user",
 	)
-	assert.Equal(t, "usr-kl435", instance.ID, "user id incorrect")
+	assert.Equal(t, instance.ID, "usr-kl435")
 }
 
 func TestUser(t *testing.T) {
@@ -24,6 +24,6 @@ func TestUser(t *testing.T) {
 		"user",
 		"usr-kl435",
 	)
-	assert.Equal(t, "usr-kl435", instance.ID, "user id incorrect")
-	assert.Equal(t, "John Jarvis", instance.Name, "user name incorrect")
+	assert.Equal(t, instance.ID, "usr-kl435")
+	assert.Equal(t, instance.Name, "John Jarvis")
 }

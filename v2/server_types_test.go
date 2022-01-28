@@ -13,7 +13,7 @@ func TestServerTypes(t *testing.T) {
 		"server_types",
 		"server type",
 	)
-	assert.Equal(t, "typ-zx45f", instance.ID, "server_type id incorrect")
+	assert.Equal(t, instance.ID, "typ-zx45f")
 }
 
 func TestServerType(t *testing.T) {
@@ -24,6 +24,6 @@ func TestServerType(t *testing.T) {
 		"server_type",
 		"typ-zx45f",
 	)
-	assert.Equal(t, "typ-zx45f", instance.ID, "server_type id incorrect")
-	assert.Equal(t, "Small", instance.Name, "server_type name incorrect")
+	assert.Equal(t, instance.ID, "typ-zx45f")
+	assert.Equal(t, instance.Name, "Small")
 }

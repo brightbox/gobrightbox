@@ -13,7 +13,7 @@ func TestAccounts(t *testing.T) {
 		"accounts",
 		"account",
 	)
-	assert.Equal(t, "acc-43ks4", instance.ID, "account id incorrect")
+	assert.Equal(t, instance.ID, "acc-43ks4")
 }
 
 func TestAccount(t *testing.T) {
@@ -24,6 +24,6 @@ func TestAccount(t *testing.T) {
 		"account",
 		"acc-43ks4",
 	)
-	assert.Equal(t, "acc-43ks4", instance.ID, "account id incorrect")
-	assert.Equal(t, "Brightbox", instance.Name, "account name incorrect")
+	assert.Equal(t, instance.ID, "acc-43ks4")
+	assert.Equal(t, instance.Name, "Brightbox")
 }
