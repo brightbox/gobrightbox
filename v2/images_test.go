@@ -4,7 +4,6 @@ import (
 	"testing"
 
 	"gotest.tools/assert"
-	is "gotest.tools/assert/cmp"
 )
 
 func TestImages(t *testing.T) {
@@ -81,35 +80,25 @@ func TestDestroyImage(t *testing.T) {
 }
 
 func TestLockImage(t *testing.T) {
-	ts, client, err := SetupConnection(
-		&APIMock{
-			T:            t,
-			ExpectMethod: "PUT",
-			ExpectURL:    "/1.0/images/img-3ikco/lock_resource",
-			ExpectBody:   ``,
-			GiveBody:     ``,
-		},
+	testLock[Image](
+		t,
+		"Image",
+		"images",
+		&Image{ID: "img-3ikco"},
+		"img-3ikco",
+		"lock_resource",
+		LockResource,
 	)
-	defer ts.Close()
-	assert.Assert(t, is.Nil(err), "Connect returned an error")
-
-	err = LockResource(client, &Image{ID: "img-3ikco"})
-	assert.Assert(t, is.Nil(err), "LockImage() returned an error")
 }
 
 func TestUnlockImage(t *testing.T) {
-	ts, client, err := SetupConnection(
-		&APIMock{
-			T:            t,
-			ExpectMethod: "PUT",
-			ExpectURL:    "/1.0/images/img-3ikco/unlock_resource",
-			ExpectBody:   ``,
-			GiveBody:     ``,
-		},
+	testLock[Image](
+		t,
+		"Image",
+		"images",
+		&Image{ID: "img-3ikco"},
+		"img-3ikco",
+		"unlock_resource",
+		UnlockResource,
 	)
-	defer ts.Close()
-	assert.Assert(t, is.Nil(err), "Connect returned an error")
-
-	err = UnLockResource(client, &Image{ID: "img-3ikco"})
-	assert.Assert(t, is.Nil(err), "LockImage() returned an error")
 }

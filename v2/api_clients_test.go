@@ -4,7 +4,6 @@ import (
 	"testing"
 
 	"gotest.tools/assert"
-	is "gotest.tools/assert/cmp"
 )
 
 func TestAPIClients(t *testing.T) {
@@ -81,35 +80,25 @@ func TestDestroyAPIClient(t *testing.T) {
 }
 
 func TestLockAPIClient(t *testing.T) {
-	ts, client, err := SetupConnection(
-		&APIMock{
-			T:            t,
-			ExpectMethod: "PUT",
-			ExpectURL:    "/1.0/api_clients/cli-dsse2/lock_resource",
-			ExpectBody:   ``,
-			GiveBody:     ``,
-		},
+	testLock[APIClient](
+		t,
+		"APIClient",
+		"api_clients",
+		&APIClient{ID: "cli-dsse2"},
+		"cli-dsse2",
+		"lock_resource",
+		LockResource,
 	)
-	defer ts.Close()
-	assert.Assert(t, is.Nil(err), "Connect returned an error")
-
-	err = LockResource(client, &APIClient{ID: "cli-dsse2"})
-	assert.Assert(t, is.Nil(err), "LockAPIClient() returned an error")
 }
 
 func TestUnlockAPIClient(t *testing.T) {
-	ts, client, err := SetupConnection(
-		&APIMock{
-			T:            t,
-			ExpectMethod: "PUT",
-			ExpectURL:    "/1.0/api_clients/cli-dsse2/unlock_resource",
-			ExpectBody:   ``,
-			GiveBody:     ``,
-		},
+	testLock[APIClient](
+		t,
+		"APIClient",
+		"api_clients",
+		&APIClient{ID: "cli-dsse2"},
+		"cli-dsse2",
+		"unlock_resource",
+		UnlockResource,
 	)
-	defer ts.Close()
-	assert.Assert(t, is.Nil(err), "Connect returned an error")
-
-	err = UnLockResource(client, &APIClient{ID: "cli-dsse2"})
-	assert.Assert(t, is.Nil(err), "LockAPIClient() returned an error")
 }

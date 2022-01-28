@@ -8,18 +8,18 @@ type lockable interface {
 func LockResource(q *Client, resource lockable) error {
 	_, err := q.MakeAPIRequest(
 		"PUT",
-		resource.LockID() + "/lock_resource",
+		resource.LockID()+"/lock_resource",
 		nil,
 		nil,
 	)
 	return err
 }
 
-// UnLockResource unlocks a resource, renabling destroy requests.
-func UnLockResource(q *Client, resource lockable) error {
+// UnlockResource unlocks a resource, renabling destroy requests.
+func UnlockResource(q *Client, resource lockable) error {
 	_, err := q.MakeAPIRequest(
 		"PUT",
-		resource.LockID() + "/unlock_resource",
+		resource.LockID()+"/unlock_resource",
 		nil,
 		nil,
 	)
