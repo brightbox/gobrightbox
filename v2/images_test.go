@@ -58,41 +58,26 @@ func TestCreateImageWithSource(t *testing.T) {
 }
 
 func TestUpdateImage(t *testing.T) {
-	ts, client, err := SetupConnection(
-		&APIMock{
-			T:            t,
-			ExpectMethod: "PUT",
-			ExpectURL:    "/1.0/images/img-3ikco",
-			ExpectBody:   `{"name":"dev client"}`,
-			GiveBody:     readJSON("image"),
-		},
-	)
-	defer ts.Close()
-	assert.Assert(t, is.Nil(err), "Connect returned an error")
-
 	name := "dev client"
 	uac := ImageOptions{ID: "img-3ikco", Name: &name}
-	ac, err := Update[Image](client, &uac)
-	assert.Assert(t, is.Nil(err), "UpdateImage() returned an error")
-	assert.Assert(t, ac != nil, "UpdateImage() returned nil")
-	assert.Equal(t, "img-3ikco", ac.ID)
+	_ = testUpdate[Image](
+		t,
+		"Image",
+		"images",
+		"image",
+		"img-3ikco",
+		&uac,
+		`{"name":"dev client"}`,
+	)
 }
 
 func TestDestroyImage(t *testing.T) {
-	ts, client, err := SetupConnection(
-		&APIMock{
-			T:            t,
-			ExpectMethod: "DELETE",
-			ExpectURL:    "/1.0/images/img-3ikco",
-			ExpectBody:   "",
-			GiveBody:     "",
-		},
+	testDestroy[Image](
+		t,
+		"Image",
+		"images",
+		"img-3ikco",
 	)
-	defer ts.Close()
-	assert.Assert(t, is.Nil(err), "Connect returned an error")
-
-	err = Destroy[Image](client, "img-3ikco")
-	assert.Assert(t, is.Nil(err), "DestroyImage() returned an error")
 }
 
 func TestLockImage(t *testing.T) {

@@ -58,41 +58,26 @@ func TestCreateAPIClientWithPermissionsGroup(t *testing.T) {
 }
 
 func TestUpdateAPIClient(t *testing.T) {
-	ts, client, err := SetupConnection(
-		&APIMock{
-			T:            t,
-			ExpectMethod: "PUT",
-			ExpectURL:    "/1.0/api_clients/cli-dsse2",
-			ExpectBody:   `{"name":"dev client"}`,
-			GiveBody:     readJSON("api_client"),
-		},
-	)
-	defer ts.Close()
-	assert.Assert(t, is.Nil(err), "Connect returned an error")
-
 	name := "dev client"
 	uac := APIClientOptions{ID: "cli-dsse2", Name: &name}
-	ac, err := Update[APIClient](client, &uac)
-	assert.Assert(t, is.Nil(err), "UpdateAPIClient() returned an error")
-	assert.Assert(t, ac != nil, "UpdateAPIClient() returned nil")
-	assert.Equal(t, "cli-dsse2", ac.ID)
+	_ = testUpdate[APIClient](
+		t,
+		"APIClient",
+		"api_clients",
+		"api_client",
+		"cli-dsse2",
+		&uac,
+		`{"name":"dev client"}`,
+	)
 }
 
 func TestDestroyAPIClient(t *testing.T) {
-	ts, client, err := SetupConnection(
-		&APIMock{
-			T:            t,
-			ExpectMethod: "DELETE",
-			ExpectURL:    "/1.0/api_clients/cli-dsse2",
-			ExpectBody:   "",
-			GiveBody:     "",
-		},
+	testDestroy[APIClient](
+		t,
+		"APIClient",
+		"api_clients",
+		"cli-dsse2",
 	)
-	defer ts.Close()
-	assert.Assert(t, is.Nil(err), "Connect returned an error")
-
-	err = Destroy[APIClient](client, "cli-dsse2")
-	assert.Assert(t, is.Nil(err), "DestroyAPIClient() returned an error")
 }
 
 func TestLockAPIClient(t *testing.T) {

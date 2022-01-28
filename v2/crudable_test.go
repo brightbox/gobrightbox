@@ -34,3 +34,50 @@ func testCreate[O crudable[I], I optionID](
 	return instance
 }
 
+func testUpdate[O crudable[I], I optionID](
+	t *testing.T,
+	typeName string,
+	apiPath string,
+	jsonPath string,
+	instanceID string,
+	updatedOptions *I,
+	expectedBody string,
+) *O {
+	ts, client, err := SetupConnection(
+		&APIMock{
+			T:            t,
+			ExpectMethod: "PUT",
+			ExpectURL:    "/1.0/" + apiPath + "/" + instanceID,
+			ExpectBody:   expectedBody,
+			GiveBody:     readJSON(jsonPath),
+		},
+	)
+	defer ts.Close()
+	assert.Assert(t, is.Nil(err), "Connect returned an error")
+	instance, err := Update[O](client, updatedOptions)
+	assert.Assert(t, is.Nil(err), "Update[" + typeName + "] returned an error")
+	assert.Assert(t, instance != nil, "Update[" + typeName + "] returned nil")
+	assert.Equal(t, instanceID, (*(*instance).Extract()).FetchID())
+	return instance
+}
+
+func testDestroy[O queriable](
+	t *testing.T,
+	typeName string,
+	apiPath string,
+	instanceID string,
+) {
+	ts, client, err := SetupConnection(
+		&APIMock{
+			T:            t,
+			ExpectMethod: "DELETE",
+			ExpectURL:    "/1.0/" + apiPath + "/" + instanceID,
+			ExpectBody:   "",
+			GiveBody:     "",
+		},
+	)
+	defer ts.Close()
+	assert.Assert(t, is.Nil(err), "Connect returned an error")
+	err = Destroy[O](client, instanceID)
+	assert.Assert(t, is.Nil(err), "Destroy[" + typeName + "] returned an error")
+}
