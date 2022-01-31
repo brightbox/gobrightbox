@@ -24,6 +24,5 @@ func TestServerType(t *testing.T) {
 		"server_type",
 		"typ-zx45f",
 	)
-	assert.Equal(t, instance.ID, "typ-zx45f")
 	assert.Equal(t, instance.Name, "Small")
 }

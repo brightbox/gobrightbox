@@ -24,7 +24,6 @@ func TestAPIClient(t *testing.T) {
 		"api_client",
 		"cli-dsse2",
 	)
-	assert.Equal(t, instance.ID, "cli-dsse2")
 	assert.Equal(t, instance.Name, "dev client")
 }
 

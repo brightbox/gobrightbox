@@ -24,6 +24,5 @@ func TestAccount(t *testing.T) {
 		"account",
 		"acc-43ks4",
 	)
-	assert.Equal(t, instance.ID, "acc-43ks4")
 	assert.Equal(t, instance.Name, "Brightbox")
 }

@@ -13,7 +13,12 @@ type User struct {
 	DefaultAccount *Account `json:"default_account"`
 }
 
-// APIPath returns the relative URL path to the users collection
+// APIPath returns the relative URL path to the collection endpoint
 func (c User) APIPath() string {
 	return "users"
+}
+
+// FetchID returns the ID field from the object
+func (c User) FetchID() string {
+	return c.ID
 }

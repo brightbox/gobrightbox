@@ -54,5 +54,6 @@ func testInstance[I queriable](
 	instance, err := Instance[I](client, instanceID)
 	assert.Assert(t, is.Nil(err), "Instance[" + typeName + "] returned an error")
 	assert.Assert(t, instance != nil, "Instance[" + typeName + "] returned nil")
+	assert.Equal(t, (*instance).FetchID(), instanceID)
 	return instance
 }

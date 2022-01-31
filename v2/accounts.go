@@ -40,7 +40,12 @@ type Account struct {
 	Users                 []User
 }
 
-// APIPath returns the relative URL path to the accounts collection
+// APIPath returns the relative URL path to the collection endpoint
 func (c Account) APIPath() string {
 	return "accounts"
+}
+
+// FetchID returns the ID field from the object
+func (c Account) FetchID() string {
+	return c.ID
 }

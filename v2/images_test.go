@@ -24,7 +24,6 @@ func TestImage(t *testing.T) {
 		"image",
 		"img-3ikco",
 	)
-	assert.Equal(t, instance.ID, "img-3ikco")
 	assert.Equal(t, instance.Name, "Ubuntu Lucid 10.04 server")
 }
 

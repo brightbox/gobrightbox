@@ -7,7 +7,7 @@ import (
 	is "gotest.tools/assert/cmp"
 )
 
-func testCreate[O crudable[I], I optionID](
+func testCreate[O createable[I], I optionID](
 	t *testing.T,
 	typeName string,
 	apiPath string,
@@ -30,11 +30,11 @@ func testCreate[O crudable[I], I optionID](
 	instance, err := Create[O](client, newOptions)
 	assert.Assert(t, is.Nil(err), "Create[" + typeName + "] returned an error")
 	assert.Assert(t, instance != nil, "Create[" + typeName + "] returned nil")
-	assert.Equal(t, instanceID, (*(*instance).Extract()).FetchID())
+	assert.Equal(t, instanceID, (*instance).FetchID())
 	return instance
 }
 
-func testUpdate[O crudable[I], I optionID](
+func testUpdate[O updateable[I], I optionID](
 	t *testing.T,
 	typeName string,
 	apiPath string,
@@ -57,11 +57,11 @@ func testUpdate[O crudable[I], I optionID](
 	instance, err := Update[O](client, updatedOptions)
 	assert.Assert(t, is.Nil(err), "Update[" + typeName + "] returned an error")
 	assert.Assert(t, instance != nil, "Update[" + typeName + "] returned nil")
-	assert.Equal(t, instanceID, (*(*instance).Extract()).FetchID())
+	assert.Equal(t, instanceID, (*instance).FetchID())
 	return instance
 }
 
-func testDestroy[O queriable](
+func testDestroy[O destroyable](
 	t *testing.T,
 	typeName string,
 	apiPath string,

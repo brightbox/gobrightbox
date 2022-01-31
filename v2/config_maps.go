@@ -15,22 +15,33 @@ type ConfigMapOptions struct {
 	Data *map[string]interface{} `json:"data,omitempty"`
 }
 
-// APIPath returns the relative URL path to the config map collection
+// APIPath returns the relative URL path to the collection endpoint
 func (c ConfigMap) APIPath() string {
 	return "config_maps"
 }
 
-// Extract copies a ConfigMap object to a ConfigMapOptions object
-func (c ConfigMap) Extract() *ConfigMapOptions {
-	return &ConfigMapOptions{
-		ID:   c.ID,
-		Name: &c.Name,
-		Data: &c.Data,
-	}
+// PostPath returns the relative URL path to POST an object
+func (c ConfigMap) PostPath(from *ConfigMapOptions) string {
+	return c.APIPath()
 }
 
-// FetchID returns the ID field from a ConfigMapOptions object
+// PutPath returns the relative URL path to PUT an object
+func (c ConfigMap) PutPath(from *ConfigMapOptions) string {
+	return c.APIPath() + "/" + from.OptionID()
+}
+
+// DestroyPath returns the relative URL path to DESTROY an object
+func (c ConfigMap) DestroyPath(from string) string {
+	return c.APIPath() + "/" + from
+}
+
+// FetchID returns the ID field from the object
+func (c ConfigMap) FetchID() string {
+	return c.ID
+}
+
+// OptionID returns the ID field from and options object
 // ID will be blank for create, and set for update
-func (c ConfigMapOptions) FetchID() string {
+func (c ConfigMapOptions) OptionID() string {
 	return c.ID
 }

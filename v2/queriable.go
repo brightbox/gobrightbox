@@ -2,6 +2,7 @@ package brightbox
 
 // Local interface type specifying the minimum API interface for a Brightbox resource
 type queriable interface {
+	FetchID() string
 	APIPath() string
 }
 

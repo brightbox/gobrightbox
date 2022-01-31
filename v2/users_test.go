@@ -24,6 +24,5 @@ func TestUser(t *testing.T) {
 		"user",
 		"usr-kl435",
 	)
-	assert.Equal(t, instance.ID, "usr-kl435")
 	assert.Equal(t, instance.Name, "John Jarvis")
 }

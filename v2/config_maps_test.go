@@ -24,6 +24,5 @@ func TestConfigMap(t *testing.T) {
 		"config_map",
 		"cfg-dsse2",
 	)
-	assert.Equal(t, instance.ID, "cfg-dsse2")
 	assert.Equal(t, instance.Name, "example.test")
 }

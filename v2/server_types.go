@@ -12,9 +12,14 @@ type ServerType struct {
 	DiskSize int `json:"disk_size"`
 }
 
-// APIPath returns the relative URL path to the server types collection
+// APIPath returns the relative URL path to the collection endpoint
 func (c ServerType) APIPath() string {
 	return "server_types"
+}
+
+// FetchID returns the ID field from the object
+func (c ServerType) FetchID() string {
+	return c.ID
 }
 
 // HandleString returns the Handle field from a ServerType object

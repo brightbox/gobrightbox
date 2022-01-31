@@ -40,33 +40,38 @@ type ImageOptions struct {
 	CompatibilityMode *bool   `json:"compatibility_mode,omitempty"`
 }
 
-// APIPath returns the relative URL path to the config map collection
+// APIPath returns the relative URL path to the collection endpoint
 func (c Image) APIPath() string {
 	return "images"
 }
 
-// Extract copies an Image object to a ImageOptions object
-func (c Image) Extract() *ImageOptions {
-	return &ImageOptions{
-		ID:                c.ID,
-		Name:              &c.Name,
-		Username:          &c.Username,
-		Status:            &c.Status,
-		Description:       &c.Description,
-		Source:            &c.Source,
-		Arch:              &c.Arch,
-		Public:            &c.Public,
-		CompatibilityMode: &c.CompatibilityMode,
-	}
-}
-
-// FetchID returns the ID field from an ImageOptions object
-// ID will be blank for create, and set for update
-func (c ImageOptions) FetchID() string {
+// FetchID returns the ID field from the object
+func (c Image) FetchID() string {
 	return c.ID
 }
 
-// LockID returns the path to a lockable Image object
+// PostPath returns the relative URL path to POST an object
+func (c Image) PostPath(from *ImageOptions) string {
+	return c.APIPath()
+}
+
+// PutPath returns the relative URL path to PUT an object
+func (c Image) PutPath(from *ImageOptions) string {
+	return c.APIPath() + "/" + from.OptionID()
+}
+
+// DestroyPath returns the relative URL path to DESTROY an object
+func (c Image) DestroyPath(from string) string {
+	return c.APIPath() + "/" + from
+}
+
+// OptionID returns the ID field from and options object
+// ID will be blank for create, and set for update
+func (c ImageOptions) OptionID() string {
+	return c.ID
+}
+
+// LockID returns the path to a lockable object
 func (c Image) LockID() string {
-	return c.APIPath() + "/" + c.ID
+	return c.APIPath() + "/" + c.FetchID()
 }
