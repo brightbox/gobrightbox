@@ -33,7 +33,7 @@ func ResetSecret(q *Client, resource *APIClient) (*APIClient, error) {
 	ac := new(APIClient)
 	_, err := q.MakeAPIRequest(
 		"POST",
-		resource.LockID()+"/reset_secret",
+		resource.DestroyPath(resource.ID)+"/reset_secret",
 		nil,
 		ac,
 	)

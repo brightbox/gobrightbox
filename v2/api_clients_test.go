@@ -77,27 +77,3 @@ func TestDestroyAPIClient(t *testing.T) {
 		"cli-dsse2",
 	)
 }
-
-func TestLockAPIClient(t *testing.T) {
-	testLock[APIClient](
-		t,
-		"APIClient",
-		"api_clients",
-		&APIClient{ID: "cli-dsse2"},
-		"cli-dsse2",
-		"lock_resource",
-		LockResource,
-	)
-}
-
-func TestUnlockAPIClient(t *testing.T) {
-	testLock[APIClient](
-		t,
-		"APIClient",
-		"api_clients",
-		&APIClient{ID: "cli-dsse2"},
-		"cli-dsse2",
-		"unlock_resource",
-		UnlockResource,
-	)
-}

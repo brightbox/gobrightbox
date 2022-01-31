@@ -54,8 +54,3 @@ func (c APIClient) DestroyPath(from string) string {
 func (c APIClientOptions) OptionID() string {
 	return c.ID
 }
-
-// LockID returns the path to a lockable object
-func (c APIClient) LockID() string {
-	return c.APIPath() + "/" + c.FetchID()
-}
