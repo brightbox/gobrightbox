@@ -40,6 +40,20 @@ type Account struct {
 	Users                 []User
 }
 
+// AccountOptions is used to update objects
+type AccountOptions struct {
+	ID                    string  `json:"-"`
+	Name                  *string `json:"name,omitempty"`
+	Address1              *string `json:"address_1,omitempty"`
+	Address2              *string `json:"address_2,omitempty"`
+	City                  *string `json:"city,omitempty"`
+	County                *string `json:"county,omitempty"`
+	Postcode              *string `json:"postcode,omitempty"`
+	CountryCode           *string `json:"country_code,omitempty"`
+	VatRegistrationNumber *string `json:"vat_registration_number,omitempty"`
+	TelephoneNumber       *string `json:"telephone_number,omitempty"`
+}
+
 // APIPath returns the relative URL path to the collection endpoint
 func (c Account) APIPath() string {
 	return "accounts"
@@ -47,5 +61,16 @@ func (c Account) APIPath() string {
 
 // FetchID returns the ID field from the object
 func (c Account) FetchID() string {
+	return c.ID
+}
+
+// PutPath returns the relative URL path to PUT an object
+func (c Account) PutPath(from *AccountOptions) string {
+	return c.APIPath() + "/" + from.OptionID()
+}
+
+// OptionID returns the ID field from and options object
+// ID will be blank for create, and set for update
+func (c AccountOptions) OptionID() string {
 	return c.ID
 }

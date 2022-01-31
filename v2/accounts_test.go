@@ -26,3 +26,17 @@ func TestAccount(t *testing.T) {
 	)
 	assert.Equal(t, instance.Name, "Brightbox")
 }
+
+func TestUpdateAccount(t *testing.T) {
+	name := "Brightbox"
+	uac := AccountOptions{ID: "acc-43ks4", Name: &name}
+	_ = testUpdate[Account](
+		t,
+		"Account",
+		"accounts",
+		"account",
+		"acc-43ks4",
+		&uac,
+		`{"name":"Brightbox"}`,
+	)
+}
