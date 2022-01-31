@@ -26,3 +26,17 @@ func TestUser(t *testing.T) {
 	)
 	assert.Equal(t, instance.Name, "John Jarvis")
 }
+
+func TestUpdateUser(t *testing.T) {
+	name := "John Jarvis"
+	uac := UserOptions{ID: "usr-kl435", Name: &name}
+	_ = testUpdate[User](
+		t,
+		"User",
+		"users",
+		"user",
+		"usr-kl435",
+		&uac,
+		`{"name":"John Jarvis"}`,
+	)
+}
