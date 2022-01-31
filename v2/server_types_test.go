@@ -26,3 +26,14 @@ func TestServerType(t *testing.T) {
 	)
 	assert.Equal(t, instance.Name, "Small")
 }
+
+func TestServerTypeByHandle(t *testing.T) {
+	instance := testByHandle[ServerType](
+		t,
+		"ServerType",
+		"server_types",
+		"typ-zx45f",
+		"small",
+	)
+	assert.Equal(t, instance.Name, "Small")
+}

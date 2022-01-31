@@ -32,7 +32,7 @@ func ExampleServerType() {
 	}
 
 	// Get a server type by handle
-	serverType, err := brightbox.ByHandle[*brightbox.ServerType](client, "2gb.ssd")
+	serverType, err := brightbox.ByHandle[brightbox.ServerType](client, "2gb.ssd")
 	if err != nil {
 		log.Fatal(err)
 	}
