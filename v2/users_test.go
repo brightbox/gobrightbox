@@ -25,6 +25,7 @@ func TestUser(t *testing.T) {
 		"usr-kl435",
 	)
 	assert.Equal(t, instance.Name, "John Jarvis")
+	assert.Equal(t, instance.DefaultAccount.ID, "acc-43ks4")
 }
 
 func TestUpdateUser(t *testing.T) {
