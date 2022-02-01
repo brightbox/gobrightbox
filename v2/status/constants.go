@@ -47,3 +47,9 @@ const (
 	Active   = "active"
 	Inactive = "inactive"
 )
+
+// Volume additional status constants. Compare with Volume status fields
+const (
+	Attached = "attached"
+	Detached = "detached"
+)
