@@ -23,8 +23,8 @@ type Image struct {
 	VirtualSize       int    `json:"virtual_size"`
 	DiskSize          int    `json:"disk_size"`
 	CompatibilityMode bool   `json:"compatibility_mode"`
-	AncestorID        string `json:"ancestor_id"`
 	LicenceName       string `json:"licence_name"`
+	Ancestor          *Image
 }
 
 // ImageOptions is used to create and update machine images
