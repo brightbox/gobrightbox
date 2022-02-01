@@ -25,6 +25,8 @@ func TestServerGroup(t *testing.T) {
 		"grp-sda44",
 	)
 	assert.Equal(t, instance.Name, "default")
+	assert.Equal(t, instance.Account.ID, "acc-43ks4")
+	assert.Equal(t, instance.FirewallPolicy.ID, "fwp-j3654")
 }
 
 func TestCreateServerGroup(t *testing.T) {
