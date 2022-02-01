@@ -25,6 +25,7 @@ func TestFirewallPolicy(t *testing.T) {
 		"fwp-j3654",
 	)
 	assert.Equal(t, instance.Name, "default")
+	assert.Equal(t, instance.ServerGroup.ID, "grp-sda44")
 }
 
 func TestCreateFirewallPolicy(t *testing.T) {
