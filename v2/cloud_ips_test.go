@@ -25,6 +25,9 @@ func TestCloudIP(t *testing.T) {
 		"cip-k4a25",
 	)
 	assert.Equal(t, instance.Name, "product website ip")
+	assert.Equal(t, instance.Account.ID, "acc-43ks4")
+	assert.Equal(t, instance.Interface.ID, "int-ds42k")
+	assert.Equal(t, instance.Server.ID, "srv-lv426")
 }
 
 func TestCreateCloudIP(t *testing.T) {
