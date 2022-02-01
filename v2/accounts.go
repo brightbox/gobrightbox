@@ -37,7 +37,18 @@ type Account struct {
 	LibraryFtpUser        string     `json:"library_ftp_user"`
 	LibraryFtpPassword    string     `json:"library_ftp_password"`
 	Owner                 *User
-	Users                 []User
+	Clients               []APIClient
+	Images                []Image
+	Servers               []Server
+	//LoadBalancers []LoadBalancer `json:"load_balancers"`
+	//DatabaseServers []DatabaseServer `json:"database_servers"`
+	//DatabaseSnapshots []DatabaseSnapshot `json:"database_snapshots"`
+	CloudIPs         []CloudIP
+	ServerGroups     []ServerGroup
+	FirewallPolicies []FirewallPolicy
+	Users            []User
+	Volumes          []Volume
+	Zones            []Zone
 }
 
 // AccountOptions is used to update objects

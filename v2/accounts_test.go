@@ -25,6 +25,7 @@ func TestAccount(t *testing.T) {
 		"acc-43ks4",
 	)
 	assert.Equal(t, instance.Name, "Brightbox")
+	assert.Equal(t, instance.Owner.ID, "usr-kl435")
 }
 
 func TestUpdateAccount(t *testing.T) {
