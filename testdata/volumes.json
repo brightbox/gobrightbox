@@ -1,0 +1,12 @@
+[{"id": "vol-po5we",
+  "resource_type": "volume",
+  "url": "https://api.gb1.brightbox.com/1.0/volumes/vol-po5we",
+  "name": "",
+  "description": "",
+  "size": 4096,
+  "status": "detached",
+  "storage_type": "network",
+  "encrypted": true,
+  "account": null,
+  "image": null,
+  "server": null}]
