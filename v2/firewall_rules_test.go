@@ -25,6 +25,7 @@ func TestFirewallRule(t *testing.T) {
 		"fwr-k32ls",
 	)
 	assert.Equal(t, instance.Source, "srv-lv426")
+	assert.Equal(t, instance.FirewallPolicy.ID, "fwp-j3654")
 }
 
 func TestCreateFirewallRule(t *testing.T) {
