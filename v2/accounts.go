@@ -36,7 +36,7 @@ type Account struct {
 	LibraryFtpHost        string     `json:"library_ftp_host"`
 	LibraryFtpUser        string     `json:"library_ftp_user"`
 	LibraryFtpPassword    string     `json:"library_ftp_password"`
-	Owner                 User
+	Owner                 *User
 	Users                 []User
 }
 

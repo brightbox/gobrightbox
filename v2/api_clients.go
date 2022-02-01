@@ -13,7 +13,7 @@ type APIClient struct {
 	Secret           string
 	PermissionsGroup string     `json:"permissions_group"`
 	RevokedAt        *time.Time `json:"revoked_at"`
-	Account          Account
+	Account          *Account
 }
 
 // APIClientOptions is used to create and update api clients

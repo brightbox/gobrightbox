@@ -8,15 +8,15 @@ import (
 // https://api.gb1.brightbox.com/1.0/#firewall_rule
 type FirewallRule struct {
 	ID              string
-	Source          string         `json:"source"`
-	SourcePort      string         `json:"source_port"`
-	Destination     string         `json:"destination"`
-	DestinationPort string         `json:"destination_port"`
-	Protocol        string         `json:"protocol"`
-	IcmpTypeName    string         `json:"icmp_type_name"`
-	CreatedAt       time.Time      `json:"created_at"`
-	Description     string         `json:"description"`
-	FirewallPolicy  FirewallPolicy `json:"firewall_policy"`
+	Source          string          `json:"source"`
+	SourcePort      string          `json:"source_port"`
+	Destination     string          `json:"destination"`
+	DestinationPort string          `json:"destination_port"`
+	Protocol        string          `json:"protocol"`
+	IcmpTypeName    string          `json:"icmp_type_name"`
+	CreatedAt       time.Time       `json:"created_at"`
+	Description     string          `json:"description"`
+	FirewallPolicy  *FirewallPolicy `json:"firewall_policy"`
 }
 
 // FirewallRuleOptions is used in conjunction with CreateFirewallRule and
