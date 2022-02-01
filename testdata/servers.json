@@ -10,7 +10,6 @@
   "created_at": "2011-10-01T01:00:00Z",
   "started_at": "2011-10-01T01:01:00Z",
   "deleted_at": null,
-  "user_data": null,
   "account":
    {"id": "acc-43ks4",
     "resource_type": "account",
@@ -27,6 +26,7 @@
     "locked": false,
     "description": "Expands root partition automatically. login: ubuntu using stored ssh key",
     "source": "ubuntu-lucid-daily-i64-server-20110509",
+    "source_trigger": "manual",
     "arch": "x86_64",
     "created_at": "2011-05-09T12:00:00Z",
     "official": true,
@@ -41,7 +41,8 @@
     "cores": 2,
     "ram": 2048,
     "disk_size": 81920,
-    "handle": "small"},
+    "handle": "small",
+    "storage_type": "local"},
   "zone":
    {"id": "zon-328ds",
     "resource_type": "zone",
@@ -53,9 +54,12 @@
      "url": "https://api.gb1.brightbox.com/1.0/cloud_ips/cip-k4a25",
      "status": "mapped",
      "public_ip": "109.107.50.0",
+     "public_ipv4": "109.107.50.0",
+     "public_ipv6": "2a02:1348:ffff:ffff::6d6b:3200",
      "fqdn": "cip-k4a25.gb1.brightbox.com",
      "reverse_dns": null,
-     "name": "product website ip"}],
+     "name": "product website ip",
+     "mode": "nat"}],
   "interfaces":
    [{"id": "int-ds42k",
      "resource_type": "interface",
@@ -71,4 +75,7 @@
      "name": "default",
      "description": null,
      "created_at": "2011-10-01T00:00:00Z",
-     "default": true}]}]
+     "default": true,
+     "fqdn": "grp-sda44.gb1.brightbox.com"}],
+  "volumes":
+   []}]
