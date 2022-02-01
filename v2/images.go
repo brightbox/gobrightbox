@@ -15,7 +15,7 @@ type Image struct {
 	Description       string
 	Source            string
 	Arch              string
-	CreatedAt         time.Time `json:"created_at"`
+	CreatedAt         *time.Time `json:"created_at"`
 	Official          bool
 	Public            bool
 	Owner             string

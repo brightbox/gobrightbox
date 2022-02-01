@@ -10,7 +10,7 @@ type FirewallPolicy struct {
 	ID          string
 	Name        string
 	Default     bool
-	CreatedAt   time.Time `json:"created_at"`
+	CreatedAt   *time.Time `json:"created_at"`
 	Description string
 	Account     *Account
 	ServerGroup *ServerGroup   `json:"server_group"`
