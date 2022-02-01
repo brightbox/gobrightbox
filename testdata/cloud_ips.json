@@ -3,6 +3,8 @@
   "url": "https://api.gb1.brightbox.com/1.0/cloud_ips/cip-k4a25",
   "status": "mapped",
   "public_ip": "109.107.50.0",
+  "public_ipv4": "109.107.50.0",
+  "public_ipv6": "2a02:1348:ffff:ffff::6d6b:3200",
   "fqdn": "cip-k4a25.gb1.brightbox.com",
   "reverse_dns": null,
   "port_translators":
@@ -10,6 +12,7 @@
      "incoming": 443,
      "outgoing": 2443}],
   "name": "product website ip",
+  "mode": "nat",
   "account":
    {"id": "acc-43ks4",
     "resource_type": "account",
