@@ -25,6 +25,10 @@ func TestServer(t *testing.T) {
 		"srv-lv426",
 	)
 	assert.Equal(t, instance.Status, "active")
+	assert.Equal(t, instance.Account.ID, "acc-43ks4")
+	assert.Equal(t, instance.Image.ID, "img-3ikco")
+	assert.Equal(t, instance.ServerType.ID, "typ-zx45f")
+	assert.Equal(t, instance.Zone.ID, "zon-328ds")
 }
 
 func TestCreateServer(t *testing.T) {
