@@ -3,6 +3,7 @@ package brightbox
 // ConfigMap represents a config map
 // https://api.gb1.brightbox.com/1.0/#config_maps
 type ConfigMap struct {
+	ResourceRef
 	ID   string                 `json:"id"`
 	Name string                 `json:"name"`
 	Data map[string]interface{} `json:"data"`

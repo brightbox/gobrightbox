@@ -1,6 +1,7 @@
 package brightbox
 
 import (
+	"context"
 	"testing"
 
 	"gotest.tools/assert"
@@ -25,7 +26,7 @@ func testAll[I queriable](
 	defer ts.Close()
 	assert.Assert(t, is.Nil(err), "Connect returned an error")
 
-	collection, err := All[I](client)
+	collection, err := All[I](context.Background(), client)
 	assert.Assert(t, is.Nil(err), "All["+ typeName + "] returned an error")
 	assert.Assert(t, collection != nil, "All[" + typeName + "] returned nil")
 	assert.Equal(t, 1, len(collection), "wrong number of "+ instanceRef + "s returned")
@@ -51,7 +52,7 @@ func testInstance[I queriable](
 	defer ts.Close()
 	assert.Assert(t, is.Nil(err), "Connect returned an error")
 
-	instance, err := Instance[I](client, instanceID)
+	instance, err := Instance[I](context.Background(), client, instanceID)
 	assert.Assert(t, is.Nil(err), "Instance[" + typeName + "] returned an error")
 	assert.Assert(t, instance != nil, "Instance[" + typeName + "] returned nil")
 	assert.Equal(t, (*instance).FetchID(), instanceID)

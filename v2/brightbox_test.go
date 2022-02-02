@@ -6,7 +6,6 @@ import (
 	"testing"
 
 	"gotest.tools/assert"
-	is "gotest.tools/assert/cmp"
 )
 
 func SetupConnection(handler *APIMock) (*httptest.Server, *Client, error) {
@@ -35,10 +34,10 @@ func TestResetSecret(t *testing.T) {
 			GiveBody:     readJSON("api_client"),
 		},
 	)
+	assert.NilError(t, err)
 	defer ts.Close()
-	assert.Assert(t, is.Nil(err), "Connect returned an error")
 
-	nc, err := ResetSecret(client, &APIClient{ID: "cli-dsse2"})
-	assert.Assert(t, is.Nil(err), "ResetSecret() returned an error")
-	assert.Assert(t, nc != nil, "ResetSecret() returned nil")
+	nc, err := ResetSecret(context.Background(), client, &APIClient{ID: "cli-dsse2"})
+	assert.NilError(t, err)
+	assert.Assert(t, nc != nil)
 }

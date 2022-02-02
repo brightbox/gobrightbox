@@ -1,6 +1,7 @@
 package brightbox
 
 import (
+	"context"
 	"testing"
 
 	"gotest.tools/assert"
@@ -26,7 +27,7 @@ func testByHandle[I handleable](
 	defer ts.Close()
 	assert.Assert(t, is.Nil(err), "Connect returned an error")
 
-	instance, err := ByHandle[I](client, handle)
+	instance, err := ByHandle[I](context.Background(), client, handle)
 	assert.Assert(t, is.Nil(err), "Instance[" + typeName + "] returned an error")
 	assert.Assert(t, instance != nil, "Instance[" + typeName + "] returned nil")
 	assert.Equal(t, (*instance).FetchID(), instanceID)

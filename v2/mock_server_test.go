@@ -3,6 +3,7 @@ package brightbox
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"net/http"
 	"strings"
@@ -39,7 +40,7 @@ func (a *APIMock) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	switch expectBody := a.ExpectBody.(type) {
 	case string:
-		b, _ := ioutil.ReadAll(r.Body)
+		b, _ := io.ReadAll(r.Body)
 		tb := strings.TrimSpace(string(b))
 		if expectBody != tb {
 			a.Fatalf("Expected request body %q but got %q", expectBody, tb)
@@ -47,7 +48,7 @@ func (a *APIMock) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	case map[string]interface{}:
 	case map[string]string:
 		var decodedReqBody map[string]interface{}
-		b, _ := ioutil.ReadAll(r.Body)
+		b, _ := io.ReadAll(r.Body)
 		err := json.Unmarshal(b, &decodedReqBody)
 		if err != nil {
 			a.Fatalf("Couldn't parse request body json: %s", err)

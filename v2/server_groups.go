@@ -7,6 +7,7 @@ import (
 // ServerGroup represents a server group
 // https://api.gb1.brightbox.com/1.0/#server_group
 type ServerGroup struct {
+	ResourceRef
 	ID             string
 	Name           string
 	CreatedAt      *time.Time `json:"created_at"`

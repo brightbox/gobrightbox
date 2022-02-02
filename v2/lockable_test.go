@@ -1,6 +1,7 @@
 package brightbox
 
 import (
+	"context"
 	"testing"
 
 	"gotest.tools/assert"
@@ -15,6 +16,7 @@ func testLock[I lockable](
 	instanceID string,
 	lock_direction string,
 	lock_function func (
+		context.Context,
 		*Client,
 		lockable,
 	) error,
@@ -32,6 +34,7 @@ func testLock[I lockable](
 	assert.Assert(t, is.Nil(err), "Connect returned an error")
 
 	err = lock_function(
+		context.Background(),
 		client,
 		*instance,
 	)

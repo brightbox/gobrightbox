@@ -7,6 +7,7 @@ import (
 // FirewallPolicy represents a firewall policy.
 // https://api.gb1.brightbox.com/1.0/#firewall_policy
 type FirewallPolicy struct {
+	ResourceRef
 	ID          string
 	Name        string
 	Default     bool

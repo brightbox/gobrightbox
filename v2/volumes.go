@@ -3,6 +3,7 @@ package brightbox
 // Volume represents a Brightbox Volume
 // https://api.gb1.brightbox.com/1.0/#volume
 type Volume struct {
+	ResourceRef
 	ID          string
 	Name        string
 	Status      string

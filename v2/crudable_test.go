@@ -1,6 +1,7 @@
 package brightbox
 
 import (
+	"context"
 	"testing"
 
 	"gotest.tools/assert"
@@ -27,7 +28,7 @@ func testCreate[O createable[I], I optionID](
 	)
 	defer ts.Close()
 	assert.Assert(t, is.Nil(err), "Connect returned an error")
-	instance, err := Create[O](client, newOptions)
+	instance, err := Create[O](context.Background(), client, newOptions)
 	assert.Assert(t, is.Nil(err), "Create[" + typeName + "] returned an error")
 	assert.Assert(t, instance != nil, "Create[" + typeName + "] returned nil")
 	assert.Equal(t, instanceID, (*instance).FetchID())
@@ -54,7 +55,7 @@ func testUpdate[O updateable[I], I optionID](
 	)
 	defer ts.Close()
 	assert.Assert(t, is.Nil(err), "Connect returned an error")
-	instance, err := Update[O](client, updatedOptions)
+	instance, err := Update[O](context.Background(), client, updatedOptions)
 	assert.Assert(t, is.Nil(err), "Update[" + typeName + "] returned an error")
 	assert.Assert(t, instance != nil, "Update[" + typeName + "] returned nil")
 	assert.Equal(t, instanceID, (*instance).FetchID())
@@ -78,6 +79,6 @@ func testDestroy[O destroyable](
 	)
 	defer ts.Close()
 	assert.Assert(t, is.Nil(err), "Connect returned an error")
-	err = Destroy[O](client, instanceID)
+	err = Destroy[O](context.Background(), client, instanceID)
 	assert.Assert(t, is.Nil(err), "Destroy[" + typeName + "] returned an error")
 }

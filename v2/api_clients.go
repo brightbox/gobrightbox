@@ -7,6 +7,7 @@ import (
 // APIClient represents an API client.
 // https://api.gb1.brightbox.com/1.0/#api_client
 type APIClient struct {
+	ResourceRef
 	ID               string
 	Name             string
 	Description      string

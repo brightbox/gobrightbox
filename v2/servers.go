@@ -8,6 +8,7 @@ import (
 // https://api.gb1.brightbox.com/1.0/#server
 // DeletedAt is nil if the server has not yet been deleted
 type Server struct {
+	ResourceRef
 	ID                string
 	Name              string
 	Status            string

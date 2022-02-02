@@ -1,5 +1,9 @@
 package brightbox
 
+import (
+	"context"
+)
+
 // Local interface type specifying the minimum API interface for a Brightbox resource
 type queriable interface {
 	FetchID() string
@@ -8,26 +12,25 @@ type queriable interface {
 
 // All returns the result of making a collection call to the Brightbox API
 // for the instantiated Brightbox resource. 
-func All[T queriable](q *Client) ([]T, error) {
-	var collection []T
+func All[T queriable](ctx context.Context, q *Client) ([]T, error) {
 	var zero T
-	_, err := q.MakeAPIRequest(
-		"GET",
+	collection, err := APIGet[[]T](
+		ctx,
+		q,
 		zero.APIPath(),
-		nil,
-		&collection,
 	)
-	return collection, err
+	if collection != nil {
+		return *collection, err
+	}
+	return nil, err
 }
 
 // Instance retrieves a detailed view of one resource instance
-func Instance[T queriable](q *Client, identifier string) (*T, error) {
-	var resource T
-	_, err := q.MakeAPIRequest(
-		"GET",
-		resource.APIPath() + "/" + identifier,
-		nil,
-		&resource,
+func Instance[T queriable](ctx context.Context, q *Client, identifier string) (*T, error) {
+	var zero T
+	return APIGet[T](
+		ctx,
+		q,
+		zero.APIPath() + "/" + identifier,
 	)
-	return &resource, err
 }

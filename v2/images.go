@@ -7,6 +7,7 @@ import (
 // Image represents a Machine Image
 // https://api.gb1.brightbox.com/1.0/#image
 type Image struct {
+	ResourceRef
 	ID                string
 	Name              string
 	Username          string

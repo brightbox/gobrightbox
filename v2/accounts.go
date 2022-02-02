@@ -7,6 +7,7 @@ import (
 // Account represents a Brightbox Cloud Account
 // https://api.gb1.brightbox.com/1.0/#account
 type Account struct {
+	ResourceRef
 	ID                    string
 	Name                  string
 	Status                string

@@ -44,7 +44,7 @@ func ExamplePasswordCredentials() {
 	}
 
 	// Get a list of configMaps
-	configMaps, err := brightbox.All[brightbox.ConfigMap](client)
+	configMaps, err := brightbox.All[brightbox.ConfigMap](ctx, client)
 	if err != nil {
 		log.Fatal(err)
 	}

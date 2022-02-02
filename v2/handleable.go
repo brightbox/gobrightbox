@@ -1,6 +1,7 @@
 package brightbox
 
 import (
+	"context"
 	"fmt"
 )
 
@@ -10,8 +11,8 @@ type handleable interface {
 }
 
 // ByHandle retrieves a detailed view of a Resource using a handle
-func ByHandle[T handleable](q *Client, handle string) (*T, error) {
-	servertypes, err := All[T](q)
+func ByHandle[T handleable](ctx context.Context, q *Client, handle string) (*T, error) {
+	servertypes, err := All[T](ctx, q)
 	if err != nil {
 		return nil, err
 	}

@@ -3,6 +3,7 @@ package brightbox
 // ServerType represents a Server Type
 // https://api.gb1.brightbox.com/1.0/#server_type
 type ServerType struct {
+	ResourceRef
 	ID       string
 	Name     string
 	Status   string

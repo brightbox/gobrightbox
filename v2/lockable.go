@@ -1,27 +1,19 @@
 package brightbox
 
+import (
+	"context"
+)
+
 type lockable interface {
 	LockID() string
 }
 
 // LockResource locks a resource against destroy requests.
-func LockResource(q *Client, resource lockable) error {
-	_, err := q.MakeAPIRequest(
-		"PUT",
-		resource.LockID()+"/lock_resource",
-		nil,
-		nil,
-	)
-	return err
+func LockResource(ctx context.Context, q *Client, resource lockable) error {
+	return APIPutCommand(ctx, q, resource.LockID()+"/lock_resource")
 }
 
 // UnlockResource unlocks a resource, renabling destroy requests.
-func UnlockResource(q *Client, resource lockable) error {
-	_, err := q.MakeAPIRequest(
-		"PUT",
-		resource.LockID()+"/unlock_resource",
-		nil,
-		nil,
-	)
-	return err
+func UnlockResource(ctx context.Context, q *Client, resource lockable) error {
+	return APIPutCommand(ctx, q, resource.LockID()+"/unlock_resource")
 }

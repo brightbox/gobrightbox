@@ -2,10 +2,9 @@ package brightbox
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
-	"fmt"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"net/url"
 )
@@ -19,146 +18,176 @@ type Client struct {
 	client    *http.Client
 }
 
-// MakeAPIRequest makes a http request to the API, JSON encoding any given data
+// APIGet makes a GET request to the API
 // and decoding any JSON response.
 //
-// method should be the desired http method, e.g: "GET", "POST", "PUT" etc.
+// relUrl is the relative path of the endpoint to the base URL, e.g. "servers".
+func APIGet[O any](
+	ctx context.Context,
+	q *Client,
+	relUrl string,
+) (*O, error) {
+	return apiObject[O](ctx, q, "GET", relUrl, nil)
+}
+
+// APIPost makes a POST request to the API, JSON encoding any given data
+// and decoding any JSON response.
 //
-// urlStr should be the url path, relative to the api url e.g: "/1.0/servers"
+// relUrl is the relative path of the endpoint to the base URL, e.g. "servers".
 //
 // if reqBody is non-nil, it will be Marshaled to JSON and set as the request
 // body.
+func APIPost[O any](
+	ctx context.Context,
+	q *Client,
+	relUrl string,
+	reqBody interface{},
+) (*O, error) {
+	return apiObject[O](ctx, q, "POST", relUrl, reqBody)
+}
+
+// APIPut makes a PUT request to the API, JSON encoding any given data
+// and decoding any JSON response.
 //
-// Optionally, the response body will be Unmarshaled from JSON into whatever
-// resBody is a pointer to. Leave nil to skip.
+// relUrl is the relative path of the endpoint to the base URL, e.g. "servers".
 //
-// If the response is non-2xx, MakeAPIRequest will try to parse the error
-// message and return an APIError struct.
-func (c *Client) MakeAPIRequest(method string, path string, reqBody interface{}, resBody interface{}) (*http.Response, error) {
-	req, err := c.NewRequest(method, path, reqBody)
+// if reqBody is non-nil, it will be Marshaled to JSON and set as the request
+// body.
+func APIPut[O any](
+	ctx context.Context,
+	q *Client,
+	relUrl string,
+	reqBody interface{},
+) (*O, error) {
+	return apiObject[O](ctx, q, "PUT", relUrl, reqBody)
+}
+
+// APIPutCommand makes a PUT request to the API
+//
+// relUrl is the relative path of the endpoint to the base URL, e.g. "servers".
+func APIPutCommand(
+	ctx context.Context,
+	q *Client,
+	relUrl string,
+) error {
+	return apiCommand(ctx, q, "PUT", relUrl)
+}
+
+// APIDelete makes a DELETE request to the API
+//
+// relUrl is the relative path of the endpoint to the base URL, e.g. "servers".
+func APIDelete(
+	ctx context.Context,
+	q *Client,
+	relUrl string,
+) error {
+	return apiCommand(ctx, q, "DELETE", relUrl)
+}
+
+func apiObject[O any](
+	ctx context.Context,
+	q *Client,
+	method string,
+	relUrl string,
+	reqBody interface{},
+) (*O, error) {
+	req, err := q.jsonRequest(ctx, method, relUrl, reqBody)
 	if err != nil {
 		return nil, err
 	}
-	res, err := c.client.Do(req)
+	res, err := q.client.Do(req)
 	if err != nil {
-		return res, err
+		return nil, err
+	}
+	defer res.Body.Close()
+	return jsonResponse[O](res)
+}
+
+func apiCommand(
+	ctx context.Context,
+	q *Client,
+	method string,
+	relUrl string,
+) error {
+	req, err := q.jsonRequest(ctx, method, relUrl, nil)
+	if err != nil {
+		return err
+	}
+	res, err := q.client.Do(req)
+	if err != nil {
+		return err
 	}
 	defer res.Body.Close()
 	if res.StatusCode >= 200 && res.StatusCode <= 299 {
-		if resBody != nil {
-			err := json.NewDecoder(res.Body).Decode(resBody)
-			if err != nil {
-				return res, APIError{
-					RequestURL: res.Request.URL,
-					StatusCode: res.StatusCode,
-					Status:     res.Status,
-					ParseError: &err,
-				}
+		return nil
+	}
+	return newAPIError(res)
+}
+
+func jsonResponse[O any](res *http.Response) (*O, error) {
+	if res.StatusCode >= 200 && res.StatusCode <= 299 {
+		result := new(O)
+		decode := json.NewDecoder(res.Body)
+		decode.DisallowUnknownFields()
+		err := decode.Decode(result)
+		if err != nil {
+			return nil, &APIError{
+				RequestURL: res.Request.URL,
+				StatusCode: res.StatusCode,
+				Status:     res.Status,
+				ParseError: err,
 			}
 		}
-		return res, nil
+		return result, err
 	}
+	return nil, newAPIError(res)
+}
+
+func newAPIError(res *http.Response) *APIError {
 	apierr := APIError{
 		RequestURL: res.Request.URL,
 		StatusCode: res.StatusCode,
 		Status:     res.Status,
 	}
-	body, _ := ioutil.ReadAll(res.Body)
-	err = json.Unmarshal(body, &apierr)
+	body, err := io.ReadAll(res.Body)
+	if err == nil {
+		err = json.Unmarshal(body, &apierr)
+	}
+	apierr.ParseError = err
 	apierr.ResponseBody = body
-	return res, apierr
+	return &apierr
 }
 
-// APIError can be returned when an API request fails. It provides any error
-// messages provided by the API, along with other details about the response.
-type APIError struct {
-	// StatusCode will hold the HTTP status code from the request that errored
-	StatusCode int
-	// Status will hold the HTTP status line from the request that errored
-	Status string
-	// AuthError will hold any available OAuth "error" field contents. See
-	// https://api.gb1.brightbox.com/1.0/#errors
-	AuthError string `json:"error"`
-	// AuthErrorDescription will hold any available OAuth "error_description"
-	// field contents. See https://api.gb1.brightbox.com/1.0/#errors
-	AuthErrorDescription string `json:"error_description"`
-	// ErrorName will hold any available Brightbox API "error_name" field
-	// contents. See https://api.gb1.brightbox.com/1.0/#request_errors
-	ErrorName string `json:"error_name"`
-	// Errors will hold any available Brightbox API "errors" field contents. See
-	// https://api.gb1.brightbox.com/1.0/#request_errors
-	Errors []string `json:"errors"`
-	// ParseError will hold any errors from the JSON parser whilst parsing an
-	// API response
-	ParseError *error
-	// RequestURL will hold the full URL used to make the request that errored,
-	// if available
-	RequestURL *url.URL
-	// ResponseBody will hold the raw respose body of the request that errored,
-	// if available
-	ResponseBody []byte
-}
-
-func (e APIError) Error() string {
-	var url string
-	if e.RequestURL != nil {
-		url = e.RequestURL.String()
-	}
-	if e.ParseError != nil {
-		return fmt.Sprintf("%d: %s: %s", e.StatusCode, url, *e.ParseError)
-	}
-
-	var msg string
-	if e.AuthError != "" {
-		msg = fmt.Sprintf("%s, %s", e.AuthError, e.AuthErrorDescription)
-	}
-	if e.ErrorName != "" {
-		msg = e.ErrorName
-		if len(e.Errors) == 1 {
-			msg = msg + ": " + e.Errors[0]
-		} else if len(e.Errors) > 1 {
-			msg = fmt.Sprintf("%s: %s", msg, e.Errors)
-		}
-
-	}
-	if msg == "" {
-		msg = fmt.Sprintf("%s: %s", e.Status, url)
-	}
-	return msg
-}
-
-// NewRequest allocates and configures a http.Request ready to make an API call.
-//
-// method should be the desired http method, e.g: "GET", "POST", "PUT" etc.
-//
-// urlStr should be the url path, relative to the api url e.g: "/1.0/servers"
-//
-// if body is non-nil, it will be Marshaled to JSON and set as the request body
-func (c *Client) NewRequest(method, urlStr string, body interface{}) (*http.Request, error) {
-	u, err := c.baseURL.Parse(urlStr)
+func (q *Client) jsonRequest(ctx context.Context, method string, relURL string, body interface{}) (*http.Request, error) {
+	absUrl, err := q.baseURL.Parse(relURL)
 	if err != nil {
 		return nil, err
 	}
-
-	var buf io.ReadWriter
-	if body != nil {
-		buf = new(bytes.Buffer)
-		err := json.NewEncoder(buf).Encode(body)
-		if err != nil {
-			return nil, err
-		}
-	}
-
-	req, err := http.NewRequest(method, u.String(), buf)
+	buf, err := jsonReader(body)
 	if err != nil {
 		return nil, err
 	}
-
+	req, err := http.NewRequestWithContext(ctx, method, absUrl.String(), buf)
+	if err != nil {
+		return nil, err
+	}
 	req.Header.Add("Accept", "application/json")
 	req.Header.Add("Content-Type", "application/json")
 
-	if c.UserAgent != "" {
-		req.Header.Add("User-Agent", c.UserAgent)
+	if q.UserAgent != "" {
+		req.Header.Add("User-Agent", q.UserAgent)
 	}
 	return req, nil
+}
+
+func jsonReader(from interface{}) (io.Reader, error){
+	var buf bytes.Buffer
+	if from == nil {
+		return &buf, nil
+	}
+	err := json.NewEncoder(&buf).Encode(from)
+	if err != nil {
+		return nil, err
+	}
+	return &buf, nil
 }

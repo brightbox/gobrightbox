@@ -1,5 +1,9 @@
 package brightbox
 
+import (
+	"context"
+)
+
 type optionID interface{
 	OptionID() string
 }
@@ -22,15 +26,14 @@ type destroyable interface {
 //
 // It takes an instance of Options. Not all attributes can be
 // specified at create time (such as ID, which is allocated for you).
-func Create[T createable[I], I optionID](q *Client, newOptions *I) (*T, error) {
-	var resource T
-	_, err := q.MakeAPIRequest(
-		"POST",
-		resource.PostPath(newOptions),
+func Create[T createable[I], I optionID](ctx context.Context, q *Client, newOptions *I) (*T, error) {
+	var zero T
+	return APIPost[T](
+		ctx,
+		q,
+		zero.PostPath(newOptions),
 		newOptions,
-		&resource,
 	)
-	return &resource, err
 }
 
 // Update updates an existing resources's attributes. Not all
@@ -38,25 +41,22 @@ func Create[T createable[I], I optionID](q *Client, newOptions *I) (*T, error) {
 //
 // Specify the resource you want to update using the ID field
 // field.
-func Update[T updateable[I], I optionID](q *Client, updateOptions *I) (*T, error) {
-	var resource T
-	_, err := q.MakeAPIRequest(
-		"PUT",
-		resource.PutPath(updateOptions),
+func Update[T updateable[I], I optionID](ctx context.Context, q *Client, updateOptions *I) (*T, error) {
+	var zero T
+	return APIPut[T](
+		ctx,
+		q,
+		zero.PutPath(updateOptions),
 		updateOptions,
-		&resource,
 	)
-	return &resource, err
 }
 
 // Destroy destroys an existing resource.
-func Destroy[T destroyable](q *Client, identifier string) error {
+func Destroy[T destroyable](ctx context.Context, q *Client, identifier string) error {
 	var zero T
-	_, err := q.MakeAPIRequest(
-		"DELETE",
+	return APIDelete(
+		ctx,
+		q,
 		zero.DestroyPath(identifier),
-		nil,
-		nil,
 	)
-	return err
 }
