@@ -45,7 +45,7 @@ type Account struct {
 	Clients               []APIClient
 	Images                []Image
 	Servers               []Server
-	//LoadBalancers []LoadBalancer `json:"load_balancers"`
+	LoadBalancers         []LoadBalancer `json:"load_balancers"`
 	//DatabaseServers []DatabaseServer `json:"database_servers"`
 	//DatabaseSnapshots []DatabaseSnapshot `json:"database_snapshots"`
 	CloudIPs         []CloudIP
