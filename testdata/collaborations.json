@@ -1,0 +1,25 @@
+[{"id": "col-klek3",
+  "resource_type": "collaboration",
+  "url": "https://api.gb1.brightbox.com/1.0/user/collaborations/",
+  "status": "pending",
+  "email": "tclock@example.com",
+  "role": "admin",
+  "created_at": "2013-03-24T00:00:00Z",
+  "started_at": "2013-04-10T00:00:00Z",
+  "finished_at": "2013-05-10T00:00:00Z",
+  "role_label": "Collaborator",
+  "user": null,
+  "account":
+   {"id": "acc-43ks4",
+    "resource_type": "account",
+    "url": "https://api.gb1.brightbox.com/1.0/accounts/acc-43ks4",
+    "name": "Brightbox",
+    "status": "active"},
+  "inviter":
+   {"id": "usr-kl435",
+    "resource_type": "user",
+    "url": "https://api.gb1.brightbox.com/1.0/users/usr-kl435",
+    "name": "John Jarvis",
+    "email_address": "jjarvis@example.com",
+    "2fa":
+     {"enabled": false}}}]
