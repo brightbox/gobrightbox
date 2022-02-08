@@ -20,9 +20,11 @@ type Image struct {
 	Official          bool
 	Public            bool
 	Owner             string
+	SourceTrigger     string `json:"source_trigger"`
 	SourceType        string `json:"source_type"`
 	VirtualSize       int    `json:"virtual_size"`
 	DiskSize          int    `json:"disk_size"`
+	MinRAM            *int   `json:"min_ram"`
 	CompatibilityMode bool   `json:"compatibility_mode"`
 	LicenceName       string `json:"licence_name"`
 	Ancestor          *Image

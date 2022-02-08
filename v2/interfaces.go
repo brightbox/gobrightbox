@@ -8,6 +8,7 @@ type Interface struct {
 	MacAddress  string `json:"mac_address"`
 	IPv4Address string `json:"ipv4_address"`
 	IPv6Address string `json:"ipv6_address"`
+	Server      *Server
 }
 
 // APIPath returns the relative URL path to the collection endpoint

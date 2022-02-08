@@ -31,14 +31,23 @@ type Server struct {
 	Interfaces        []Interface
 	Volumes           []Volume
 	ServerConsole
+	SnapshotSchedule
 }
 
 // ServerConsole is embedded into Server and contains the fields used in response
 // to an ActivateConsoleForServer request.
 type ServerConsole struct {
-	ConsoleToken        string     `json:"console_token"`
-	ConsoleURL          string     `json:"console_url"`
+	ConsoleToken        *string    `json:"console_token"`
+	ConsoleURL          *string    `json:"console_url"`
 	ConsoleTokenExpires *time.Time `json:"console_token_expires"`
+}
+
+// SnapshotSchedule is embedded into Server and contains the fields used in a
+// Snapshot request
+type SnapshotSchedule struct {
+	SnapshotsSchedule       *string    `json:"snapshots_schedule"`
+	SnapshotsScheduleNextAt *time.Time `json:"snapshots_schedule_next_at"`
+	SnapshotsRetention      *string    `json:"snapshots_retention"`
 }
 
 // ServerOptions is used in conjunction with CreateServer and UpdateServer to

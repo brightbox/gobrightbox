@@ -26,10 +26,14 @@ type Account struct {
 	VerifiedIP            string     `json:"verified_ip"`
 	ValidCreditCard       bool       `json:"valid_credit_card"`
 	CreatedAt             *time.Time `json:"created_at"`
+	ServersUsed           int        `json:"servers_used"`
 	RAMLimit              int        `json:"ram_limit"`
 	RAMUsed               int        `json:"ram_used"`
+	DbsInstancesUsed      int        `json:"dbs_instances_used"`
 	DbsRAMLimit           int        `json:"dbs_ram_limit"`
 	DbsRAMUsed            int        `json:"dbs_ram_used"`
+	BlockStorageLimit     int        `json:"block_storage_limit"`
+	BlockStorageUsed      int        `json:"block_storage_used"`
 	CloudIPsLimit         int        `json:"cloud_ips_limit"`
 	CloudIPsUsed          int        `json:"cloud_ips_used"`
 	LoadBalancersLimit    int        `json:"load_balancers_limit"`

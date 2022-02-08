@@ -11,6 +11,7 @@ type Volume struct {
 	Encrypted   bool
 	Size        int
 	StorageType string `json:"storage_type"`
+	Server      *Server
 	Account     *Account
 	Image       *Image
 }

@@ -1,15 +1,21 @@
 package brightbox
 
+import "time"
+
 // User represents a Brightbox User
 // https://api.gb1.brightbox.com/1.0/#user
 type User struct {
 	ResourceRef
-	ID             string
-	Name           string
-	EmailAddress   string `json:"email_address"`
-	EmailVerified  bool   `json:"email_verified"`
-	SSHKey         string `json:"ssh_key"`
-	MessagingPref  bool   `json:"messaging_pref"`
+	ID            string
+	Name          string
+	EmailAddress  string     `json:"email_address"`
+	EmailVerified bool       `json:"email_verified"`
+	SSHKey        string     `json:"ssh_key"`
+	MessagingPref bool       `json:"messaging_pref"`
+	CreatedAt     *time.Time `json:"created_at"`
+	TwoFactorAuth struct {
+		Enabled bool
+	} `json:"2fa"`
 	Accounts       []Account
 	DefaultAccount *Account `json:"default_account"`
 }

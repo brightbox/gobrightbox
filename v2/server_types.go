@@ -4,13 +4,14 @@ package brightbox
 // https://api.gb1.brightbox.com/1.0/#server_type
 type ServerType struct {
 	ResourceRef
-	ID       string
-	Name     string
-	Status   string
-	Handle   string
-	Cores    int
-	RAM      int
-	DiskSize int `json:"disk_size"`
+	ID          string
+	Name        string
+	Status      string
+	Cores       int
+	RAM         int
+	Handle      string
+	DiskSize    int    `json:"disk_size"`
+	StorageType string `json:"storage_type"`
 }
 
 // APIPath returns the relative URL path to the collection endpoint
