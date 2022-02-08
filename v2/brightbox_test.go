@@ -21,6 +21,7 @@ func SetupConnection(handler *APIMock) (*httptest.Server, *Client, error) {
 
 	// Setup connection to API
 	client, err := Connect(ctx, conf)
+	client.DisallowUnknownFields()
 	return ts, client, err
 }
 

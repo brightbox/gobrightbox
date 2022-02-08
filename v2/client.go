@@ -16,6 +16,19 @@ type Client struct {
 	UserAgent string
 	baseURL   *url.URL
 	client    *http.Client
+	hardcoreDecode bool
+}
+
+// AllowUnknownFields stops the Client generating an error is an unsupported field is
+// returned by the API.
+func (q *Client) AllowUnknownFields() {
+	q.hardcoreDecode = false
+}
+
+// DisallowUnknownFields causes the Client to generate an error if an unsupported field is
+// returned by the API.
+func (q *Client) DisallowUnknownFields() {
+	q.hardcoreDecode = true
 }
 
 // APIGet makes a GET request to the API
@@ -100,7 +113,7 @@ func apiObject[O any](
 		return nil, err
 	}
 	defer res.Body.Close()
-	return jsonResponse[O](res)
+	return jsonResponse[O](res, q.hardcoreDecode)
 }
 
 func apiCommand(
@@ -124,11 +137,13 @@ func apiCommand(
 	return newAPIError(res)
 }
 
-func jsonResponse[O any](res *http.Response) (*O, error) {
+func jsonResponse[O any](res *http.Response, hardcoreDecode bool) (*O, error) {
 	if res.StatusCode >= 200 && res.StatusCode <= 299 {
 		result := new(O)
 		decode := json.NewDecoder(res.Body)
-		decode.DisallowUnknownFields()
+		if hardcoreDecode {
+			decode.DisallowUnknownFields()
+		}
 		err := decode.Decode(result)
 		if err != nil {
 			return nil, &APIError{
