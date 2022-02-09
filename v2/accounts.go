@@ -45,15 +45,15 @@ type Account struct {
 	Clients               []APIClient
 	Images                []Image
 	Servers               []Server
-	LoadBalancers         []LoadBalancer   `json:"load_balancers"`
-	DatabaseServers       []DatabaseServer `json:"database_servers"`
-	//DatabaseSnapshots []DatabaseSnapshot `json:"database_snapshots"`
-	CloudIPs         []CloudIP
-	ServerGroups     []ServerGroup
-	FirewallPolicies []FirewallPolicy
-	Users            []User
-	Volumes          []Volume
-	Zones            []Zone
+	LoadBalancers         []LoadBalancer     `json:"load_balancers"`
+	DatabaseServers       []DatabaseServer   `json:"database_servers"`
+	DatabaseSnapshots     []DatabaseSnapshot `json:"database_snapshots"`
+	CloudIPs              []CloudIP          `json:"cloud_ips"`
+	ServerGroups          []ServerGroup      `json:"server_groups"`
+	FirewallPolicies      []FirewallPolicy   `json:"firewall_policies"`
+	Users                 []User
+	Volumes               []Volume
+	Zones                 []Zone
 }
 
 // AccountOptions is used to update objects
