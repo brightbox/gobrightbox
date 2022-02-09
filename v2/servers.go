@@ -9,6 +9,8 @@ import (
 // DeletedAt is nil if the server has not yet been deleted
 type Server struct {
 	ResourceRef
+	ServerConsole
+	SnapshotSchedule
 	ID                string
 	Name              string
 	Status            string
@@ -30,8 +32,6 @@ type Server struct {
 	Snapshots         []Server
 	Interfaces        []Interface
 	Volumes           []Volume
-	ServerConsole
-	SnapshotSchedule
 }
 
 // ServerConsole is embedded into Server and contains the fields used in response
