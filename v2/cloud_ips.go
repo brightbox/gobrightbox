@@ -19,7 +19,7 @@ type CloudIP struct {
 	ServerGroup     *ServerGroup     `json:"server_group"`
 	PortTranslators []PortTranslator `json:"port_translators"`
 	LoadBalancer    *LoadBalancer    `json:"load_balancer"`
-	//	DatabaseServer  *DatabaseServer `json:"database_server"`
+	DatabaseServer  *DatabaseServer  `json:"database_server"`
 }
 
 // PortTranslator represents a port translator on a Cloud IP

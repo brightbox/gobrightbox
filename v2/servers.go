@@ -10,28 +10,30 @@ import (
 type Server struct {
 	ResourceRef
 	ServerConsole
-	SnapshotSchedule
-	ID                string
-	Name              string
-	Status            string
-	Hostname          string
-	Fqdn              string
-	UserData          string     `json:"user_data"`
-	CreatedAt         *time.Time `json:"created_at"`
-	DeletedAt         *time.Time `json:"deleted_at"`
-	StartedAt         *time.Time `json:"started_at"`
-	Locked            bool       `json:"locked"`
-	CompatibilityMode bool       `json:"compatibility_mode"`
-	DiskEncrypted     bool       `json:"disk_encrypted"`
-	Account           *Account
-	Image             *Image
-	Zone              *Zone
-	ServerType        *ServerType   `json:"server_type"`
-	CloudIPs          []CloudIP     `json:"cloud_ips"`
-	ServerGroups      []ServerGroup `json:"server_groups"`
-	Snapshots         []Server
-	Interfaces        []Interface
-	Volumes           []Volume
+	ID                      string
+	Name                    string
+	Status                  string
+	Hostname                string
+	Fqdn                    string
+	UserData                string     `json:"user_data"`
+	CreatedAt               *time.Time `json:"created_at"`
+	DeletedAt               *time.Time `json:"deleted_at"`
+	StartedAt               *time.Time `json:"started_at"`
+	SnapshotsSchedule       *string    `json:"snapshots_schedule"`
+	SnapshotsScheduleNextAt *time.Time `json:"snapshots_schedule_next_at"`
+	SnapshotsRetention      *string    `json:"snapshots_retention"`
+	Locked                  bool       `json:"locked"`
+	CompatibilityMode       bool       `json:"compatibility_mode"`
+	DiskEncrypted           bool       `json:"disk_encrypted"`
+	Account                 *Account
+	Image                   *Image
+	Zone                    *Zone
+	ServerType              *ServerType   `json:"server_type"`
+	CloudIPs                []CloudIP     `json:"cloud_ips"`
+	ServerGroups            []ServerGroup `json:"server_groups"`
+	Snapshots               []Server
+	Interfaces              []Interface
+	Volumes                 []Volume
 }
 
 // ServerConsole is embedded into Server and contains the fields used in response
@@ -40,14 +42,6 @@ type ServerConsole struct {
 	ConsoleToken        *string    `json:"console_token"`
 	ConsoleURL          *string    `json:"console_url"`
 	ConsoleTokenExpires *time.Time `json:"console_token_expires"`
-}
-
-// SnapshotSchedule is embedded into Server and contains the fields used in a
-// Snapshot request
-type SnapshotSchedule struct {
-	SnapshotsSchedule       *string    `json:"snapshots_schedule"`
-	SnapshotsScheduleNextAt *time.Time `json:"snapshots_schedule_next_at"`
-	SnapshotsRetention      *string    `json:"snapshots_retention"`
 }
 
 // ServerOptions is used in conjunction with CreateServer and UpdateServer to

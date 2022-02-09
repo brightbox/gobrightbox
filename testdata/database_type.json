@@ -1,0 +1,8 @@
+{"id": "dbt-12345",
+ "resource_type": "database_type",
+ "url": "https://api.gb1.brightbox.com/1.0/database_types/dbt-12345",
+ "name": "Small",
+ "description": "Database Type Small",
+ "disk_size": 81920,
+ "ram": 2048,
+ "default": false}
