@@ -42,7 +42,7 @@ func TestUpdateAccount(t *testing.T) {
 	)
 }
 
-func TestResetPassword(t *testing.T) {
+func TestAccountResetPassword(t *testing.T) {
 	instance := testResetPassword[Account](
 		t,
 		"Account",

@@ -78,3 +78,18 @@ func TestDestroyAPIClient(t *testing.T) {
 		"cli-dsse2",
 	)
 }
+
+func TestAPIClientResetPassword(t *testing.T) {
+	instance := testResetPassword[APIClient](
+		t,
+		"APIClient",
+		"api_clients",
+		"api_client",
+		&APIClient{ID: "cli-dsse2"},
+		"cli-dsse2",
+		"reset_secret",
+	)
+	assert.Equal(t, instance.ID, "cli-dsse2")
+	assert.Equal(t, instance.Name, "dev client")
+	assert.Equal(t, instance.Account.ID, "acc-43ks4")
+}

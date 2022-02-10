@@ -55,3 +55,8 @@ func (c APIClient) DestroyPath(from string) string {
 func (c APIClientOptions) OptionID() string {
 	return c.ID
 }
+
+// ResetPasswordPath returns the relative URL path to reset the password
+func (c APIClient) ResetPasswordPath() string {
+	return c.APIPath() + "/" + c.FetchID() + "/reset_secret"
+}

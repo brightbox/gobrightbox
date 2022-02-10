@@ -89,3 +89,20 @@ func TestUnlockDatabaseServer(t *testing.T) {
 		UnlockResource,
 	)
 }
+
+func TestDatabaseServerResetPassword(t *testing.T) {
+	instance := testResetPassword[DatabaseServer](
+		t,
+		"DatabaseServer",
+		"database_servers",
+		"database_server",
+		&DatabaseServer{ID: "dbs-123ab"},
+		"dbs-123ab",
+		"reset_password",
+	)
+	assert.Equal(t, instance.ID, "dbs-123ab")
+	assert.Equal(t, instance.Status, "active")
+	assert.Equal(t, instance.Account.ID, "acc-43ks4")
+	assert.Equal(t, instance.DatabaseServerType.ID, "dbt-12345")
+	assert.Equal(t, instance.Zone.ID, "zon-328ds")
+}

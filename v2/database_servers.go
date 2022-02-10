@@ -83,3 +83,8 @@ func (c DatabaseServerOptions) OptionID() string {
 func (c DatabaseServer) LockID() string {
 	return c.APIPath() + "/" + c.FetchID()
 }
+
+// ResetPasswordPath returns the relative URL path to reset the password
+func (c DatabaseServer) ResetPasswordPath() string {
+	return c.APIPath() + "/" + c.FetchID() + "/reset_password"
+}
