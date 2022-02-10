@@ -75,6 +75,17 @@ func APIPut[O any](
 	return apiObject[O](ctx, q, "PUT", relUrl, reqBody)
 }
 
+// APIPostCommand makes a POST request to the API
+//
+// relUrl is the relative path of the endpoint to the base URL, e.g. "servers".
+func APIPostCommand(
+	ctx context.Context,
+	q *Client,
+	relUrl string,
+) error {
+	return apiCommand(ctx, q, "POST", relUrl)
+}
+
 // APIPutCommand makes a PUT request to the API
 //
 // relUrl is the relative path of the endpoint to the base URL, e.g. "servers".
@@ -104,7 +115,7 @@ func apiObject[O any](
 	relUrl string,
 	reqBody interface{},
 ) (*O, error) {
-	req, err := q.jsonRequest(ctx, method, relUrl, reqBody)
+	req, err := jsonRequest(ctx, q, method, relUrl, reqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -122,7 +133,7 @@ func apiCommand(
 	method string,
 	relUrl string,
 ) error {
-	req, err := q.jsonRequest(ctx, method, relUrl, nil)
+	req, err := jsonRequest(ctx, q, method, relUrl, nil)
 	if err != nil {
 		return err
 	}
@@ -173,7 +184,7 @@ func newAPIError(res *http.Response) *APIError {
 	return &apierr
 }
 
-func (q *Client) jsonRequest(ctx context.Context, method string, relURL string, body interface{}) (*http.Request, error) {
+func jsonRequest(ctx context.Context, q *Client, method string, relURL string, body interface{}) (*http.Request, error) {
 	absUrl, err := q.baseURL.Parse(relURL)
 	if err != nil {
 		return nil, err

@@ -41,3 +41,18 @@ func TestUpdateAccount(t *testing.T) {
 		`{"name":"Brightbox"}`,
 	)
 }
+
+func TestResetPassword(t *testing.T) {
+	instance := testResetPassword[Account](
+		t,
+		"Account",
+		"accounts",
+		"account",
+		&Account{ID: "acc-43ks4"},
+		"acc-43ks4",
+		"reset_ftp_password",
+	)
+	assert.Equal(t, instance.ID, "acc-43ks4")
+	assert.Equal(t, instance.Name, "Brightbox")
+	assert.Equal(t, instance.Owner.ID, "usr-kl435")
+}

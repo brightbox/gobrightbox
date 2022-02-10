@@ -90,3 +90,8 @@ func (c Account) PutPath(from *AccountOptions) string {
 func (c AccountOptions) OptionID() string {
 	return c.ID
 }
+
+// ResetPasswordPath returns the relative URL path to reset the password
+func (c Account) ResetPasswordPath() string {
+	return c.APIPath() + "/" + c.FetchID() + "/reset_ftp_password"
+}
