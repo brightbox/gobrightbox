@@ -10,7 +10,6 @@ package gobrightbox
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -37,64 +36,6 @@ type Client struct {
 	UserAgent string
 	// The identifier of the account to use by default with this Client.
 	AccountID string
-}
-
-// APIError can be returned when an API request fails. It provides any error
-// messages provided by the API, along with other details about the response.
-type APIError struct {
-	// StatusCode will hold the HTTP status code from the request that errored
-	StatusCode int
-	// Status will hold the HTTP status line from the request that errored
-	Status string
-	// AuthError will hold any available OAuth "error" field contents. See
-	// https://api.gb1.brightbox.com/1.0/#errors
-	AuthError string `json:"error"`
-	// AuthErrorDescription will hold any available OAuth "error_description"
-	// field contents. See https://api.gb1.brightbox.com/1.0/#errors
-	AuthErrorDescription string `json:"error_description"`
-	// ErrorName will hold any available Brightbox API "error_name" field
-	// contents. See https://api.gb1.brightbox.com/1.0/#request_errors
-	ErrorName string `json:"error_name"`
-	// Errors will hold any available Brightbox API "errors" field contents. See
-	// https://api.gb1.brightbox.com/1.0/#request_errors
-	Errors []string `json:"errors"`
-	// ParseError will hold any errors from the JSON parser whilst parsing an
-	// API response
-	ParseError *error
-	// RequestURL will hold the full URL used to make the request that errored,
-	// if available
-	RequestURL *url.URL
-	// ResponseBody will hold the raw respose body of the request that errored,
-	// if available
-	ResponseBody []byte
-}
-
-func (e APIError) Error() string {
-	var url string
-	if e.RequestURL != nil {
-		url = e.RequestURL.String()
-	}
-	if e.ParseError != nil {
-		return fmt.Sprintf("%d: %s: %s", e.StatusCode, url, *e.ParseError)
-	}
-
-	var msg string
-	if e.AuthError != "" {
-		msg = fmt.Sprintf("%s, %s", e.AuthError, e.AuthErrorDescription)
-	}
-	if e.ErrorName != "" {
-		msg = e.ErrorName
-		if len(e.Errors) == 1 {
-			msg = msg + ": " + e.Errors[0]
-		} else if len(e.Errors) > 1 {
-			msg = fmt.Sprintf("%s: %s", msg, e.Errors)
-		}
-
-	}
-	if msg == "" {
-		msg = fmt.Sprintf("%s: %s", e.Status, url)
-	}
-	return msg
 }
 
 // NewClient allocates and configures a Client for interacting with the API.
@@ -202,17 +143,17 @@ func (c *Client) MakeAPIRequest(method string, path string, reqBody interface{},
 		if resBody != nil {
 			err := json.NewDecoder(res.Body).Decode(resBody)
 			if err != nil {
-				return res, APIError{
+				return res, &APIError{
 					RequestURL: res.Request.URL,
 					StatusCode: res.StatusCode,
 					Status:     res.Status,
-					ParseError: &err,
+					ParseError: err,
 				}
 			}
 		}
 		return res, nil
 	}
-	apierr := APIError{
+	apierr := &APIError{
 		RequestURL: res.Request.URL,
 		StatusCode: res.StatusCode,
 		Status:     res.Status,

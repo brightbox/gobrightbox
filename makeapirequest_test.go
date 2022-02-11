@@ -1,6 +1,7 @@
 package gobrightbox_test
 
 import (
+	"errors"
 	"net/http/httptest"
 	"reflect"
 	"testing"
@@ -74,28 +75,30 @@ func TestAPIError403(t *testing.T) {
 		t.Fatal("Expected error")
 	}
 	errt := reflect.TypeOf(err).String()
-	if errt != "gobrightbox.APIError" {
-		t.Fatalf("Returned error was %q, wanted gobrightbox.APIError", errt)
+	if errt != "*gobrightbox.APIError" {
+		t.Fatalf("Returned error was %q, wanted *gobrightbox.APIError", errt)
 	}
-	apierr := err.(brightbox.APIError)
-	u := apierr.RequestURL.RequestURI()
-	if u != "/some/resource" {
-		t.Fatalf("err.RequestURL was %q, wanted /some/resource", u)
-	}
-	if apierr.StatusCode != 403 {
-		t.Fatalf("err.StatusCode was %d, wanted 403", apierr.StatusCode)
-	}
-	if apierr.AuthError != "error title" {
-		t.Fatalf("err.AuthError was %q", apierr.AuthError)
-	}
-	if apierr.AuthErrorDescription != "error desc" {
-		t.Fatalf("err.AuthErrorDescription was %q", apierr.AuthError)
-	}
-	if apierr.ErrorName != "name" {
-		t.Fatalf("err.ErrorName was %q", apierr.ErrorName)
-	}
-	if len(apierr.Errors) != 2 {
-		t.Fatalf("err.Errors was %q", apierr.Errors)
+	var apierr *brightbox.APIError
+	if errors.As(err, &apierr) {
+		u := apierr.RequestURL.RequestURI()
+		if u != "/some/resource" {
+			t.Fatalf("err.RequestURL was %q, wanted /some/resource", u)
+		}
+		if apierr.StatusCode != 403 {
+			t.Fatalf("err.StatusCode was %d, wanted 403", apierr.StatusCode)
+		}
+		if apierr.AuthError != "error title" {
+			t.Fatalf("err.AuthError was %q", apierr.AuthError)
+		}
+		if apierr.AuthErrorDescription != "error desc" {
+			t.Fatalf("err.AuthErrorDescription was %q", apierr.AuthError)
+		}
+		if apierr.ErrorName != "name" {
+			t.Fatalf("err.ErrorName was %q", apierr.ErrorName)
+		}
+		if len(apierr.Errors) != 2 {
+			t.Fatalf("err.Errors was %q", apierr.Errors)
+		}
 	}
 }
 
@@ -117,40 +120,14 @@ func TestAPIError500WithoutErrorJson(t *testing.T) {
 		t.Fatal("Expected error")
 	}
 	errt := reflect.TypeOf(err).String()
-	if errt != "gobrightbox.APIError" {
-		t.Fatalf("Returned error was %q, wanted gobrightbox.APIError", errt)
+	if errt != "*gobrightbox.APIError" {
+		t.Fatalf("Returned error was %q, wanted *gobrightbox.APIError", errt)
 	}
-	apierr := err.(brightbox.APIError)
-	u := apierr.RequestURL.RequestURI()
-	if u != "/some/resource" {
-		t.Fatalf("err.RequestURL was %q, wanted /some/resource", u)
-	}
-}
-
-func TestParseError(t *testing.T) {
-	handler := APIMock{
-		GiveStatus: 200,
-		GiveBody:   `{"name": 1000}`,
-	}
-	ts := httptest.NewServer(&handler)
-	defer ts.Close()
-
-	client, err := brightbox.NewClient(ts.URL, "", nil)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	o := make(map[string]string)
-	_, err = client.MakeAPIRequest("GET", "/some/resource", nil, &o)
-	if err == nil {
-		t.Fatal("Expected error")
-	}
-	errt := reflect.TypeOf(err).String()
-	if errt != "gobrightbox.APIError" {
-		t.Fatalf("Returned error was %q, wanted gobrightbox.APIError", errt)
-	}
-	apierr := err.(brightbox.APIError)
-	if apierr.ParseError == nil {
-		t.Fatalf("err.ParseError was nil")
+	var apierr *brightbox.APIError
+	if errors.As(err, &apierr) {
+		u := apierr.RequestURL.RequestURI()
+		if u != "/some/resource" {
+			t.Fatalf("err.RequestURL was %q, wanted /some/resource", u)
+		}
 	}
 }
