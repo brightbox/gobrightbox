@@ -8,8 +8,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
+	"gotest.tools/v3/assert"
+	is "gotest.tools/v3/assert/cmp"
 )
 
 func readJSON(name string) string {
@@ -32,10 +32,10 @@ type APIMock struct {
 
 func (a *APIMock) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if a.ExpectMethod != "" && r.Method != a.ExpectMethod {
-		require.Equal(a, a.ExpectMethod, r.Method, "method didn't match")
+		assert.Equal(a, a.ExpectMethod, r.Method, "method didn't match")
 	}
 	if a.ExpectURL != "" && r.URL.String() != a.ExpectURL {
-		require.Equal(a, a.ExpectURL, r.URL.String(), "url didn't match")
+		assert.Equal(a, a.ExpectURL, r.URL.String(), "url didn't match")
 	}
 
 	switch expectBody := a.ExpectBody.(type) {
@@ -58,7 +58,7 @@ func (a *APIMock) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			if !ok {
 				a.Errorf("Expected key %q in request body but was missing", key)
 			} else if fmt.Sprintf("%s", expectBody[key]) != fmt.Sprintf("%s", decodedVal) {
-				assert.Equal(a, value, decodedReqBody[key], fmt.Sprintf("Key %q in request body doesn't match", key))
+				assert.Check(a, is.Equal(value, decodedReqBody[key]), fmt.Sprintf("Key %q in request body doesn't match", key))
 			}
 		}
 		for key, _ := range decodedReqBody {

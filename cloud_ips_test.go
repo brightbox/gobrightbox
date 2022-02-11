@@ -5,8 +5,8 @@ import (
 	"testing"
 
 	brightbox "github.com/brightbox/gobrightbox"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
+	"gotest.tools/v3/assert"
+	is "gotest.tools/v3/assert/cmp"
 )
 
 func TestCloudIPs(t *testing.T) {
@@ -21,18 +21,18 @@ func TestCloudIPs(t *testing.T) {
 	defer ts.Close()
 
 	client, err := brightbox.NewClient(ts.URL, "", nil)
-	require.Nil(t, err, "NewClient returned an error")
+	assert.NilError(t, err, "NewClient returned an error")
 
 	cips, err := client.CloudIPs()
-	require.Nil(t, err, "CloudIPs() returned an error")
-	require.Equal(t, 1, len(cips), "Wrong number of cloud ips returned")
+	assert.NilError(t, err, "CloudIPs() returned an error")
+	assert.Equal(t, 1, len(cips), "Wrong number of cloud ips returned")
 	cip := cips[0]
-	assert.Equal(t, "cip-k4a25", cip.ID, "id doesn't match")
-	require.Equal(t, 1, len(cip.PortTranslators), "port translators list")
+	assert.Check(t, is.Equal("cip-k4a25", cip.ID), "id doesn't match")
+	assert.Equal(t, 1, len(cip.PortTranslators), "port translators list")
 	pt := cip.PortTranslators[0]
-	assert.Equal(t, "http", pt.Protocol, "port translator protocol")
-	assert.Equal(t, 443, pt.Incoming, "port translator incoming port")
-	assert.Equal(t, 2443, pt.Outgoing, "port translator outgoing port")
+	assert.Check(t, is.Equal("http", pt.Protocol), "port translator protocol")
+	assert.Check(t, is.Equal(443, pt.Incoming), "port translator incoming port")
+	assert.Check(t, is.Equal(2443, pt.Outgoing), "port translator outgoing port")
 }
 
 func TestCreateCloudIP(t *testing.T) {
@@ -47,14 +47,14 @@ func TestCreateCloudIP(t *testing.T) {
 	defer ts.Close()
 
 	client, err := brightbox.NewClient(ts.URL, "", nil)
-	require.Nil(t, err, "NewClient returned an error")
+	assert.NilError(t, err, "NewClient returned an error")
 
 	name := "product website ip"
 	opts := brightbox.CloudIPOptions{Name: &name}
 	cip, err := client.CreateCloudIP(&opts)
-	require.Nil(t, err, "CloudIP() returned an error")
-	require.NotNil(t, cip, "didn't return a cloud ip")
-	assert.Equal(t, "cip-k4a25", cip.ID, "cloud ip id")
+	assert.NilError(t, err, "CloudIP() returned an error")
+	assert.Assert(t, cip != nil, "didn't return a cloud ip")
+	assert.Check(t, is.Equal("cip-k4a25", cip.ID), "cloud ip id")
 }
 
 func TestCreateCloudIPWithPortTranslator(t *testing.T) {
@@ -69,7 +69,7 @@ func TestCreateCloudIPWithPortTranslator(t *testing.T) {
 	defer ts.Close()
 
 	client, err := brightbox.NewClient(ts.URL, "", nil)
-	require.Nil(t, err, "NewClient returned an error")
+	assert.NilError(t, err, "NewClient returned an error")
 
 	pt := brightbox.PortTranslator{
 		Incoming: 443,
@@ -82,9 +82,9 @@ func TestCreateCloudIPWithPortTranslator(t *testing.T) {
 		},
 	}
 	cip, err := client.CreateCloudIP(&opts)
-	require.Nil(t, err, "CreateCloudIP returned an error")
-	require.NotNil(t, cip, "Didn't return a Cloud IP")
-	assert.Equal(t, "cip-k4a25", cip.ID, "Cloud IP id didn't match")
+	assert.NilError(t, err, "CreateCloudIP returned an error")
+	assert.Assert(t, cip != nil, "Didn't return a Cloud IP")
+	assert.Check(t, is.Equal("cip-k4a25", cip.ID), "Cloud IP id didn't match")
 
 }
 
@@ -100,13 +100,13 @@ func TestUpdateCloudIP(t *testing.T) {
 	defer ts.Close()
 
 	client, err := brightbox.NewClient(ts.URL, "", nil)
-	require.Nil(t, err, "NewClient returned an error")
+	assert.NilError(t, err, "NewClient returned an error")
 
 	name := "product website ip"
 	opts := brightbox.CloudIPOptions{ID: "cip-k4a25", Name: &name}
 	cip, err := client.UpdateCloudIP(&opts)
-	require.Nil(t, err, "NewClient returned an error")
-	require.NotNil(t, cip, "Didn't return a Cloud IP")
+	assert.NilError(t, err, "NewClient returned an error")
+	assert.Assert(t, cip != nil, "Didn't return a Cloud IP")
 }
 
 func TestUpdateCloudIPPortTranslator(t *testing.T) {
@@ -121,7 +121,7 @@ func TestUpdateCloudIPPortTranslator(t *testing.T) {
 	defer ts.Close()
 
 	client, err := brightbox.NewClient(ts.URL, "", nil)
-	require.Nil(t, err, "NewClient returned an error")
+	assert.NilError(t, err, "NewClient returned an error")
 
 	pt := brightbox.PortTranslator{
 		Incoming: 443,
@@ -135,8 +135,8 @@ func TestUpdateCloudIPPortTranslator(t *testing.T) {
 		},
 	}
 	cip, err := client.UpdateCloudIP(&opts)
-	require.Nil(t, err, "UpdateCloudIP returned an error")
-	require.NotNil(t, cip, "UpdateCloudIP didn't return a cloud ip")
+	assert.NilError(t, err, "UpdateCloudIP returned an error")
+	assert.Assert(t, cip != nil, "UpdateCloudIP didn't return a cloud ip")
 }
 
 func TestLockCloudIP(t *testing.T) {
@@ -151,12 +151,12 @@ func TestLockCloudIP(t *testing.T) {
 	defer ts.Close()
 
 	client, err := brightbox.NewClient(ts.URL, "", nil)
-	require.Nil(t, err, "NewClient returned an error")
+	assert.NilError(t, err, "NewClient returned an error")
 
 	cip := new(brightbox.CloudIP)
 	cip.ID = "cip-k4a25"
 	err = client.LockResource(cip)
-	require.NotNil(t, err, "LockResource should return an error")
+	assert.Assert(t, err != nil, "LockResource should return an error")
 }
 
 func TestUnLockCloudIP(t *testing.T) {
@@ -171,10 +171,10 @@ func TestUnLockCloudIP(t *testing.T) {
 	defer ts.Close()
 
 	client, err := brightbox.NewClient(ts.URL, "", nil)
-	require.Nil(t, err, "NewClient returned an error")
+	assert.NilError(t, err, "NewClient returned an error")
 
 	cip := new(brightbox.CloudIP)
 	cip.ID = "cip-k4a25"
 	err = client.UnLockResource(cip)
-	require.NotNil(t, err, "UnLockResource should return an error")
+	assert.Assert(t, err != nil, "UnLockResource should return an error")
 }

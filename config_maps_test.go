@@ -5,9 +5,8 @@ import (
 	"testing"
 
 	brightbox "github.com/brightbox/gobrightbox"
-
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
+	"gotest.tools/v3/assert"
+	is "gotest.tools/v3/assert/cmp"
 )
 
 func TestConfigMaps(t *testing.T) {
@@ -22,14 +21,14 @@ func TestConfigMaps(t *testing.T) {
 	defer ts.Close()
 
 	client, err := brightbox.NewClient(ts.URL, "", nil)
-	require.Nil(t, err, "NewClient returned an error")
+	assert.NilError(t, err, "NewClient returned an error")
 
 	p, err := client.ConfigMaps()
-	require.Nil(t, err, "ConfigMaps() returned an error")
-	require.NotNil(t, p, "ConfigMaps() returned nil")
-	require.Equal(t, 1, len(p), "wrong number of config map returned")
+	assert.NilError(t, err, "ConfigMaps() returned an error")
+	assert.Assert(t, p != nil, "ConfigMaps() returned nil")
+	assert.Equal(t, 1, len(p), "wrong number of config map returned")
 	ac := p[0]
-	assert.Equal(t, "cfg-dsse2", ac.ID, "config map id incorrect")
+	assert.Check(t, is.Equal("cfg-dsse2", ac.ID), "config map id incorrect")
 }
 
 func TestConfigMap(t *testing.T) {
@@ -44,13 +43,13 @@ func TestConfigMap(t *testing.T) {
 	defer ts.Close()
 
 	client, err := brightbox.NewClient(ts.URL, "", nil)
-	require.Nil(t, err, "NewClient returned an error")
+	assert.NilError(t, err, "NewClient returned an error")
 
 	ac, err := client.ConfigMap("cfg-dsse2")
-	require.Nil(t, err, "ConfigMap() returned an error")
-	require.NotNil(t, ac, "ConfigMap() returned nil")
-	assert.Equal(t, "cfg-dsse2", ac.ID, "config map id incorrect")
-	assert.Equal(t, "example.test", ac.Name, "config map name incorrect")
+	assert.NilError(t, err, "ConfigMap() returned an error")
+	assert.Assert(t, ac != nil, "ConfigMap() returned nil")
+	assert.Check(t, is.Equal("cfg-dsse2", ac.ID), "config map id incorrect")
+	assert.Check(t, is.Equal("example.test", ac.Name), "config map name incorrect")
 }
 
 func TestCreateConfigMap(t *testing.T) {
@@ -65,13 +64,13 @@ func TestCreateConfigMap(t *testing.T) {
 	defer ts.Close()
 
 	client, err := brightbox.NewClient(ts.URL, "", nil)
-	require.Nil(t, err, "NewClient returned an error")
+	assert.NilError(t, err, "NewClient returned an error")
 
 	newAC := brightbox.ConfigMapOptions{}
 	ac, err := client.CreateConfigMap(&newAC)
-	require.Nil(t, err, "CreateConfigMap() returned an error")
-	require.NotNil(t, ac, "CreateConfigMap() returned nil")
-	assert.Equal(t, "cfg-dsse2", ac.ID)
+	assert.NilError(t, err, "CreateConfigMap() returned an error")
+	assert.Assert(t, ac != nil, "CreateConfigMap() returned nil")
+	assert.Check(t, is.Equal("cfg-dsse2", ac.ID))
 }
 
 func TestUpdateConfigMap(t *testing.T) {
@@ -86,7 +85,7 @@ func TestUpdateConfigMap(t *testing.T) {
 	defer ts.Close()
 
 	client, err := brightbox.NewClient(ts.URL, "", nil)
-	require.Nil(t, err, "NewClient returned an error")
+	assert.NilError(t, err, "NewClient returned an error")
 
 	name := "Hello"
 	data := map[string]interface{}{
@@ -104,9 +103,9 @@ func TestUpdateConfigMap(t *testing.T) {
 		Data: &data,
 	}
 	ac, err := client.UpdateConfigMap(&uac)
-	require.Nil(t, err, "UpdateConfigMap() returned an error")
-	require.NotNil(t, ac, "UpdateConfigMap() returned nil")
-	assert.Equal(t, "cfg-dsse2", ac.ID)
+	assert.NilError(t, err, "UpdateConfigMap() returned an error")
+	assert.Assert(t, ac != nil, "UpdateConfigMap() returned nil")
+	assert.Check(t, is.Equal("cfg-dsse2", ac.ID))
 }
 
 func TestUpdateConfigMapToEmpty(t *testing.T) {
@@ -121,7 +120,7 @@ func TestUpdateConfigMapToEmpty(t *testing.T) {
 	defer ts.Close()
 
 	client, err := brightbox.NewClient(ts.URL, "", nil)
-	require.Nil(t, err, "NewClient returned an error")
+	assert.NilError(t, err, "NewClient returned an error")
 
 	name := ""
 	data := map[string]interface{}{}
@@ -131,9 +130,9 @@ func TestUpdateConfigMapToEmpty(t *testing.T) {
 		Data: &data,
 	}
 	ac, err := client.UpdateConfigMap(&uac)
-	require.Nil(t, err, "UpdateConfigMap() returned an error")
-	require.NotNil(t, ac, "UpdateConfigMap() returned nil")
-	assert.Equal(t, "cfg-dsse2", ac.ID)
+	assert.NilError(t, err, "UpdateConfigMap() returned an error")
+	assert.Assert(t, ac != nil, "UpdateConfigMap() returned nil")
+	assert.Check(t, is.Equal("cfg-dsse2", ac.ID))
 }
 
 func TestUpdateConfigMapClearName(t *testing.T) {
@@ -148,7 +147,7 @@ func TestUpdateConfigMapClearName(t *testing.T) {
 	defer ts.Close()
 
 	client, err := brightbox.NewClient(ts.URL, "", nil)
-	require.Nil(t, err, "NewClient returned an error")
+	assert.NilError(t, err, "NewClient returned an error")
 
 	name := ""
 	uac := brightbox.ConfigMapOptions{
@@ -156,9 +155,9 @@ func TestUpdateConfigMapClearName(t *testing.T) {
 		Name: &name,
 	}
 	ac, err := client.UpdateConfigMap(&uac)
-	require.Nil(t, err, "UpdateConfigMap() returned an error")
-	require.NotNil(t, ac, "UpdateConfigMap() returned nil")
-	assert.Equal(t, "cfg-dsse2", ac.ID)
+	assert.NilError(t, err, "UpdateConfigMap() returned an error")
+	assert.Assert(t, ac != nil, "UpdateConfigMap() returned nil")
+	assert.Check(t, is.Equal("cfg-dsse2", ac.ID))
 }
 
 func TestUpdateConfigMapClearData(t *testing.T) {
@@ -173,7 +172,7 @@ func TestUpdateConfigMapClearData(t *testing.T) {
 	defer ts.Close()
 
 	client, err := brightbox.NewClient(ts.URL, "", nil)
-	require.Nil(t, err, "NewClient returned an error")
+	assert.NilError(t, err, "NewClient returned an error")
 
 	data := map[string]interface{}{}
 	uac := brightbox.ConfigMapOptions{
@@ -181,9 +180,9 @@ func TestUpdateConfigMapClearData(t *testing.T) {
 		Data: &data,
 	}
 	ac, err := client.UpdateConfigMap(&uac)
-	require.Nil(t, err, "UpdateConfigMap() returned an error")
-	require.NotNil(t, ac, "UpdateConfigMap() returned nil")
-	assert.Equal(t, "cfg-dsse2", ac.ID)
+	assert.NilError(t, err, "UpdateConfigMap() returned an error")
+	assert.Assert(t, ac != nil, "UpdateConfigMap() returned nil")
+	assert.Check(t, is.Equal("cfg-dsse2", ac.ID))
 }
 
 func TestDestroyConfigMap(t *testing.T) {
@@ -198,8 +197,8 @@ func TestDestroyConfigMap(t *testing.T) {
 	defer ts.Close()
 
 	client, err := brightbox.NewClient(ts.URL, "", nil)
-	require.Nil(t, err, "NewClient returned an error")
+	assert.NilError(t, err, "NewClient returned an error")
 
 	err = client.DestroyConfigMap("cfg-dsse2")
-	require.Nil(t, err, "DestroyConfigMap() returned an error")
+	assert.NilError(t, err, "DestroyConfigMap() returned an error")
 }

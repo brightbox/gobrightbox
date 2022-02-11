@@ -5,8 +5,8 @@ import (
 	"testing"
 
 	brightbox "github.com/brightbox/gobrightbox"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
+	"gotest.tools/v3/assert"
+	is "gotest.tools/v3/assert/cmp"
 )
 
 func TestServers(t *testing.T) {
@@ -322,10 +322,10 @@ func TestSnapshotServer(t *testing.T) {
 	defer ts.Close()
 
 	client, err := brightbox.NewClient(ts.URL, "", nil)
-	require.Nil(t, err, "NewClient returned an error")
+	assert.NilError(t, err, "NewClient returned an error")
 
 	snap, err := client.SnapshotServer("srv-aaaaa")
-	require.Nil(t, err, "SnapshotServer() returned an error")
-	require.NotNil(t, snap, "SnapshotServer() returned nil")
-	assert.Equal(t, "img-bbbbb", snap.ID, "Image id incorrect")
+	assert.NilError(t, err, "SnapshotServer() returned an error")
+	assert.Assert(t, snap != nil, "SnapshotServer() returned nil")
+	assert.Check(t, is.Equal("img-bbbbb", snap.ID), "Image id incorrect")
 }
