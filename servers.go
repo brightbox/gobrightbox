@@ -8,28 +8,28 @@ import (
 // Server represents a Cloud Server
 // https://api.gb1.brightbox.com/1.0/#server
 type Server struct {
-	ID        string
-	Name      string
-	Status    string
-	Locked    bool
-	Hostname  string
-	Fqdn      string
-	CreatedAt *time.Time `json:"created_at"`
-	// DeletedAt is nil if the server has not yet been deleted
+	ServerConsole
+	ID                string
+	Name              string
+	Status            string
+	Locked            bool
+	Hostname          string
+	Fqdn              string
+	CreatedAt         *time.Time `json:"created_at"`
 	DeletedAt         *time.Time `json:"deleted_at"`
 	StartedAt         *time.Time `json:"started_at"`
 	UserData          string     `json:"user_data"`
 	CompatibilityMode bool       `json:"compatibility_mode"`
 	DiskEncrypted     bool       `json:"disk_encrypted"`
-	ServerConsole
-	Account      Account
-	Image        Image
-	ServerType   ServerType `json:"server_type"`
-	Zone         Zone
-	Snapshots    []Image
-	CloudIPs     []CloudIP `json:"cloud_ips"`
-	Interfaces   []ServerInterface
-	ServerGroups []ServerGroup `json:"server_groups"`
+	Account           Account
+	Image             Image
+	ServerType        ServerType `json:"server_type"`
+	Zone              Zone
+	Snapshots         []Image
+	CloudIPs          []CloudIP `json:"cloud_ips"`
+	Interfaces        []ServerInterface
+	ServerGroups      []ServerGroup `json:"server_groups"`
+	Volumes           []Volume
 }
 
 // ServerConsole is embedded into Server and contains the fields used in response
@@ -43,15 +43,16 @@ type ServerConsole struct {
 // ServerOptions is used in conjunction with CreateServer and UpdateServer to
 // create and update servers.
 type ServerOptions struct {
-	ID                string   `json:"-"`
-	Image             string   `json:"image,omitempty"`
-	Name              *string  `json:"name,omitempty"`
-	ServerType        string   `json:"server_type,omitempty"`
-	Zone              string   `json:"zone,omitempty"`
-	UserData          *string  `json:"user_data,omitempty"`
-	ServerGroups      []string `json:"server_groups,omitempty"`
-	CompatibilityMode *bool    `json:"compatibility_mode,omitempty"`
-	DiskEncrypted     *bool    `json:"disk_encrypted,omitempty"`
+	ID                string          `json:"-"`
+	Image             string          `json:"image,omitempty"`
+	Name              *string         `json:"name,omitempty"`
+	ServerType        string          `json:"server_type,omitempty"`
+	Zone              string          `json:"zone,omitempty"`
+	UserData          *string         `json:"user_data,omitempty"`
+	ServerGroups      []string        `json:"server_groups,omitempty"`
+	CompatibilityMode *bool           `json:"compatibility_mode,omitempty"`
+	DiskEncrypted     *bool           `json:"disk_encrypted,omitempty"`
+	Volumes           []VolumeOptions `json:"volumes,omitempty"`
 }
 
 // ServerInterface represent a server's network interface(s)

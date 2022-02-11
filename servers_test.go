@@ -191,6 +191,47 @@ func TestCreateServerWithOptionalFields(t *testing.T) {
 
 }
 
+func TestCreateServerWithNetworkDisk(t *testing.T) {
+	handler := APIMock{
+		T:            t,
+		ExpectMethod: "POST",
+		ExpectURL:    "/1.0/servers",
+		ExpectBody:   `{"name":"myserver","volumes":[{"size":12345,"image":"img-linux"}]}`,
+		GiveBody:     readJSON("server"),
+	}
+	ts := httptest.NewServer(&handler)
+	defer ts.Close()
+
+	client, err := brightbox.NewClient(ts.URL, "", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	name := "myserver"
+	image := "img-linux"
+	size := 12345
+	opts := brightbox.ServerOptions{
+		Name: &name,
+		Volumes: []brightbox.VolumeOptions{
+			brightbox.VolumeOptions{
+				Image: &image,
+				Size:  &size,
+			},
+		},
+	}
+	s, err := client.CreateServer(&opts)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if s == nil {
+		t.Errorf("Didn't return a Server")
+	}
+	if s.ID != "srv-lv426" {
+		t.Errorf("server ID is %s", s.ID)
+	}
+
+}
+
 func TestUpdateServerWithEmptyGroupsList(t *testing.T) {
 	handler := APIMock{
 		T:            t,
