@@ -65,8 +65,8 @@ func TestServer(t *testing.T) {
 		t.Error("server ID incorrect")
 	}
 
-	if !s.DiskEncrypted {
-		t.Errorf("server DiskEncrypted was %v, should be true", s.DiskEncrypted)
+	if s.DiskEncrypted {
+		t.Errorf("server DiskEncrypted was %v, should be false", s.DiskEncrypted)
 	}
 	if s.DeletedAt != nil {
 		t.Errorf("server DeletedAt was %v, should be nil", s.DeletedAt)
