@@ -47,15 +47,16 @@ type ServerConsole struct {
 // ServerOptions is used in conjunction with CreateServer and UpdateServer to
 // create and update servers.
 type ServerOptions struct {
-	ID                string   `json:"-"`
-	Server            *string  `json:"image,omitempty"`
-	Name              *string  `json:"name,omitempty"`
-	ServerType        *string  `json:"server_type,omitempty"`
-	Zone              *string  `json:"zone,omitempty"`
-	UserData          *string  `json:"user_data,omitempty"`
-	ServerGroups      []string `json:"server_groups,omitempty"`
-	CompatibilityMode *bool    `json:"compatibility_mode,omitempty"`
-	DiskEncrypted     *bool    `json:"disk_encrypted,omitempty"`
+	ID                string          `json:"-"`
+	Image             *string         `json:"image,omitempty"`
+	Name              *string         `json:"name,omitempty"`
+	ServerType        *string         `json:"server_type,omitempty"`
+	Zone              *string         `json:"zone,omitempty"`
+	UserData          *string         `json:"user_data,omitempty"`
+	ServerGroups      []string        `json:"server_groups,omitempty"`
+	CompatibilityMode *bool           `json:"compatibility_mode,omitempty"`
+	DiskEncrypted     *bool           `json:"disk_encrypted,omitempty"`
+	Volumes           []VolumeOptions `json:"volumes,omitempty"`
 }
 
 // APIPath returns the relative URL path to the collection endpoint

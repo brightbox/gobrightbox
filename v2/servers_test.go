@@ -44,6 +44,30 @@ func TestCreateServer(t *testing.T) {
 	)
 }
 
+func TestCreateServerWithNetworkDisk(t *testing.T) {
+	name := "myserver"
+	image := "img-linux"
+	size := 12345
+	newAC := ServerOptions{
+		Name: &name,
+		Volumes: []VolumeOptions{
+			VolumeOptions{
+				Image: &image,
+				Size:  &size,
+			},
+		},
+	}
+	_ = testCreate[Server](
+		t,
+		"Server",
+		"servers",
+		"server",
+		"srv-lv426",
+		&newAC,
+		`{"name":"myserver","volumes":[{"size":12345,"image":"img-linux"}]}`,
+	)
+}
+
 func TestUpdateServer(t *testing.T) {
 	name := "dev client"
 	uac := ServerOptions{ID: "srv-lv426", Name: &name}

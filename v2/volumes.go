@@ -16,6 +16,14 @@ type Volume struct {
 	Image       *Image
 }
 
+// VolumeOptions is used to create and update volumes
+// create and update servers.
+type VolumeOptions struct {
+	ID    string  `json:"-"`
+	Size  *int    `json:"size,omitempty"`
+	Image *string `json:"image,omitempty"`
+}
+
 // APIPath returns the relative URL path to the collection endpoint
 func (c Volume) APIPath() string {
 	return "volumes"
