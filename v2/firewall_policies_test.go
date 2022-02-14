@@ -49,7 +49,6 @@ func TestUpdateFirewallPolicy(t *testing.T) {
 		"FirewallPolicy",
 		"firewall_policies",
 		"firewall_policy",
-		"fwp-j3654",
 		&uac,
 		`{"name":"default"}`,
 	)

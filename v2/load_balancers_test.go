@@ -52,7 +52,6 @@ func TestUpdateLoadBalancer(t *testing.T) {
 		"LoadBalancer",
 		"load_balancers",
 		"load_balancer",
-		"lba-1235f",
 		&uac,
 		`{"name":"dev client"}`,
 	)
@@ -73,7 +72,6 @@ func TestLockLoadBalancer(t *testing.T) {
 		"LoadBalancer",
 		"load_balancers",
 		&LoadBalancer{ID: "lba-1235f"},
-		"lba-1235f",
 		"lock_resource",
 		LockResource,
 	)
@@ -85,7 +83,6 @@ func TestUnlockLoadBalancer(t *testing.T) {
 		"LoadBalancer",
 		"load_balancers",
 		&LoadBalancer{ID: "lba-1235f"},
-		"lba-1235f",
 		"unlock_resource",
 		UnlockResource,
 	)

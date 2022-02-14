@@ -51,7 +51,6 @@ func TestUpdateCloudIP(t *testing.T) {
 		"CloudIP",
 		"cloud_ips",
 		"cloud_ip",
-		"cip-k4a25",
 		&uac,
 		`{"name":"dev client"}`,
 	)

@@ -49,7 +49,6 @@ func TestUpdateFirewallRule(t *testing.T) {
 		"FirewallRule",
 		"firewall_rules",
 		"firewall_rule",
-		"fwr-k32ls",
 		&uac,
 		`{"firewall_policy":"fwp-j3654"}`,
 	)

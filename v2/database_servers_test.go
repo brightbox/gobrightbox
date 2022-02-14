@@ -51,7 +51,6 @@ func TestUpdateDatabaseServer(t *testing.T) {
 		"DatabaseServer",
 		"database_servers",
 		"database_server",
-		"dbs-123ab",
 		&uac,
 		`{"name":"dev client"}`,
 	)
@@ -72,7 +71,6 @@ func TestLockDatabaseServer(t *testing.T) {
 		"DatabaseServer",
 		"database_servers",
 		&DatabaseServer{ID: "dbs-123ab"},
-		"dbs-123ab",
 		"lock_resource",
 		LockResource,
 	)
@@ -84,7 +82,6 @@ func TestUnlockDatabaseServer(t *testing.T) {
 		"DatabaseServer",
 		"database_servers",
 		&DatabaseServer{ID: "dbs-123ab"},
-		"dbs-123ab",
 		"unlock_resource",
 		UnlockResource,
 	)
@@ -97,7 +94,6 @@ func TestDatabaseServerResetPassword(t *testing.T) {
 		"database_servers",
 		"database_server",
 		&DatabaseServer{ID: "dbs-123ab"},
-		"dbs-123ab",
 		"reset_password",
 	)
 	assert.Equal(t, instance.ID, "dbs-123ab")

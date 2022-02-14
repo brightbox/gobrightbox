@@ -36,7 +36,6 @@ func TestUpdateUser(t *testing.T) {
 		"User",
 		"users",
 		"user",
-		"usr-kl435",
 		&uac,
 		`{"name":"John Jarvis"}`,
 	)

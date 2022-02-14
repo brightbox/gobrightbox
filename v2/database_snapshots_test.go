@@ -37,7 +37,6 @@ func TestUpdateDatabaseSnapshot(t *testing.T) {
 		"DatabaseSnapshot",
 		"database_snapshots",
 		"database_snapshot",
-		"dbi-12345",
 		&uac,
 		`{"name":"dev client"}`,
 	)
@@ -58,7 +57,6 @@ func TestLockDatabaseSnapshot(t *testing.T) {
 		"DatabaseSnapshot",
 		"database_snapshots",
 		&DatabaseSnapshot{ID: "dbi-12345"},
-		"dbi-12345",
 		"lock_resource",
 		LockResource,
 	)
@@ -70,7 +68,6 @@ func TestUnlockDatabaseSnapshot(t *testing.T) {
 		"DatabaseSnapshot",
 		"database_snapshots",
 		&DatabaseSnapshot{ID: "dbi-12345"},
-		"dbi-12345",
 		"unlock_resource",
 		UnlockResource,
 	)

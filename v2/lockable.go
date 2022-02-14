@@ -5,6 +5,7 @@ import (
 )
 
 type lockable interface {
+	FetchID() string
 	LockID() string
 }
 

@@ -76,7 +76,6 @@ func TestUpdateServer(t *testing.T) {
 		"Server",
 		"servers",
 		"server",
-		"srv-lv426",
 		&uac,
 		`{"name":"dev client"}`,
 	)
@@ -97,7 +96,6 @@ func TestLockServer(t *testing.T) {
 		"Server",
 		"servers",
 		&Server{ID: "srv-lv426"},
-		"srv-lv426",
 		"lock_resource",
 		LockResource,
 	)
@@ -109,7 +107,6 @@ func TestUnlockServer(t *testing.T) {
 		"Server",
 		"servers",
 		&Server{ID: "srv-lv426"},
-		"srv-lv426",
 		"unlock_resource",
 		UnlockResource,
 	)

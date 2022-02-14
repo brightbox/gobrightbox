@@ -17,6 +17,7 @@ func testCreate[O createable[I], I optionID](
 	newOptions *I,
 	expectedBody string,
 ) *O {
+	assert.Equal(t, (*newOptions).OptionID(), "")
 	ts, client, err := SetupConnection(
 		&APIMock{
 			T:            t,
@@ -31,7 +32,7 @@ func testCreate[O createable[I], I optionID](
 	instance, err := Create[O](context.Background(), client, newOptions)
 	assert.Assert(t, is.Nil(err), "Create[" + typeName + "] returned an error")
 	assert.Assert(t, instance != nil, "Create[" + typeName + "] returned nil")
-	assert.Equal(t, instanceID, (*instance).FetchID())
+	assert.Equal(t, (*instance).FetchID(), instanceID)
 	return instance
 }
 
@@ -40,7 +41,6 @@ func testUpdate[O updateable[I], I optionID](
 	typeName string,
 	apiPath string,
 	jsonPath string,
-	instanceID string,
 	updatedOptions *I,
 	expectedBody string,
 ) *O {
@@ -48,7 +48,7 @@ func testUpdate[O updateable[I], I optionID](
 		&APIMock{
 			T:            t,
 			ExpectMethod: "PUT",
-			ExpectURL:    "/1.0/" + apiPath + "/" + instanceID,
+			ExpectURL:    "/1.0/" + apiPath + "/" + (*updatedOptions).OptionID(),
 			ExpectBody:   expectedBody,
 			GiveBody:     readJSON(jsonPath),
 		},
@@ -58,7 +58,7 @@ func testUpdate[O updateable[I], I optionID](
 	instance, err := Update[O](context.Background(), client, updatedOptions)
 	assert.Assert(t, is.Nil(err), "Update[" + typeName + "] returned an error")
 	assert.Assert(t, instance != nil, "Update[" + typeName + "] returned nil")
-	assert.Equal(t, instanceID, (*instance).FetchID())
+	assert.Equal(t, (*instance).FetchID(), (*updatedOptions).OptionID())
 	return instance
 }
 

@@ -6,18 +6,21 @@ import "time"
 // https://api.gb1.brightbox.com/1.0/#user
 type User struct {
 	ResourceRef
-	ID            string
-	Name          string
-	EmailAddress  string     `json:"email_address"`
-	EmailVerified bool       `json:"email_verified"`
-	SSHKey        string     `json:"ssh_key"`
-	MessagingPref bool       `json:"messaging_pref"`
-	CreatedAt     *time.Time `json:"created_at"`
-	TwoFactorAuth struct {
-		Enabled bool
-	} `json:"2fa"`
+	ID             string
+	Name           string
+	EmailAddress   string            `json:"email_address"`
+	EmailVerified  bool              `json:"email_verified"`
+	SSHKey         string            `json:"ssh_key"`
+	MessagingPref  bool              `json:"messaging_pref"`
+	CreatedAt      *time.Time        `json:"created_at"`
+	TwoFactorAuth  TwoFactorAuthType `json:"2fa"`
+	DefaultAccount *Account          `json:"default_account"`
 	Accounts       []Account
-	DefaultAccount *Account `json:"default_account"`
+}
+
+// TwoFactorAuthType is nested in User
+type TwoFactorAuthType struct {
+	Enabled bool
 }
 
 // UserOptions is used to update objects

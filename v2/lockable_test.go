@@ -13,7 +13,6 @@ func testLock[I lockable](
 	typeName string,
 	apiPath string,
 	instance *I,
-	instanceID string,
 	lock_direction string,
 	lock_function func (
 		context.Context,
@@ -21,6 +20,8 @@ func testLock[I lockable](
 		lockable,
 	) error,
 ) {
+	instanceID := (*instance).FetchID()
+	assert.Assert(t, instanceID != "")
 	ts, client, err := SetupConnection(
 		&APIMock{
 			T:            t,

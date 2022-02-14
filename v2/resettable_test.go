@@ -14,9 +14,9 @@ func testResetPassword[O resettable](
 	apiPath string,
 	jsonPath string,
 	instance *O,
-	instanceID string,
 	resetEndpoint string,
 ) *O {
+	instanceID := (*instance).FetchID()
 	ts, client, err := SetupConnection(
 		&APIMock{
 			T:            t,

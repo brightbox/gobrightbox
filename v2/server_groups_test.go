@@ -50,7 +50,6 @@ func TestUpdateServerGroup(t *testing.T) {
 		"ServerGroup",
 		"server_groups",
 		"server_group",
-		"grp-sda44",
 		&uac,
 		`{"name":"default"}`,
 	)

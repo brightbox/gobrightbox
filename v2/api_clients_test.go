@@ -64,7 +64,6 @@ func TestUpdateAPIClient(t *testing.T) {
 		"APIClient",
 		"api_clients",
 		"api_client",
-		"cli-dsse2",
 		&uac,
 		`{"name":"dev client"}`,
 	)
@@ -86,7 +85,6 @@ func TestAPIClientResetPassword(t *testing.T) {
 		"api_clients",
 		"api_client",
 		&APIClient{ID: "cli-dsse2"},
-		"cli-dsse2",
 		"reset_secret",
 	)
 	assert.Equal(t, instance.ID, "cli-dsse2")

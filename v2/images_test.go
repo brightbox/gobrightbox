@@ -63,7 +63,6 @@ func TestUpdateImage(t *testing.T) {
 		"Image",
 		"images",
 		"image",
-		"img-3ikco",
 		&uac,
 		`{"name":"dev client"}`,
 	)
@@ -84,7 +83,6 @@ func TestLockImage(t *testing.T) {
 		"Image",
 		"images",
 		&Image{ID: "img-3ikco"},
-		"img-3ikco",
 		"lock_resource",
 		LockResource,
 	)
@@ -96,7 +94,6 @@ func TestUnlockImage(t *testing.T) {
 		"Image",
 		"images",
 		&Image{ID: "img-3ikco"},
-		"img-3ikco",
 		"unlock_resource",
 		UnlockResource,
 	)

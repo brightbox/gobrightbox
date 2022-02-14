@@ -5,6 +5,7 @@ import (
 )
 
 type resettable interface {
+	FetchID() string
 	ResetPasswordPath() string
 }
 

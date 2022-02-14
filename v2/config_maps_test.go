@@ -48,7 +48,6 @@ func TestUpdateConfigMap(t *testing.T) {
 		"ConfigMap",
 		"config_maps",
 		"config_map",
-		"cfg-dsse2",
 		&uac,
 		`{"name":"dev client"}`,
 	)
