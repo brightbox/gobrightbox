@@ -7,13 +7,14 @@ import (
 // ServerType represents a Server Type
 // https://api.gb1.brightbox.com/1.0/#server_type
 type ServerType struct {
-	ID       string
-	Name     string
-	Status   string
-	Handle   string
-	Cores    int
-	RAM      int
-	DiskSize int `json:"disk_size"`
+	ID          string
+	Name        string
+	Status      string
+	Handle      string
+	Cores       int
+	RAM         int
+	DiskSize    int    `json:"disk_size"`
+	StorageType string `json:"storage_type"`
 }
 
 // ServerTypes retrieves a list of all Server Types
