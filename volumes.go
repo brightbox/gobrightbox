@@ -22,3 +22,15 @@ type VolumeOptions struct {
 	Size  *int    `json:"size,omitempty"`
 	Image *string `json:"image,omitempty"`
 }
+
+// VolumeResizeOptions is used to change the size of a volume
+type VolumeResizeOptions struct {
+	From int
+	To   int
+}
+
+// ResizeVolume changes the size of a volume
+func (c *Client) ResizeVolume(identifier string, options *VolumeResizeOptions) error {
+	_, err := c.MakeAPIRequest("POST", "/1.0/volumes/"+identifier+"/resize", options, nil)
+	return err
+}
