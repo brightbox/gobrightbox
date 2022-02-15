@@ -25,8 +25,8 @@ type VolumeOptions struct {
 
 // VolumeResizeOptions is used to change the size of a volume
 type VolumeResizeOptions struct {
-	From int
-	To   int
+	From int `json:"from"`
+	To   int `json:"to"`
 }
 
 // ResizeVolume changes the size of a volume
