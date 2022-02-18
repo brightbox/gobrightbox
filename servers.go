@@ -207,6 +207,16 @@ func (c *Client) ActivateConsoleForServer(identifier string) (*Server, error) {
 	return server, nil
 }
 
+// ResizeServer issues a request to change the server type of a server
+// changing the amount of cpu and ram it has.
+func (c *Client) ResizeServer(identifier string, newTypeID string) error {
+	opt := struct {
+		NewType string `json:"new_type"`
+	}{newTypeID}
+	_, err := c.MakeAPIRequest("POST", "/1.0/servers/"+identifier+"/resize", nil, &opt)
+	return err
+}
+
 // FullConsoleURL returns the console url for the server with the token in the
 // query string.  Server needs a ConsoleURL and ConsoleToken, retrieved using
 // ActivateConsoleForServer
