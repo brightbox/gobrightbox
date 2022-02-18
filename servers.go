@@ -213,7 +213,7 @@ func (c *Client) ResizeServer(identifier string, newTypeID string) error {
 	opt := struct {
 		NewType string `json:"new_type"`
 	}{newTypeID}
-	_, err := c.MakeAPIRequest("POST", "/1.0/servers/"+identifier+"/resize", nil, &opt)
+	_, err := c.MakeAPIRequest("POST", "/1.0/servers/"+identifier+"/resize", &opt, nil)
 	return err
 }
 
