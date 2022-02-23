@@ -3,7 +3,7 @@ package brightbox
 import (
 	"testing"
 
-	"gotest.tools/assert"
+	"gotest.tools/v3/assert"
 )
 
 func TestCreateAPIClientWithPermissionsGroup(t *testing.T) {

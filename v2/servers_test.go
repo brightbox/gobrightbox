@@ -3,7 +3,8 @@ package brightbox
 import (
 	"testing"
 
-	"gotest.tools/assert"
+	"github.com/brightbox/gobrightbox/v2/status/server"
+	"gotest.tools/v3/assert"
 )
 
 func TestCreateServerWithNetworkDisk(t *testing.T) {
@@ -29,4 +30,5 @@ func TestCreateServerWithNetworkDisk(t *testing.T) {
 		`{"name":"myserver","volumes":[{"size":12345,"image":"img-linux"}]}`,
 	)
 	assert.Equal(t, instance.ID, "srv-lv426")
+	assert.Assert(t, instance.Status == server.Active)
 }

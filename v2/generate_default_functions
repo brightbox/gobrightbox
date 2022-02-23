@@ -48,10 +48,10 @@ def test_file_header
 package brightbox
 
 import (
-	"testing"
 	"path"
+	"testing"
 
-	"gotest.tools/assert"
+	"gotest.tools/v3/assert"
 )
 
   ENDFUNC

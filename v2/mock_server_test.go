@@ -9,7 +9,7 @@ import (
 	"strings"
 	"testing"
 
-	"gotest.tools/assert"
+	"gotest.tools/v3/assert"
 )
 
 func readJSON(name string) string {

@@ -6,7 +6,7 @@ import (
 	"path"
 	"testing"
 
-	"gotest.tools/assert"
+	"gotest.tools/v3/assert"
 )
 
 func TestFirewallRules(t *testing.T) {
