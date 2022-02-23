@@ -11,13 +11,3 @@ type DatabaseServerType struct {
 	DiskSize    int `json:"disk_size"`
 	Default     bool
 }
-
-// APIPath returns the relative URL path to the collection endpoint
-func (c DatabaseServerType) APIPath() string {
-	return "database_types"
-}
-
-// FetchID returns the ID field from the object
-func (c DatabaseServerType) FetchID() string {
-	return c.ID
-}

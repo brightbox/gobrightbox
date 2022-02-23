@@ -2,7 +2,11 @@ package brightbox
 
 import (
 	"time"
+
+	"github.com/brightbox/gobrightbox/v2/status/loadbalancer"
 )
+
+//go:generate ./generate_status_enum loadbalancer creating active deleting deleted failing failed
 
 // LoadBalancer represents a Load Balancer
 // https://api.gb1.brightbox.com/1.0/#load_balancer
@@ -10,7 +14,7 @@ type LoadBalancer struct {
 	ResourceRef
 	ID                string
 	Name              string
-	Status            string
+	Status            loadbalancer.Status
 	CreatedAt         *time.Time `json:"created_at"`
 	DeletedAt         *time.Time `json:"deleted_at"`
 	Locked            bool
@@ -102,40 +106,4 @@ type LoadBalancerOptions struct {
 // identifier.
 type LoadBalancerNode struct {
 	Node string `json:"node"`
-}
-
-// APIPath returns the relative URL path to the collection endpoint
-func (c LoadBalancer) APIPath() string {
-	return "load_balancers"
-}
-
-// FetchID returns the ID field from the object
-func (c LoadBalancer) FetchID() string {
-	return c.ID
-}
-
-// PostPath returns the relative URL path to POST an object
-func (c LoadBalancer) PostPath(from *LoadBalancerOptions) string {
-	return c.APIPath()
-}
-
-// PutPath returns the relative URL path to PUT an object
-func (c LoadBalancer) PutPath(from *LoadBalancerOptions) string {
-	return c.APIPath() + "/" + from.OptionID()
-}
-
-// DestroyPath returns the relative URL path to DESTROY an object
-func (c LoadBalancer) DestroyPath(from string) string {
-	return c.APIPath() + "/" + from
-}
-
-// OptionID returns the ID field from and options object
-// ID will be blank for create, and set for update
-func (c LoadBalancerOptions) OptionID() string {
-	return c.ID
-}
-
-// LockID returns the path to a lockable object
-func (c LoadBalancer) LockID() string {
-	return c.APIPath() + "/" + c.FetchID()
 }

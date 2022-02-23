@@ -8,77 +8,50 @@ import (
 	is "gotest.tools/assert/cmp"
 )
 
-func testCreate[O createable[I], I optionID](
+func testModify[O, I any](
 	t *testing.T,
-	typeName string,
-	apiPath string,
-	jsonPath string,
-	instanceID string,
+	modify func(*Client, context.Context, *I) (*O, error),
 	newOptions *I,
-	expectedBody string,
-) *O {
-	assert.Equal(t, (*newOptions).OptionID(), "")
-	ts, client, err := SetupConnection(
-		&APIMock{
-			T:            t,
-			ExpectMethod: "POST",
-			ExpectURL:    "/1.0/" + apiPath,
-			ExpectBody:   expectedBody,
-			GiveBody:     readJSON(jsonPath),
-		},
-	)
-	defer ts.Close()
-	assert.Assert(t, is.Nil(err), "Connect returned an error")
-	instance, err := Create[O](context.Background(), client, newOptions)
-	assert.Assert(t, is.Nil(err), "Create[" + typeName + "] returned an error")
-	assert.Assert(t, instance != nil, "Create[" + typeName + "] returned nil")
-	assert.Equal(t, (*instance).FetchID(), instanceID)
-	return instance
-}
-
-func testUpdate[O updateable[I], I optionID](
-	t *testing.T,
-	typeName string,
-	apiPath string,
 	jsonPath string,
-	updatedOptions *I,
+	verb string,
+	expectedPath string,
 	expectedBody string,
 ) *O {
 	ts, client, err := SetupConnection(
 		&APIMock{
 			T:            t,
-			ExpectMethod: "PUT",
-			ExpectURL:    "/1.0/" + apiPath + "/" + (*updatedOptions).OptionID(),
+			ExpectMethod: verb,
+			ExpectURL:    "/1.0/" + expectedPath,
 			ExpectBody:   expectedBody,
 			GiveBody:     readJSON(jsonPath),
 		},
 	)
 	defer ts.Close()
 	assert.Assert(t, is.Nil(err), "Connect returned an error")
-	instance, err := Update[O](context.Background(), client, updatedOptions)
-	assert.Assert(t, is.Nil(err), "Update[" + typeName + "] returned an error")
-	assert.Assert(t, instance != nil, "Update[" + typeName + "] returned nil")
-	assert.Equal(t, (*instance).FetchID(), (*updatedOptions).OptionID())
+	instance, err := modify(client, context.Background(), newOptions)
+	assert.Assert(t, is.Nil(err))
+	assert.Assert(t, instance != nil)
 	return instance
 }
 
-func testDestroy[O destroyable](
+func testCommand(
 	t *testing.T,
-	typeName string,
-	apiPath string,
+	command func(*Client, context.Context, string) error,
 	instanceID string,
+	verb string,
+	expectedPath string,
 ) {
 	ts, client, err := SetupConnection(
 		&APIMock{
 			T:            t,
-			ExpectMethod: "DELETE",
-			ExpectURL:    "/1.0/" + apiPath + "/" + instanceID,
+			ExpectMethod: verb,
+			ExpectURL:    "/1.0/" + expectedPath,
 			ExpectBody:   "",
 			GiveBody:     "",
 		},
 	)
 	defer ts.Close()
 	assert.Assert(t, is.Nil(err), "Connect returned an error")
-	err = Destroy[O](context.Background(), client, instanceID)
-	assert.Assert(t, is.Nil(err), "Destroy[" + typeName + "] returned an error")
+	err = command(client, context.Background(), instanceID)
+	assert.Assert(t, is.Nil(err))
 }

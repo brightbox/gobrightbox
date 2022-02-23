@@ -33,34 +33,3 @@ type FirewallRuleOptions struct {
 	IcmpTypeName    *string `json:"icmp_type_name,omitempty"`
 	Description     *string `json:"description,omitempty"`
 }
-
-// APIPath returns the relative URL path to the collection endpoint
-func (c FirewallRule) APIPath() string {
-	return "firewall_rules"
-}
-
-// PostPath returns the relative URL path to POST an object
-func (c FirewallRule) PostPath(from *FirewallRuleOptions) string {
-	return c.APIPath()
-}
-
-// PutPath returns the relative URL path to PUT an object
-func (c FirewallRule) PutPath(from *FirewallRuleOptions) string {
-	return c.APIPath() + "/" + from.OptionID()
-}
-
-// DestroyPath returns the relative URL path to DESTROY an object
-func (c FirewallRule) DestroyPath(from string) string {
-	return c.APIPath() + "/" + from
-}
-
-// FetchID returns the ID field from the object
-func (c FirewallRule) FetchID() string {
-	return c.ID
-}
-
-// OptionID returns the ID field from and options object
-// ID will be blank for create, and set for update
-func (c FirewallRuleOptions) OptionID() string {
-	return c.ID
-}

@@ -2,7 +2,11 @@ package brightbox
 
 import (
 	"time"
+
+	"github.com/brightbox/gobrightbox/v2/status/server"
 )
+
+//go:generate ./generate_status_enum server creating active inactive deleting deleted failed unavailable
 
 // Server represents a Cloud Server
 // https://api.gb1.brightbox.com/1.0/#server
@@ -12,7 +16,7 @@ type Server struct {
 	ServerConsole
 	ID                      string
 	Name                    string
-	Status                  string
+	Status                  server.Status
 	Hostname                string
 	Fqdn                    string
 	UserData                string     `json:"user_data"`
@@ -57,40 +61,4 @@ type ServerOptions struct {
 	CompatibilityMode *bool           `json:"compatibility_mode,omitempty"`
 	DiskEncrypted     *bool           `json:"disk_encrypted,omitempty"`
 	Volumes           []VolumeOptions `json:"volumes,omitempty"`
-}
-
-// APIPath returns the relative URL path to the collection endpoint
-func (c Server) APIPath() string {
-	return "servers"
-}
-
-// FetchID returns the ID field from the object
-func (c Server) FetchID() string {
-	return c.ID
-}
-
-// PostPath returns the relative URL path to POST an object
-func (c Server) PostPath(from *ServerOptions) string {
-	return c.APIPath()
-}
-
-// PutPath returns the relative URL path to PUT an object
-func (c Server) PutPath(from *ServerOptions) string {
-	return c.APIPath() + "/" + from.OptionID()
-}
-
-// DestroyPath returns the relative URL path to DESTROY an object
-func (c Server) DestroyPath(from string) string {
-	return c.APIPath() + "/" + from
-}
-
-// OptionID returns the ID field from and options object
-// ID will be blank for create, and set for update
-func (c ServerOptions) OptionID() string {
-	return c.ID
-}
-
-// LockID returns the path to a lockable object
-func (c Server) LockID() string {
-	return c.APIPath() + "/" + c.FetchID()
 }

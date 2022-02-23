@@ -9,13 +9,15 @@ import (
 	"net/url"
 )
 
+//go:generate ruby ./generate_default_functions paths.yaml
+
 // Client represents a connection to the Brightbox API. You should use NewConnect
 // to allocate and configure Clients, and pass in either a
 // clientcredentials or password configuration.
 type Client struct {
-	UserAgent string
-	baseURL   *url.URL
-	client    *http.Client
+	UserAgent      string
+	baseURL        *url.URL
+	client         *http.Client
 	hardcoreDecode bool
 }
 
@@ -41,6 +43,22 @@ func APIGet[O any](
 	relUrl string,
 ) (*O, error) {
 	return apiObject[O](ctx, q, "GET", relUrl, nil)
+}
+
+// APIGetCollection makes a GET request to the API
+// and decoding any JSON response into an appropriate slice
+//
+// relUrl is the relative path of the endpoint to the base URL, e.g. "servers".
+func APIGetCollection[O any](
+	ctx context.Context,
+	q *Client,
+	relUrl string,
+) ([]O, error) {
+	collection, err := APIGet[[]O](ctx, q, relUrl)
+	if collection == nil {
+		return nil, err
+	}
+	return *collection, err
 }
 
 // APIPost makes a POST request to the API, JSON encoding any given data
@@ -206,7 +224,7 @@ func jsonRequest(ctx context.Context, q *Client, method string, relURL string, b
 	return req, nil
 }
 
-func jsonReader(from interface{}) (io.Reader, error){
+func jsonReader(from interface{}) (io.Reader, error) {
 	var buf bytes.Buffer
 	if from == nil {
 		return &buf, nil

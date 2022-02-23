@@ -32,24 +32,3 @@ type UserOptions struct {
 	Password             *string `json:"password,omitempty"`
 	PasswordConfirmation *string `json:"password_confirmation,omitempty"`
 }
-
-// APIPath returns the relative URL path to the collection endpoint
-func (c User) APIPath() string {
-	return "users"
-}
-
-// FetchID returns the ID field from the object
-func (c User) FetchID() string {
-	return c.ID
-}
-
-// PutPath returns the relative URL path to PUT an object
-func (c User) PutPath(from *UserOptions) string {
-	return c.APIPath() + "/" + from.OptionID()
-}
-
-// OptionID returns the ID field from and options object
-// ID will be blank for create, and set for update
-func (c UserOptions) OptionID() string {
-	return c.ID
-}

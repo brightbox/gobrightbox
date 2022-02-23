@@ -4,7 +4,7 @@ import (
 	"context"
 	"net/http"
 	"net/url"
-	
+
 	"github.com/brightbox/gobrightbox/v2/endpoint"
 )
 

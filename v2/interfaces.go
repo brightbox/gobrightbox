@@ -10,13 +10,3 @@ type Interface struct {
 	IPv6Address string `json:"ipv6_address"`
 	Server      *Server
 }
-
-// APIPath returns the relative URL path to the collection endpoint
-func (c Interface) APIPath() string {
-	return "interfaces"
-}
-
-// FetchID returns the ID field from the object
-func (c Interface) FetchID() string {
-	return c.ID
-}

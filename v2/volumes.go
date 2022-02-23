@@ -1,12 +1,18 @@
 package brightbox
 
+import (
+	"github.com/brightbox/gobrightbox/v2/status/volume"
+)
+
+//go:generate ./generate_status_enum volume creating attached detached deleting deleted failed
+
 // Volume represents a Brightbox Volume
 // https://api.gb1.brightbox.com/1.0/#volume
 type Volume struct {
 	ResourceRef
 	ID          string
 	Name        string
-	Status      string
+	Status      volume.Status
 	Description string
 	Encrypted   bool
 	Size        int
@@ -22,14 +28,4 @@ type VolumeOptions struct {
 	ID    string  `json:"-"`
 	Size  *int    `json:"size,omitempty"`
 	Image *string `json:"image,omitempty"`
-}
-
-// APIPath returns the relative URL path to the collection endpoint
-func (c Volume) APIPath() string {
-	return "volumes"
-}
-
-// FetchID returns the ID field from the object
-func (c Volume) FetchID() string {
-	return c.ID
 }

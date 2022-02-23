@@ -2,7 +2,11 @@ package brightbox
 
 import (
 	"time"
+
+	"github.com/brightbox/gobrightbox/v2/status/databasesnapshot"
 )
+
+//go:generate ./generate_status_enum databasesnapshot creating available deleted failed
 
 // DatabaseSnapshot represents a snapshot of a database server.
 // https://api.gb1.brightbox.com/1.0/#databaseSnapshot
@@ -11,7 +15,7 @@ type DatabaseSnapshot struct {
 	ID              string
 	Name            string
 	Description     string
-	Status          string
+	Status          databasesnapshot.Status
 	DatabaseEngine  string `json:"database_engine"`
 	DatabaseVersion string `json:"database_version"`
 	Source          string
@@ -29,35 +33,4 @@ type DatabaseSnapshotOptions struct {
 	ID          string  `json:"-"`
 	Name        *string `json:"name,omitempty"`
 	Description *string `json:"description,omitempty"`
-}
-
-// APIPath returns the relative URL path to the collection endpoint
-func (c DatabaseSnapshot) APIPath() string {
-	return "database_snapshots"
-}
-
-// FetchID returns the ID field from the object
-func (c DatabaseSnapshot) FetchID() string {
-	return c.ID
-}
-
-// PutPath returns the relative URL path to PUT an object
-func (c DatabaseSnapshot) PutPath(from *DatabaseSnapshotOptions) string {
-	return c.APIPath() + "/" + from.OptionID()
-}
-
-// DestroyPath returns the relative URL path to DESTROY an object
-func (c DatabaseSnapshot) DestroyPath(from string) string {
-	return c.APIPath() + "/" + from
-}
-
-// OptionID returns the ID field from and options object
-// ID will be blank for create, and set for update
-func (c DatabaseSnapshotOptions) OptionID() string {
-	return c.ID
-}
-
-// LockID returns the path to a lockable object
-func (c DatabaseSnapshot) LockID() string {
-	return c.APIPath() + "/" + c.FetchID()
 }

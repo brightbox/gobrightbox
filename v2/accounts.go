@@ -2,7 +2,11 @@ package brightbox
 
 import (
 	"time"
+
+	"github.com/brightbox/gobrightbox/v2/status/account"
 )
+
+//go:generate ./generate_status_enum account pending active overdue warning suspended terminated closed deleted
 
 // Account represents a Brightbox Cloud Account
 // https://api.gb1.brightbox.com/1.0/#account
@@ -10,7 +14,7 @@ type Account struct {
 	ResourceRef
 	ID                    string
 	Name                  string
-	Status                string
+	Status                account.Status
 	Address1              string `json:"address_1"`
 	Address2              string `json:"address_2"`
 	City                  string
@@ -68,30 +72,4 @@ type AccountOptions struct {
 	CountryCode           *string `json:"country_code,omitempty"`
 	VatRegistrationNumber *string `json:"vat_registration_number,omitempty"`
 	TelephoneNumber       *string `json:"telephone_number,omitempty"`
-}
-
-// APIPath returns the relative URL path to the collection endpoint
-func (c Account) APIPath() string {
-	return "accounts"
-}
-
-// FetchID returns the ID field from the object
-func (c Account) FetchID() string {
-	return c.ID
-}
-
-// PutPath returns the relative URL path to PUT an object
-func (c Account) PutPath(from *AccountOptions) string {
-	return c.APIPath() + "/" + from.OptionID()
-}
-
-// OptionID returns the ID field from and options object
-// ID will be blank for create, and set for update
-func (c AccountOptions) OptionID() string {
-	return c.ID
-}
-
-// ResetPasswordPath returns the relative URL path to reset the password
-func (c Account) ResetPasswordPath() string {
-	return c.APIPath() + "/" + c.FetchID() + "/reset_ftp_password"
 }

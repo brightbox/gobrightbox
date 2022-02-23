@@ -32,7 +32,7 @@ func ExampleClientCredentials() {
 	}
 
 	// Get a list of configMaps
-	configMaps, err := brightbox.All[brightbox.ConfigMap](ctx, client)
+	configMaps, err := client.ConfigMaps(ctx)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -49,7 +49,7 @@ func ExampleClientCredentials() {
 		Name: &name,
 		Data: &data,
 	}
-	configMap, err := brightbox.Create[brightbox.ConfigMap](ctx, client, &newMap)
+	configMap, err := client.CreateConfigMap(ctx, &newMap)
 	if err != nil {
 		log.Fatal(err)
 	}

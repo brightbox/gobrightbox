@@ -2,7 +2,11 @@ package brightbox
 
 import (
 	"time"
+
+	"github.com/brightbox/gobrightbox/v2/status/databaseserver"
 )
+
+//go:generate ./generate_status_enum databaseserver creating active deleting deleted failing failed
 
 // DatabaseServer represents a database server.
 // https://api.gb1.brightbox.com/1.0/#database_server
@@ -11,7 +15,7 @@ type DatabaseServer struct {
 	ID                      string
 	Name                    string
 	Description             string
-	Status                  string
+	Status                  databaseserver.Status
 	DatabaseEngine          string     `json:"database_engine"`
 	DatabaseVersion         string     `json:"database_version"`
 	AdminUsername           string     `json:"admin_username"`
@@ -46,45 +50,4 @@ type DatabaseServerOptions struct {
 	MaintenanceWeekday *int     `json:"maintenance_weekday,omitempty"`
 	MaintenanceHour    *int     `json:"maintenance_hour,omitempty"`
 	SnapshotsSchedule  *string  `json:"snapshots_schedule,omitempty"`
-}
-
-// APIPath returns the relative URL path to the collection endpoint
-func (c DatabaseServer) APIPath() string {
-	return "database_servers"
-}
-
-// FetchID returns the ID field from the object
-func (c DatabaseServer) FetchID() string {
-	return c.ID
-}
-
-// PostPath returns the relative URL path to POST an object
-func (c DatabaseServer) PostPath(from *DatabaseServerOptions) string {
-	return c.APIPath()
-}
-
-// PutPath returns the relative URL path to PUT an object
-func (c DatabaseServer) PutPath(from *DatabaseServerOptions) string {
-	return c.APIPath() + "/" + from.OptionID()
-}
-
-// DestroyPath returns the relative URL path to DESTROY an object
-func (c DatabaseServer) DestroyPath(from string) string {
-	return c.APIPath() + "/" + from
-}
-
-// OptionID returns the ID field from and options object
-// ID will be blank for create, and set for update
-func (c DatabaseServerOptions) OptionID() string {
-	return c.ID
-}
-
-// LockID returns the path to a lockable object
-func (c DatabaseServer) LockID() string {
-	return c.APIPath() + "/" + c.FetchID()
-}
-
-// ResetPasswordPath returns the relative URL path to reset the password
-func (c DatabaseServer) ResetPasswordPath() string {
-	return c.APIPath() + "/" + c.FetchID() + "/reset_password"
 }
