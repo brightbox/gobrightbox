@@ -1,0 +1,96 @@
+Account: 
+  path: accounts
+  crud: [update]
+  testid: acc-43ks4
+  jsonpath: account
+APIClient:
+  path: api_clients
+  crud: [create, update, delete]
+  testid: cli-dsse2
+  jsonpath: api_client
+CloudIP:
+  path: cloud_ips
+  crud: [create, update, delete]
+  testid: cip-k4a25
+  jsonpath: cloud_ip
+Collaboration:
+  path: collaborations
+  crud: [create, delete]
+  testid: col-klek3
+  jsonpath: collaboration
+ConfigMap:
+  path: config_maps
+  crud: [create, update, delete]
+  testid: cfg-dsse2
+  jsonpath: config_map
+DatabaseServer:
+  path: database_servers
+  crud: [create, update, delete, lock]
+  testid: dbs-123ab
+  jsonpath: database_server
+DatabaseSnapshot:
+  path: database_snapshots
+  crud: [update, delete, lock]
+  testid: dbi-12345
+  jsonpath: database_snapshot
+DatabaseServerType:
+  path: database_types
+  crud: []
+  testid: dbt-12345
+  jsonpath: database_type
+FirewallPolicy:
+  path: firewall_policies
+  crud: [create, update, delete]
+  plural: FirewallPolicies
+  testid: fwp-j3654
+  jsonpath: firewall_policy
+FirewallRule:
+  path: firewall_rules
+  crud: [create, update, delete]
+  testid: fwr-k32ls
+  jsonpath: firewall_rule
+Image:
+  path: images
+  crud: [create, update, delete, lock]
+  testid: img-3ikco
+  jsonpath: image
+Interface:
+  path: interfaces
+  crud: []
+  testid: int-ds42k
+  jsonpath: interface
+LoadBalancer:
+  path: load_balancers
+  crud: [create, update, delete, lock]
+  testid: lba-1235f
+  jsonpath: load_balancer
+Server:
+  path: servers
+  crud: [create, update, delete, lock]
+  testid: srv-lv426
+  jsonpath: server
+ServerGroup:
+  path: server_groups
+  crud: [create, update, delete]
+  testid: grp-sda44
+  jsonpath: server_group
+ServerType:
+  path: server_types
+  crud: [handle]
+  testid: typ-zx45f
+  jsonpath: server_type
+User:
+  path: users
+  crud: [update]
+  testid: usr-kl435
+  jsonpath: user
+Volume:
+  path: volumes
+  crud: [create, update, delete]
+  testid: vol-po5we
+  jsonpath: volume
+Zone:
+  path: zones
+  crud: [handle]
+  testid: zon-328ds
+  jsonpath: zone
