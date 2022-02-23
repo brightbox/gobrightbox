@@ -34,7 +34,7 @@ func TestImage(t *testing.T) {
 
 func TestCreateImage(t *testing.T) {
 	newResource := ImageOptions{}
-	instance := testModify[Image, ImageOptions](
+	instance := testModify[Image, *ImageOptions](
 		t,
 		(*Client).CreateImage,
 		&newResource,
@@ -48,7 +48,7 @@ func TestCreateImage(t *testing.T) {
 
 func TestUpdateImage(t *testing.T) {
 	updatedResource := ImageOptions{ID: "img-3ikco"}
-	instance := testModify[Image, ImageOptions](
+	instance := testModify[Image, *ImageOptions](
 		t,
 		(*Client).UpdateImage,
 		&updatedResource,

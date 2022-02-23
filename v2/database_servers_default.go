@@ -51,3 +51,10 @@ func (c *Client) LockDatabaseServer(ctx context.Context, identifier string) erro
 func (c *Client) UnlockDatabaseServer(ctx context.Context, identifier string) error {
 	return APIPutCommand(ctx, c, path.Join(DatabaseServerAPIPath, identifier, "unlock_resource"))
 }
+
+// ResetDatabaseServerPassword resets the password in DatabaseServer, returning it
+// in the returned resource. This is the only time the new password is
+// available in plaintext.
+func (c *Client) ResetDatabaseServerPassword(ctx context.Context, identifier string) (*DatabaseServer, error) {
+	return APIPost[DatabaseServer](ctx, c, path.Join(DatabaseServerAPIPath, identifier, "reset_password"), nil)
+}

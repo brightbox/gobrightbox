@@ -3,11 +3,13 @@ Account:
   crud: [update]
   testid: acc-43ks4
   jsonpath: account
+  password: reset_ftp_password
 APIClient:
   path: api_clients
   crud: [create, update, delete]
   testid: cli-dsse2
   jsonpath: api_client
+  password: reset_secret
 CloudIP:
   path: cloud_ips
   crud: [create, update, delete]
@@ -28,6 +30,7 @@ DatabaseServer:
   crud: [create, update, delete, lock]
   testid: dbs-123ab
   jsonpath: database_server
+  password: reset_password
 DatabaseSnapshot:
   path: database_snapshots
   crud: [update, delete, lock]

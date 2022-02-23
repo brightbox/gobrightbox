@@ -20,7 +20,7 @@ func TestCreateServerWithNetworkDisk(t *testing.T) {
 			},
 		},
 	}
-	instance := testModify[Server, ServerOptions](
+	instance := testModify[Server, *ServerOptions](
 		t,
 		(*Client).CreateServer,
 		&newAC,

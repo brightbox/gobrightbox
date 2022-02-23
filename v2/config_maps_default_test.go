@@ -34,7 +34,7 @@ func TestConfigMap(t *testing.T) {
 
 func TestCreateConfigMap(t *testing.T) {
 	newResource := ConfigMapOptions{}
-	instance := testModify[ConfigMap, ConfigMapOptions](
+	instance := testModify[ConfigMap, *ConfigMapOptions](
 		t,
 		(*Client).CreateConfigMap,
 		&newResource,
@@ -48,7 +48,7 @@ func TestCreateConfigMap(t *testing.T) {
 
 func TestUpdateConfigMap(t *testing.T) {
 	updatedResource := ConfigMapOptions{ID: "cfg-dsse2"}
-	instance := testModify[ConfigMap, ConfigMapOptions](
+	instance := testModify[ConfigMap, *ConfigMapOptions](
 		t,
 		(*Client).UpdateConfigMap,
 		&updatedResource,

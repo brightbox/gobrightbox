@@ -34,7 +34,7 @@ func TestDatabaseSnapshot(t *testing.T) {
 
 func TestUpdateDatabaseSnapshot(t *testing.T) {
 	updatedResource := DatabaseSnapshotOptions{ID: "dbi-12345"}
-	instance := testModify[DatabaseSnapshot, DatabaseSnapshotOptions](
+	instance := testModify[DatabaseSnapshot, *DatabaseSnapshotOptions](
 		t,
 		(*Client).UpdateDatabaseSnapshot,
 		&updatedResource,

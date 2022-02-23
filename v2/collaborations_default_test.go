@@ -34,7 +34,7 @@ func TestCollaboration(t *testing.T) {
 
 func TestCreateCollaboration(t *testing.T) {
 	newResource := CollaborationOptions{}
-	instance := testModify[Collaboration, CollaborationOptions](
+	instance := testModify[Collaboration, *CollaborationOptions](
 		t,
 		(*Client).CreateCollaboration,
 		&newResource,

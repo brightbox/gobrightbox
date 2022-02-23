@@ -23,6 +23,7 @@ def generate_default_api_commands(struct, options, output_filename)
     f << update_function(struct) if options['crud'].include?('update')
     f << destroy_function(struct) if options['crud'].include?('delete')
     f << lock_functions(struct) if options['crud'].include?('lock')
+    f << reset_password_function(struct, options['password']) if options['password']
   end
 end
 
@@ -38,6 +39,7 @@ def generate_default_test_commands(struct, options, output_filename)
     f << test_update_function(struct, options) if options['crud'].include?('update')
     f << test_destroy_function(struct, options) if options['crud'].include?('delete')
     f << test_lock_functions(struct, options) if options['crud'].include?('lock')
+    f << test_reset_password_function(struct, options) if options['password']
   end
 end
 
@@ -120,7 +122,7 @@ def test_create_function(struct, options)
   <<-ENDFUNC
 func TestCreate#{struct}(t *testing.T) {
 	newResource := #{struct}Options{}
-	instance := testModify[#{struct}, #{struct}Options](
+	instance := testModify[#{struct}, *#{struct}Options](
 		t,
 		(*Client).Create#{struct},
 		&newResource,
@@ -139,7 +141,7 @@ def test_update_function(struct, options)
   <<-ENDFUNC
 func TestUpdate#{struct}(t *testing.T) {
 	updatedResource := #{struct}Options{ID: "#{options['testid']}"}
-	instance := testModify[#{struct}, #{struct}Options](
+	instance := testModify[#{struct}, *#{struct}Options](
 		t,
 		(*Client).Update#{struct},
 		&updatedResource,
@@ -189,6 +191,24 @@ func TestUnlock#{struct}(t *testing.T) {
 		"PUT",
     path.Join("#{options['path']}", "#{options['testid']}", "unlock_resource"),
 	)
+}
+
+  ENDFUNC
+end
+
+def test_reset_password_function(struct, options)
+  <<-ENDFUNC
+func TestReset#{struct}Password(t *testing.T) {
+	instance := testModify[#{struct}, string](
+		t,
+		(*Client).Reset#{struct}Password,
+		"#{options['testid']}",
+		"#{options['jsonpath']}",
+		"POST",
+		path.Join("#{options['path']}", "#{options['testid']}", "#{options['password']}"),
+		"",
+	)
+	assert.Equal(t, instance.ID, "#{options['testid']}")
 }
 
   ENDFUNC
@@ -304,6 +324,18 @@ func (c *Client) Lock#{struct}(ctx context.Context, identifier string) error {
 func (c *Client) Unlock#{struct}(ctx context.Context, identifier string) error {
 	return APIPutCommand(ctx, c, path.Join(#{struct}APIPath, identifier, "unlock_resource"))
 }
+  ENDFUNC
+end
+
+def reset_password_function(struct, endpoint)
+  <<-ENDFUNC
+// Reset#{struct}Password resets the password in #{struct}, returning it 
+// in the returned resource. This is the only time the new password is
+// available in plaintext.
+func (c *Client) Reset#{struct}Password(ctx context.Context, identifier string) (*#{struct}, error) {
+  return APIPost[#{struct}](ctx, c, path.Join(#{struct}APIPath, identifier, "#{endpoint}"), nil)
+}
+
   ENDFUNC
 end
 

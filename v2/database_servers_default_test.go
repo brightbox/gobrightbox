@@ -34,7 +34,7 @@ func TestDatabaseServer(t *testing.T) {
 
 func TestCreateDatabaseServer(t *testing.T) {
 	newResource := DatabaseServerOptions{}
-	instance := testModify[DatabaseServer, DatabaseServerOptions](
+	instance := testModify[DatabaseServer, *DatabaseServerOptions](
 		t,
 		(*Client).CreateDatabaseServer,
 		&newResource,
@@ -48,7 +48,7 @@ func TestCreateDatabaseServer(t *testing.T) {
 
 func TestUpdateDatabaseServer(t *testing.T) {
 	updatedResource := DatabaseServerOptions{ID: "dbs-123ab"}
-	instance := testModify[DatabaseServer, DatabaseServerOptions](
+	instance := testModify[DatabaseServer, *DatabaseServerOptions](
 		t,
 		(*Client).UpdateDatabaseServer,
 		&updatedResource,
@@ -88,4 +88,17 @@ func TestUnlockDatabaseServer(t *testing.T) {
 		"PUT",
 		path.Join("database_servers", "dbs-123ab", "unlock_resource"),
 	)
+}
+
+func TestResetDatabaseServerPassword(t *testing.T) {
+	instance := testModify[DatabaseServer, string](
+		t,
+		(*Client).ResetDatabaseServerPassword,
+		"dbs-123ab",
+		"database_server",
+		"POST",
+		path.Join("database_servers", "dbs-123ab", "reset_password"),
+		"",
+	)
+	assert.Equal(t, instance.ID, "dbs-123ab")
 }

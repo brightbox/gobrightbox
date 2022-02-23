@@ -34,7 +34,7 @@ func TestAccount(t *testing.T) {
 
 func TestUpdateAccount(t *testing.T) {
 	updatedResource := AccountOptions{ID: "acc-43ks4"}
-	instance := testModify[Account, AccountOptions](
+	instance := testModify[Account, *AccountOptions](
 		t,
 		(*Client).UpdateAccount,
 		&updatedResource,
@@ -44,4 +44,17 @@ func TestUpdateAccount(t *testing.T) {
 		"{}",
 	)
 	assert.Equal(t, instance.ID, updatedResource.ID)
+}
+
+func TestResetAccountPassword(t *testing.T) {
+	instance := testModify[Account, string](
+		t,
+		(*Client).ResetAccountPassword,
+		"acc-43ks4",
+		"account",
+		"POST",
+		path.Join("accounts", "acc-43ks4", "reset_ftp_password"),
+		"",
+	)
+	assert.Equal(t, instance.ID, "acc-43ks4")
 }

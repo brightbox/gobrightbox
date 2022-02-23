@@ -34,7 +34,7 @@ func TestFirewallRule(t *testing.T) {
 
 func TestCreateFirewallRule(t *testing.T) {
 	newResource := FirewallRuleOptions{}
-	instance := testModify[FirewallRule, FirewallRuleOptions](
+	instance := testModify[FirewallRule, *FirewallRuleOptions](
 		t,
 		(*Client).CreateFirewallRule,
 		&newResource,
@@ -48,7 +48,7 @@ func TestCreateFirewallRule(t *testing.T) {
 
 func TestUpdateFirewallRule(t *testing.T) {
 	updatedResource := FirewallRuleOptions{ID: "fwr-k32ls"}
-	instance := testModify[FirewallRule, FirewallRuleOptions](
+	instance := testModify[FirewallRule, *FirewallRuleOptions](
 		t,
 		(*Client).UpdateFirewallRule,
 		&updatedResource,

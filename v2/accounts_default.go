@@ -28,3 +28,10 @@ func (c *Client) Account(ctx context.Context, identifier string) (*Account, erro
 func (c *Client) UpdateAccount(ctx context.Context, updateAccount *AccountOptions) (*Account, error) {
 	return APIPut[Account](ctx, c, path.Join(AccountAPIPath, updateAccount.ID), updateAccount)
 }
+
+// ResetAccountPassword resets the password in Account, returning it
+// in the returned resource. This is the only time the new password is
+// available in plaintext.
+func (c *Client) ResetAccountPassword(ctx context.Context, identifier string) (*Account, error) {
+	return APIPost[Account](ctx, c, path.Join(AccountAPIPath, identifier, "reset_ftp_password"), nil)
+}

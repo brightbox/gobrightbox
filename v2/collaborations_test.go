@@ -9,7 +9,7 @@ import (
 func TestCreateCollaborationWithPermissionsGroup(t *testing.T) {
 	email := "jason.null@example.com"
 	newResource := CollaborationOptions{Email: &email}
-	instance := testModify[Collaboration, CollaborationOptions](
+	instance := testModify[Collaboration, *CollaborationOptions](
 		t,
 		(*Client).CreateCollaboration,
 		&newResource,

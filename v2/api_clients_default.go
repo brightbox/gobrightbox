@@ -41,3 +41,10 @@ func (c *Client) UpdateAPIClient(ctx context.Context, updateAPIClient *APIClient
 func (c *Client) DestroyAPIClient(ctx context.Context, identifier string) error {
 	return APIDelete(ctx, c, path.Join(APIClientAPIPath, identifier))
 }
+
+// ResetAPIClientPassword resets the password in APIClient, returning it
+// in the returned resource. This is the only time the new password is
+// available in plaintext.
+func (c *Client) ResetAPIClientPassword(ctx context.Context, identifier string) (*APIClient, error) {
+	return APIPost[APIClient](ctx, c, path.Join(APIClientAPIPath, identifier, "reset_secret"), nil)
+}

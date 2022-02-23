@@ -34,7 +34,7 @@ func TestVolume(t *testing.T) {
 
 func TestCreateVolume(t *testing.T) {
 	newResource := VolumeOptions{}
-	instance := testModify[Volume, VolumeOptions](
+	instance := testModify[Volume, *VolumeOptions](
 		t,
 		(*Client).CreateVolume,
 		&newResource,
@@ -48,7 +48,7 @@ func TestCreateVolume(t *testing.T) {
 
 func TestUpdateVolume(t *testing.T) {
 	updatedResource := VolumeOptions{ID: "vol-po5we"}
-	instance := testModify[Volume, VolumeOptions](
+	instance := testModify[Volume, *VolumeOptions](
 		t,
 		(*Client).UpdateVolume,
 		&updatedResource,

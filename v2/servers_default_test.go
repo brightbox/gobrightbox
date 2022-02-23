@@ -34,7 +34,7 @@ func TestServer(t *testing.T) {
 
 func TestCreateServer(t *testing.T) {
 	newResource := ServerOptions{}
-	instance := testModify[Server, ServerOptions](
+	instance := testModify[Server, *ServerOptions](
 		t,
 		(*Client).CreateServer,
 		&newResource,
@@ -48,7 +48,7 @@ func TestCreateServer(t *testing.T) {
 
 func TestUpdateServer(t *testing.T) {
 	updatedResource := ServerOptions{ID: "srv-lv426"}
-	instance := testModify[Server, ServerOptions](
+	instance := testModify[Server, *ServerOptions](
 		t,
 		(*Client).UpdateServer,
 		&updatedResource,

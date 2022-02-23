@@ -10,8 +10,8 @@ import (
 
 func testModify[O, I any](
 	t *testing.T,
-	modify func(*Client, context.Context, *I) (*O, error),
-	newOptions *I,
+	modify func(*Client, context.Context, I) (*O, error),
+	newOptions I,
 	jsonPath string,
 	verb string,
 	expectedPath string,

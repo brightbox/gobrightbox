@@ -34,7 +34,7 @@ func TestAPIClient(t *testing.T) {
 
 func TestCreateAPIClient(t *testing.T) {
 	newResource := APIClientOptions{}
-	instance := testModify[APIClient, APIClientOptions](
+	instance := testModify[APIClient, *APIClientOptions](
 		t,
 		(*Client).CreateAPIClient,
 		&newResource,
@@ -48,7 +48,7 @@ func TestCreateAPIClient(t *testing.T) {
 
 func TestUpdateAPIClient(t *testing.T) {
 	updatedResource := APIClientOptions{ID: "cli-dsse2"}
-	instance := testModify[APIClient, APIClientOptions](
+	instance := testModify[APIClient, *APIClientOptions](
 		t,
 		(*Client).UpdateAPIClient,
 		&updatedResource,
@@ -68,4 +68,17 @@ func TestDestroyAPIClient(t *testing.T) {
 		"DELETE",
 		path.Join("api_clients", "cli-dsse2"),
 	)
+}
+
+func TestResetAPIClientPassword(t *testing.T) {
+	instance := testModify[APIClient, string](
+		t,
+		(*Client).ResetAPIClientPassword,
+		"cli-dsse2",
+		"api_client",
+		"POST",
+		path.Join("api_clients", "cli-dsse2", "reset_secret"),
+		"",
+	)
+	assert.Equal(t, instance.ID, "cli-dsse2")
 }

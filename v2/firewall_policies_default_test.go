@@ -34,7 +34,7 @@ func TestFirewallPolicy(t *testing.T) {
 
 func TestCreateFirewallPolicy(t *testing.T) {
 	newResource := FirewallPolicyOptions{}
-	instance := testModify[FirewallPolicy, FirewallPolicyOptions](
+	instance := testModify[FirewallPolicy, *FirewallPolicyOptions](
 		t,
 		(*Client).CreateFirewallPolicy,
 		&newResource,
@@ -48,7 +48,7 @@ func TestCreateFirewallPolicy(t *testing.T) {
 
 func TestUpdateFirewallPolicy(t *testing.T) {
 	updatedResource := FirewallPolicyOptions{ID: "fwp-j3654"}
-	instance := testModify[FirewallPolicy, FirewallPolicyOptions](
+	instance := testModify[FirewallPolicy, *FirewallPolicyOptions](
 		t,
 		(*Client).UpdateFirewallPolicy,
 		&updatedResource,
