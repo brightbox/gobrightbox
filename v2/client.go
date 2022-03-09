@@ -93,6 +93,18 @@ func APIPut[O any](
 	return apiObject[O](ctx, q, "PUT", relUrl, reqBody)
 }
 
+// APIPostForm makes a POST request to the API with the supplied json parameters.
+//
+// relUrl is the relative path of the endpoint to the base URL, e.g. "servers".
+func APIPostForm(
+	ctx context.Context,
+	q *Client,
+	relUrl string,
+	reqBody interface{},
+) error {
+	return apiCommand(ctx, q, "POST", relUrl, reqBody)
+}
+
 // APIPostCommand makes a POST request to the API
 //
 // relUrl is the relative path of the endpoint to the base URL, e.g. "servers".
@@ -101,7 +113,7 @@ func APIPostCommand(
 	q *Client,
 	relUrl string,
 ) error {
-	return apiCommand(ctx, q, "POST", relUrl)
+	return apiCommand(ctx, q, "POST", relUrl, nil)
 }
 
 // APIPutCommand makes a PUT request to the API
@@ -112,7 +124,7 @@ func APIPutCommand(
 	q *Client,
 	relUrl string,
 ) error {
-	return apiCommand(ctx, q, "PUT", relUrl)
+	return apiCommand(ctx, q, "PUT", relUrl, nil)
 }
 
 // APIDelete makes a DELETE request to the API
@@ -123,7 +135,7 @@ func APIDelete(
 	q *Client,
 	relUrl string,
 ) error {
-	return apiCommand(ctx, q, "DELETE", relUrl)
+	return apiCommand(ctx, q, "DELETE", relUrl, nil)
 }
 
 func apiObject[O any](
@@ -150,8 +162,9 @@ func apiCommand(
 	q *Client,
 	method string,
 	relUrl string,
+	reqBody interface{},
 ) error {
-	req, err := jsonRequest(ctx, q, method, relUrl, nil)
+	req, err := jsonRequest(ctx, q, method, relUrl, reqBody)
 	if err != nil {
 		return err
 	}
@@ -160,9 +173,6 @@ func apiCommand(
 		return err
 	}
 	defer res.Body.Close()
-	if res.StatusCode >= 200 && res.StatusCode <= 299 {
-		return nil
-	}
 	return newAPIError(res)
 }
 
@@ -188,6 +198,9 @@ func jsonResponse[O any](res *http.Response, hardcoreDecode bool) (*O, error) {
 }
 
 func newAPIError(res *http.Response) *APIError {
+	if res.StatusCode >= 200 && res.StatusCode <= 299 {
+		return nil
+	}
 	apierr := APIError{
 		RequestURL: res.Request.URL,
 		StatusCode: res.StatusCode,
