@@ -1,6 +1,8 @@
 package brightbox
 
 import (
+	"context"
+	"path"
 	"time"
 
 	"github.com/brightbox/gobrightbox/v2/status/collaboration"
@@ -30,4 +32,9 @@ type CollaborationOptions struct {
 	ID    string  `json:"-"`
 	Email *string `json:"email,omitempty"`
 	Role  *string `json:"role,omitempty"`
+}
+
+// ResendCollaboration resends the invitation email to the collaborator.
+func (c *Client) ResendCollaboration(ctx context.Context, identifier string) error {
+	return APIPostCommand(ctx, c, path.Join(CollaborationAPIPath, identifier, "resend"))
 }
