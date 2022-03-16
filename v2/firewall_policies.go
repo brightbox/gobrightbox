@@ -1,6 +1,8 @@
 package brightbox
 
 import (
+	"context"
+	"path"
 	"time"
 )
 
@@ -25,4 +27,27 @@ type FirewallPolicyOptions struct {
 	Name        *string `json:"name,omitempty"`
 	Description *string `json:"description,omitempty"`
 	ServerGroup *string `json:"server_group,omitempty"`
+}
+
+// ApplyFirewallPolicy issues a request to apply the given firewall policy to
+// the given server group.
+func (c *Client) ApplyFirewallPolicy(ctx context.Context, identifier string, serverGroupID string) (*FirewallPolicy, error) {
+	return APIPost[FirewallPolicy](
+		ctx,
+		c,
+		path.Join(FirewallPolicyAPIPath, identifier, "apply_to"),
+		map[string]string{"server_group": serverGroupID},
+	)
+
+}
+
+// RemoveFirewallPolicy issues a request to remove the given firewall policy from
+// the given server group.
+func (c *Client) RemoveFirewallPolicy(ctx context.Context, identifier string, serverGroupID string) (*FirewallPolicy, error) {
+	return APIPost[FirewallPolicy](
+		ctx,
+		c,
+		path.Join(FirewallPolicyAPIPath, identifier, "remove"),
+		map[string]string{"server_group": serverGroupID},
+	)
 }
