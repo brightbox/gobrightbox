@@ -26,28 +26,36 @@ type FirewallPolicyOptions struct {
 	ID          string  `json:"-"`
 	Name        *string `json:"name,omitempty"`
 	Description *string `json:"description,omitempty"`
-	ServerGroup *string `json:"server_group,omitempty"`
+	*FirewallPolicyGroup
+}
+
+// FirewallPolicyGroup is used in conjunction with FirewallPolicyOptions,
+// ApplyFirewallPolicy and RemoveFirewallPolicy to specify the group that
+// the firewall policy should apply to. The ServerGroup parameter should
+// be a server group identifier.
+type FirewallPolicyGroup struct {
+	ServerGroup string `json:"server_group,omitempty"`
 }
 
 // ApplyFirewallPolicy issues a request to apply the given firewall policy to
 // the given server group.
-func (c *Client) ApplyFirewallPolicy(ctx context.Context, identifier string, serverGroupID string) (*FirewallPolicy, error) {
+func (c *Client) ApplyFirewallPolicy(ctx context.Context, identifier string, serverGroup FirewallPolicyGroup) (*FirewallPolicy, error) {
 	return APIPost[FirewallPolicy](
 		ctx,
 		c,
 		path.Join(FirewallPolicyAPIPath, identifier, "apply_to"),
-		map[string]string{"server_group": serverGroupID},
+		serverGroup,
 	)
 
 }
 
 // RemoveFirewallPolicy issues a request to remove the given firewall policy from
 // the given server group.
-func (c *Client) RemoveFirewallPolicy(ctx context.Context, identifier string, serverGroupID string) (*FirewallPolicy, error) {
+func (c *Client) RemoveFirewallPolicy(ctx context.Context, identifier string, serverGroup FirewallPolicyGroup) (*FirewallPolicy, error) {
 	return APIPost[FirewallPolicy](
 		ctx,
 		c,
 		path.Join(FirewallPolicyAPIPath, identifier, "remove"),
-		map[string]string{"server_group": serverGroupID},
+		serverGroup,
 	)
 }

@@ -10,11 +10,11 @@ import (
 	is "gotest.tools/v3/assert/cmp"
 )
 
-func testLink[O any](
+func testLink[O, I any](
 	t *testing.T,
-	modify func(*Client, context.Context, string, string) (*O, error),
+	modify func(*Client, context.Context, string, I) (*O, error),
 	from string,
-	to string,
+	to I,
 	jsonPath string,
 	verb string,
 	expectedPath string,
@@ -38,11 +38,11 @@ func testLink[O any](
 }
 
 func TestApplyFirewallPolicy(t *testing.T) {
-	instance := testLink[FirewallPolicy](
+	instance := testLink[FirewallPolicy, FirewallPolicyGroup](
 		t,
 		(*Client).ApplyFirewallPolicy,
 		"fwp-j3654",
-		"grp-12345",
+		FirewallPolicyGroup{"grp-12345"},
 		"firewall_policy",
 		"POST",
 		path.Join("firewall_policies", "fwp-j3654", "apply_to"),
@@ -52,11 +52,11 @@ func TestApplyFirewallPolicy(t *testing.T) {
 }
 
 func TestRemoveFirewallPolicy(t *testing.T) {
-	instance := testLink[FirewallPolicy](
+	instance := testLink[FirewallPolicy, FirewallPolicyGroup](
 		t,
 		(*Client).RemoveFirewallPolicy,
 		"fwp-j3654",
-		"grp-12345",
+		FirewallPolicyGroup{"grp-12345"},
 		"firewall_policy",
 		"POST",
 		path.Join("firewall_policies", "fwp-j3654", "remove"),
