@@ -9,7 +9,7 @@ type Status uint8
 
 const (
 	// Creating is an enumeration for image.Status
-	Creating Status = iota
+	Creating Status = iota + 1
 	// Available is an enumeration for Status
 	Available
 	// Deprecated is an enumeration for Status

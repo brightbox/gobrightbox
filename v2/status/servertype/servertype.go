@@ -9,7 +9,7 @@ type Status uint8
 
 const (
 	// Experimental is an enumeration for servertype.Status
-	Experimental Status = iota
+	Experimental Status = iota + 1
 	// Available is an enumeration for Status
 	Available
 	// Deprecated is an enumeration for Status

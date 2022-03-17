@@ -9,7 +9,7 @@ type Status uint8
 
 const (
 	// Creating is an enumeration for volume.Status
-	Creating Status = iota
+	Creating Status = iota + 1
 	// Attached is an enumeration for Status
 	Attached
 	// Detached is an enumeration for Status

@@ -9,7 +9,7 @@ type Status uint8
 
 const (
 	// Pending is an enumeration for account.Status
-	Pending Status = iota
+	Pending Status = iota + 1
 	// Active is an enumeration for Status
 	Active
 	// Overdue is an enumeration for Status

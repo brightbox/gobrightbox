@@ -9,7 +9,7 @@ type Status uint8
 
 const (
 	// Creating is an enumeration for databaseserver.Status
-	Creating Status = iota
+	Creating Status = iota + 1
 	// Active is an enumeration for Status
 	Active
 	// Deleting is an enumeration for Status

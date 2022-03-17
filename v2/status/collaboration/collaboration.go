@@ -9,7 +9,7 @@ type Status uint8
 
 const (
 	// Pending is an enumeration for collaboration.Status
-	Pending Status = iota
+	Pending Status = iota + 1
 	// Accepted is an enumeration for Status
 	Accepted
 	// Rejected is an enumeration for Status

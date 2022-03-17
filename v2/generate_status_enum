@@ -9,6 +9,10 @@ def snake_case(str)
      .downcase
 end
 
+def make_identifier(str)
+  str.split(/[_-]/).collect(&:capitalize).join
+end
+
 def generate_enumeration(file_name, package_name, states)
   File.open(file_name, 'w') do |f|
     f << file_header(package_name)
@@ -32,19 +36,20 @@ import "fmt"
 end
 
 def generate_states(package_name, states)
-  first = states[0].capitalize
+  first = make_identifier(states[0])
   result = <<-FIRST
 // Status is an enumerated type
 type Status uint8
 
 const (
   // #{first} is an enumeration for #{package_name}.Status
-	#{first} Status = iota
+	#{first} Status = iota + 1
   FIRST
-  states[1..-1].reduce(result) do |result, state|
-    result << <<-NEXT
-	// #{state.capitalize} is an enumeration for Status
-	#{state.capitalize}
+  states[1..-1].reduce(result) do |memo, state|
+    identifier = make_identifier(state)
+    memo << <<-NEXT
+	// #{identifier} is an enumeration for Status
+	#{identifier}
     NEXT
   end << <<-FINAL
 )
@@ -75,7 +80,7 @@ func ParseStatus(name string) (Status, error) {
   states.reduce(result) do |result, state|
     result << <<-NEXT
 	case "#{state.downcase}":
-		return #{state.capitalize}, nil
+		return #{make_identifier(state)}, nil
     NEXT
   end << <<-FINAL
 	}
@@ -93,7 +98,7 @@ func (i Status) MarshalText() ([]byte, error) {
   FIRST
   states.reduce(result) do |result, state|
     result << <<-NEXT
-	case #{state.capitalize}:
+	case #{make_identifier(state)}:
 		return []byte("#{state.downcase}"), nil
     NEXT
   end << <<-FINAL

@@ -9,7 +9,7 @@ type Status uint8
 
 const (
 	// Creating is an enumeration for databasesnapshot.Status
-	Creating Status = iota
+	Creating Status = iota + 1
 	// Available is an enumeration for Status
 	Available
 	// Deleted is an enumeration for Status
