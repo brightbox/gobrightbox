@@ -1,4 +1,3 @@
-
 package brightbox
 
 import (

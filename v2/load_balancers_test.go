@@ -4,10 +4,13 @@ import (
 	"path"
 	"testing"
 
+	"github.com/brightbox/gobrightbox/v2/status/listenerprotocol"
+	"github.com/brightbox/gobrightbox/v2/status/proxyprotocol"
+
 	"gotest.tools/v3/assert"
 )
 
-func TestApplyLoadBalancer(t *testing.T) {
+func TestAddNodesToLoadBalancer(t *testing.T) {
 	instance := testLink[LoadBalancer, []LoadBalancerNode](
 		t,
 		(*Client).AddNodesToLoadBalancer,
@@ -21,7 +24,7 @@ func TestApplyLoadBalancer(t *testing.T) {
 	assert.Equal(t, instance.ID, "lba-1235f")
 }
 
-func TestRemoveLoadBalancer(t *testing.T) {
+func TestRemoveNodesFromLoadBalancer(t *testing.T) {
 	instance := testLink[LoadBalancer, []LoadBalancerNode](
 		t,
 		(*Client).RemoveNodesFromLoadBalancer,
@@ -31,6 +34,49 @@ func TestRemoveLoadBalancer(t *testing.T) {
 		"POST",
 		path.Join("load_balancers", "lba-1235f", "remove_nodes"),
 		`[{"node":"srv-lv426"}]`,
+	)
+	assert.Equal(t, instance.ID, "lba-1235f")
+}
+
+func TestAddListenersToLoadBalancer(t *testing.T) {
+	instance := testLink[LoadBalancer, []LoadBalancerListener](
+		t,
+		(*Client).AddListenersToLoadBalancer,
+		"lba-1235f",
+		[]LoadBalancerListener{
+			{
+				Protocol: listenerprotocol.Http,
+				In:       80,
+				Out:      80,
+				Timeout:  50000,
+			},
+		},
+		"load_balancer",
+		"POST",
+		path.Join("load_balancers", "lba-1235f", "add_listeners"),
+		`[{"protocol":"http","in":80,"out":80,"timeout":50000}]`,
+	)
+	assert.Equal(t, instance.ID, "lba-1235f")
+}
+
+func TestRemoveListenersFromLoadBalancer(t *testing.T) {
+	instance := testLink[LoadBalancer, []LoadBalancerListener](
+		t,
+		(*Client).RemoveListenersFromLoadBalancer,
+		"lba-1235f",
+		[]LoadBalancerListener{
+			{
+				Protocol:      listenerprotocol.Http,
+				In:            80,
+				Out:           80,
+				Timeout:       50000,
+				ProxyProtocol: proxyprotocol.V2SslCn,
+			},
+		},
+		"load_balancer",
+		"POST",
+		path.Join("load_balancers", "lba-1235f", "remove_listeners"),
+		`[{"protocol":"http","in":80,"out":80,"timeout":50000,"proxy_protocol":"v2-ssl-cn"}]`,
 	)
 	assert.Equal(t, instance.ID, "lba-1235f")
 }

@@ -5,10 +5,18 @@ import (
 	"path"
 	"time"
 
+	"github.com/brightbox/gobrightbox/v2/status/balancingpolicy"
+	"github.com/brightbox/gobrightbox/v2/status/healthchecktype"
+	"github.com/brightbox/gobrightbox/v2/status/listenerprotocol"
 	"github.com/brightbox/gobrightbox/v2/status/loadbalancer"
+	"github.com/brightbox/gobrightbox/v2/status/proxyprotocol"
 )
 
 //go:generate ./generate_status_enum loadbalancer creating active deleting deleted failing failed
+//go:generate ./generate_status_enum proxyprotocol v1 v2 v2-ssl v2-ssl-cn
+//go:generate ./generate_status_enum balancingpolicy least-connections round-robin source-address
+//go:generate ./generate_status_enum healthchecktype tcp http
+//go:generate ./generate_status_enum listenerprotocol tcp http https
 
 // LoadBalancer represents a Load Balancer
 // https://api.gb1.brightbox.com/1.0/#load_balancer
@@ -66,22 +74,22 @@ type LoadBalancerAcmeDomain struct {
 
 // LoadBalancerHealthcheck represents a health check on a LoadBalancer
 type LoadBalancerHealthcheck struct {
-	Type          string `json:"type"`
-	Port          int    `json:"port"`
-	Request       string `json:"request,omitempty"`
-	Interval      int    `json:"interval,omitempty"`
-	Timeout       int    `json:"timeout,omitempty"`
-	ThresholdUp   int    `json:"threshold_up,omitempty"`
-	ThresholdDown int    `json:"threshold_down,omitempty"`
+	Type          healthchecktype.Status `json:"type"`
+	Port          int                    `json:"port"`
+	Request       string                 `json:"request,omitempty"`
+	Interval      int                    `json:"interval,omitempty"`
+	Timeout       int                    `json:"timeout,omitempty"`
+	ThresholdUp   int                    `json:"threshold_up,omitempty"`
+	ThresholdDown int                    `json:"threshold_down,omitempty"`
 }
 
 // LoadBalancerListener represents a listener on a LoadBalancer
 type LoadBalancerListener struct {
-	Protocol      string `json:"protocol,omitempty"`
-	In            int    `json:"in,omitempty"`
-	Out           int    `json:"out,omitempty"`
-	Timeout       int    `json:"timeout,omitempty"`
-	ProxyProtocol string `json:"proxy_protocol,omitempty"`
+	Protocol      listenerprotocol.Status `json:"protocol,omitempty"`
+	In            int                     `json:"in,omitempty"`
+	Out           int                     `json:"out,omitempty"`
+	Timeout       int                     `json:"timeout,omitempty"`
+	ProxyProtocol proxyprotocol.Status    `json:"proxy_protocol,omitempty"`
 }
 
 // LoadBalancerOptions is used in conjunction with CreateLoadBalancer and
@@ -90,15 +98,13 @@ type LoadBalancerOptions struct {
 	ID                    string                   `json:"-"`
 	Name                  *string                  `json:"name,omitempty"`
 	Nodes                 []LoadBalancerNode       `json:"nodes,omitempty"`
-	Policy                *string                  `json:"policy,omitempty"`
-	BufferSize            *int                     `json:"buffer_size,omitempty"`
+	Policy                balancingpolicy.Status   `json:"policy,omitempty"`
 	Listeners             []LoadBalancerListener   `json:"listeners,omitempty"`
 	Healthcheck           *LoadBalancerHealthcheck `json:"healthcheck,omitempty"`
 	Domains               *[]string                `json:"domains,omitempty"`
 	CertificatePem        *string                  `json:"certificate_pem,omitempty"`
 	CertificatePrivateKey *string                  `json:"certificate_private_key,omitempty"`
 	SslMinimumVersion     *string                  `json:"ssl_minimum_version,omitempty"`
-	SslV3                 *bool                    `json:"sslv3,omitempty"`
 	HTTPSRedirect         *bool                    `json:"https_redirect,omitempty"`
 }
 
@@ -128,5 +134,26 @@ func (c *Client) RemoveNodesFromLoadBalancer(ctx context.Context, identifier str
 		c,
 		path.Join(LoadBalancerAPIPath, identifier, "remove_nodes"),
 		nodes,
+	)
+}
+
+// AddListenersToLoadBalancer adds listeners to an existing load balancer.
+func (c *Client) AddListenersToLoadBalancer(ctx context.Context, identifier string, listeners []LoadBalancerListener) (*LoadBalancer, error) {
+	return APIPost[LoadBalancer](
+		ctx,
+		c,
+		path.Join(LoadBalancerAPIPath, identifier, "add_listeners"),
+		listeners,
+	)
+
+}
+
+// RemoveListenersFromLoadBalancer removes listeners from an existing load balancer.
+func (c *Client) RemoveListenersFromLoadBalancer(ctx context.Context, identifier string, listeners []LoadBalancerListener) (*LoadBalancer, error) {
+	return APIPost[LoadBalancer](
+		ctx,
+		c,
+		path.Join(LoadBalancerAPIPath, identifier, "remove_listeners"),
+		listeners,
 	)
 }
