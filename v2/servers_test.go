@@ -1,6 +1,7 @@
 package brightbox
 
 import (
+	"path"
 	"testing"
 
 	"github.com/brightbox/gobrightbox/v2/status/server"
@@ -31,4 +32,18 @@ func TestCreateServerWithNetworkDisk(t *testing.T) {
 	)
 	assert.Equal(t, instance.ID, "srv-lv426")
 	assert.Assert(t, instance.Status == server.Active)
+}
+
+func TestActivateConsoleForServer(t *testing.T) {
+	instance := testModify[Server, string](
+		t,
+		(*Client).ActivateConsoleForServer,
+		"srv-lv426",
+		"server",
+		"POST",
+		path.Join("servers", "srv-lv426", "activate_console"),
+		"",
+	)
+	assert.Equal(t, instance.ID, "srv-lv426")
+
 }

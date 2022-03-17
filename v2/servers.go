@@ -1,6 +1,8 @@
 package brightbox
 
 import (
+	"context"
+	"path"
 	"time"
 
 	"github.com/brightbox/gobrightbox/v2/status/server"
@@ -61,4 +63,16 @@ type ServerOptions struct {
 	CompatibilityMode *bool           `json:"compatibility_mode,omitempty"`
 	DiskEncrypted     *bool           `json:"disk_encrypted,omitempty"`
 	Volumes           []VolumeOptions `json:"volumes,omitempty"`
+}
+
+// ActivateConsoleForServer issues a request to enable the graphical console for
+// an existing server. The temporarily allocated ConsoleURL, ConsoleToken and
+// ConsoleTokenExpires data are returned within an instance of Server.
+func (c *Client) ActivateConsoleForServer(ctx context.Context, identifier string) (*Server, error) {
+	return APIPost[Server](
+		ctx,
+		c,
+		path.Join(ServerAPIPath, identifier, "activate_console"),
+		nil,
+	)
 }
