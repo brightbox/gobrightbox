@@ -1,6 +1,8 @@
 package brightbox
 
 import (
+	"context"
+	"path"
 	"time"
 
 	"github.com/brightbox/gobrightbox/v2/status/loadbalancer"
@@ -105,5 +107,26 @@ type LoadBalancerOptions struct {
 // servers to use as load balancer nodes. The Node parameter should be a server
 // identifier.
 type LoadBalancerNode struct {
-	Node string `json:"node"`
+	Node string `json:"node,omitempty"`
+}
+
+// AddNodesToLoadBalancer adds nodes to an existing load balancer.
+func (c *Client) AddNodesToLoadBalancer(ctx context.Context, identifier string, nodes []LoadBalancerNode) (*LoadBalancer, error) {
+	return APIPost[LoadBalancer](
+		ctx,
+		c,
+		path.Join(LoadBalancerAPIPath, identifier, "add_nodes"),
+		nodes,
+	)
+
+}
+
+// RemoveNodesFromLoadBalancer removes nodes from an existing load balancer.
+func (c *Client) RemoveNodesFromLoadBalancer(ctx context.Context, identifier string, nodes []LoadBalancerNode) (*LoadBalancer, error) {
+	return APIPost[LoadBalancer](
+		ctx,
+		c,
+		path.Join(LoadBalancerAPIPath, identifier, "remove_nodes"),
+		nodes,
+	)
 }
