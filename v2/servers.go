@@ -9,6 +9,7 @@ import (
 )
 
 //go:generate ./generate_status_enum server creating active inactive deleting deleted failed unavailable
+//go:generate ./generate_server_commands
 
 // Server represents a Cloud Server
 // https://api.gb1.brightbox.com/1.0/#server

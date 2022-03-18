@@ -340,6 +340,6 @@ func (c *Client) Reset#{struct}Password(ctx context.Context, identifier string) 
 end
 
 object_hash = YAML.safe_load(ARGF.read)
-files = []
+files = %w[gofmt -w]
 object_hash.each { |k, v| files << generate_default_tested_api_commands(k, v) }
-# puts files.flatten.join(" ")
+exec(*files.flatten)

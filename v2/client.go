@@ -9,7 +9,7 @@ import (
 	"net/url"
 )
 
-//go:generate ruby ./generate_default_functions paths.yaml
+//go:generate ./generate_default_functions paths.yaml
 
 // Client represents a connection to the Brightbox API. You should use NewConnect
 // to allocate and configure Clients, and pass in either a

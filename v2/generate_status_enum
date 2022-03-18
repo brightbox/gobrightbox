@@ -133,3 +133,4 @@ end
 FileUtils.mkdir_p(File.join('status', package_name))
 file_name = File.join('status', package_name, "#{package_name}.go")
 generate_enumeration(file_name, package_name, ARGV)
+exec('gofmt', '-w', file_name)
