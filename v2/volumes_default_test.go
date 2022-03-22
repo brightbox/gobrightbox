@@ -69,3 +69,23 @@ func TestDestroyVolume(t *testing.T) {
 		path.Join("volumes", "vol-po5we"),
 	)
 }
+
+func TestLockVolume(t *testing.T) {
+	testCommand(
+		t,
+		(*Client).LockVolume,
+		"vol-po5we",
+		"PUT",
+		path.Join("volumes", "vol-po5we", "lock_resource"),
+	)
+}
+
+func TestUnlockVolume(t *testing.T) {
+	testCommand(
+		t,
+		(*Client).UnlockVolume,
+		"vol-po5we",
+		"PUT",
+		path.Join("volumes", "vol-po5we", "unlock_resource"),
+	)
+}

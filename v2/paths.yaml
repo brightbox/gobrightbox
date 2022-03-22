@@ -89,7 +89,7 @@ User:
   jsonpath: user
 Volume:
   path: volumes
-  crud: [create, update, delete]
+  crud: [create, update, delete, lock]
   testid: vol-po5we
   jsonpath: volume
 Zone:
