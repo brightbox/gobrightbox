@@ -8,11 +8,11 @@ import (
 )
 
 func TestApplyFirewallPolicy(t *testing.T) {
-	instance := testLink[FirewallPolicy, FirewallPolicyGroup](
+	instance := testLink[FirewallPolicy, FirewallPolicyAttachment](
 		t,
 		(*Client).ApplyFirewallPolicy,
 		"fwp-j3654",
-		FirewallPolicyGroup{"grp-12345"},
+		FirewallPolicyAttachment{"grp-12345"},
 		"firewall_policy",
 		"POST",
 		path.Join("firewall_policies", "fwp-j3654", "apply_to"),
@@ -22,11 +22,11 @@ func TestApplyFirewallPolicy(t *testing.T) {
 }
 
 func TestRemoveFirewallPolicy(t *testing.T) {
-	instance := testLink[FirewallPolicy, FirewallPolicyGroup](
+	instance := testLink[FirewallPolicy, FirewallPolicyAttachment](
 		t,
 		(*Client).RemoveFirewallPolicy,
 		"fwp-j3654",
-		FirewallPolicyGroup{"grp-12345"},
+		FirewallPolicyAttachment{"grp-12345"},
 		"firewall_policy",
 		"POST",
 		path.Join("firewall_policies", "fwp-j3654", "remove"),
