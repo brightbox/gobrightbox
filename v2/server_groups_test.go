@@ -10,29 +10,29 @@ import (
 )
 
 func TestAddServersToServerGroup(t *testing.T) {
-	instance := testLink[ServerGroup, []ServerGroupMember](
+	instance := testLink[ServerGroup, ServerGroupMemberList](
 		t,
 		(*Client).AddServersToServerGroup,
 		"grp-sda44",
-		[]ServerGroupMember{{"srv-lv426"}},
+		ServerGroupMemberList{[]ServerGroupMember{{"srv-lv426"}}},
 		"server_group",
 		"POST",
 		path.Join("server_groups", "grp-sda44", "add_servers"),
-		`[{"server":"srv-lv426"}]`,
+		`{"servers":[{"server":"srv-lv426"}]}`,
 	)
 	assert.Equal(t, instance.ID, "grp-sda44")
 }
 
 func TestRemoveServersFromServerGroup(t *testing.T) {
-	instance := testLink[ServerGroup, []ServerGroupMember](
+	instance := testLink[ServerGroup, ServerGroupMemberList](
 		t,
 		(*Client).RemoveServersFromServerGroup,
 		"grp-sda44",
-		[]ServerGroupMember{{"srv-lv426"}},
+		ServerGroupMemberList{[]ServerGroupMember{{"srv-lv426"}}},
 		"server_group",
 		"POST",
 		path.Join("server_groups", "grp-sda44", "remove_servers"),
-		`[{"server":"srv-lv426"}]`,
+		`{"servers":[{"server":"srv-lv426"}]}`,
 	)
 	assert.Equal(t, instance.ID, "grp-sda44")
 }
@@ -41,7 +41,7 @@ func TestMoveServersToServerGroup(t *testing.T) {
 	modify := (*Client).MoveServersToServerGroup
 	from := "grp-sda44"
 	to := "grp-12345"
-	contents := []ServerGroupMember{{"srv-lv426"}}
+	contents := ServerGroupMemberList{[]ServerGroupMember{{"srv-lv426"}}}
 	jsonPath := "server_group"
 	verb := "POST"
 	expectedPath := path.Join("server_groups", "grp-sda44", "move_servers")

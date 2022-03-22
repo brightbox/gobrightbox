@@ -29,13 +29,18 @@ type ServerGroupOptions struct {
 	Description *string `json:"description,omitempty"`
 }
 
-// ServerGroupMember is used to add, remove and move servers between server groups
+// ServerGroupMember is used to add, remove and move a server between server groups
 type ServerGroupMember struct {
 	Server string `json:"server"`
 }
 
+// ServerGroupMemberList is used to add, remove and move servers between server groups
+type ServerGroupMemberList struct {
+	Servers []ServerGroupMember `json:"servers"`
+}
+
 // AddServersToServerGroup adds servers to an existing server group
-func (c *Client) AddServersToServerGroup(ctx context.Context, identifier string, servers []ServerGroupMember) (*ServerGroup, error) {
+func (c *Client) AddServersToServerGroup(ctx context.Context, identifier string, servers ServerGroupMemberList) (*ServerGroup, error) {
 	return APIPost[ServerGroup](
 		ctx,
 		c,
@@ -45,7 +50,7 @@ func (c *Client) AddServersToServerGroup(ctx context.Context, identifier string,
 }
 
 // RemoveServersFromServerGroup remove servers from an existing server group
-func (c *Client) RemoveServersFromServerGroup(ctx context.Context, identifier string, servers []ServerGroupMember) (*ServerGroup, error) {
+func (c *Client) RemoveServersFromServerGroup(ctx context.Context, identifier string, servers ServerGroupMemberList) (*ServerGroup, error) {
 	return APIPost[ServerGroup](
 		ctx,
 		c,
@@ -55,10 +60,10 @@ func (c *Client) RemoveServersFromServerGroup(ctx context.Context, identifier st
 }
 
 // MoveServersToServerGroup moves servers between two existing server groups
-func (c *Client) MoveServersToServerGroup(ctx context.Context, from string, to string, servers []ServerGroupMember) (*ServerGroup, error) {
+func (c *Client) MoveServersToServerGroup(ctx context.Context, from string, to string, servers ServerGroupMemberList) (*ServerGroup, error) {
 	opts := struct {
-		Servers     []ServerGroupMember `json:"servers"`
-		Destination string              `json:"destination"`
+		ServerGroupMemberList
+		Destination string `json:"destination"`
 	}{servers, to}
 	return APIPost[ServerGroup](
 		ctx,
