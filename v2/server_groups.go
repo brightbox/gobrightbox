@@ -1,6 +1,8 @@
 package brightbox
 
 import (
+	"context"
+	"path"
 	"time"
 )
 
@@ -25,4 +27,43 @@ type ServerGroupOptions struct {
 	ID          string  `json:"-"`
 	Name        *string `json:"name,omitempty"`
 	Description *string `json:"description,omitempty"`
+}
+
+// ServerGroupMember is used to add, remove and move servers between server groups
+type ServerGroupMember struct {
+	Server string `json:"server"`
+}
+
+// AddServersToServerGroup adds servers to an existing server group
+func (c *Client) AddServersToServerGroup(ctx context.Context, identifier string, servers []ServerGroupMember) (*ServerGroup, error) {
+	return APIPost[ServerGroup](
+		ctx,
+		c,
+		path.Join(ServerGroupAPIPath, identifier, "add_servers"),
+		servers,
+	)
+}
+
+// RemoveServersFromServerGroup remove servers from an existing server group
+func (c *Client) RemoveServersFromServerGroup(ctx context.Context, identifier string, servers []ServerGroupMember) (*ServerGroup, error) {
+	return APIPost[ServerGroup](
+		ctx,
+		c,
+		path.Join(ServerGroupAPIPath, identifier, "remove_servers"),
+		servers,
+	)
+}
+
+// MoveServersToServerGroup moves servers between two existing server groups
+func (c *Client) MoveServersToServerGroup(ctx context.Context, from string, to string, servers []ServerGroupMember) (*ServerGroup, error) {
+	opts := struct {
+		Servers     []ServerGroupMember `json:"servers"`
+		Destination string              `json:"destination"`
+	}{servers, to}
+	return APIPost[ServerGroup](
+		ctx,
+		c,
+		path.Join(ServerGroupAPIPath, from, "move_servers"),
+		opts,
+	)
 }
