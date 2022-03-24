@@ -22,11 +22,14 @@ func TestAttachVolume(t *testing.T) {
 }
 
 func TestDetachVolume(t *testing.T) {
-	testCommand(
+	instance := testModify[Volume, string](
 		t,
 		(*Client).DetachVolume,
 		"vol-po5we",
+		"volume",
 		"POST",
 		path.Join("volumes", "vol-po5we", "detach"),
+		"",
 	)
+	assert.Equal(t, instance.ID, "vol-po5we")
 }
