@@ -31,8 +31,12 @@ def test_header(package_name)
 
 package #{package_name}
 
-import "path"
-import "testing"
+import (
+	"path"
+	"testing"
+
+	"gotest.tools/v3/assert"
+)
 
   ENDFUNC
 end
@@ -41,8 +45,8 @@ def generate_server_command(command, text)
   identifier = make_identifier("#{command}_server")
   <<-ENDFUNC
 // #{identifier} #{text}
-func (c *Client) #{identifier}(ctx context.Context, identifier string) error {
-	return APIPostCommand(ctx, c, path.Join(ServerAPIPath, identifier, "#{command}"))
+func (c *Client) #{identifier}(ctx context.Context, identifier string) (*Server, error) {
+	return APIPost[Server](ctx, c, path.Join(ServerAPIPath, identifier, "#{command}"), nil)
 }
 
   ENDFUNC
@@ -52,13 +56,16 @@ def generate_server_command_test(command)
   identifier = make_identifier("#{command}_server")
   <<-ENDFUNC
 func Test#{identifier}(t *testing.T) {
-	testCommand(
+  instance := testModify[Server, string](
 		t,
 		(*Client).#{identifier},
 		"srv-lv426",
+    "server",
 		"POST",
 		path.Join("servers", "srv-lv426", "#{command}"),
+    "",
 	)
+  assert.Equal(t, instance.ID, "srv-lv426")
 }
 
   ENDFUNC

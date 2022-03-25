@@ -159,13 +159,16 @@ end
 def test_destroy_function(struct, options)
   <<-ENDFUNC
 func TestDestroy#{struct}(t *testing.T) {
-	testCommand(
+  deletedResource := testModify[#{struct}, string](
 		t,
 		(*Client).Destroy#{struct},
 		"#{options['testid']}",
+    "#{options['jsonpath']}",
 		"DELETE",
     path.Join("#{options['path']}", "#{options['testid']}"),
+    "",
 	)
+  assert.Equal(t, deletedResource.ID, "#{options['testid']}")
 }
 
   ENDFUNC
@@ -174,23 +177,29 @@ end
 def test_lock_functions(struct, options)
   <<-ENDFUNC
 func TestLock#{struct}(t *testing.T) {
-	testCommand(
+  lockedResource := testModify[#{struct}, string](
 		t,
 		(*Client).Lock#{struct},
 		"#{options['testid']}",
+    "#{options['jsonpath']}",
 		"PUT",
     path.Join("#{options['path']}", "#{options['testid']}", "lock_resource"),
+    "",
 	)
+  assert.Equal(t, lockedResource.ID, "#{options['testid']}")
 }
 
 func TestUnlock#{struct}(t *testing.T) {
-	testCommand(
+  unlockedResource := testModify[#{struct}, string](
 		t,
 		(*Client).Unlock#{struct},
 		"#{options['testid']}",
+    "#{options['jsonpath']}",
 		"PUT",
     path.Join("#{options['path']}", "#{options['testid']}", "unlock_resource"),
+    "",
 	)
+  assert.Equal(t, unlockedResource.ID, "#{options['testid']}")
 }
 
   ENDFUNC
@@ -306,8 +315,8 @@ end
 def destroy_function(struct)
   <<-ENDFUNC
 // Destroy#{struct} destroys an existing resource.
-func (c *Client) Destroy#{struct}(ctx context.Context, identifier string) error {
-	return APIDelete(ctx, c, path.Join(#{struct}APIPath, identifier))
+func (c *Client) Destroy#{struct}(ctx context.Context, identifier string) (*#{struct}, error) {
+	return APIDelete[#{struct}](ctx, c, path.Join(#{struct}APIPath, identifier))
 }
 
   ENDFUNC
@@ -316,13 +325,13 @@ end
 def lock_functions(struct)
   <<-ENDFUNC
 // Lock#{struct} locks a resource against destroy requests
-func (c *Client) Lock#{struct}(ctx context.Context, identifier string) error {
-	return APIPutCommand(ctx, c, path.Join(#{struct}APIPath, identifier, "lock_resource"))
+func (c *Client) Lock#{struct}(ctx context.Context, identifier string) (*#{struct}, error) {
+	return APIPut[#{struct}](ctx, c, path.Join(#{struct}APIPath, identifier, "lock_resource"), nil)
 }
 
 // Unlock#{struct} unlocks a resource, re-enabling destroy requests
-func (c *Client) Unlock#{struct}(ctx context.Context, identifier string) error {
-	return APIPutCommand(ctx, c, path.Join(#{struct}APIPath, identifier, "unlock_resource"))
+func (c *Client) Unlock#{struct}(ctx context.Context, identifier string) (*#{struct}, error) {
+	return APIPut[#{struct}](ctx, c, path.Join(#{struct}APIPath, identifier, "unlock_resource"), nil)
 }
   ENDFUNC
 end
