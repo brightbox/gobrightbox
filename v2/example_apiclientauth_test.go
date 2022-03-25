@@ -45,11 +45,13 @@ func ExampleClientCredentials() {
 	data := map[string]interface{}{
 		"attribute": 42,
 	}
-	newMap := brightbox.ConfigMapOptions{
-		Name: &name,
-		Data: &data,
-	}
-	configMap, err := client.CreateConfigMap(ctx, &newMap)
+	configMap, err := client.CreateConfigMap(
+		ctx,
+		brightbox.ConfigMapOptions{
+			Name: &name,
+			Data: &data,
+		},
+	)
 	if err != nil {
 		log.Fatal(err)
 	}

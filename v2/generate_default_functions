@@ -122,10 +122,10 @@ def test_create_function(struct, options)
   <<-ENDFUNC
 func TestCreate#{struct}(t *testing.T) {
 	newResource := #{struct}Options{}
-	instance := testModify[#{struct}, *#{struct}Options](
+	instance := testModify[#{struct}, #{struct}Options](
 		t,
 		(*Client).Create#{struct},
-		&newResource,
+		newResource,
     "#{options['jsonpath']}",
 		"POST",
     path.Join("#{options['path']}"),
@@ -141,10 +141,10 @@ def test_update_function(struct, options)
   <<-ENDFUNC
 func TestUpdate#{struct}(t *testing.T) {
 	updatedResource := #{struct}Options{ID: "#{options['testid']}"}
-	instance := testModify[#{struct}, *#{struct}Options](
+	instance := testModify[#{struct}, #{struct}Options](
 		t,
 		(*Client).Update#{struct},
-		&updatedResource,
+		updatedResource,
     "#{options['jsonpath']}",
 		"PUT",
     path.Join("#{options['path']}", updatedResource.ID),
@@ -291,7 +291,7 @@ def create_function(struct)
 //
 // It takes an instance of #{struct}Options. Not all attributes can be
 // specified at create time (such as ID, which is allocated for you).
-func (c *Client) Create#{struct}(ctx context.Context, new#{struct} *#{struct}Options) (*#{struct}, error) {
+func (c *Client) Create#{struct}(ctx context.Context, new#{struct} #{struct}Options) (*#{struct}, error) {
 	return APIPost[#{struct}](ctx, c, #{struct}APIPath, new#{struct})
 }
 
@@ -305,7 +305,7 @@ def update_function(struct)
 //
 // It takes an instance of #{struct}Options. Specify the resource you
 // want to update using the ID field.
-func (c *Client) Update#{struct}(ctx context.Context, update#{struct} *#{struct}Options) (*#{struct}, error) {
+func (c *Client) Update#{struct}(ctx context.Context, update#{struct} #{struct}Options) (*#{struct}, error) {
 	return APIPut[#{struct}](ctx, c, path.Join(#{struct}APIPath, update#{struct}.ID), update#{struct})
 }
 

@@ -34,10 +34,10 @@ func TestServerGroup(t *testing.T) {
 
 func TestCreateServerGroup(t *testing.T) {
 	newResource := ServerGroupOptions{}
-	instance := testModify[ServerGroup, *ServerGroupOptions](
+	instance := testModify[ServerGroup, ServerGroupOptions](
 		t,
 		(*Client).CreateServerGroup,
-		&newResource,
+		newResource,
 		"server_group",
 		"POST",
 		path.Join("server_groups"),
@@ -48,10 +48,10 @@ func TestCreateServerGroup(t *testing.T) {
 
 func TestUpdateServerGroup(t *testing.T) {
 	updatedResource := ServerGroupOptions{ID: "grp-sda44"}
-	instance := testModify[ServerGroup, *ServerGroupOptions](
+	instance := testModify[ServerGroup, ServerGroupOptions](
 		t,
 		(*Client).UpdateServerGroup,
-		&updatedResource,
+		updatedResource,
 		"server_group",
 		"PUT",
 		path.Join("server_groups", updatedResource.ID),

@@ -9,10 +9,10 @@ import (
 func TestCreateAPIClientWithPermissionsGroup(t *testing.T) {
 	pg := "full"
 	newResource := APIClientOptions{PermissionsGroup: &pg}
-	instance := testModify[APIClient, *APIClientOptions](
+	instance := testModify[APIClient, APIClientOptions](
 		t,
 		(*Client).CreateAPIClient,
-		&newResource,
+		newResource,
 		"api_client",
 		"POST",
 		"api_clients",

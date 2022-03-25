@@ -34,10 +34,10 @@ func TestDatabaseServer(t *testing.T) {
 
 func TestCreateDatabaseServer(t *testing.T) {
 	newResource := DatabaseServerOptions{}
-	instance := testModify[DatabaseServer, *DatabaseServerOptions](
+	instance := testModify[DatabaseServer, DatabaseServerOptions](
 		t,
 		(*Client).CreateDatabaseServer,
-		&newResource,
+		newResource,
 		"database_server",
 		"POST",
 		path.Join("database_servers"),
@@ -48,10 +48,10 @@ func TestCreateDatabaseServer(t *testing.T) {
 
 func TestUpdateDatabaseServer(t *testing.T) {
 	updatedResource := DatabaseServerOptions{ID: "dbs-123ab"}
-	instance := testModify[DatabaseServer, *DatabaseServerOptions](
+	instance := testModify[DatabaseServer, DatabaseServerOptions](
 		t,
 		(*Client).UpdateDatabaseServer,
-		&updatedResource,
+		updatedResource,
 		"database_server",
 		"PUT",
 		path.Join("database_servers", updatedResource.ID),

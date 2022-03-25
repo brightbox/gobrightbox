@@ -34,10 +34,10 @@ func TestVolume(t *testing.T) {
 
 func TestCreateVolume(t *testing.T) {
 	newResource := VolumeOptions{}
-	instance := testModify[Volume, *VolumeOptions](
+	instance := testModify[Volume, VolumeOptions](
 		t,
 		(*Client).CreateVolume,
-		&newResource,
+		newResource,
 		"volume",
 		"POST",
 		path.Join("volumes"),
@@ -48,10 +48,10 @@ func TestCreateVolume(t *testing.T) {
 
 func TestUpdateVolume(t *testing.T) {
 	updatedResource := VolumeOptions{ID: "vol-po5we"}
-	instance := testModify[Volume, *VolumeOptions](
+	instance := testModify[Volume, VolumeOptions](
 		t,
 		(*Client).UpdateVolume,
-		&updatedResource,
+		updatedResource,
 		"volume",
 		"PUT",
 		path.Join("volumes", updatedResource.ID),

@@ -24,7 +24,7 @@ func (c *Client) CloudIP(ctx context.Context, identifier string) (*CloudIP, erro
 //
 // It takes an instance of CloudIPOptions. Not all attributes can be
 // specified at create time (such as ID, which is allocated for you).
-func (c *Client) CreateCloudIP(ctx context.Context, newCloudIP *CloudIPOptions) (*CloudIP, error) {
+func (c *Client) CreateCloudIP(ctx context.Context, newCloudIP CloudIPOptions) (*CloudIP, error) {
 	return APIPost[CloudIP](ctx, c, CloudIPAPIPath, newCloudIP)
 }
 
@@ -33,7 +33,7 @@ func (c *Client) CreateCloudIP(ctx context.Context, newCloudIP *CloudIPOptions) 
 //
 // It takes an instance of CloudIPOptions. Specify the resource you
 // want to update using the ID field.
-func (c *Client) UpdateCloudIP(ctx context.Context, updateCloudIP *CloudIPOptions) (*CloudIP, error) {
+func (c *Client) UpdateCloudIP(ctx context.Context, updateCloudIP CloudIPOptions) (*CloudIP, error) {
 	return APIPut[CloudIP](ctx, c, path.Join(CloudIPAPIPath, updateCloudIP.ID), updateCloudIP)
 }
 

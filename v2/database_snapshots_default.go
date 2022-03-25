@@ -25,7 +25,7 @@ func (c *Client) DatabaseSnapshot(ctx context.Context, identifier string) (*Data
 //
 // It takes an instance of DatabaseSnapshotOptions. Specify the resource you
 // want to update using the ID field.
-func (c *Client) UpdateDatabaseSnapshot(ctx context.Context, updateDatabaseSnapshot *DatabaseSnapshotOptions) (*DatabaseSnapshot, error) {
+func (c *Client) UpdateDatabaseSnapshot(ctx context.Context, updateDatabaseSnapshot DatabaseSnapshotOptions) (*DatabaseSnapshot, error) {
 	return APIPut[DatabaseSnapshot](ctx, c, path.Join(DatabaseSnapshotAPIPath, updateDatabaseSnapshot.ID), updateDatabaseSnapshot)
 }
 

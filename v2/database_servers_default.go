@@ -24,7 +24,7 @@ func (c *Client) DatabaseServer(ctx context.Context, identifier string) (*Databa
 //
 // It takes an instance of DatabaseServerOptions. Not all attributes can be
 // specified at create time (such as ID, which is allocated for you).
-func (c *Client) CreateDatabaseServer(ctx context.Context, newDatabaseServer *DatabaseServerOptions) (*DatabaseServer, error) {
+func (c *Client) CreateDatabaseServer(ctx context.Context, newDatabaseServer DatabaseServerOptions) (*DatabaseServer, error) {
 	return APIPost[DatabaseServer](ctx, c, DatabaseServerAPIPath, newDatabaseServer)
 }
 
@@ -33,7 +33,7 @@ func (c *Client) CreateDatabaseServer(ctx context.Context, newDatabaseServer *Da
 //
 // It takes an instance of DatabaseServerOptions. Specify the resource you
 // want to update using the ID field.
-func (c *Client) UpdateDatabaseServer(ctx context.Context, updateDatabaseServer *DatabaseServerOptions) (*DatabaseServer, error) {
+func (c *Client) UpdateDatabaseServer(ctx context.Context, updateDatabaseServer DatabaseServerOptions) (*DatabaseServer, error) {
 	return APIPut[DatabaseServer](ctx, c, path.Join(DatabaseServerAPIPath, updateDatabaseServer.ID), updateDatabaseServer)
 }
 

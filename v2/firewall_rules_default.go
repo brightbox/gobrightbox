@@ -24,7 +24,7 @@ func (c *Client) FirewallRule(ctx context.Context, identifier string) (*Firewall
 //
 // It takes an instance of FirewallRuleOptions. Not all attributes can be
 // specified at create time (such as ID, which is allocated for you).
-func (c *Client) CreateFirewallRule(ctx context.Context, newFirewallRule *FirewallRuleOptions) (*FirewallRule, error) {
+func (c *Client) CreateFirewallRule(ctx context.Context, newFirewallRule FirewallRuleOptions) (*FirewallRule, error) {
 	return APIPost[FirewallRule](ctx, c, FirewallRuleAPIPath, newFirewallRule)
 }
 
@@ -33,7 +33,7 @@ func (c *Client) CreateFirewallRule(ctx context.Context, newFirewallRule *Firewa
 //
 // It takes an instance of FirewallRuleOptions. Specify the resource you
 // want to update using the ID field.
-func (c *Client) UpdateFirewallRule(ctx context.Context, updateFirewallRule *FirewallRuleOptions) (*FirewallRule, error) {
+func (c *Client) UpdateFirewallRule(ctx context.Context, updateFirewallRule FirewallRuleOptions) (*FirewallRule, error) {
 	return APIPut[FirewallRule](ctx, c, path.Join(FirewallRuleAPIPath, updateFirewallRule.ID), updateFirewallRule)
 }
 

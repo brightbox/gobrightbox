@@ -24,7 +24,7 @@ func (c *Client) Image(ctx context.Context, identifier string) (*Image, error) {
 //
 // It takes an instance of ImageOptions. Not all attributes can be
 // specified at create time (such as ID, which is allocated for you).
-func (c *Client) CreateImage(ctx context.Context, newImage *ImageOptions) (*Image, error) {
+func (c *Client) CreateImage(ctx context.Context, newImage ImageOptions) (*Image, error) {
 	return APIPost[Image](ctx, c, ImageAPIPath, newImage)
 }
 
@@ -33,7 +33,7 @@ func (c *Client) CreateImage(ctx context.Context, newImage *ImageOptions) (*Imag
 //
 // It takes an instance of ImageOptions. Specify the resource you
 // want to update using the ID field.
-func (c *Client) UpdateImage(ctx context.Context, updateImage *ImageOptions) (*Image, error) {
+func (c *Client) UpdateImage(ctx context.Context, updateImage ImageOptions) (*Image, error) {
 	return APIPut[Image](ctx, c, path.Join(ImageAPIPath, updateImage.ID), updateImage)
 }
 

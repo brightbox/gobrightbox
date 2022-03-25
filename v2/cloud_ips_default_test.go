@@ -34,10 +34,10 @@ func TestCloudIP(t *testing.T) {
 
 func TestCreateCloudIP(t *testing.T) {
 	newResource := CloudIPOptions{}
-	instance := testModify[CloudIP, *CloudIPOptions](
+	instance := testModify[CloudIP, CloudIPOptions](
 		t,
 		(*Client).CreateCloudIP,
-		&newResource,
+		newResource,
 		"cloud_ip",
 		"POST",
 		path.Join("cloud_ips"),
@@ -48,10 +48,10 @@ func TestCreateCloudIP(t *testing.T) {
 
 func TestUpdateCloudIP(t *testing.T) {
 	updatedResource := CloudIPOptions{ID: "cip-k4a25"}
-	instance := testModify[CloudIP, *CloudIPOptions](
+	instance := testModify[CloudIP, CloudIPOptions](
 		t,
 		(*Client).UpdateCloudIP,
-		&updatedResource,
+		updatedResource,
 		"cloud_ip",
 		"PUT",
 		path.Join("cloud_ips", updatedResource.ID),

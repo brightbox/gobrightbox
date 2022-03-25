@@ -24,7 +24,7 @@ func (c *Client) Collaboration(ctx context.Context, identifier string) (*Collabo
 //
 // It takes an instance of CollaborationOptions. Not all attributes can be
 // specified at create time (such as ID, which is allocated for you).
-func (c *Client) CreateCollaboration(ctx context.Context, newCollaboration *CollaborationOptions) (*Collaboration, error) {
+func (c *Client) CreateCollaboration(ctx context.Context, newCollaboration CollaborationOptions) (*Collaboration, error) {
 	return APIPost[Collaboration](ctx, c, CollaborationAPIPath, newCollaboration)
 }
 

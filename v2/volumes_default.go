@@ -24,7 +24,7 @@ func (c *Client) Volume(ctx context.Context, identifier string) (*Volume, error)
 //
 // It takes an instance of VolumeOptions. Not all attributes can be
 // specified at create time (such as ID, which is allocated for you).
-func (c *Client) CreateVolume(ctx context.Context, newVolume *VolumeOptions) (*Volume, error) {
+func (c *Client) CreateVolume(ctx context.Context, newVolume VolumeOptions) (*Volume, error) {
 	return APIPost[Volume](ctx, c, VolumeAPIPath, newVolume)
 }
 
@@ -33,7 +33,7 @@ func (c *Client) CreateVolume(ctx context.Context, newVolume *VolumeOptions) (*V
 //
 // It takes an instance of VolumeOptions. Specify the resource you
 // want to update using the ID field.
-func (c *Client) UpdateVolume(ctx context.Context, updateVolume *VolumeOptions) (*Volume, error) {
+func (c *Client) UpdateVolume(ctx context.Context, updateVolume VolumeOptions) (*Volume, error) {
 	return APIPut[Volume](ctx, c, path.Join(VolumeAPIPath, updateVolume.ID), updateVolume)
 }
 

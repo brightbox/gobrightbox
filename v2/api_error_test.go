@@ -25,8 +25,7 @@ func TestError(t *testing.T) {
 	assert.NilError(t, err)
 
 	name := "new client"
-	newOptions := APIClientOptions{Name: &name}
-	instance, err := client.CreateAPIClient(context.Background(), &newOptions)
+	instance, err := client.CreateAPIClient(context.Background(), APIClientOptions{Name: &name})
 	assert.Assert(t, is.Nil(instance))
 	apierror := new(APIError)
 	assert.ErrorType(t, err, apierror)
@@ -55,8 +54,7 @@ func TestParseError(t *testing.T) {
 	assert.NilError(t, err)
 
 	name := "new client"
-	newOptions := APIClientOptions{Name: &name}
-	instance, err := client.CreateAPIClient(context.Background(), &newOptions)
+	instance, err := client.CreateAPIClient(context.Background(), APIClientOptions{Name: &name})
 	assert.Assert(t, is.Nil(instance))
 	jsonError := new(json.SyntaxError)
 	if errors.As(err, &jsonError) {

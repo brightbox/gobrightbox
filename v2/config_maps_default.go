@@ -24,7 +24,7 @@ func (c *Client) ConfigMap(ctx context.Context, identifier string) (*ConfigMap, 
 //
 // It takes an instance of ConfigMapOptions. Not all attributes can be
 // specified at create time (such as ID, which is allocated for you).
-func (c *Client) CreateConfigMap(ctx context.Context, newConfigMap *ConfigMapOptions) (*ConfigMap, error) {
+func (c *Client) CreateConfigMap(ctx context.Context, newConfigMap ConfigMapOptions) (*ConfigMap, error) {
 	return APIPost[ConfigMap](ctx, c, ConfigMapAPIPath, newConfigMap)
 }
 
@@ -33,7 +33,7 @@ func (c *Client) CreateConfigMap(ctx context.Context, newConfigMap *ConfigMapOpt
 //
 // It takes an instance of ConfigMapOptions. Specify the resource you
 // want to update using the ID field.
-func (c *Client) UpdateConfigMap(ctx context.Context, updateConfigMap *ConfigMapOptions) (*ConfigMap, error) {
+func (c *Client) UpdateConfigMap(ctx context.Context, updateConfigMap ConfigMapOptions) (*ConfigMap, error) {
 	return APIPut[ConfigMap](ctx, c, path.Join(ConfigMapAPIPath, updateConfigMap.ID), updateConfigMap)
 }
 

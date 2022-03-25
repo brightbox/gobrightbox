@@ -34,10 +34,10 @@ func TestAPIClient(t *testing.T) {
 
 func TestCreateAPIClient(t *testing.T) {
 	newResource := APIClientOptions{}
-	instance := testModify[APIClient, *APIClientOptions](
+	instance := testModify[APIClient, APIClientOptions](
 		t,
 		(*Client).CreateAPIClient,
-		&newResource,
+		newResource,
 		"api_client",
 		"POST",
 		path.Join("api_clients"),
@@ -48,10 +48,10 @@ func TestCreateAPIClient(t *testing.T) {
 
 func TestUpdateAPIClient(t *testing.T) {
 	updatedResource := APIClientOptions{ID: "cli-dsse2"}
-	instance := testModify[APIClient, *APIClientOptions](
+	instance := testModify[APIClient, APIClientOptions](
 		t,
 		(*Client).UpdateAPIClient,
-		&updatedResource,
+		updatedResource,
 		"api_client",
 		"PUT",
 		path.Join("api_clients", updatedResource.ID),

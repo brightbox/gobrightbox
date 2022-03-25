@@ -24,7 +24,7 @@ func (c *Client) ServerGroup(ctx context.Context, identifier string) (*ServerGro
 //
 // It takes an instance of ServerGroupOptions. Not all attributes can be
 // specified at create time (such as ID, which is allocated for you).
-func (c *Client) CreateServerGroup(ctx context.Context, newServerGroup *ServerGroupOptions) (*ServerGroup, error) {
+func (c *Client) CreateServerGroup(ctx context.Context, newServerGroup ServerGroupOptions) (*ServerGroup, error) {
 	return APIPost[ServerGroup](ctx, c, ServerGroupAPIPath, newServerGroup)
 }
 
@@ -33,7 +33,7 @@ func (c *Client) CreateServerGroup(ctx context.Context, newServerGroup *ServerGr
 //
 // It takes an instance of ServerGroupOptions. Specify the resource you
 // want to update using the ID field.
-func (c *Client) UpdateServerGroup(ctx context.Context, updateServerGroup *ServerGroupOptions) (*ServerGroup, error) {
+func (c *Client) UpdateServerGroup(ctx context.Context, updateServerGroup ServerGroupOptions) (*ServerGroup, error) {
 	return APIPut[ServerGroup](ctx, c, path.Join(ServerGroupAPIPath, updateServerGroup.ID), updateServerGroup)
 }
 

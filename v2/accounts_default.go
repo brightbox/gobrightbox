@@ -25,7 +25,7 @@ func (c *Client) Account(ctx context.Context, identifier string) (*Account, erro
 //
 // It takes an instance of AccountOptions. Specify the resource you
 // want to update using the ID field.
-func (c *Client) UpdateAccount(ctx context.Context, updateAccount *AccountOptions) (*Account, error) {
+func (c *Client) UpdateAccount(ctx context.Context, updateAccount AccountOptions) (*Account, error) {
 	return APIPut[Account](ctx, c, path.Join(AccountAPIPath, updateAccount.ID), updateAccount)
 }
 

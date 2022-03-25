@@ -34,10 +34,10 @@ func TestLoadBalancer(t *testing.T) {
 
 func TestCreateLoadBalancer(t *testing.T) {
 	newResource := LoadBalancerOptions{}
-	instance := testModify[LoadBalancer, *LoadBalancerOptions](
+	instance := testModify[LoadBalancer, LoadBalancerOptions](
 		t,
 		(*Client).CreateLoadBalancer,
-		&newResource,
+		newResource,
 		"load_balancer",
 		"POST",
 		path.Join("load_balancers"),
@@ -48,10 +48,10 @@ func TestCreateLoadBalancer(t *testing.T) {
 
 func TestUpdateLoadBalancer(t *testing.T) {
 	updatedResource := LoadBalancerOptions{ID: "lba-1235f"}
-	instance := testModify[LoadBalancer, *LoadBalancerOptions](
+	instance := testModify[LoadBalancer, LoadBalancerOptions](
 		t,
 		(*Client).UpdateLoadBalancer,
-		&updatedResource,
+		updatedResource,
 		"load_balancer",
 		"PUT",
 		path.Join("load_balancers", updatedResource.ID),

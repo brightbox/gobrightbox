@@ -24,7 +24,7 @@ func (c *Client) APIClient(ctx context.Context, identifier string) (*APIClient, 
 //
 // It takes an instance of APIClientOptions. Not all attributes can be
 // specified at create time (such as ID, which is allocated for you).
-func (c *Client) CreateAPIClient(ctx context.Context, newAPIClient *APIClientOptions) (*APIClient, error) {
+func (c *Client) CreateAPIClient(ctx context.Context, newAPIClient APIClientOptions) (*APIClient, error) {
 	return APIPost[APIClient](ctx, c, APIClientAPIPath, newAPIClient)
 }
 
@@ -33,7 +33,7 @@ func (c *Client) CreateAPIClient(ctx context.Context, newAPIClient *APIClientOpt
 //
 // It takes an instance of APIClientOptions. Specify the resource you
 // want to update using the ID field.
-func (c *Client) UpdateAPIClient(ctx context.Context, updateAPIClient *APIClientOptions) (*APIClient, error) {
+func (c *Client) UpdateAPIClient(ctx context.Context, updateAPIClient APIClientOptions) (*APIClient, error) {
 	return APIPut[APIClient](ctx, c, path.Join(APIClientAPIPath, updateAPIClient.ID), updateAPIClient)
 }
 

@@ -24,7 +24,7 @@ func (c *Client) LoadBalancer(ctx context.Context, identifier string) (*LoadBala
 //
 // It takes an instance of LoadBalancerOptions. Not all attributes can be
 // specified at create time (such as ID, which is allocated for you).
-func (c *Client) CreateLoadBalancer(ctx context.Context, newLoadBalancer *LoadBalancerOptions) (*LoadBalancer, error) {
+func (c *Client) CreateLoadBalancer(ctx context.Context, newLoadBalancer LoadBalancerOptions) (*LoadBalancer, error) {
 	return APIPost[LoadBalancer](ctx, c, LoadBalancerAPIPath, newLoadBalancer)
 }
 
@@ -33,7 +33,7 @@ func (c *Client) CreateLoadBalancer(ctx context.Context, newLoadBalancer *LoadBa
 //
 // It takes an instance of LoadBalancerOptions. Specify the resource you
 // want to update using the ID field.
-func (c *Client) UpdateLoadBalancer(ctx context.Context, updateLoadBalancer *LoadBalancerOptions) (*LoadBalancer, error) {
+func (c *Client) UpdateLoadBalancer(ctx context.Context, updateLoadBalancer LoadBalancerOptions) (*LoadBalancer, error) {
 	return APIPut[LoadBalancer](ctx, c, path.Join(LoadBalancerAPIPath, updateLoadBalancer.ID), updateLoadBalancer)
 }
 

@@ -24,7 +24,7 @@ func (c *Client) Server(ctx context.Context, identifier string) (*Server, error)
 //
 // It takes an instance of ServerOptions. Not all attributes can be
 // specified at create time (such as ID, which is allocated for you).
-func (c *Client) CreateServer(ctx context.Context, newServer *ServerOptions) (*Server, error) {
+func (c *Client) CreateServer(ctx context.Context, newServer ServerOptions) (*Server, error) {
 	return APIPost[Server](ctx, c, ServerAPIPath, newServer)
 }
 
@@ -33,7 +33,7 @@ func (c *Client) CreateServer(ctx context.Context, newServer *ServerOptions) (*S
 //
 // It takes an instance of ServerOptions. Specify the resource you
 // want to update using the ID field.
-func (c *Client) UpdateServer(ctx context.Context, updateServer *ServerOptions) (*Server, error) {
+func (c *Client) UpdateServer(ctx context.Context, updateServer ServerOptions) (*Server, error) {
 	return APIPut[Server](ctx, c, path.Join(ServerAPIPath, updateServer.ID), updateServer)
 }
 

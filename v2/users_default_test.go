@@ -34,10 +34,10 @@ func TestUser(t *testing.T) {
 
 func TestUpdateUser(t *testing.T) {
 	updatedResource := UserOptions{ID: "usr-kl435"}
-	instance := testModify[User, *UserOptions](
+	instance := testModify[User, UserOptions](
 		t,
 		(*Client).UpdateUser,
-		&updatedResource,
+		updatedResource,
 		"user",
 		"PUT",
 		path.Join("users", updatedResource.ID),

@@ -24,7 +24,7 @@ func (c *Client) FirewallPolicy(ctx context.Context, identifier string) (*Firewa
 //
 // It takes an instance of FirewallPolicyOptions. Not all attributes can be
 // specified at create time (such as ID, which is allocated for you).
-func (c *Client) CreateFirewallPolicy(ctx context.Context, newFirewallPolicy *FirewallPolicyOptions) (*FirewallPolicy, error) {
+func (c *Client) CreateFirewallPolicy(ctx context.Context, newFirewallPolicy FirewallPolicyOptions) (*FirewallPolicy, error) {
 	return APIPost[FirewallPolicy](ctx, c, FirewallPolicyAPIPath, newFirewallPolicy)
 }
 
@@ -33,7 +33,7 @@ func (c *Client) CreateFirewallPolicy(ctx context.Context, newFirewallPolicy *Fi
 //
 // It takes an instance of FirewallPolicyOptions. Specify the resource you
 // want to update using the ID field.
-func (c *Client) UpdateFirewallPolicy(ctx context.Context, updateFirewallPolicy *FirewallPolicyOptions) (*FirewallPolicy, error) {
+func (c *Client) UpdateFirewallPolicy(ctx context.Context, updateFirewallPolicy FirewallPolicyOptions) (*FirewallPolicy, error) {
 	return APIPut[FirewallPolicy](ctx, c, path.Join(FirewallPolicyAPIPath, updateFirewallPolicy.ID), updateFirewallPolicy)
 }
 
