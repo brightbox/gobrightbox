@@ -25,7 +25,12 @@ func (c *Client) ResetServer(ctx context.Context, identifier string) (*Server, e
 	return APIPost[Server](ctx, c, path.Join(ServerAPIPath, identifier, "reset"), nil)
 }
 
-// ShutdownServer will issue a safe shutdown request to the server
+// ShutdownServer will issue a safe shutdown request to the server.
 func (c *Client) ShutdownServer(ctx context.Context, identifier string) (*Server, error) {
 	return APIPost[Server](ctx, c, path.Join(ServerAPIPath, identifier, "shutdown"), nil)
+}
+
+// ActivateConsoleForServer will issue a request to enable the graphical console for an existing server.
+func (c *Client) ActivateConsoleForServer(ctx context.Context, identifier string) (*Server, error) {
+	return APIPost[Server](ctx, c, path.Join(ServerAPIPath, identifier, "activate_console"), nil)
 }

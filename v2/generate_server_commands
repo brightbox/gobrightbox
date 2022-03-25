@@ -41,8 +41,14 @@ import (
   ENDFUNC
 end
 
+def make_server_identifier(command)
+  # FIXME: This is hacky. Sorry.
+  return make_identifier("#{command}_for_server") if command.include?('console')
+  make_identifier("#{command}_server")
+end
+
 def generate_server_command(command, text)
-  identifier = make_identifier("#{command}_server")
+  identifier = make_server_identifier(command)
   <<-ENDFUNC
 // #{identifier} #{text}
 func (c *Client) #{identifier}(ctx context.Context, identifier string) (*Server, error) {
@@ -53,7 +59,7 @@ func (c *Client) #{identifier}(ctx context.Context, identifier string) (*Server,
 end
 
 def generate_server_command_test(command)
-  identifier = make_identifier("#{command}_server")
+  identifier = make_server_identifier(command)
   <<-ENDFUNC
 func Test#{identifier}(t *testing.T) {
   instance := testModify[Server, string](
@@ -76,7 +82,8 @@ commands = {
   'stop' => 'will issue a stop request for the server to become inactve.',
   'reboot' => 'issues a "soft" reboot to the server, however the OS make ignore it. The console remains connected.',
   'reset' => 'issues a "hard" reboot to the server which cannot be ignored by the OS. The console remains connected.',
-  'shutdown' => 'will issue a safe shutdown request to the server'
+  'shutdown' => 'will issue a safe shutdown request to the server.',
+  'activate_console' => 'will issue a request to enable the graphical console for an existing server.'
 }
 
 File.open('server_commands.go', 'w') do |f|

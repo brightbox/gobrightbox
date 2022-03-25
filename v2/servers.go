@@ -72,18 +72,6 @@ type ServerNewSize struct {
 	NewType string `json:"new_type"`
 }
 
-// ActivateConsoleForServer issues a request to enable the graphical console for
-// an existing server. The temporarily allocated ConsoleURL, ConsoleToken and
-// ConsoleTokenExpires data are returned within an instance of Server.
-func (c *Client) ActivateConsoleForServer(ctx context.Context, identifier string) (*Server, error) {
-	return APIPost[Server](
-		ctx,
-		c,
-		path.Join(ServerAPIPath, identifier, "activate_console"),
-		nil,
-	)
-}
-
 // ResizeServer issues a request to change the server type of a server
 // changing the amount of cpu and ram it has.
 func (c *Client) ResizeServer(ctx context.Context, identifier string, newSize ServerNewSize) (*Server, error) {

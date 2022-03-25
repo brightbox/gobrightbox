@@ -73,3 +73,16 @@ func TestShutdownServer(t *testing.T) {
 	)
 	assert.Equal(t, instance.ID, "srv-lv426")
 }
+
+func TestActivateConsoleForServer(t *testing.T) {
+	instance := testModify[Server, string](
+		t,
+		(*Client).ActivateConsoleForServer,
+		"srv-lv426",
+		"server",
+		"POST",
+		path.Join("servers", "srv-lv426", "activate_console"),
+		"",
+	)
+	assert.Equal(t, instance.ID, "srv-lv426")
+}
