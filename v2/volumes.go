@@ -43,7 +43,12 @@ type VolumeAttachment struct {
 	Boot   bool   `json:"boot"`
 }
 
-// ResizeVolume issues a request to change the size of the volume
+// VolumeNewSize is used in conjunction with ResizeVolume
+// to specify the change in the disk size
+type VolumeNewSize struct {
+	From int `json:"from"`
+	To   int `json:"to"`
+}
 
 // AttachVolume issues a request to attach the volume to a particular server and
 // optionally mark it as the boot volume
@@ -68,14 +73,11 @@ func (c *Client) DetachVolume(ctx context.Context, identifier string) (*Volume, 
 
 // ResizeVolume issues a request to change the size of a volume.
 // The old size has to be specified as well as the new one.
-func (c *Client) ResizeVolume(ctx context.Context, identifier string, from, to int) (*Volume, error) {
+func (c *Client) ResizeVolume(ctx context.Context, identifier string, newSize VolumeNewSize) (*Volume, error) {
 	return APIPost[Volume](
 		ctx,
 		c,
 		path.Join(VolumeAPIPath, identifier, "resize"),
-		map[string]int{
-			"from": from,
-			"to":   to,
-		},
+		newSize,
 	)
 }

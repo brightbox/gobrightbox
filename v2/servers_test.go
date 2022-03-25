@@ -47,3 +47,17 @@ func TestActivateConsoleForServer(t *testing.T) {
 	assert.Equal(t, instance.ID, "srv-lv426")
 
 }
+
+func TestResizeServer(t *testing.T) {
+	instance := testLink[Server, ServerNewSize](
+		t,
+		(*Client).ResizeServer,
+		"srv-lv426",
+		ServerNewSize{"typ-12345"},
+		"server",
+		"POST",
+		path.Join("servers", "srv-lv426", "resize"),
+		`{"new_type":"typ-12345"}`,
+	)
+	assert.Equal(t, instance.ID, "srv-lv426")
+}

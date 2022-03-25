@@ -66,6 +66,12 @@ type ServerOptions struct {
 	Volumes           []VolumeOptions `json:"volumes,omitempty"`
 }
 
+// ServerNewSize is used in conjunction with ResizeServer
+// to specify the new Server type for the Server
+type ServerNewSize struct {
+	NewType string `json:"new_type"`
+}
+
 // ActivateConsoleForServer issues a request to enable the graphical console for
 // an existing server. The temporarily allocated ConsoleURL, ConsoleToken and
 // ConsoleTokenExpires data are returned within an instance of Server.
@@ -80,13 +86,11 @@ func (c *Client) ActivateConsoleForServer(ctx context.Context, identifier string
 
 // ResizeServer issues a request to change the server type of a server
 // changing the amount of cpu and ram it has.
-func (c *Client) ResizeServer(ctx context.Context, identifier string, newTypeID string) (*Server, error) {
+func (c *Client) ResizeServer(ctx context.Context, identifier string, newSize ServerNewSize) (*Server, error) {
 	return APIPost[Server](
 		ctx,
 		c,
 		path.Join(ServerAPIPath, identifier, "resize"),
-		map[string]string{
-			"new_type": newTypeID,
-		},
+		newSize,
 	)
 }
