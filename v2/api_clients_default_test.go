@@ -61,13 +61,16 @@ func TestUpdateAPIClient(t *testing.T) {
 }
 
 func TestDestroyAPIClient(t *testing.T) {
-	testCommand(
+	deletedResource := testModify[APIClient, string](
 		t,
 		(*Client).DestroyAPIClient,
 		"cli-dsse2",
+		"api_client",
 		"DELETE",
 		path.Join("api_clients", "cli-dsse2"),
+		"",
 	)
+	assert.Equal(t, deletedResource.ID, "cli-dsse2")
 }
 
 func TestResetAPIClientPassword(t *testing.T) {

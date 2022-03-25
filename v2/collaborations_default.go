@@ -29,6 +29,6 @@ func (c *Client) CreateCollaboration(ctx context.Context, newCollaboration *Coll
 }
 
 // DestroyCollaboration destroys an existing resource.
-func (c *Client) DestroyCollaboration(ctx context.Context, identifier string) error {
-	return APIDelete(ctx, c, path.Join(CollaborationAPIPath, identifier))
+func (c *Client) DestroyCollaboration(ctx context.Context, identifier string) (*Collaboration, error) {
+	return APIDelete[Collaboration](ctx, c, path.Join(CollaborationAPIPath, identifier))
 }

@@ -38,16 +38,16 @@ func (c *Client) UpdateLoadBalancer(ctx context.Context, updateLoadBalancer *Loa
 }
 
 // DestroyLoadBalancer destroys an existing resource.
-func (c *Client) DestroyLoadBalancer(ctx context.Context, identifier string) error {
-	return APIDelete(ctx, c, path.Join(LoadBalancerAPIPath, identifier))
+func (c *Client) DestroyLoadBalancer(ctx context.Context, identifier string) (*LoadBalancer, error) {
+	return APIDelete[LoadBalancer](ctx, c, path.Join(LoadBalancerAPIPath, identifier))
 }
 
 // LockLoadBalancer locks a resource against destroy requests
-func (c *Client) LockLoadBalancer(ctx context.Context, identifier string) error {
-	return APIPutCommand(ctx, c, path.Join(LoadBalancerAPIPath, identifier, "lock_resource"))
+func (c *Client) LockLoadBalancer(ctx context.Context, identifier string) (*LoadBalancer, error) {
+	return APIPut[LoadBalancer](ctx, c, path.Join(LoadBalancerAPIPath, identifier, "lock_resource"), nil)
 }
 
 // UnlockLoadBalancer unlocks a resource, re-enabling destroy requests
-func (c *Client) UnlockLoadBalancer(ctx context.Context, identifier string) error {
-	return APIPutCommand(ctx, c, path.Join(LoadBalancerAPIPath, identifier, "unlock_resource"))
+func (c *Client) UnlockLoadBalancer(ctx context.Context, identifier string) (*LoadBalancer, error) {
+	return APIPut[LoadBalancer](ctx, c, path.Join(LoadBalancerAPIPath, identifier, "unlock_resource"), nil)
 }

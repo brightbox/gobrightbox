@@ -61,31 +61,40 @@ func TestUpdateServer(t *testing.T) {
 }
 
 func TestDestroyServer(t *testing.T) {
-	testCommand(
+	deletedResource := testModify[Server, string](
 		t,
 		(*Client).DestroyServer,
 		"srv-lv426",
+		"server",
 		"DELETE",
 		path.Join("servers", "srv-lv426"),
+		"",
 	)
+	assert.Equal(t, deletedResource.ID, "srv-lv426")
 }
 
 func TestLockServer(t *testing.T) {
-	testCommand(
+	lockedResource := testModify[Server, string](
 		t,
 		(*Client).LockServer,
 		"srv-lv426",
+		"server",
 		"PUT",
 		path.Join("servers", "srv-lv426", "lock_resource"),
+		"",
 	)
+	assert.Equal(t, lockedResource.ID, "srv-lv426")
 }
 
 func TestUnlockServer(t *testing.T) {
-	testCommand(
+	unlockedResource := testModify[Server, string](
 		t,
 		(*Client).UnlockServer,
 		"srv-lv426",
+		"server",
 		"PUT",
 		path.Join("servers", "srv-lv426", "unlock_resource"),
+		"",
 	)
+	assert.Equal(t, unlockedResource.ID, "srv-lv426")
 }

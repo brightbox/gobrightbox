@@ -61,31 +61,40 @@ func TestUpdateVolume(t *testing.T) {
 }
 
 func TestDestroyVolume(t *testing.T) {
-	testCommand(
+	deletedResource := testModify[Volume, string](
 		t,
 		(*Client).DestroyVolume,
 		"vol-po5we",
+		"volume",
 		"DELETE",
 		path.Join("volumes", "vol-po5we"),
+		"",
 	)
+	assert.Equal(t, deletedResource.ID, "vol-po5we")
 }
 
 func TestLockVolume(t *testing.T) {
-	testCommand(
+	lockedResource := testModify[Volume, string](
 		t,
 		(*Client).LockVolume,
 		"vol-po5we",
+		"volume",
 		"PUT",
 		path.Join("volumes", "vol-po5we", "lock_resource"),
+		"",
 	)
+	assert.Equal(t, lockedResource.ID, "vol-po5we")
 }
 
 func TestUnlockVolume(t *testing.T) {
-	testCommand(
+	unlockedResource := testModify[Volume, string](
 		t,
 		(*Client).UnlockVolume,
 		"vol-po5we",
+		"volume",
 		"PUT",
 		path.Join("volumes", "vol-po5we", "unlock_resource"),
+		"",
 	)
+	assert.Equal(t, unlockedResource.ID, "vol-po5we")
 }

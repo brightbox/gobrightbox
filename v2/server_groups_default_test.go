@@ -61,11 +61,14 @@ func TestUpdateServerGroup(t *testing.T) {
 }
 
 func TestDestroyServerGroup(t *testing.T) {
-	testCommand(
+	deletedResource := testModify[ServerGroup, string](
 		t,
 		(*Client).DestroyServerGroup,
 		"grp-sda44",
+		"server_group",
 		"DELETE",
 		path.Join("server_groups", "grp-sda44"),
+		"",
 	)
+	assert.Equal(t, deletedResource.ID, "grp-sda44")
 }

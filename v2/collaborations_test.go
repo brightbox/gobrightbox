@@ -23,11 +23,14 @@ func TestCreateCollaborationWithPermissionsGroup(t *testing.T) {
 }
 
 func TestResendCollaboration(t *testing.T) {
-	testCommand(
+	instance := testModify[Collaboration, string](
 		t,
 		(*Client).ResendCollaboration,
 		"col-klek3",
+		"collaboration",
 		"POST",
 		path.Join("collaborations", "col-klek3", "resend"),
+		"",
 	)
+	assert.Equal(t, instance.ID, "col-klek3")
 }

@@ -6,26 +6,26 @@ import "context"
 import "path"
 
 // StartServer will issue a start request for the server to become active.
-func (c *Client) StartServer(ctx context.Context, identifier string) error {
-	return APIPostCommand(ctx, c, path.Join(ServerAPIPath, identifier, "start"))
+func (c *Client) StartServer(ctx context.Context, identifier string) (*Server, error) {
+	return APIPost[Server](ctx, c, path.Join(ServerAPIPath, identifier, "start"), nil)
 }
 
 // StopServer will issue a stop request for the server to become inactve.
-func (c *Client) StopServer(ctx context.Context, identifier string) error {
-	return APIPostCommand(ctx, c, path.Join(ServerAPIPath, identifier, "stop"))
+func (c *Client) StopServer(ctx context.Context, identifier string) (*Server, error) {
+	return APIPost[Server](ctx, c, path.Join(ServerAPIPath, identifier, "stop"), nil)
 }
 
 // RebootServer issues a "soft" reboot to the server, however the OS make ignore it. The console remains connected.
-func (c *Client) RebootServer(ctx context.Context, identifier string) error {
-	return APIPostCommand(ctx, c, path.Join(ServerAPIPath, identifier, "reboot"))
+func (c *Client) RebootServer(ctx context.Context, identifier string) (*Server, error) {
+	return APIPost[Server](ctx, c, path.Join(ServerAPIPath, identifier, "reboot"), nil)
 }
 
 // ResetServer issues a "hard" reboot to the server which cannot be ignored by the OS. The console remains connected.
-func (c *Client) ResetServer(ctx context.Context, identifier string) error {
-	return APIPostCommand(ctx, c, path.Join(ServerAPIPath, identifier, "reset"))
+func (c *Client) ResetServer(ctx context.Context, identifier string) (*Server, error) {
+	return APIPost[Server](ctx, c, path.Join(ServerAPIPath, identifier, "reset"), nil)
 }
 
 // ShutdownServer will issue a safe shutdown request to the server
-func (c *Client) ShutdownServer(ctx context.Context, identifier string) error {
-	return APIPostCommand(ctx, c, path.Join(ServerAPIPath, identifier, "shutdown"))
+func (c *Client) ShutdownServer(ctx context.Context, identifier string) (*Server, error) {
+	return APIPost[Server](ctx, c, path.Join(ServerAPIPath, identifier, "shutdown"), nil)
 }

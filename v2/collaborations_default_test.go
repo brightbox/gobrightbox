@@ -47,11 +47,14 @@ func TestCreateCollaboration(t *testing.T) {
 }
 
 func TestDestroyCollaboration(t *testing.T) {
-	testCommand(
+	deletedResource := testModify[Collaboration, string](
 		t,
 		(*Client).DestroyCollaboration,
 		"col-klek3",
+		"collaboration",
 		"DELETE",
 		path.Join("collaborations", "col-klek3"),
+		"",
 	)
+	assert.Equal(t, deletedResource.ID, "col-klek3")
 }

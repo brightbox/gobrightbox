@@ -38,6 +38,6 @@ func (c *Client) UpdateCloudIP(ctx context.Context, updateCloudIP *CloudIPOption
 }
 
 // DestroyCloudIP destroys an existing resource.
-func (c *Client) DestroyCloudIP(ctx context.Context, identifier string) error {
-	return APIDelete(ctx, c, path.Join(CloudIPAPIPath, identifier))
+func (c *Client) DestroyCloudIP(ctx context.Context, identifier string) (*CloudIP, error) {
+	return APIDelete[CloudIP](ctx, c, path.Join(CloudIPAPIPath, identifier))
 }

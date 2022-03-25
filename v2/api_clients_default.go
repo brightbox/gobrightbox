@@ -38,8 +38,8 @@ func (c *Client) UpdateAPIClient(ctx context.Context, updateAPIClient *APIClient
 }
 
 // DestroyAPIClient destroys an existing resource.
-func (c *Client) DestroyAPIClient(ctx context.Context, identifier string) error {
-	return APIDelete(ctx, c, path.Join(APIClientAPIPath, identifier))
+func (c *Client) DestroyAPIClient(ctx context.Context, identifier string) (*APIClient, error) {
+	return APIDelete[APIClient](ctx, c, path.Join(APIClientAPIPath, identifier))
 }
 
 // ResetAPIClientPassword resets the password in APIClient, returning it

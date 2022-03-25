@@ -38,16 +38,16 @@ func (c *Client) UpdateImage(ctx context.Context, updateImage *ImageOptions) (*I
 }
 
 // DestroyImage destroys an existing resource.
-func (c *Client) DestroyImage(ctx context.Context, identifier string) error {
-	return APIDelete(ctx, c, path.Join(ImageAPIPath, identifier))
+func (c *Client) DestroyImage(ctx context.Context, identifier string) (*Image, error) {
+	return APIDelete[Image](ctx, c, path.Join(ImageAPIPath, identifier))
 }
 
 // LockImage locks a resource against destroy requests
-func (c *Client) LockImage(ctx context.Context, identifier string) error {
-	return APIPutCommand(ctx, c, path.Join(ImageAPIPath, identifier, "lock_resource"))
+func (c *Client) LockImage(ctx context.Context, identifier string) (*Image, error) {
+	return APIPut[Image](ctx, c, path.Join(ImageAPIPath, identifier, "lock_resource"), nil)
 }
 
 // UnlockImage unlocks a resource, re-enabling destroy requests
-func (c *Client) UnlockImage(ctx context.Context, identifier string) error {
-	return APIPutCommand(ctx, c, path.Join(ImageAPIPath, identifier, "unlock_resource"))
+func (c *Client) UnlockImage(ctx context.Context, identifier string) (*Image, error) {
+	return APIPut[Image](ctx, c, path.Join(ImageAPIPath, identifier, "unlock_resource"), nil)
 }

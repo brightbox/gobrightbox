@@ -38,18 +38,18 @@ func (c *Client) UpdateDatabaseServer(ctx context.Context, updateDatabaseServer 
 }
 
 // DestroyDatabaseServer destroys an existing resource.
-func (c *Client) DestroyDatabaseServer(ctx context.Context, identifier string) error {
-	return APIDelete(ctx, c, path.Join(DatabaseServerAPIPath, identifier))
+func (c *Client) DestroyDatabaseServer(ctx context.Context, identifier string) (*DatabaseServer, error) {
+	return APIDelete[DatabaseServer](ctx, c, path.Join(DatabaseServerAPIPath, identifier))
 }
 
 // LockDatabaseServer locks a resource against destroy requests
-func (c *Client) LockDatabaseServer(ctx context.Context, identifier string) error {
-	return APIPutCommand(ctx, c, path.Join(DatabaseServerAPIPath, identifier, "lock_resource"))
+func (c *Client) LockDatabaseServer(ctx context.Context, identifier string) (*DatabaseServer, error) {
+	return APIPut[DatabaseServer](ctx, c, path.Join(DatabaseServerAPIPath, identifier, "lock_resource"), nil)
 }
 
 // UnlockDatabaseServer unlocks a resource, re-enabling destroy requests
-func (c *Client) UnlockDatabaseServer(ctx context.Context, identifier string) error {
-	return APIPutCommand(ctx, c, path.Join(DatabaseServerAPIPath, identifier, "unlock_resource"))
+func (c *Client) UnlockDatabaseServer(ctx context.Context, identifier string) (*DatabaseServer, error) {
+	return APIPut[DatabaseServer](ctx, c, path.Join(DatabaseServerAPIPath, identifier, "unlock_resource"), nil)
 }
 
 // ResetDatabaseServerPassword resets the password in DatabaseServer, returning it

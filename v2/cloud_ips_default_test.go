@@ -61,11 +61,14 @@ func TestUpdateCloudIP(t *testing.T) {
 }
 
 func TestDestroyCloudIP(t *testing.T) {
-	testCommand(
+	deletedResource := testModify[CloudIP, string](
 		t,
 		(*Client).DestroyCloudIP,
 		"cip-k4a25",
+		"cloud_ip",
 		"DELETE",
 		path.Join("cloud_ips", "cip-k4a25"),
+		"",
 	)
+	assert.Equal(t, deletedResource.ID, "cip-k4a25")
 }

@@ -61,33 +61,42 @@ func TestUpdateDatabaseServer(t *testing.T) {
 }
 
 func TestDestroyDatabaseServer(t *testing.T) {
-	testCommand(
+	deletedResource := testModify[DatabaseServer, string](
 		t,
 		(*Client).DestroyDatabaseServer,
 		"dbs-123ab",
+		"database_server",
 		"DELETE",
 		path.Join("database_servers", "dbs-123ab"),
+		"",
 	)
+	assert.Equal(t, deletedResource.ID, "dbs-123ab")
 }
 
 func TestLockDatabaseServer(t *testing.T) {
-	testCommand(
+	lockedResource := testModify[DatabaseServer, string](
 		t,
 		(*Client).LockDatabaseServer,
 		"dbs-123ab",
+		"database_server",
 		"PUT",
 		path.Join("database_servers", "dbs-123ab", "lock_resource"),
+		"",
 	)
+	assert.Equal(t, lockedResource.ID, "dbs-123ab")
 }
 
 func TestUnlockDatabaseServer(t *testing.T) {
-	testCommand(
+	unlockedResource := testModify[DatabaseServer, string](
 		t,
 		(*Client).UnlockDatabaseServer,
 		"dbs-123ab",
+		"database_server",
 		"PUT",
 		path.Join("database_servers", "dbs-123ab", "unlock_resource"),
+		"",
 	)
+	assert.Equal(t, unlockedResource.ID, "dbs-123ab")
 }
 
 func TestResetDatabaseServerPassword(t *testing.T) {

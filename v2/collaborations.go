@@ -35,6 +35,6 @@ type CollaborationOptions struct {
 }
 
 // ResendCollaboration resends the invitation email to the collaborator.
-func (c *Client) ResendCollaboration(ctx context.Context, identifier string) error {
-	return APIPostCommand(ctx, c, path.Join(CollaborationAPIPath, identifier, "resend"))
+func (c *Client) ResendCollaboration(ctx context.Context, identifier string) (*Collaboration, error) {
+	return APIPost[Collaboration](ctx, c, path.Join(CollaborationAPIPath, identifier, "resend"), nil)
 }

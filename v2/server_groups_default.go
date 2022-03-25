@@ -38,6 +38,6 @@ func (c *Client) UpdateServerGroup(ctx context.Context, updateServerGroup *Serve
 }
 
 // DestroyServerGroup destroys an existing resource.
-func (c *Client) DestroyServerGroup(ctx context.Context, identifier string) error {
-	return APIDelete(ctx, c, path.Join(ServerGroupAPIPath, identifier))
+func (c *Client) DestroyServerGroup(ctx context.Context, identifier string) (*ServerGroup, error) {
+	return APIDelete[ServerGroup](ctx, c, path.Join(ServerGroupAPIPath, identifier))
 }

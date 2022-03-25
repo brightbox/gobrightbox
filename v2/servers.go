@@ -80,11 +80,13 @@ func (c *Client) ActivateConsoleForServer(ctx context.Context, identifier string
 
 // ResizeServer issues a request to change the server type of a server
 // changing the amount of cpu and ram it has.
-func (c *Client) ResizeServer(ctx context.Context, identifier string, newTypeID string) error {
-	return APIPostForm(
+func (c *Client) ResizeServer(ctx context.Context, identifier string, newTypeID string) (*Server, error) {
+	return APIPost[Server](
 		ctx,
 		c,
 		path.Join(ServerAPIPath, identifier, "resize"),
-		map[string]string{"new_type": newTypeID},
+		map[string]string{
+			"new_type": newTypeID,
+		},
 	)
 }

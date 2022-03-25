@@ -47,15 +47,3 @@ func TestActivateConsoleForServer(t *testing.T) {
 	assert.Equal(t, instance.ID, "srv-lv426")
 
 }
-
-func TestResizeServer(t *testing.T) {
-	testForm[string](
-		t,
-		(*Client).ResizeServer,
-		"srv-lv426",
-		"typ-12345",
-		"POST",
-		path.Join("servers", "srv-lv426", "resize"),
-		`{"new_type":"typ-12345"}`,
-	)
-}

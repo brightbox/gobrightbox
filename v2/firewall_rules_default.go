@@ -38,6 +38,6 @@ func (c *Client) UpdateFirewallRule(ctx context.Context, updateFirewallRule *Fir
 }
 
 // DestroyFirewallRule destroys an existing resource.
-func (c *Client) DestroyFirewallRule(ctx context.Context, identifier string) error {
-	return APIDelete(ctx, c, path.Join(FirewallRuleAPIPath, identifier))
+func (c *Client) DestroyFirewallRule(ctx context.Context, identifier string) (*FirewallRule, error) {
+	return APIDelete[FirewallRule](ctx, c, path.Join(FirewallRuleAPIPath, identifier))
 }

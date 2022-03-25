@@ -2,55 +2,74 @@
 
 package brightbox
 
-import "path"
-import "testing"
+import (
+	"path"
+	"testing"
+
+	"gotest.tools/v3/assert"
+)
 
 func TestStartServer(t *testing.T) {
-	testCommand(
+	instance := testModify[Server, string](
 		t,
 		(*Client).StartServer,
 		"srv-lv426",
+		"server",
 		"POST",
 		path.Join("servers", "srv-lv426", "start"),
+		"",
 	)
+	assert.Equal(t, instance.ID, "srv-lv426")
 }
 
 func TestStopServer(t *testing.T) {
-	testCommand(
+	instance := testModify[Server, string](
 		t,
 		(*Client).StopServer,
 		"srv-lv426",
+		"server",
 		"POST",
 		path.Join("servers", "srv-lv426", "stop"),
+		"",
 	)
+	assert.Equal(t, instance.ID, "srv-lv426")
 }
 
 func TestRebootServer(t *testing.T) {
-	testCommand(
+	instance := testModify[Server, string](
 		t,
 		(*Client).RebootServer,
 		"srv-lv426",
+		"server",
 		"POST",
 		path.Join("servers", "srv-lv426", "reboot"),
+		"",
 	)
+	assert.Equal(t, instance.ID, "srv-lv426")
 }
 
 func TestResetServer(t *testing.T) {
-	testCommand(
+	instance := testModify[Server, string](
 		t,
 		(*Client).ResetServer,
 		"srv-lv426",
+		"server",
 		"POST",
 		path.Join("servers", "srv-lv426", "reset"),
+		"",
 	)
+	assert.Equal(t, instance.ID, "srv-lv426")
 }
 
 func TestShutdownServer(t *testing.T) {
-	testCommand(
+	instance := testModify[Server, string](
 		t,
 		(*Client).ShutdownServer,
 		"srv-lv426",
+		"server",
 		"POST",
 		path.Join("servers", "srv-lv426", "shutdown"),
+		"",
 	)
+	assert.Equal(t, instance.ID, "srv-lv426")
 }

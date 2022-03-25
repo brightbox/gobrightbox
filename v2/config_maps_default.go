@@ -38,6 +38,6 @@ func (c *Client) UpdateConfigMap(ctx context.Context, updateConfigMap *ConfigMap
 }
 
 // DestroyConfigMap destroys an existing resource.
-func (c *Client) DestroyConfigMap(ctx context.Context, identifier string) error {
-	return APIDelete(ctx, c, path.Join(ConfigMapAPIPath, identifier))
+func (c *Client) DestroyConfigMap(ctx context.Context, identifier string) (*ConfigMap, error) {
+	return APIDelete[ConfigMap](ctx, c, path.Join(ConfigMapAPIPath, identifier))
 }

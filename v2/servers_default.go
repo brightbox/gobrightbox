@@ -38,16 +38,16 @@ func (c *Client) UpdateServer(ctx context.Context, updateServer *ServerOptions) 
 }
 
 // DestroyServer destroys an existing resource.
-func (c *Client) DestroyServer(ctx context.Context, identifier string) error {
-	return APIDelete(ctx, c, path.Join(ServerAPIPath, identifier))
+func (c *Client) DestroyServer(ctx context.Context, identifier string) (*Server, error) {
+	return APIDelete[Server](ctx, c, path.Join(ServerAPIPath, identifier))
 }
 
 // LockServer locks a resource against destroy requests
-func (c *Client) LockServer(ctx context.Context, identifier string) error {
-	return APIPutCommand(ctx, c, path.Join(ServerAPIPath, identifier, "lock_resource"))
+func (c *Client) LockServer(ctx context.Context, identifier string) (*Server, error) {
+	return APIPut[Server](ctx, c, path.Join(ServerAPIPath, identifier, "lock_resource"), nil)
 }
 
 // UnlockServer unlocks a resource, re-enabling destroy requests
-func (c *Client) UnlockServer(ctx context.Context, identifier string) error {
-	return APIPutCommand(ctx, c, path.Join(ServerAPIPath, identifier, "unlock_resource"))
+func (c *Client) UnlockServer(ctx context.Context, identifier string) (*Server, error) {
+	return APIPut[Server](ctx, c, path.Join(ServerAPIPath, identifier, "unlock_resource"), nil)
 }

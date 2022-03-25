@@ -47,31 +47,40 @@ func TestUpdateDatabaseSnapshot(t *testing.T) {
 }
 
 func TestDestroyDatabaseSnapshot(t *testing.T) {
-	testCommand(
+	deletedResource := testModify[DatabaseSnapshot, string](
 		t,
 		(*Client).DestroyDatabaseSnapshot,
 		"dbi-12345",
+		"database_snapshot",
 		"DELETE",
 		path.Join("database_snapshots", "dbi-12345"),
+		"",
 	)
+	assert.Equal(t, deletedResource.ID, "dbi-12345")
 }
 
 func TestLockDatabaseSnapshot(t *testing.T) {
-	testCommand(
+	lockedResource := testModify[DatabaseSnapshot, string](
 		t,
 		(*Client).LockDatabaseSnapshot,
 		"dbi-12345",
+		"database_snapshot",
 		"PUT",
 		path.Join("database_snapshots", "dbi-12345", "lock_resource"),
+		"",
 	)
+	assert.Equal(t, lockedResource.ID, "dbi-12345")
 }
 
 func TestUnlockDatabaseSnapshot(t *testing.T) {
-	testCommand(
+	unlockedResource := testModify[DatabaseSnapshot, string](
 		t,
 		(*Client).UnlockDatabaseSnapshot,
 		"dbi-12345",
+		"database_snapshot",
 		"PUT",
 		path.Join("database_snapshots", "dbi-12345", "unlock_resource"),
+		"",
 	)
+	assert.Equal(t, unlockedResource.ID, "dbi-12345")
 }

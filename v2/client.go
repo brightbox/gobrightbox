@@ -42,7 +42,7 @@ func APIGet[O any](
 	q *Client,
 	relUrl string,
 ) (*O, error) {
-	return apiObject[O](ctx, q, "GET", relUrl, nil)
+	return apiCommand[O](ctx, q, "GET", relUrl)
 }
 
 // APIGetCollection makes a GET request to the API
@@ -93,49 +93,15 @@ func APIPut[O any](
 	return apiObject[O](ctx, q, "PUT", relUrl, reqBody)
 }
 
-// APIPostForm makes a POST request to the API with the supplied json parameters.
-//
-// relUrl is the relative path of the endpoint to the base URL, e.g. "servers".
-func APIPostForm(
-	ctx context.Context,
-	q *Client,
-	relUrl string,
-	reqBody interface{},
-) error {
-	return apiCommand(ctx, q, "POST", relUrl, reqBody)
-}
-
-// APIPostCommand makes a POST request to the API
-//
-// relUrl is the relative path of the endpoint to the base URL, e.g. "servers".
-func APIPostCommand(
-	ctx context.Context,
-	q *Client,
-	relUrl string,
-) error {
-	return apiCommand(ctx, q, "POST", relUrl, nil)
-}
-
-// APIPutCommand makes a PUT request to the API
-//
-// relUrl is the relative path of the endpoint to the base URL, e.g. "servers".
-func APIPutCommand(
-	ctx context.Context,
-	q *Client,
-	relUrl string,
-) error {
-	return apiCommand(ctx, q, "PUT", relUrl, nil)
-}
-
 // APIDelete makes a DELETE request to the API
 //
 // relUrl is the relative path of the endpoint to the base URL, e.g. "servers".
-func APIDelete(
+func APIDelete[O any](
 	ctx context.Context,
 	q *Client,
 	relUrl string,
-) error {
-	return apiCommand(ctx, q, "DELETE", relUrl, nil)
+) (*O, error) {
+	return apiCommand[O](ctx, q, "DELETE", relUrl)
 }
 
 func apiObject[O any](
@@ -157,23 +123,13 @@ func apiObject[O any](
 	return jsonResponse[O](res, q.hardcoreDecode)
 }
 
-func apiCommand(
+func apiCommand[O any](
 	ctx context.Context,
 	q *Client,
 	method string,
 	relUrl string,
-	reqBody interface{},
-) error {
-	req, err := jsonRequest(ctx, q, method, relUrl, reqBody)
-	if err != nil {
-		return err
-	}
-	res, err := q.client.Do(req)
-	if err != nil {
-		return err
-	}
-	defer res.Body.Close()
-	return newAPIError(res)
+) (*O, error) {
+	return apiObject[O](ctx, q, method, relUrl, nil)
 }
 
 func jsonResponse[O any](res *http.Response, hardcoreDecode bool) (*O, error) {

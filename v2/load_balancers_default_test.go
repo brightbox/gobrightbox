@@ -61,31 +61,40 @@ func TestUpdateLoadBalancer(t *testing.T) {
 }
 
 func TestDestroyLoadBalancer(t *testing.T) {
-	testCommand(
+	deletedResource := testModify[LoadBalancer, string](
 		t,
 		(*Client).DestroyLoadBalancer,
 		"lba-1235f",
+		"load_balancer",
 		"DELETE",
 		path.Join("load_balancers", "lba-1235f"),
+		"",
 	)
+	assert.Equal(t, deletedResource.ID, "lba-1235f")
 }
 
 func TestLockLoadBalancer(t *testing.T) {
-	testCommand(
+	lockedResource := testModify[LoadBalancer, string](
 		t,
 		(*Client).LockLoadBalancer,
 		"lba-1235f",
+		"load_balancer",
 		"PUT",
 		path.Join("load_balancers", "lba-1235f", "lock_resource"),
+		"",
 	)
+	assert.Equal(t, lockedResource.ID, "lba-1235f")
 }
 
 func TestUnlockLoadBalancer(t *testing.T) {
-	testCommand(
+	unlockedResource := testModify[LoadBalancer, string](
 		t,
 		(*Client).UnlockLoadBalancer,
 		"lba-1235f",
+		"load_balancer",
 		"PUT",
 		path.Join("load_balancers", "lba-1235f", "unlock_resource"),
+		"",
 	)
+	assert.Equal(t, unlockedResource.ID, "lba-1235f")
 }

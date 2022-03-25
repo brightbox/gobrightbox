@@ -34,52 +34,6 @@ func testModify[O, I any](
 	return instance
 }
 
-func testCommand(
-	t *testing.T,
-	command func(*Client, context.Context, string) error,
-	instanceID string,
-	verb string,
-	expectedPath string,
-) {
-	ts, client, err := SetupConnection(
-		&APIMock{
-			T:            t,
-			ExpectMethod: verb,
-			ExpectURL:    "/1.0/" + expectedPath,
-			ExpectBody:   "",
-			GiveBody:     "",
-		},
-	)
-	defer ts.Close()
-	assert.Assert(t, is.Nil(err), "Connect returned an error")
-	err = command(client, context.Background(), instanceID)
-	assert.Assert(t, is.Nil(err))
-}
-
-func testForm[I any](
-	t *testing.T,
-	command func(*Client, context.Context, string, I) error,
-	instanceID string,
-	target I,
-	verb string,
-	expectedPath string,
-	expectedBody string,
-) {
-	ts, client, err := SetupConnection(
-		&APIMock{
-			T:            t,
-			ExpectMethod: verb,
-			ExpectURL:    "/1.0/" + expectedPath,
-			ExpectBody:   expectedBody,
-			GiveBody:     "",
-		},
-	)
-	defer ts.Close()
-	assert.Assert(t, is.Nil(err), "Connect returned an error")
-	err = command(client, context.Background(), instanceID, target)
-	assert.Assert(t, is.Nil(err))
-}
-
 func testLink[O, I any](
 	t *testing.T,
 	modify func(*Client, context.Context, string, I) (*O, error),

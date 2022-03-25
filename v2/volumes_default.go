@@ -38,16 +38,16 @@ func (c *Client) UpdateVolume(ctx context.Context, updateVolume *VolumeOptions) 
 }
 
 // DestroyVolume destroys an existing resource.
-func (c *Client) DestroyVolume(ctx context.Context, identifier string) error {
-	return APIDelete(ctx, c, path.Join(VolumeAPIPath, identifier))
+func (c *Client) DestroyVolume(ctx context.Context, identifier string) (*Volume, error) {
+	return APIDelete[Volume](ctx, c, path.Join(VolumeAPIPath, identifier))
 }
 
 // LockVolume locks a resource against destroy requests
-func (c *Client) LockVolume(ctx context.Context, identifier string) error {
-	return APIPutCommand(ctx, c, path.Join(VolumeAPIPath, identifier, "lock_resource"))
+func (c *Client) LockVolume(ctx context.Context, identifier string) (*Volume, error) {
+	return APIPut[Volume](ctx, c, path.Join(VolumeAPIPath, identifier, "lock_resource"), nil)
 }
 
 // UnlockVolume unlocks a resource, re-enabling destroy requests
-func (c *Client) UnlockVolume(ctx context.Context, identifier string) error {
-	return APIPutCommand(ctx, c, path.Join(VolumeAPIPath, identifier, "unlock_resource"))
+func (c *Client) UnlockVolume(ctx context.Context, identifier string) (*Volume, error) {
+	return APIPut[Volume](ctx, c, path.Join(VolumeAPIPath, identifier, "unlock_resource"), nil)
 }

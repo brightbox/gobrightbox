@@ -30,16 +30,16 @@ func (c *Client) UpdateDatabaseSnapshot(ctx context.Context, updateDatabaseSnaps
 }
 
 // DestroyDatabaseSnapshot destroys an existing resource.
-func (c *Client) DestroyDatabaseSnapshot(ctx context.Context, identifier string) error {
-	return APIDelete(ctx, c, path.Join(DatabaseSnapshotAPIPath, identifier))
+func (c *Client) DestroyDatabaseSnapshot(ctx context.Context, identifier string) (*DatabaseSnapshot, error) {
+	return APIDelete[DatabaseSnapshot](ctx, c, path.Join(DatabaseSnapshotAPIPath, identifier))
 }
 
 // LockDatabaseSnapshot locks a resource against destroy requests
-func (c *Client) LockDatabaseSnapshot(ctx context.Context, identifier string) error {
-	return APIPutCommand(ctx, c, path.Join(DatabaseSnapshotAPIPath, identifier, "lock_resource"))
+func (c *Client) LockDatabaseSnapshot(ctx context.Context, identifier string) (*DatabaseSnapshot, error) {
+	return APIPut[DatabaseSnapshot](ctx, c, path.Join(DatabaseSnapshotAPIPath, identifier, "lock_resource"), nil)
 }
 
 // UnlockDatabaseSnapshot unlocks a resource, re-enabling destroy requests
-func (c *Client) UnlockDatabaseSnapshot(ctx context.Context, identifier string) error {
-	return APIPutCommand(ctx, c, path.Join(DatabaseSnapshotAPIPath, identifier, "unlock_resource"))
+func (c *Client) UnlockDatabaseSnapshot(ctx context.Context, identifier string) (*DatabaseSnapshot, error) {
+	return APIPut[DatabaseSnapshot](ctx, c, path.Join(DatabaseSnapshotAPIPath, identifier, "unlock_resource"), nil)
 }

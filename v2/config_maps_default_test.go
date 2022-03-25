@@ -61,11 +61,14 @@ func TestUpdateConfigMap(t *testing.T) {
 }
 
 func TestDestroyConfigMap(t *testing.T) {
-	testCommand(
+	deletedResource := testModify[ConfigMap, string](
 		t,
 		(*Client).DestroyConfigMap,
 		"cfg-dsse2",
+		"config_map",
 		"DELETE",
 		path.Join("config_maps", "cfg-dsse2"),
+		"",
 	)
+	assert.Equal(t, deletedResource.ID, "cfg-dsse2")
 }

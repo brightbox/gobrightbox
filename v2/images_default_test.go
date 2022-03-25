@@ -61,31 +61,40 @@ func TestUpdateImage(t *testing.T) {
 }
 
 func TestDestroyImage(t *testing.T) {
-	testCommand(
+	deletedResource := testModify[Image, string](
 		t,
 		(*Client).DestroyImage,
 		"img-3ikco",
+		"image",
 		"DELETE",
 		path.Join("images", "img-3ikco"),
+		"",
 	)
+	assert.Equal(t, deletedResource.ID, "img-3ikco")
 }
 
 func TestLockImage(t *testing.T) {
-	testCommand(
+	lockedResource := testModify[Image, string](
 		t,
 		(*Client).LockImage,
 		"img-3ikco",
+		"image",
 		"PUT",
 		path.Join("images", "img-3ikco", "lock_resource"),
+		"",
 	)
+	assert.Equal(t, lockedResource.ID, "img-3ikco")
 }
 
 func TestUnlockImage(t *testing.T) {
-	testCommand(
+	unlockedResource := testModify[Image, string](
 		t,
 		(*Client).UnlockImage,
 		"img-3ikco",
+		"image",
 		"PUT",
 		path.Join("images", "img-3ikco", "unlock_resource"),
+		"",
 	)
+	assert.Equal(t, unlockedResource.ID, "img-3ikco")
 }

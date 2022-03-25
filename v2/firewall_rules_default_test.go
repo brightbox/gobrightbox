@@ -61,11 +61,14 @@ func TestUpdateFirewallRule(t *testing.T) {
 }
 
 func TestDestroyFirewallRule(t *testing.T) {
-	testCommand(
+	deletedResource := testModify[FirewallRule, string](
 		t,
 		(*Client).DestroyFirewallRule,
 		"fwr-k32ls",
+		"firewall_rule",
 		"DELETE",
 		path.Join("firewall_rules", "fwr-k32ls"),
+		"",
 	)
+	assert.Equal(t, deletedResource.ID, "fwr-k32ls")
 }
