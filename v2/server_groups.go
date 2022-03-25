@@ -40,22 +40,22 @@ type ServerGroupMemberList struct {
 }
 
 // AddServersToServerGroup adds servers to an existing server group
-func (c *Client) AddServersToServerGroup(ctx context.Context, identifier string, servers ServerGroupMemberList) (*ServerGroup, error) {
+func (c *Client) AddServersToServerGroup(ctx context.Context, identifier string, attachment ServerGroupMemberList) (*ServerGroup, error) {
 	return APIPost[ServerGroup](
 		ctx,
 		c,
 		path.Join(ServerGroupAPIPath, identifier, "add_servers"),
-		servers,
+		attachment,
 	)
 }
 
 // RemoveServersFromServerGroup remove servers from an existing server group
-func (c *Client) RemoveServersFromServerGroup(ctx context.Context, identifier string, servers ServerGroupMemberList) (*ServerGroup, error) {
+func (c *Client) RemoveServersFromServerGroup(ctx context.Context, identifier string, attachment ServerGroupMemberList) (*ServerGroup, error) {
 	return APIPost[ServerGroup](
 		ctx,
 		c,
 		path.Join(ServerGroupAPIPath, identifier, "remove_servers"),
-		servers,
+		attachment,
 	)
 }
 

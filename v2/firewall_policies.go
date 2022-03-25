@@ -34,17 +34,17 @@ type FirewallPolicyOptions struct {
 // the firewall policy should apply to. The ServerGroup parameter should
 // be a server group identifier.
 type FirewallPolicyAttachment struct {
-	ServerGroup string `json:"server_group,omitempty"`
+	ServerGroup string `json:"server_group"`
 }
 
 // ApplyFirewallPolicy issues a request to apply the given firewall policy to
 // the given server group.
-func (c *Client) ApplyFirewallPolicy(ctx context.Context, identifier string, serverGroup FirewallPolicyAttachment) (*FirewallPolicy, error) {
+func (c *Client) ApplyFirewallPolicy(ctx context.Context, identifier string, attachment FirewallPolicyAttachment) (*FirewallPolicy, error) {
 	return APIPost[FirewallPolicy](
 		ctx,
 		c,
 		path.Join(FirewallPolicyAPIPath, identifier, "apply_to"),
-		serverGroup,
+		attachment,
 	)
 
 }

@@ -52,12 +52,12 @@ type VolumeNewSize struct {
 
 // AttachVolume issues a request to attach the volume to a particular server and
 // optionally mark it as the boot volume
-func (c *Client) AttachVolume(ctx context.Context, identifier string, server VolumeAttachment) (*Volume, error) {
+func (c *Client) AttachVolume(ctx context.Context, identifier string, attachment VolumeAttachment) (*Volume, error) {
 	return APIPost[Volume](
 		ctx,
 		c,
 		path.Join(VolumeAPIPath, identifier, "attach"),
-		server,
+		attachment,
 	)
 }
 

@@ -47,15 +47,21 @@ type CloudIPOptions struct {
 	PortTranslators []PortTranslator `json:"port_translators,omitempty"`
 }
 
+// CloudIPAttachement is used in conjunction with MapCloudIP to specify
+// the destination the CloudIP should be mapped to
+type CloudIPAttachment struct {
+	Destination string `json:"destination"`
+}
+
 // MapCloudIP issues a request to map the cloud ip to the destination. The
 // destination can be an identifier of any resource capable of receiving a Cloud
 // IP, such as a server interface, a load balancer, or a cloud sql instace.
-func (c *Client) MapCloudIP(ctx context.Context, identifier string, destination string) (*CloudIP, error) {
+func (c *Client) MapCloudIP(ctx context.Context, identifier string, attachment CloudIPAttachment) (*CloudIP, error) {
 	return APIPost[CloudIP](
 		ctx,
 		c,
 		path.Join(CloudIPAPIPath, identifier, "map"),
-		map[string]string{"destination": destination},
+		attachment,
 	)
 }
 
