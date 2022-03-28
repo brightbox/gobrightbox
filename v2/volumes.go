@@ -13,16 +13,17 @@ import (
 // https://api.gb1.brightbox.com/1.0/#volume
 type Volume struct {
 	ResourceRef
-	ID          string
-	Name        string
-	Status      volume.Status
-	Description string
-	Encrypted   bool
-	Size        int
-	StorageType string `json:"storage_type"`
-	Server      *Server
-	Account     *Account
-	Image       *Image
+	ID               string
+	Name             string
+	Status           volume.Status
+	Description      string
+	DeleteWithServer bool `json:"delete_with_server"`
+	Encrypted        bool
+	Size             int
+	StorageType      string `json:"storage_type"`
+	Server           *Server
+	Account          *Account
+	Image            *Image
 }
 
 // VolumeOptions is used to create and update volumes
