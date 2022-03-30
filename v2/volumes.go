@@ -31,11 +31,13 @@ type Volume struct {
 type VolumeOptions struct {
 	ID               string  `json:"-"`
 	Name             *string `json:"name,omitempty"`
+	Description      *string `json:"description,omitempty"`
 	Serial           *string `json:"serial,omitempty"`
-	Size             *int    `json:"size,omitempty"`
-	Image            *string `json:"image,omitempty"`
+	Size             int     `json:"size,omitempty"`
+	Image            string  `json:"image,omitempty"`
 	Encrypted        *bool   `json:"encrypted,omitempty"`
 	DeleteWithServer *bool   `json:"delete_with_server,omitempty"`
+	Volume           string  `json:"volume,omitempty"`
 }
 
 // VolumeAttachment is used in conjunction with AttachVolume and DetachVolume

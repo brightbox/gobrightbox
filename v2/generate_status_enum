@@ -10,7 +10,7 @@ def snake_case(str)
 end
 
 def make_identifier(str)
-  str.split(/[_-]/).collect(&:capitalize).join
+  str.split(/[_-](?!\d)/).collect(&:capitalize).join
 end
 
 def generate_enumeration(file_name, package_name, states)

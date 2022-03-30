@@ -63,6 +63,7 @@ type ServerOptions struct {
 	ServerGroups      []string        `json:"server_groups,omitempty"`
 	CompatibilityMode *bool           `json:"compatibility_mode,omitempty"`
 	DiskEncrypted     *bool           `json:"disk_encrypted,omitempty"`
+	CloudIP           *bool           `json:"cloud_ip,omitempty"`
 	Volumes           []VolumeOptions `json:"volumes,omitempty"`
 }
 

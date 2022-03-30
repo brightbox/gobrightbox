@@ -47,7 +47,7 @@ type CloudIPOptions struct {
 	PortTranslators []PortTranslator `json:"port_translators,omitempty"`
 }
 
-// CloudIPAttachement is used in conjunction with MapCloudIP to specify
+// CloudIPAttachment is used in conjunction with MapCloudIP to specify
 // the destination the CloudIP should be mapped to
 type CloudIPAttachment struct {
 	Destination string `json:"destination"`

@@ -24,7 +24,7 @@ type FirewallRule struct {
 // UpdateFirewallRule to create and update firewall rules.
 type FirewallRuleOptions struct {
 	ID              string  `json:"-"`
-	FirewallPolicy  *string `json:"firewall_policy,omitempty"`
+	FirewallPolicy  string  `json:"firewall_policy,omitempty"`
 	Protocol        *string `json:"protocol,omitempty"`
 	Source          *string `json:"source,omitempty"`
 	SourcePort      *string `json:"source_port,omitempty"`
