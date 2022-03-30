@@ -6,14 +6,14 @@ import (
 	"net/url"
 )
 
-// Abstract Interface of any Brightbox oauth2 client generator
-type oauth2 interface {
+// Oauth2 is the abstract interface for any Brightbox oauth2 client generator
+type Oauth2 interface {
 	Client(ctx context.Context) (*http.Client, error)
 	APIURL() (*url.URL, error)
 }
 
 // Connect allocates and configures a Client for interacting with the API.
-func Connect(ctx context.Context, config oauth2) (*Client, error) {
+func Connect(ctx context.Context, config Oauth2) (*Client, error) {
 	baseURL, err := config.APIURL()
 	if err != nil {
 		return nil, err
