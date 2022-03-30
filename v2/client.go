@@ -21,6 +21,11 @@ type Client struct {
 	hardcoreDecode bool
 }
 
+// ResourceBaseURL returns the base URL within the client
+func (q *Client) ResourceBaseURL() *url.URL {
+	return q.baseURL
+}
+
 // AllowUnknownFields stops the Client generating an error is an unsupported field is
 // returned by the API.
 func (q *Client) AllowUnknownFields() {

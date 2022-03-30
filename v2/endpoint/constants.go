@@ -6,8 +6,9 @@ import (
 
 // API constants.
 const (
-	DefaultBaseURL = "https://api.gb1.brightbox.com/"
-	DefaultVersion = "1.0"
+	DefaultBaseURL  = "https://api.gb1.brightbox.com/"
+	DefaultVersion  = "1.0"
+	DefaultOrbitURL = "https://orbit.brightbox.com/v1/"
 )
 
 // InfrastructureScope tokens are used to access the Brightbox API
