@@ -1,3 +1,4 @@
+// Deprecated: use github.com/brightbox/gobrightbox/v2 instead.
 module github.com/brightbox/gobrightbox
 
 require (
