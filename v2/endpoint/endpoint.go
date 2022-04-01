@@ -52,17 +52,53 @@ func (c *Config) APIURL() (*url.URL, error) {
 	if err != nil {
 		return nil, err
 	}
-	if c.Account != "" {
-		v := url.Values{}
-		v.Set("account_id", c.Account)
-		u.RawQuery = v.Encode()
-	}
 	if c.Version == "" {
 		rawVersion = DefaultVersion
 	} else {
 		rawVersion = c.Version
 	}
-	return u.Parse(rawVersion + "/")
+	u, err = u.Parse(rawVersion + "/")
+	if err != nil {
+		return nil, err
+	}
+	if c.Account != "" {
+		v := url.Values{}
+		v.Set("account_id", c.Account)
+		u.RawQuery = v.Encode()
+	}
+	return u, nil
+}
+
+// StorageURL provides the base URL for accessing Orbit using the Config
+// entries. Where entries are missing, library defaults will be used.
+//
+// If Account is set, then a query parameter will be added to the URL to
+// reference that account.
+func (c *Config) StorageURL() (string, error) {
+	var rawURL string
+	var path string
+	if c.BaseURL == "" {
+		rawURL = DefaultOrbitBaseURL
+	} else {
+		rawURL = c.BaseURL
+	}
+	u, err := url.Parse(rawURL)
+	if err != nil {
+		return "", err
+	}
+	if c.Version == "" {
+		path = DefaultOrbitVersion
+	} else {
+		path = c.Version
+	}
+	if c.Account != "" {
+		path = path + "/" + c.Account
+	}
+	newURL, err := u.Parse(path + "/")
+	if err != nil {
+		return "", err
+	}
+	return newURL.String(), nil
 }
 
 // TokenURL provides the OAuth2 URL from the Config BaseURL entries. Where

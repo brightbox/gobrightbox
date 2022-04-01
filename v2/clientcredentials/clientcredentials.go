@@ -11,6 +11,7 @@ import (
 	"net/http"
 
 	"github.com/brightbox/gobrightbox/v2/endpoint"
+	"golang.org/x/oauth2"
 	oauth2cc "golang.org/x/oauth2/clientcredentials"
 )
 
@@ -23,10 +24,10 @@ type Config struct {
 }
 
 // Client creates an oauth2 clientcredential client from the config.
-func (c *Config) Client(ctx context.Context) (*http.Client, error) {
+func (c *Config) Client(ctx context.Context) (*http.Client, oauth2.TokenSource, error) {
 	tokenURL, err := c.TokenURL()
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	conf := oauth2cc.Config{
@@ -35,5 +36,6 @@ func (c *Config) Client(ctx context.Context) (*http.Client, error) {
 		Scopes:       c.Scopes,
 		TokenURL:     tokenURL,
 	}
-	return conf.Client(ctx), nil
+	ts := conf.TokenSource(ctx)
+	return oauth2.NewClient(ctx, ts), ts, nil
 }

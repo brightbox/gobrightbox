@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"golang.org/x/oauth2"
 	"io"
 	"net/http"
 	"net/url"
@@ -18,12 +19,27 @@ type Client struct {
 	UserAgent      string
 	baseURL        *url.URL
 	client         *http.Client
+	tokensource	oauth2.TokenSource
 	hardcoreDecode bool
 }
 
 // ResourceBaseURL returns the base URL within the client
 func (q *Client) ResourceBaseURL() *url.URL {
 	return q.baseURL
+}
+
+// HTTPClient returns the current HTTP structure within the client
+func (q *Client) HTTPClient() *http.Client {
+	return q.client
+}
+
+// ExtractTokenID implements the AuthResult interface for gophercloud clients
+func (q *Client) ExtractTokenID() (string, error) {
+	token, err := q.tokensource.Token()
+	if err != nil {
+		return "", err
+	}
+	return token.AccessToken, nil
 }
 
 // AllowUnknownFields stops the Client generating an error is an unsupported field is

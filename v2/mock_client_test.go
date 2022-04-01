@@ -6,6 +6,7 @@ import (
 	"net/url"
 
 	"github.com/brightbox/gobrightbox/v2/endpoint"
+	"golang.org/x/oauth2"
 )
 
 type MockAuth struct {
@@ -23,17 +24,19 @@ func (a *MockAuth) APIURL() (*url.URL, error) {
 // WithValue function to associate an *http.Client value with a context.
 var HTTPClient contextKey
 
+var DummyToken = oauth2.Token{AccessToken: "dummy"}
+
 // contextKey is just an empty struct. It exists so HTTPClient can be
 // an immutable public variable with a unique type. It's immutable
 // because nobody else can create a ContextKey, being unexported.
 type contextKey struct{}
 
 // Client creates a new http Client from context
-func (_a *MockAuth) Client(ctx context.Context) (*http.Client, error) {
+func (a *MockAuth) Client(ctx context.Context) (*http.Client, oauth2.TokenSource, error) {
 	if ctx != nil {
 		if hc, ok := ctx.Value(HTTPClient).(*http.Client); ok {
-			return hc, nil
+			return hc, oauth2.StaticTokenSource(&DummyToken), nil
 		}
 	}
-	return http.DefaultClient, nil
+	return http.DefaultClient, oauth2.StaticTokenSource(&DummyToken), nil
 }

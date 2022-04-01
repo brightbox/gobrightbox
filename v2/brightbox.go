@@ -4,11 +4,13 @@ import (
 	"context"
 	"net/http"
 	"net/url"
+
+	"golang.org/x/oauth2"
 )
 
 // Oauth2 is the abstract interface for any Brightbox oauth2 client generator
 type Oauth2 interface {
-	Client(ctx context.Context) (*http.Client, error)
+	Client(ctx context.Context) (*http.Client, oauth2.TokenSource, error)
 	APIURL() (*url.URL, error)
 }
 
@@ -18,12 +20,13 @@ func Connect(ctx context.Context, config Oauth2) (*Client, error) {
 	if err != nil {
 		return nil, err
 	}
-	httpClient, err := config.Client(ctx)
+	httpClient, tokenSource, err := config.Client(ctx)
 	if err != nil {
 		return nil, err
 	}
 	return &Client{
-		baseURL: baseURL,
-		client:  httpClient,
+		baseURL:     baseURL,
+		client:      httpClient,
+		tokensource: tokenSource,
 	}, nil
 }

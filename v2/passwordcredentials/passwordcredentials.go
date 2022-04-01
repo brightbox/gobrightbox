@@ -23,10 +23,10 @@ type Config struct {
 }
 
 // Client creates an oauth2 password credential client from the config
-func (c *Config) Client(ctx context.Context) (*http.Client, error) {
+func (c *Config) Client(ctx context.Context) (*http.Client, oauth2.TokenSource, error) {
 	endpoint, err := c.Endpoint()
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	conf := oauth2.Config{
 		ClientID:     c.ID,
@@ -36,7 +36,8 @@ func (c *Config) Client(ctx context.Context) (*http.Client, error) {
 	}
 	token, err := conf.PasswordCredentialsToken(ctx, c.UserName, c.Password)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
-	return conf.Client(ctx, token), nil
+	ts := conf.TokenSource(ctx, token)
+	return oauth2.NewClient(ctx, ts), ts, nil
 }
