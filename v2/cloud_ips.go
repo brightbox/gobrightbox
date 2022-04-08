@@ -5,9 +5,11 @@ import (
 	"path"
 
 	"github.com/brightbox/gobrightbox/v2/status/cloudip"
+	"github.com/brightbox/gobrightbox/v2/status/mode"
 )
 
 //go:generate ./generate_status_enum cloudip mapped reserved unmapped
+//go:generate ./generate_status_enum mode nat route
 
 // CloudIP represents a Cloud IP
 // https://api.gb1.brightbox.com/1.0/#cloud_ip
@@ -21,7 +23,7 @@ type CloudIP struct {
 	Status          cloudip.Status
 	ReverseDNS      string `json:"reverse_dns"`
 	Fqdn            string
-	Mode            string
+	Mode            mode.Status
 	Account         *Account
 	Interface       *Interface
 	Server          *Server
