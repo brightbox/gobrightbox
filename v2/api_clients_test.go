@@ -3,12 +3,13 @@ package brightbox
 import (
 	"testing"
 
+	"github.com/brightbox/gobrightbox/v2/status/permissionsgroup"
 	"gotest.tools/v3/assert"
 )
 
 func TestCreateAPIClientWithPermissionsGroup(t *testing.T) {
-	pg := "full"
-	newResource := APIClientOptions{PermissionsGroup: &pg}
+	pg := permissionsgroup.Full
+	newResource := APIClientOptions{PermissionsGroup: pg}
 	instance := testModify[APIClient, APIClientOptions](
 		t,
 		(*Client).CreateAPIClient,
