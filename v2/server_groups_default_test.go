@@ -5,6 +5,7 @@ package brightbox
 import (
 	"path"
 	"testing"
+	"time"
 
 	"gotest.tools/v3/assert"
 )
@@ -71,4 +72,10 @@ func TestDestroyServerGroup(t *testing.T) {
 		"",
 	)
 	assert.Equal(t, deletedResource.ID, "grp-sda44")
+}
+
+func TestServerGroupCreatedAtUnix(t *testing.T) {
+	tm := time.Date(2009, time.November, 10, 23, 0, 0, 0, time.UTC)
+	target := ServerGroup{CreatedAt: &tm}
+	assert.Equal(t, target.CreatedAtUnix(), tm.Unix())
 }

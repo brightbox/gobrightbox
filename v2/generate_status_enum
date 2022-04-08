@@ -17,6 +17,7 @@ def generate_enumeration(file_name, package_name, states)
   File.open(file_name, 'w') do |f|
     f << file_header(package_name)
     f << generate_states(package_name, states)
+    f << generate_valid_strings(states)
     f << stringer
     f << generate_parser(package_name, states)
     f << generate_marshal(package_name, states)
@@ -53,6 +54,21 @@ const (
     NEXT
   end << <<-FINAL
 )
+
+FINAL
+end
+
+def generate_valid_strings(states)
+  result = <<-FIRST
+// Set of strings that are valid inputs for ParseStatus
+var ValidStrings = []string{
+  FIRST
+  states.reduce(result) do |result, state|
+    result << <<-NEXT
+    #{make_identifier(state)}.String(),
+    NEXT
+  end << <<-FINAL
+	}
 
 FINAL
 end

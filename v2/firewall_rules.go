@@ -15,8 +15,8 @@ type FirewallRule struct {
 	DestinationPort string          `json:"destination_port"`
 	Protocol        string          `json:"protocol"`
 	IcmpTypeName    string          `json:"icmp_type_name"`
-	CreatedAt       *time.Time      `json:"created_at"`
 	Description     string          `json:"description"`
+	CreatedAt       *time.Time      `json:"created_at"`
 	FirewallPolicy  *FirewallPolicy `json:"firewall_policy"`
 }
 

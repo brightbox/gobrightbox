@@ -5,6 +5,7 @@ package brightbox
 import (
 	"path"
 	"testing"
+	"time"
 
 	"gotest.tools/v3/assert"
 )
@@ -97,4 +98,10 @@ func TestUnlockImage(t *testing.T) {
 		"",
 	)
 	assert.Equal(t, unlockedResource.ID, "img-3ikco")
+}
+
+func TestImageCreatedAtUnix(t *testing.T) {
+	tm := time.Date(2009, time.November, 10, 23, 0, 0, 0, time.UTC)
+	target := Image{CreatedAt: &tm}
+	assert.Equal(t, target.CreatedAtUnix(), tm.Unix())
 }

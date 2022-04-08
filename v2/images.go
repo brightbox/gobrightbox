@@ -26,7 +26,6 @@ type Image struct {
 	Description       string
 	Source            string
 	Arch              arch.Status
-	CreatedAt         *time.Time `json:"created_at"`
 	Official          bool
 	Public            bool
 	Owner             string
@@ -37,6 +36,7 @@ type Image struct {
 	MinRAM            *int                 `json:"min_ram"`
 	CompatibilityMode bool                 `json:"compatibility_mode"`
 	LicenceName       string               `json:"licence_name"`
+	CreatedAt         *time.Time           `json:"created_at"`
 	Ancestor          *Image
 }
 

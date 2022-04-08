@@ -3,6 +3,7 @@ package brightbox
 import (
 	"context"
 	"path"
+	"time"
 
 	"github.com/brightbox/gobrightbox/v2/status/volume"
 )
@@ -20,7 +21,10 @@ type Volume struct {
 	DeleteWithServer bool `json:"delete_with_server"`
 	Encrypted        bool
 	Size             int
-	StorageType      string `json:"storage_type"`
+	StorageType      string     `json:"storage_type"`
+	CreatedAt        *time.Time `json:"created_at"`
+	DeletedAt        *time.Time `json:"deleted_at"`
+	UpdatedAt        *time.Time `json:"updated_at"`
 	Server           *Server
 	Account          *Account
 	Image            *Image

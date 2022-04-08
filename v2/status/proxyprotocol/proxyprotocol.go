@@ -18,6 +18,14 @@ const (
 	V2SslCn
 )
 
+// Set of strings that are valid inputs for ParseStatus
+var ValidStrings = []string{
+	V1.String(),
+	V2.String(),
+	V2Ssl.String(),
+	V2SslCn.String(),
+}
+
 // String makes Status satisfy the Stringer interface
 func (i Status) String() string {
 	tmp, err := i.MarshalText()

@@ -52,6 +52,11 @@ func (c *Client) UnlockDatabaseServer(ctx context.Context, identifier string) (*
 	return APIPut[DatabaseServer](ctx, c, path.Join(DatabaseServerAPIPath, identifier, "unlock_resource"), nil)
 }
 
+// CreatedAt implements the CreateDated interface for DatabaseServer
+func (s DatabaseServer) CreatedAtUnix() int64 {
+	return s.CreatedAt.Unix()
+}
+
 // ResetDatabaseServerPassword resets the password in DatabaseServer, returning it
 // in the returned resource. This is the only time the new password is
 // available in plaintext.

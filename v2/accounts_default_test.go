@@ -5,6 +5,7 @@ package brightbox
 import (
 	"path"
 	"testing"
+	"time"
 
 	"gotest.tools/v3/assert"
 )
@@ -44,6 +45,12 @@ func TestUpdateAccount(t *testing.T) {
 		"{}",
 	)
 	assert.Equal(t, instance.ID, updatedResource.ID)
+}
+
+func TestAccountCreatedAtUnix(t *testing.T) {
+	tm := time.Date(2009, time.November, 10, 23, 0, 0, 0, time.UTC)
+	target := Account{CreatedAt: &tm}
+	assert.Equal(t, target.CreatedAtUnix(), tm.Unix())
 }
 
 func TestResetAccountPassword(t *testing.T) {

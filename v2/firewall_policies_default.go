@@ -41,3 +41,8 @@ func (c *Client) UpdateFirewallPolicy(ctx context.Context, updateFirewallPolicy 
 func (c *Client) DestroyFirewallPolicy(ctx context.Context, identifier string) (*FirewallPolicy, error) {
 	return APIDelete[FirewallPolicy](ctx, c, path.Join(FirewallPolicyAPIPath, identifier))
 }
+
+// CreatedAt implements the CreateDated interface for FirewallPolicy
+func (s FirewallPolicy) CreatedAtUnix() int64 {
+	return s.CreatedAt.Unix()
+}

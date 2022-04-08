@@ -16,19 +16,19 @@ type DatabaseServer struct {
 	Name                    string
 	Description             string
 	Status                  databaseserver.Status
-	DatabaseEngine          string     `json:"database_engine"`
-	DatabaseVersion         string     `json:"database_version"`
-	AdminUsername           string     `json:"admin_username"`
-	AdminPassword           string     `json:"admin_password"`
+	DatabaseEngine          string   `json:"database_engine"`
+	DatabaseVersion         string   `json:"database_version"`
+	AdminUsername           string   `json:"admin_username"`
+	AdminPassword           string   `json:"admin_password"`
+	SnapshotsSchedule       *string  `json:"snapshots_schedule"`
+	AllowAccess             []string `json:"allow_access"`
+	MaintenanceWeekday      int      `json:"maintenance_weekday"`
+	MaintenanceHour         int      `json:"maintenance_hour"`
+	Locked                  bool
 	CreatedAt               *time.Time `json:"created_at"`
 	DeletedAt               *time.Time `json:"deleted_at"`
 	UpdatedAt               *time.Time `json:"updated_at"`
-	SnapshotsSchedule       *string    `json:"snapshots_schedule"`
 	SnapshotsScheduleNextAt *time.Time `json:"snapshots_schedule_next_at"`
-	AllowAccess             []string   `json:"allow_access"`
-	MaintenanceWeekday      int        `json:"maintenance_weekday"`
-	MaintenanceHour         int        `json:"maintenance_hour"`
-	Locked                  bool
 	Account                 *Account
 	Zone                    *Zone
 	DatabaseServerType      *DatabaseServerType `json:"database_server_type"`

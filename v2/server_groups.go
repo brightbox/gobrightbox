@@ -12,10 +12,10 @@ type ServerGroup struct {
 	ResourceRef
 	ID             string
 	Name           string
-	CreatedAt      *time.Time `json:"created_at"`
 	Description    string
 	Default        bool
 	Fqdn           string
+	CreatedAt      *time.Time `json:"created_at"`
 	Account        *Account
 	FirewallPolicy *FirewallPolicy `json:"firewall_policy"`
 	Servers        []Server

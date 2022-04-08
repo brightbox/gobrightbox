@@ -5,6 +5,7 @@ package brightbox
 import (
 	"path"
 	"testing"
+	"time"
 
 	"gotest.tools/v3/assert"
 )
@@ -83,4 +84,10 @@ func TestUnlockDatabaseSnapshot(t *testing.T) {
 		"",
 	)
 	assert.Equal(t, unlockedResource.ID, "dbi-12345")
+}
+
+func TestDatabaseSnapshotCreatedAtUnix(t *testing.T) {
+	tm := time.Date(2009, time.November, 10, 23, 0, 0, 0, time.UTC)
+	target := DatabaseSnapshot{CreatedAt: &tm}
+	assert.Equal(t, target.CreatedAtUnix(), tm.Unix())
 }

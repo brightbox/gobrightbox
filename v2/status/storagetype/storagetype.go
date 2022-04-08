@@ -14,6 +14,12 @@ const (
 	Network
 )
 
+// Set of strings that are valid inputs for ParseStatus
+var ValidStrings = []string{
+	Local.String(),
+	Network.String(),
+}
+
 // String makes Status satisfy the Stringer interface
 func (i Status) String() string {
 	tmp, err := i.MarshalText()

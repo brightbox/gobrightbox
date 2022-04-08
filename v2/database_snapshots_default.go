@@ -43,3 +43,8 @@ func (c *Client) LockDatabaseSnapshot(ctx context.Context, identifier string) (*
 func (c *Client) UnlockDatabaseSnapshot(ctx context.Context, identifier string) (*DatabaseSnapshot, error) {
 	return APIPut[DatabaseSnapshot](ctx, c, path.Join(DatabaseSnapshotAPIPath, identifier, "unlock_resource"), nil)
 }
+
+// CreatedAt implements the CreateDated interface for DatabaseSnapshot
+func (s DatabaseSnapshot) CreatedAtUnix() int64 {
+	return s.CreatedAt.Unix()
+}

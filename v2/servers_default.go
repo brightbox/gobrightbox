@@ -51,3 +51,8 @@ func (c *Client) LockServer(ctx context.Context, identifier string) (*Server, er
 func (c *Client) UnlockServer(ctx context.Context, identifier string) (*Server, error) {
 	return APIPut[Server](ctx, c, path.Join(ServerAPIPath, identifier, "unlock_resource"), nil)
 }
+
+// CreatedAt implements the CreateDated interface for Server
+func (s Server) CreatedAtUnix() int64 {
+	return s.CreatedAt.Unix()
+}

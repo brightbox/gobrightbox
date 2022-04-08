@@ -51,3 +51,8 @@ func (c *Client) LockLoadBalancer(ctx context.Context, identifier string) (*Load
 func (c *Client) UnlockLoadBalancer(ctx context.Context, identifier string) (*LoadBalancer, error) {
 	return APIPut[LoadBalancer](ctx, c, path.Join(LoadBalancerAPIPath, identifier, "unlock_resource"), nil)
 }
+
+// CreatedAt implements the CreateDated interface for LoadBalancer
+func (s LoadBalancer) CreatedAtUnix() int64 {
+	return s.CreatedAt.Unix()
+}

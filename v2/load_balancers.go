@@ -25,29 +25,20 @@ type LoadBalancer struct {
 	ID                string
 	Name              string
 	Status            loadbalancer.Status
-	CreatedAt         *time.Time `json:"created_at"`
-	DeletedAt         *time.Time `json:"deleted_at"`
 	Locked            bool
 	HTTPSRedirect     bool   `json:"https_redirect"`
 	SslMinimumVersion string `json:"ssl_minimum_version"`
-	Account           Account
-	Nodes             []Server
-	CloudIPs          []CloudIP `json:"cloud_ips"`
 	Policy            string
 	BufferSize        int `json:"buffer_size"`
 	Listeners         []LoadBalancerListener
 	Healthcheck       LoadBalancerHealthcheck
-	Certificate       *LoadBalancerCertificate
+	Certificate       *LoadBalancerAcmeCertificate
 	Acme              *LoadBalancerAcme
-}
-
-// LoadBalancerCertificate represents a certificate on a LoadBalancer
-type LoadBalancerCertificate struct {
-	ExpiresAt time.Time `json:"expires_at"`
-	ValidFrom time.Time `json:"valid_from"`
-	SslV3     bool      `json:"sslv3"`
-	Issuer    string    `json:"issuer"`
-	Subject   string    `json:"subject"`
+	CreatedAt         *time.Time `json:"created_at"`
+	DeletedAt         *time.Time `json:"deleted_at"`
+	Account           *Account
+	Nodes             []Server
+	CloudIPs          []CloudIP `json:"cloud_ips"`
 }
 
 // LoadBalancerAcme represents an ACME object on a LoadBalancer

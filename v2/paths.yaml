@@ -1,6 +1,6 @@
 Account: 
   path: accounts
-  crud: [update]
+  crud: [update, createdate]
   testid: acc-43ks4
   jsonpath: account
   password: reset_ftp_password
@@ -17,7 +17,7 @@ CloudIP:
   jsonpath: cloud_ip
 Collaboration:
   path: collaborations
-  crud: [create, delete]
+  crud: [create, delete, createdate]
   testid: col-klek3
   jsonpath: collaboration
 ConfigMap:
@@ -27,13 +27,13 @@ ConfigMap:
   jsonpath: config_map
 DatabaseServer:
   path: database_servers
-  crud: [create, update, delete, lock]
+  crud: [create, update, delete, lock, createdate]
   testid: dbs-123ab
   jsonpath: database_server
   password: reset_password
 DatabaseSnapshot:
   path: database_snapshots
-  crud: [update, delete, lock]
+  crud: [update, delete, lock, createdate]
   testid: dbi-12345
   jsonpath: database_snapshot
 DatabaseServerType:
@@ -43,18 +43,18 @@ DatabaseServerType:
   jsonpath: database_type
 FirewallPolicy:
   path: firewall_policies
-  crud: [create, update, delete]
+  crud: [create, update, delete, createdate]
   plural: FirewallPolicies
   testid: fwp-j3654
   jsonpath: firewall_policy
 FirewallRule:
   path: firewall_rules
-  crud: [create, update, delete]
+  crud: [create, update, delete, createdate]
   testid: fwr-k32ls
   jsonpath: firewall_rule
 Image:
   path: images
-  crud: [create, update, delete, lock]
+  crud: [create, update, delete, lock, createdate]
   testid: img-3ikco
   jsonpath: image
 Interface:
@@ -64,17 +64,17 @@ Interface:
   jsonpath: interface
 LoadBalancer:
   path: load_balancers
-  crud: [create, update, delete, lock]
+  crud: [create, update, delete, lock, createdate]
   testid: lba-1235f
   jsonpath: load_balancer
 Server:
   path: servers
-  crud: [create, update, delete, lock]
+  crud: [create, update, delete, lock, createdate]
   testid: srv-lv426
   jsonpath: server
 ServerGroup:
   path: server_groups
-  crud: [create, update, delete]
+  crud: [create, update, delete, createdate]
   testid: grp-sda44
   jsonpath: server_group
 ServerType:
@@ -84,12 +84,12 @@ ServerType:
   jsonpath: server_type
 User:
   path: users
-  crud: [update]
+  crud: [update, createdate]
   testid: usr-kl435
   jsonpath: user
 Volume:
   path: volumes
-  crud: [create, update, delete, lock]
+  crud: [create, update, delete, lock, createdate]
   testid: vol-po5we
   jsonpath: volume
 Zone:

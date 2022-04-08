@@ -12,11 +12,22 @@ const (
 	Creating Status = iota + 1
 	// Available is an enumeration for Status
 	Available
+	// Deleting is an enumeration for Status
+	Deleting
 	// Deleted is an enumeration for Status
 	Deleted
 	// Failed is an enumeration for Status
 	Failed
 )
+
+// Set of strings that are valid inputs for ParseStatus
+var ValidStrings = []string{
+	Creating.String(),
+	Available.String(),
+	Deleting.String(),
+	Deleted.String(),
+	Failed.String(),
+}
 
 // String makes Status satisfy the Stringer interface
 func (i Status) String() string {
@@ -34,6 +45,8 @@ func ParseStatus(name string) (Status, error) {
 		return Creating, nil
 	case "available":
 		return Available, nil
+	case "deleting":
+		return Deleting, nil
 	case "deleted":
 		return Deleted, nil
 	case "failed":
@@ -49,6 +62,8 @@ func (i Status) MarshalText() ([]byte, error) {
 		return []byte("creating"), nil
 	case Available:
 		return []byte("available"), nil
+	case Deleting:
+		return []byte("deleting"), nil
 	case Deleted:
 		return []byte("deleted"), nil
 	case Failed:

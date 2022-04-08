@@ -32,3 +32,8 @@ func (c *Client) CreateCollaboration(ctx context.Context, newCollaboration Colla
 func (c *Client) DestroyCollaboration(ctx context.Context, identifier string) (*Collaboration, error) {
 	return APIDelete[Collaboration](ctx, c, path.Join(CollaborationAPIPath, identifier))
 }
+
+// CreatedAt implements the CreateDated interface for Collaboration
+func (s Collaboration) CreatedAtUnix() int64 {
+	return s.CreatedAt.Unix()
+}

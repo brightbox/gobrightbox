@@ -41,3 +41,8 @@ func (c *Client) UpdateServerGroup(ctx context.Context, updateServerGroup Server
 func (c *Client) DestroyServerGroup(ctx context.Context, identifier string) (*ServerGroup, error) {
 	return APIDelete[ServerGroup](ctx, c, path.Join(ServerGroupAPIPath, identifier))
 }
+
+// CreatedAt implements the CreateDated interface for ServerGroup
+func (s ServerGroup) CreatedAtUnix() int64 {
+	return s.CreatedAt.Unix()
+}

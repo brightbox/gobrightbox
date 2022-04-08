@@ -26,6 +26,18 @@ const (
 	Deleted
 )
 
+// Set of strings that are valid inputs for ParseStatus
+var ValidStrings = []string{
+	Pending.String(),
+	Active.String(),
+	Overdue.String(),
+	Warning.String(),
+	Suspended.String(),
+	Terminated.String(),
+	Closed.String(),
+	Deleted.String(),
+}
+
 // String makes Status satisfy the Stringer interface
 func (i Status) String() string {
 	tmp, err := i.MarshalText()

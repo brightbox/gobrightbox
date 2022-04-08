@@ -51,3 +51,8 @@ func (c *Client) LockImage(ctx context.Context, identifier string) (*Image, erro
 func (c *Client) UnlockImage(ctx context.Context, identifier string) (*Image, error) {
 	return APIPut[Image](ctx, c, path.Join(ImageAPIPath, identifier, "unlock_resource"), nil)
 }
+
+// CreatedAt implements the CreateDated interface for Image
+func (s Image) CreatedAtUnix() int64 {
+	return s.CreatedAt.Unix()
+}

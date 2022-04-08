@@ -14,6 +14,12 @@ const (
 	Http
 )
 
+// Set of strings that are valid inputs for ParseStatus
+var ValidStrings = []string{
+	Tcp.String(),
+	Http.String(),
+}
+
 // String makes Status satisfy the Stringer interface
 func (i Status) String() string {
 	tmp, err := i.MarshalText()

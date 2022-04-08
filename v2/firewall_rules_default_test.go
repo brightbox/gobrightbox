@@ -5,6 +5,7 @@ package brightbox
 import (
 	"path"
 	"testing"
+	"time"
 
 	"gotest.tools/v3/assert"
 )
@@ -71,4 +72,10 @@ func TestDestroyFirewallRule(t *testing.T) {
 		"",
 	)
 	assert.Equal(t, deletedResource.ID, "fwr-k32ls")
+}
+
+func TestFirewallRuleCreatedAtUnix(t *testing.T) {
+	tm := time.Date(2009, time.November, 10, 23, 0, 0, 0, time.UTC)
+	target := FirewallRule{CreatedAt: &tm}
+	assert.Equal(t, target.CreatedAtUnix(), tm.Unix())
 }

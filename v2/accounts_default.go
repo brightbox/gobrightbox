@@ -29,6 +29,11 @@ func (c *Client) UpdateAccount(ctx context.Context, updateAccount AccountOptions
 	return APIPut[Account](ctx, c, path.Join(AccountAPIPath, updateAccount.ID), updateAccount)
 }
 
+// CreatedAt implements the CreateDated interface for Account
+func (s Account) CreatedAtUnix() int64 {
+	return s.CreatedAt.Unix()
+}
+
 // ResetAccountPassword resets the password in Account, returning it
 // in the returned resource. This is the only time the new password is
 // available in plaintext.

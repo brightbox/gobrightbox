@@ -51,3 +51,8 @@ func (c *Client) LockVolume(ctx context.Context, identifier string) (*Volume, er
 func (c *Client) UnlockVolume(ctx context.Context, identifier string) (*Volume, error) {
 	return APIPut[Volume](ctx, c, path.Join(VolumeAPIPath, identifier, "unlock_resource"), nil)
 }
+
+// CreatedAt implements the CreateDated interface for Volume
+func (s Volume) CreatedAtUnix() int64 {
+	return s.CreatedAt.Unix()
+}

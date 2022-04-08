@@ -16,6 +16,13 @@ const (
 	SourceAddress
 )
 
+// Set of strings that are valid inputs for ParseStatus
+var ValidStrings = []string{
+	LeastConnections.String(),
+	RoundRobin.String(),
+	SourceAddress.String(),
+}
+
 // String makes Status satisfy the Stringer interface
 func (i Status) String() string {
 	tmp, err := i.MarshalText()

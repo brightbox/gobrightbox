@@ -6,7 +6,7 @@ import (
 	"github.com/brightbox/gobrightbox/v2/status/databasesnapshot"
 )
 
-//go:generate ./generate_status_enum databasesnapshot creating available deleted failed
+//go:generate ./generate_status_enum databasesnapshot creating available deleting deleted failed
 
 // DatabaseSnapshot represents a snapshot of a database server.
 // https://api.gb1.brightbox.com/1.0/#databaseSnapshot

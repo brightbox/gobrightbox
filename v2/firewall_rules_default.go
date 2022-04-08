@@ -41,3 +41,8 @@ func (c *Client) UpdateFirewallRule(ctx context.Context, updateFirewallRule Fire
 func (c *Client) DestroyFirewallRule(ctx context.Context, identifier string) (*FirewallRule, error) {
 	return APIDelete[FirewallRule](ctx, c, path.Join(FirewallRuleAPIPath, identifier))
 }
+
+// CreatedAt implements the CreateDated interface for FirewallRule
+func (s FirewallRule) CreatedAtUnix() int64 {
+	return s.CreatedAt.Unix()
+}

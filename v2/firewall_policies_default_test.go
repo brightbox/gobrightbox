@@ -5,6 +5,7 @@ package brightbox
 import (
 	"path"
 	"testing"
+	"time"
 
 	"gotest.tools/v3/assert"
 )
@@ -71,4 +72,10 @@ func TestDestroyFirewallPolicy(t *testing.T) {
 		"",
 	)
 	assert.Equal(t, deletedResource.ID, "fwp-j3654")
+}
+
+func TestFirewallPolicyCreatedAtUnix(t *testing.T) {
+	tm := time.Date(2009, time.November, 10, 23, 0, 0, 0, time.UTC)
+	target := FirewallPolicy{CreatedAt: &tm}
+	assert.Equal(t, target.CreatedAtUnix(), tm.Unix())
 }

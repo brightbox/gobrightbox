@@ -24,6 +24,17 @@ const (
 	Failed
 )
 
+// Set of strings that are valid inputs for ParseStatus
+var ValidStrings = []string{
+	Creating.String(),
+	Available.String(),
+	Deprecated.String(),
+	Unavailable.String(),
+	Deleting.String(),
+	Deleted.String(),
+	Failed.String(),
+}
+
 // String makes Status satisfy the Stringer interface
 func (i Status) String() string {
 	tmp, err := i.MarshalText()

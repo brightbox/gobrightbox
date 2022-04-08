@@ -26,10 +26,8 @@ type Account struct {
 	TelephoneNumber       string     `json:"telephone_number"`
 	TelephoneVerified     bool       `json:"telephone_verified"`
 	VerifiedTelephone     string     `json:"verified_telephone"`
-	VerifiedAt            *time.Time `json:"verified_at"`
 	VerifiedIP            string     `json:"verified_ip"`
 	ValidCreditCard       bool       `json:"valid_credit_card"`
-	CreatedAt             *time.Time `json:"created_at"`
 	ServersUsed           int        `json:"servers_used"`
 	RAMLimit              int        `json:"ram_limit"`
 	RAMUsed               int        `json:"ram_used"`
@@ -45,6 +43,8 @@ type Account struct {
 	LibraryFtpHost        string     `json:"library_ftp_host"`
 	LibraryFtpUser        string     `json:"library_ftp_user"`
 	LibraryFtpPassword    string     `json:"library_ftp_password"`
+	CreatedAt             *time.Time `json:"created_at"`
+	VerifiedAt            *time.Time `json:"verified_at"`
 	Owner                 *User
 	Clients               []APIClient
 	Images                []Image

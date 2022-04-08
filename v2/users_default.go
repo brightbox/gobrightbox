@@ -28,3 +28,8 @@ func (c *Client) User(ctx context.Context, identifier string) (*User, error) {
 func (c *Client) UpdateUser(ctx context.Context, updateUser UserOptions) (*User, error) {
 	return APIPut[User](ctx, c, path.Join(UserAPIPath, updateUser.ID), updateUser)
 }
+
+// CreatedAt implements the CreateDated interface for User
+func (s User) CreatedAtUnix() int64 {
+	return s.CreatedAt.Unix()
+}
