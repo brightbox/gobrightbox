@@ -6,10 +6,12 @@ import (
 
 	"github.com/brightbox/gobrightbox/v2/status/cloudip"
 	"github.com/brightbox/gobrightbox/v2/status/mode"
+	"github.com/brightbox/gobrightbox/v2/status/transportprotocol"
 )
 
-//go:generate ./generate_status_enum cloudip mapped reserved unmapped
+//go:generate ./generate_status_enum cloudip mapped unmapped
 //go:generate ./generate_status_enum mode nat route
+//go:generate ./generate_status_enum transportprotocol tcp udp
 
 // CloudIP represents a Cloud IP
 // https://api.gb1.brightbox.com/1.0/#cloud_ip
@@ -35,9 +37,9 @@ type CloudIP struct {
 
 // PortTranslator represents a port translator on a Cloud IP
 type PortTranslator struct {
-	Incoming int    `json:"incoming"`
-	Outgoing int    `json:"outgoing"`
-	Protocol string `json:"protocol"`
+	Incoming uint16                   `json:"incoming"`
+	Outgoing uint16                   `json:"outgoing"`
+	Protocol transportprotocol.Status `json:"protocol"`
 }
 
 // CloudIPOptions is used in conjunction with CreateCloudIP and UpdateCloudIP to

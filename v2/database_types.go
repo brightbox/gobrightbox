@@ -7,7 +7,7 @@ type DatabaseServerType struct {
 	ID          string
 	Name        string
 	Description string
-	RAM         int
-	DiskSize    int `json:"disk_size"`
+	RAM         uint
+	DiskSize    uint `json:"disk_size"`
 	Default     bool
 }

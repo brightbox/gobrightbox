@@ -22,8 +22,8 @@ type DatabaseServer struct {
 	AdminPassword           string   `json:"admin_password"`
 	SnapshotsSchedule       *string  `json:"snapshots_schedule"`
 	AllowAccess             []string `json:"allow_access"`
-	MaintenanceWeekday      int      `json:"maintenance_weekday"`
-	MaintenanceHour         int      `json:"maintenance_hour"`
+	MaintenanceWeekday      uint8    `json:"maintenance_weekday"`
+	MaintenanceHour         uint8    `json:"maintenance_hour"`
 	Locked                  bool
 	CreatedAt               *time.Time `json:"created_at"`
 	DeletedAt               *time.Time `json:"deleted_at"`
@@ -47,7 +47,7 @@ type DatabaseServerOptions struct {
 	Snapshot           string   `json:"snapshot,omitempty"`
 	Zone               string   `json:"zone,omitempty"`
 	DatabaseType       string   `json:"database_type,omitempty"`
-	MaintenanceWeekday *int     `json:"maintenance_weekday,omitempty"`
-	MaintenanceHour    *int     `json:"maintenance_hour,omitempty"`
+	MaintenanceWeekday *uint8   `json:"maintenance_weekday,omitempty"`
+	MaintenanceHour    *uint8   `json:"maintenance_hour,omitempty"`
 	SnapshotsSchedule  *string  `json:"snapshots_schedule,omitempty"`
 }

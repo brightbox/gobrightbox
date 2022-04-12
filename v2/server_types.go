@@ -15,9 +15,9 @@ type ServerType struct {
 	ID          string
 	Name        string
 	Status      servertype.Status
-	Cores       int
-	RAM         int
+	Cores       uint
+	RAM         uint
 	Handle      string
-	DiskSize    int                `json:"disk_size"`
+	DiskSize    uint               `json:"disk_size"`
 	StorageType storagetype.Status `json:"storage_type"`
 }

@@ -20,7 +20,7 @@ type DatabaseSnapshot struct {
 	DatabaseVersion string `json:"database_version"`
 	Source          string
 	SourceTrigger   string `json:"source_trigger"`
-	Size            int
+	Size            uint
 	CreatedAt       *time.Time `json:"created_at"`
 	UpdatedAt       *time.Time `json:"updated_at"`
 	DeletedAt       *time.Time `json:"deleted_at"`

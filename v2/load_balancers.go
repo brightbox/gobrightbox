@@ -28,8 +28,8 @@ type LoadBalancer struct {
 	Locked            bool
 	HTTPSRedirect     bool   `json:"https_redirect"`
 	SslMinimumVersion string `json:"ssl_minimum_version"`
-	Policy            string
-	BufferSize        int `json:"buffer_size"`
+	BufferSize        uint   `json:"buffer_size"`
+	Policy            balancingpolicy.Status
 	Listeners         []LoadBalancerListener
 	Healthcheck       LoadBalancerHealthcheck
 	Certificate       *LoadBalancerAcmeCertificate
@@ -66,20 +66,20 @@ type LoadBalancerAcmeDomain struct {
 // LoadBalancerHealthcheck represents a health check on a LoadBalancer
 type LoadBalancerHealthcheck struct {
 	Type          healthchecktype.Status `json:"type"`
-	Port          int                    `json:"port"`
+	Port          uint16                 `json:"port"`
 	Request       string                 `json:"request,omitempty"`
-	Interval      int                    `json:"interval,omitempty"`
-	Timeout       int                    `json:"timeout,omitempty"`
-	ThresholdUp   int                    `json:"threshold_up,omitempty"`
-	ThresholdDown int                    `json:"threshold_down,omitempty"`
+	Interval      uint                   `json:"interval,omitempty"`
+	Timeout       uint                   `json:"timeout,omitempty"`
+	ThresholdUp   uint                   `json:"threshold_up,omitempty"`
+	ThresholdDown uint                   `json:"threshold_down,omitempty"`
 }
 
 // LoadBalancerListener represents a listener on a LoadBalancer
 type LoadBalancerListener struct {
 	Protocol      listenerprotocol.Status `json:"protocol,omitempty"`
-	In            int                     `json:"in,omitempty"`
-	Out           int                     `json:"out,omitempty"`
-	Timeout       int                     `json:"timeout,omitempty"`
+	In            uint16                  `json:"in,omitempty"`
+	Out           uint16                  `json:"out,omitempty"`
+	Timeout       uint                    `json:"timeout,omitempty"`
 	ProxyProtocol proxyprotocol.Status    `json:"proxy_protocol,omitempty"`
 }
 

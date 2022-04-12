@@ -8,7 +8,7 @@
   "fqdn": "cip-k4a25.gb1.brightbox.com",
   "reverse_dns": null,
   "port_translators":
-   [{"protocol": "http",
+   [{"protocol": "tcp",
      "incoming": 443,
      "outgoing": 2443}],
   "name": "product website ip",

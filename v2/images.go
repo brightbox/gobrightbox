@@ -31,9 +31,9 @@ type Image struct {
 	Owner             string
 	SourceTrigger     sourcetrigger.Status `json:"source_trigger"`
 	SourceType        sourcetype.Status    `json:"source_type"`
-	VirtualSize       int                  `json:"virtual_size"`
-	DiskSize          int                  `json:"disk_size"`
-	MinRAM            *int                 `json:"min_ram"`
+	VirtualSize       uint                 `json:"virtual_size"`
+	DiskSize          uint                 `json:"disk_size"`
+	MinRAM            *uint                `json:"min_ram"`
 	CompatibilityMode bool                 `json:"compatibility_mode"`
 	LicenceName       string               `json:"licence_name"`
 	CreatedAt         *time.Time           `json:"created_at"`

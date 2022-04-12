@@ -20,7 +20,7 @@ type Volume struct {
 	Description      string
 	DeleteWithServer bool `json:"delete_with_server"`
 	Encrypted        bool
-	Size             int
+	Size             uint
 	StorageType      string     `json:"storage_type"`
 	CreatedAt        *time.Time `json:"created_at"`
 	DeletedAt        *time.Time `json:"deleted_at"`
@@ -37,7 +37,7 @@ type VolumeOptions struct {
 	Name             *string `json:"name,omitempty"`
 	Description      *string `json:"description,omitempty"`
 	Serial           *string `json:"serial,omitempty"`
-	Size             int     `json:"size,omitempty"`
+	Size             uint    `json:"size,omitempty"`
 	Image            string  `json:"image,omitempty"`
 	Encrypted        *bool   `json:"encrypted,omitempty"`
 	DeleteWithServer *bool   `json:"delete_with_server,omitempty"`

@@ -28,18 +28,18 @@ type Account struct {
 	VerifiedTelephone     string     `json:"verified_telephone"`
 	VerifiedIP            string     `json:"verified_ip"`
 	ValidCreditCard       bool       `json:"valid_credit_card"`
-	ServersUsed           int        `json:"servers_used"`
-	RAMLimit              int        `json:"ram_limit"`
-	RAMUsed               int        `json:"ram_used"`
-	DbsInstancesUsed      int        `json:"dbs_instances_used"`
-	DbsRAMLimit           int        `json:"dbs_ram_limit"`
-	DbsRAMUsed            int        `json:"dbs_ram_used"`
-	BlockStorageLimit     int        `json:"block_storage_limit"`
-	BlockStorageUsed      int        `json:"block_storage_used"`
-	CloudIPsLimit         int        `json:"cloud_ips_limit"`
-	CloudIPsUsed          int        `json:"cloud_ips_used"`
-	LoadBalancersLimit    int        `json:"load_balancers_limit"`
-	LoadBalancersUsed     int        `json:"load_balancers_used"`
+	ServersUsed           uint       `json:"servers_used"`
+	RAMLimit              uint       `json:"ram_limit"`
+	RAMUsed               uint       `json:"ram_used"`
+	DbsInstancesUsed      uint       `json:"dbs_instances_used"`
+	DbsRAMLimit           uint       `json:"dbs_ram_limit"`
+	DbsRAMUsed            uint       `json:"dbs_ram_used"`
+	BlockStorageLimit     uint       `json:"block_storage_limit"`
+	BlockStorageUsed      uint       `json:"block_storage_used"`
+	CloudIPsLimit         uint       `json:"cloud_ips_limit"`
+	CloudIPsUsed          uint       `json:"cloud_ips_used"`
+	LoadBalancersLimit    uint       `json:"load_balancers_limit"`
+	LoadBalancersUsed     uint       `json:"load_balancers_used"`
 	LibraryFtpHost        string     `json:"library_ftp_host"`
 	LibraryFtpUser        string     `json:"library_ftp_user"`
 	LibraryFtpPassword    string     `json:"library_ftp_password"`
