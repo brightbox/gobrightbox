@@ -11,7 +11,7 @@ import (
 func TestCreateServerWithNetworkDisk(t *testing.T) {
 	name := "myserver"
 	image := "img-linux"
-	size := 12345
+	var size uint = 12345
 	newAC := ServerOptions{
 		Name: &name,
 		Volumes: []VolumeOptions{
