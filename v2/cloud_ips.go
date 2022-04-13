@@ -39,7 +39,7 @@ type CloudIP struct {
 type PortTranslator struct {
 	Incoming uint16                   `json:"incoming"`
 	Outgoing uint16                   `json:"outgoing"`
-	Protocol transportprotocol.Status `json:"protocol"`
+	Protocol transportprotocol.Status `json:"protocol,omitempty"`
 }
 
 // CloudIPOptions is used in conjunction with CreateCloudIP and UpdateCloudIP to
@@ -47,6 +47,7 @@ type PortTranslator struct {
 type CloudIPOptions struct {
 	ID              string           `json:"-"`
 	ReverseDNS      *string          `json:"reverse_dns,omitempty"`
+	Mode            mode.Status      `json:"mode,omitempty"`
 	Name            *string          `json:"name,omitempty"`
 	PortTranslators []PortTranslator `json:"port_translators,omitempty"`
 }
