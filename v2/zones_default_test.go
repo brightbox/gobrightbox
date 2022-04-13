@@ -10,7 +10,7 @@ import (
 )
 
 func TestZones(t *testing.T) {
-	instance := testAll[Zone](
+	instance := testAll(
 		t,
 		(*Client).Zones,
 		"Zone",
@@ -21,7 +21,7 @@ func TestZones(t *testing.T) {
 }
 
 func TestZone(t *testing.T) {
-	instance := testInstance[Zone](
+	instance := testInstance(
 		t,
 		(*Client).Zone,
 		"Zone",
@@ -33,7 +33,7 @@ func TestZone(t *testing.T) {
 }
 
 func TestZoneByHandle(t *testing.T) {
-	instance := testInstance[Zone](
+	instance := testInstance(
 		t,
 		(*Client).Zone,
 		"Zone",

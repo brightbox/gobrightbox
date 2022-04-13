@@ -11,7 +11,7 @@ import (
 )
 
 func TestImages(t *testing.T) {
-	instance := testAll[Image](
+	instance := testAll(
 		t,
 		(*Client).Images,
 		"Image",
@@ -22,7 +22,7 @@ func TestImages(t *testing.T) {
 }
 
 func TestImage(t *testing.T) {
-	instance := testInstance[Image](
+	instance := testInstance(
 		t,
 		(*Client).Image,
 		"Image",
@@ -35,7 +35,7 @@ func TestImage(t *testing.T) {
 
 func TestCreateImage(t *testing.T) {
 	newResource := ImageOptions{}
-	instance := testModify[Image, ImageOptions](
+	instance := testModify(
 		t,
 		(*Client).CreateImage,
 		newResource,
@@ -49,7 +49,7 @@ func TestCreateImage(t *testing.T) {
 
 func TestUpdateImage(t *testing.T) {
 	updatedResource := ImageOptions{ID: "img-3ikco"}
-	instance := testModify[Image, ImageOptions](
+	instance := testModify(
 		t,
 		(*Client).UpdateImage,
 		updatedResource,
@@ -62,7 +62,7 @@ func TestUpdateImage(t *testing.T) {
 }
 
 func TestDestroyImage(t *testing.T) {
-	deletedResource := testModify[Image, string](
+	deletedResource := testModify(
 		t,
 		(*Client).DestroyImage,
 		"img-3ikco",
@@ -75,7 +75,7 @@ func TestDestroyImage(t *testing.T) {
 }
 
 func TestLockImage(t *testing.T) {
-	lockedResource := testModify[Image, string](
+	lockedResource := testModify(
 		t,
 		(*Client).LockImage,
 		"img-3ikco",
@@ -88,7 +88,7 @@ func TestLockImage(t *testing.T) {
 }
 
 func TestUnlockImage(t *testing.T) {
-	unlockedResource := testModify[Image, string](
+	unlockedResource := testModify(
 		t,
 		(*Client).UnlockImage,
 		"img-3ikco",

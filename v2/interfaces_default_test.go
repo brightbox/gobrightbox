@@ -10,7 +10,7 @@ import (
 )
 
 func TestInterfaces(t *testing.T) {
-	instance := testAll[Interface](
+	instance := testAll(
 		t,
 		(*Client).Interfaces,
 		"Interface",
@@ -21,7 +21,7 @@ func TestInterfaces(t *testing.T) {
 }
 
 func TestInterface(t *testing.T) {
-	instance := testInstance[Interface](
+	instance := testInstance(
 		t,
 		(*Client).Interface,
 		"Interface",

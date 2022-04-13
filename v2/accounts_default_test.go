@@ -11,7 +11,7 @@ import (
 )
 
 func TestAccounts(t *testing.T) {
-	instance := testAll[Account](
+	instance := testAll(
 		t,
 		(*Client).Accounts,
 		"Account",
@@ -22,7 +22,7 @@ func TestAccounts(t *testing.T) {
 }
 
 func TestAccount(t *testing.T) {
-	instance := testInstance[Account](
+	instance := testInstance(
 		t,
 		(*Client).Account,
 		"Account",
@@ -35,7 +35,7 @@ func TestAccount(t *testing.T) {
 
 func TestUpdateAccount(t *testing.T) {
 	updatedResource := AccountOptions{ID: "acc-43ks4"}
-	instance := testModify[Account, AccountOptions](
+	instance := testModify(
 		t,
 		(*Client).UpdateAccount,
 		updatedResource,
@@ -54,7 +54,7 @@ func TestAccountCreatedAtUnix(t *testing.T) {
 }
 
 func TestResetAccountPassword(t *testing.T) {
-	instance := testModify[Account, string](
+	instance := testModify(
 		t,
 		(*Client).ResetAccountPassword,
 		"acc-43ks4",

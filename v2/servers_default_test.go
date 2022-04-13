@@ -11,7 +11,7 @@ import (
 )
 
 func TestServers(t *testing.T) {
-	instance := testAll[Server](
+	instance := testAll(
 		t,
 		(*Client).Servers,
 		"Server",
@@ -22,7 +22,7 @@ func TestServers(t *testing.T) {
 }
 
 func TestServer(t *testing.T) {
-	instance := testInstance[Server](
+	instance := testInstance(
 		t,
 		(*Client).Server,
 		"Server",
@@ -35,7 +35,7 @@ func TestServer(t *testing.T) {
 
 func TestCreateServer(t *testing.T) {
 	newResource := ServerOptions{}
-	instance := testModify[Server, ServerOptions](
+	instance := testModify(
 		t,
 		(*Client).CreateServer,
 		newResource,
@@ -49,7 +49,7 @@ func TestCreateServer(t *testing.T) {
 
 func TestUpdateServer(t *testing.T) {
 	updatedResource := ServerOptions{ID: "srv-lv426"}
-	instance := testModify[Server, ServerOptions](
+	instance := testModify(
 		t,
 		(*Client).UpdateServer,
 		updatedResource,
@@ -62,7 +62,7 @@ func TestUpdateServer(t *testing.T) {
 }
 
 func TestDestroyServer(t *testing.T) {
-	deletedResource := testModify[Server, string](
+	deletedResource := testModify(
 		t,
 		(*Client).DestroyServer,
 		"srv-lv426",
@@ -75,7 +75,7 @@ func TestDestroyServer(t *testing.T) {
 }
 
 func TestLockServer(t *testing.T) {
-	lockedResource := testModify[Server, string](
+	lockedResource := testModify(
 		t,
 		(*Client).LockServer,
 		"srv-lv426",
@@ -88,7 +88,7 @@ func TestLockServer(t *testing.T) {
 }
 
 func TestUnlockServer(t *testing.T) {
-	unlockedResource := testModify[Server, string](
+	unlockedResource := testModify(
 		t,
 		(*Client).UnlockServer,
 		"srv-lv426",

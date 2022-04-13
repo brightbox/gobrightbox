@@ -11,7 +11,7 @@ import (
 )
 
 func TestServerGroups(t *testing.T) {
-	instance := testAll[ServerGroup](
+	instance := testAll(
 		t,
 		(*Client).ServerGroups,
 		"ServerGroup",
@@ -22,7 +22,7 @@ func TestServerGroups(t *testing.T) {
 }
 
 func TestServerGroup(t *testing.T) {
-	instance := testInstance[ServerGroup](
+	instance := testInstance(
 		t,
 		(*Client).ServerGroup,
 		"ServerGroup",
@@ -35,7 +35,7 @@ func TestServerGroup(t *testing.T) {
 
 func TestCreateServerGroup(t *testing.T) {
 	newResource := ServerGroupOptions{}
-	instance := testModify[ServerGroup, ServerGroupOptions](
+	instance := testModify(
 		t,
 		(*Client).CreateServerGroup,
 		newResource,
@@ -49,7 +49,7 @@ func TestCreateServerGroup(t *testing.T) {
 
 func TestUpdateServerGroup(t *testing.T) {
 	updatedResource := ServerGroupOptions{ID: "grp-sda44"}
-	instance := testModify[ServerGroup, ServerGroupOptions](
+	instance := testModify(
 		t,
 		(*Client).UpdateServerGroup,
 		updatedResource,
@@ -62,7 +62,7 @@ func TestUpdateServerGroup(t *testing.T) {
 }
 
 func TestDestroyServerGroup(t *testing.T) {
-	deletedResource := testModify[ServerGroup, string](
+	deletedResource := testModify(
 		t,
 		(*Client).DestroyServerGroup,
 		"grp-sda44",

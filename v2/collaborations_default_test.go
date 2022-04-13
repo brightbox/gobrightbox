@@ -11,7 +11,7 @@ import (
 )
 
 func TestCollaborations(t *testing.T) {
-	instance := testAll[Collaboration](
+	instance := testAll(
 		t,
 		(*Client).Collaborations,
 		"Collaboration",
@@ -22,7 +22,7 @@ func TestCollaborations(t *testing.T) {
 }
 
 func TestCollaboration(t *testing.T) {
-	instance := testInstance[Collaboration](
+	instance := testInstance(
 		t,
 		(*Client).Collaboration,
 		"Collaboration",
@@ -35,7 +35,7 @@ func TestCollaboration(t *testing.T) {
 
 func TestCreateCollaboration(t *testing.T) {
 	newResource := CollaborationOptions{}
-	instance := testModify[Collaboration, CollaborationOptions](
+	instance := testModify(
 		t,
 		(*Client).CreateCollaboration,
 		newResource,
@@ -48,7 +48,7 @@ func TestCreateCollaboration(t *testing.T) {
 }
 
 func TestDestroyCollaboration(t *testing.T) {
-	deletedResource := testModify[Collaboration, string](
+	deletedResource := testModify(
 		t,
 		(*Client).DestroyCollaboration,
 		"col-klek3",

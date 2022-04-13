@@ -11,7 +11,7 @@ import (
 )
 
 func TestUsers(t *testing.T) {
-	instance := testAll[User](
+	instance := testAll(
 		t,
 		(*Client).Users,
 		"User",
@@ -22,7 +22,7 @@ func TestUsers(t *testing.T) {
 }
 
 func TestUser(t *testing.T) {
-	instance := testInstance[User](
+	instance := testInstance(
 		t,
 		(*Client).User,
 		"User",
@@ -35,7 +35,7 @@ func TestUser(t *testing.T) {
 
 func TestUpdateUser(t *testing.T) {
 	updatedResource := UserOptions{ID: "usr-kl435"}
-	instance := testModify[User, UserOptions](
+	instance := testModify(
 		t,
 		(*Client).UpdateUser,
 		updatedResource,

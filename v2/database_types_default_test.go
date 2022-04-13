@@ -10,7 +10,7 @@ import (
 )
 
 func TestDatabaseServerTypes(t *testing.T) {
-	instance := testAll[DatabaseServerType](
+	instance := testAll(
 		t,
 		(*Client).DatabaseServerTypes,
 		"DatabaseServerType",
@@ -21,7 +21,7 @@ func TestDatabaseServerTypes(t *testing.T) {
 }
 
 func TestDatabaseServerType(t *testing.T) {
-	instance := testInstance[DatabaseServerType](
+	instance := testInstance(
 		t,
 		(*Client).DatabaseServerType,
 		"DatabaseServerType",

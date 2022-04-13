@@ -65,7 +65,7 @@ end
 def test_collection_function(struct, plural, options)
   <<-ENDFUNC
 func Test#{plural}(t *testing.T) {
-	instance := testAll[#{struct}](
+	instance := testAll(
 		t,
 		(*Client).#{plural},
 		"#{struct}",
@@ -81,7 +81,7 @@ end
 def test_instance_function(struct, options)
   <<-ENDFUNC
 func Test#{struct}(t *testing.T) {
-	instance := testInstance[#{struct}](
+	instance := testInstance(
 		t,
 		(*Client).#{struct},
 		"#{struct}",
@@ -98,7 +98,7 @@ end
 def test_instance_by_handle_function(struct, options)
   <<-ENDFUNC
 func Test#{struct}ByHandle(t *testing.T) {
-	instance := testInstance[#{struct}](
+	instance := testInstance(
 		t,
 		(*Client).#{struct},
 		"#{struct}",
@@ -125,7 +125,7 @@ def test_create_function(struct, options)
   <<-ENDFUNC
 func TestCreate#{struct}(t *testing.T) {
 	newResource := #{struct}Options{}
-	instance := testModify[#{struct}, #{struct}Options](
+	instance := testModify(
 		t,
 		(*Client).Create#{struct},
 		newResource,
@@ -144,7 +144,7 @@ def test_update_function(struct, options)
   <<-ENDFUNC
 func TestUpdate#{struct}(t *testing.T) {
 	updatedResource := #{struct}Options{ID: "#{options['testid']}"}
-	instance := testModify[#{struct}, #{struct}Options](
+	instance := testModify(
 		t,
 		(*Client).Update#{struct},
 		updatedResource,
@@ -162,7 +162,7 @@ end
 def test_destroy_function(struct, options)
   <<-ENDFUNC
 func TestDestroy#{struct}(t *testing.T) {
-  deletedResource := testModify[#{struct}, string](
+  deletedResource := testModify(
 		t,
 		(*Client).Destroy#{struct},
 		"#{options['testid']}",
@@ -180,7 +180,7 @@ end
 def test_lock_functions(struct, options)
   <<-ENDFUNC
 func TestLock#{struct}(t *testing.T) {
-  lockedResource := testModify[#{struct}, string](
+  lockedResource := testModify(
 		t,
 		(*Client).Lock#{struct},
 		"#{options['testid']}",
@@ -193,7 +193,7 @@ func TestLock#{struct}(t *testing.T) {
 }
 
 func TestUnlock#{struct}(t *testing.T) {
-  unlockedResource := testModify[#{struct}, string](
+  unlockedResource := testModify(
 		t,
 		(*Client).Unlock#{struct},
 		"#{options['testid']}",
@@ -223,7 +223,7 @@ end
 def test_reset_password_function(struct, options)
   <<-ENDFUNC
 func TestReset#{struct}Password(t *testing.T) {
-	instance := testModify[#{struct}, string](
+	instance := testModify(
 		t,
 		(*Client).Reset#{struct}Password,
 		"#{options['testid']}",

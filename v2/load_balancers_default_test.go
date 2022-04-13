@@ -11,7 +11,7 @@ import (
 )
 
 func TestLoadBalancers(t *testing.T) {
-	instance := testAll[LoadBalancer](
+	instance := testAll(
 		t,
 		(*Client).LoadBalancers,
 		"LoadBalancer",
@@ -22,7 +22,7 @@ func TestLoadBalancers(t *testing.T) {
 }
 
 func TestLoadBalancer(t *testing.T) {
-	instance := testInstance[LoadBalancer](
+	instance := testInstance(
 		t,
 		(*Client).LoadBalancer,
 		"LoadBalancer",
@@ -35,7 +35,7 @@ func TestLoadBalancer(t *testing.T) {
 
 func TestCreateLoadBalancer(t *testing.T) {
 	newResource := LoadBalancerOptions{}
-	instance := testModify[LoadBalancer, LoadBalancerOptions](
+	instance := testModify(
 		t,
 		(*Client).CreateLoadBalancer,
 		newResource,
@@ -49,7 +49,7 @@ func TestCreateLoadBalancer(t *testing.T) {
 
 func TestUpdateLoadBalancer(t *testing.T) {
 	updatedResource := LoadBalancerOptions{ID: "lba-1235f"}
-	instance := testModify[LoadBalancer, LoadBalancerOptions](
+	instance := testModify(
 		t,
 		(*Client).UpdateLoadBalancer,
 		updatedResource,
@@ -62,7 +62,7 @@ func TestUpdateLoadBalancer(t *testing.T) {
 }
 
 func TestDestroyLoadBalancer(t *testing.T) {
-	deletedResource := testModify[LoadBalancer, string](
+	deletedResource := testModify(
 		t,
 		(*Client).DestroyLoadBalancer,
 		"lba-1235f",
@@ -75,7 +75,7 @@ func TestDestroyLoadBalancer(t *testing.T) {
 }
 
 func TestLockLoadBalancer(t *testing.T) {
-	lockedResource := testModify[LoadBalancer, string](
+	lockedResource := testModify(
 		t,
 		(*Client).LockLoadBalancer,
 		"lba-1235f",
@@ -88,7 +88,7 @@ func TestLockLoadBalancer(t *testing.T) {
 }
 
 func TestUnlockLoadBalancer(t *testing.T) {
-	unlockedResource := testModify[LoadBalancer, string](
+	unlockedResource := testModify(
 		t,
 		(*Client).UnlockLoadBalancer,
 		"lba-1235f",

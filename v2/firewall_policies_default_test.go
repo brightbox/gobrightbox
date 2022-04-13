@@ -11,7 +11,7 @@ import (
 )
 
 func TestFirewallPolicies(t *testing.T) {
-	instance := testAll[FirewallPolicy](
+	instance := testAll(
 		t,
 		(*Client).FirewallPolicies,
 		"FirewallPolicy",
@@ -22,7 +22,7 @@ func TestFirewallPolicies(t *testing.T) {
 }
 
 func TestFirewallPolicy(t *testing.T) {
-	instance := testInstance[FirewallPolicy](
+	instance := testInstance(
 		t,
 		(*Client).FirewallPolicy,
 		"FirewallPolicy",
@@ -35,7 +35,7 @@ func TestFirewallPolicy(t *testing.T) {
 
 func TestCreateFirewallPolicy(t *testing.T) {
 	newResource := FirewallPolicyOptions{}
-	instance := testModify[FirewallPolicy, FirewallPolicyOptions](
+	instance := testModify(
 		t,
 		(*Client).CreateFirewallPolicy,
 		newResource,
@@ -49,7 +49,7 @@ func TestCreateFirewallPolicy(t *testing.T) {
 
 func TestUpdateFirewallPolicy(t *testing.T) {
 	updatedResource := FirewallPolicyOptions{ID: "fwp-j3654"}
-	instance := testModify[FirewallPolicy, FirewallPolicyOptions](
+	instance := testModify(
 		t,
 		(*Client).UpdateFirewallPolicy,
 		updatedResource,
@@ -62,7 +62,7 @@ func TestUpdateFirewallPolicy(t *testing.T) {
 }
 
 func TestDestroyFirewallPolicy(t *testing.T) {
-	deletedResource := testModify[FirewallPolicy, string](
+	deletedResource := testModify(
 		t,
 		(*Client).DestroyFirewallPolicy,
 		"fwp-j3654",

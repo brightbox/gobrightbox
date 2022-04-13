@@ -21,7 +21,7 @@ func TestCreateServerWithNetworkDisk(t *testing.T) {
 			},
 		},
 	}
-	instance := testModify[Server, ServerOptions](
+	instance := testModify(
 		t,
 		(*Client).CreateServer,
 		newAC,
@@ -35,7 +35,7 @@ func TestCreateServerWithNetworkDisk(t *testing.T) {
 }
 
 func TestResizeServer(t *testing.T) {
-	instance := testLink[Server, ServerNewSize](
+	instance := testLink(
 		t,
 		(*Client).ResizeServer,
 		"srv-lv426",

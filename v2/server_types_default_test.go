@@ -10,7 +10,7 @@ import (
 )
 
 func TestServerTypes(t *testing.T) {
-	instance := testAll[ServerType](
+	instance := testAll(
 		t,
 		(*Client).ServerTypes,
 		"ServerType",
@@ -21,7 +21,7 @@ func TestServerTypes(t *testing.T) {
 }
 
 func TestServerType(t *testing.T) {
-	instance := testInstance[ServerType](
+	instance := testInstance(
 		t,
 		(*Client).ServerType,
 		"ServerType",
@@ -33,7 +33,7 @@ func TestServerType(t *testing.T) {
 }
 
 func TestServerTypeByHandle(t *testing.T) {
-	instance := testInstance[ServerType](
+	instance := testInstance(
 		t,
 		(*Client).ServerType,
 		"ServerType",

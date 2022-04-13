@@ -11,7 +11,7 @@ import (
 )
 
 func TestVolumes(t *testing.T) {
-	instance := testAll[Volume](
+	instance := testAll(
 		t,
 		(*Client).Volumes,
 		"Volume",
@@ -22,7 +22,7 @@ func TestVolumes(t *testing.T) {
 }
 
 func TestVolume(t *testing.T) {
-	instance := testInstance[Volume](
+	instance := testInstance(
 		t,
 		(*Client).Volume,
 		"Volume",
@@ -35,7 +35,7 @@ func TestVolume(t *testing.T) {
 
 func TestCreateVolume(t *testing.T) {
 	newResource := VolumeOptions{}
-	instance := testModify[Volume, VolumeOptions](
+	instance := testModify(
 		t,
 		(*Client).CreateVolume,
 		newResource,
@@ -49,7 +49,7 @@ func TestCreateVolume(t *testing.T) {
 
 func TestUpdateVolume(t *testing.T) {
 	updatedResource := VolumeOptions{ID: "vol-po5we"}
-	instance := testModify[Volume, VolumeOptions](
+	instance := testModify(
 		t,
 		(*Client).UpdateVolume,
 		updatedResource,
@@ -62,7 +62,7 @@ func TestUpdateVolume(t *testing.T) {
 }
 
 func TestDestroyVolume(t *testing.T) {
-	deletedResource := testModify[Volume, string](
+	deletedResource := testModify(
 		t,
 		(*Client).DestroyVolume,
 		"vol-po5we",
@@ -75,7 +75,7 @@ func TestDestroyVolume(t *testing.T) {
 }
 
 func TestLockVolume(t *testing.T) {
-	lockedResource := testModify[Volume, string](
+	lockedResource := testModify(
 		t,
 		(*Client).LockVolume,
 		"vol-po5we",
@@ -88,7 +88,7 @@ func TestLockVolume(t *testing.T) {
 }
 
 func TestUnlockVolume(t *testing.T) {
-	unlockedResource := testModify[Volume, string](
+	unlockedResource := testModify(
 		t,
 		(*Client).UnlockVolume,
 		"vol-po5we",

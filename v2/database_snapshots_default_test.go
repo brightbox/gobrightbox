@@ -11,7 +11,7 @@ import (
 )
 
 func TestDatabaseSnapshots(t *testing.T) {
-	instance := testAll[DatabaseSnapshot](
+	instance := testAll(
 		t,
 		(*Client).DatabaseSnapshots,
 		"DatabaseSnapshot",
@@ -22,7 +22,7 @@ func TestDatabaseSnapshots(t *testing.T) {
 }
 
 func TestDatabaseSnapshot(t *testing.T) {
-	instance := testInstance[DatabaseSnapshot](
+	instance := testInstance(
 		t,
 		(*Client).DatabaseSnapshot,
 		"DatabaseSnapshot",
@@ -35,7 +35,7 @@ func TestDatabaseSnapshot(t *testing.T) {
 
 func TestUpdateDatabaseSnapshot(t *testing.T) {
 	updatedResource := DatabaseSnapshotOptions{ID: "dbi-12345"}
-	instance := testModify[DatabaseSnapshot, DatabaseSnapshotOptions](
+	instance := testModify(
 		t,
 		(*Client).UpdateDatabaseSnapshot,
 		updatedResource,
@@ -48,7 +48,7 @@ func TestUpdateDatabaseSnapshot(t *testing.T) {
 }
 
 func TestDestroyDatabaseSnapshot(t *testing.T) {
-	deletedResource := testModify[DatabaseSnapshot, string](
+	deletedResource := testModify(
 		t,
 		(*Client).DestroyDatabaseSnapshot,
 		"dbi-12345",
@@ -61,7 +61,7 @@ func TestDestroyDatabaseSnapshot(t *testing.T) {
 }
 
 func TestLockDatabaseSnapshot(t *testing.T) {
-	lockedResource := testModify[DatabaseSnapshot, string](
+	lockedResource := testModify(
 		t,
 		(*Client).LockDatabaseSnapshot,
 		"dbi-12345",
@@ -74,7 +74,7 @@ func TestLockDatabaseSnapshot(t *testing.T) {
 }
 
 func TestUnlockDatabaseSnapshot(t *testing.T) {
-	unlockedResource := testModify[DatabaseSnapshot, string](
+	unlockedResource := testModify(
 		t,
 		(*Client).UnlockDatabaseSnapshot,
 		"dbi-12345",

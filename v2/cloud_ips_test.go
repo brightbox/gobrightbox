@@ -8,7 +8,7 @@ import (
 )
 
 func TestMapCloudIP(t *testing.T) {
-	instance := testLink[CloudIP, CloudIPAttachment](
+	instance := testLink(
 		t,
 		(*Client).MapCloudIP,
 		"cip-k4a25",
@@ -22,7 +22,7 @@ func TestMapCloudIP(t *testing.T) {
 }
 
 func TestUnMapCloudIP(t *testing.T) {
-	instance := testModify[CloudIP, string](
+	instance := testModify(
 		t,
 		(*Client).UnMapCloudIP,
 		"cip-k4a25",

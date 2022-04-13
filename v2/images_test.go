@@ -10,7 +10,7 @@ import (
 func TestCreateImageWithSource(t *testing.T) {
 	pg := "ubuntu-lucid-daily-i64-server-20110509"
 	newResource := ImageOptions{Source: pg}
-	instance := testModify[Image, ImageOptions](
+	instance := testModify(
 		t,
 		(*Client).CreateImage,
 		newResource,

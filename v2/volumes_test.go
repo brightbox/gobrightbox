@@ -8,7 +8,7 @@ import (
 )
 
 func TestAttachVolume(t *testing.T) {
-	instance := testLink[Volume, VolumeAttachment](
+	instance := testLink(
 		t,
 		(*Client).AttachVolume,
 		"vol-po5we",
@@ -22,7 +22,7 @@ func TestAttachVolume(t *testing.T) {
 }
 
 func TestDetachVolume(t *testing.T) {
-	instance := testModify[Volume, string](
+	instance := testModify(
 		t,
 		(*Client).DetachVolume,
 		"vol-po5we",
@@ -35,7 +35,7 @@ func TestDetachVolume(t *testing.T) {
 }
 
 func TestResizeVolume(t *testing.T) {
-	instance := testLink[Volume, VolumeNewSize](
+	instance := testLink(
 		t,
 		(*Client).ResizeVolume,
 		"vol-po5we",

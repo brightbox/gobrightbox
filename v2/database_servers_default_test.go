@@ -11,7 +11,7 @@ import (
 )
 
 func TestDatabaseServers(t *testing.T) {
-	instance := testAll[DatabaseServer](
+	instance := testAll(
 		t,
 		(*Client).DatabaseServers,
 		"DatabaseServer",
@@ -22,7 +22,7 @@ func TestDatabaseServers(t *testing.T) {
 }
 
 func TestDatabaseServer(t *testing.T) {
-	instance := testInstance[DatabaseServer](
+	instance := testInstance(
 		t,
 		(*Client).DatabaseServer,
 		"DatabaseServer",
@@ -35,7 +35,7 @@ func TestDatabaseServer(t *testing.T) {
 
 func TestCreateDatabaseServer(t *testing.T) {
 	newResource := DatabaseServerOptions{}
-	instance := testModify[DatabaseServer, DatabaseServerOptions](
+	instance := testModify(
 		t,
 		(*Client).CreateDatabaseServer,
 		newResource,
@@ -49,7 +49,7 @@ func TestCreateDatabaseServer(t *testing.T) {
 
 func TestUpdateDatabaseServer(t *testing.T) {
 	updatedResource := DatabaseServerOptions{ID: "dbs-123ab"}
-	instance := testModify[DatabaseServer, DatabaseServerOptions](
+	instance := testModify(
 		t,
 		(*Client).UpdateDatabaseServer,
 		updatedResource,
@@ -62,7 +62,7 @@ func TestUpdateDatabaseServer(t *testing.T) {
 }
 
 func TestDestroyDatabaseServer(t *testing.T) {
-	deletedResource := testModify[DatabaseServer, string](
+	deletedResource := testModify(
 		t,
 		(*Client).DestroyDatabaseServer,
 		"dbs-123ab",
@@ -75,7 +75,7 @@ func TestDestroyDatabaseServer(t *testing.T) {
 }
 
 func TestLockDatabaseServer(t *testing.T) {
-	lockedResource := testModify[DatabaseServer, string](
+	lockedResource := testModify(
 		t,
 		(*Client).LockDatabaseServer,
 		"dbs-123ab",
@@ -88,7 +88,7 @@ func TestLockDatabaseServer(t *testing.T) {
 }
 
 func TestUnlockDatabaseServer(t *testing.T) {
-	unlockedResource := testModify[DatabaseServer, string](
+	unlockedResource := testModify(
 		t,
 		(*Client).UnlockDatabaseServer,
 		"dbs-123ab",
@@ -107,7 +107,7 @@ func TestDatabaseServerCreatedAtUnix(t *testing.T) {
 }
 
 func TestResetDatabaseServerPassword(t *testing.T) {
-	instance := testModify[DatabaseServer, string](
+	instance := testModify(
 		t,
 		(*Client).ResetDatabaseServerPassword,
 		"dbs-123ab",

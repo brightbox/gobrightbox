@@ -10,7 +10,7 @@ import (
 )
 
 func TestConfigMaps(t *testing.T) {
-	instance := testAll[ConfigMap](
+	instance := testAll(
 		t,
 		(*Client).ConfigMaps,
 		"ConfigMap",
@@ -21,7 +21,7 @@ func TestConfigMaps(t *testing.T) {
 }
 
 func TestConfigMap(t *testing.T) {
-	instance := testInstance[ConfigMap](
+	instance := testInstance(
 		t,
 		(*Client).ConfigMap,
 		"ConfigMap",
@@ -34,7 +34,7 @@ func TestConfigMap(t *testing.T) {
 
 func TestCreateConfigMap(t *testing.T) {
 	newResource := ConfigMapOptions{}
-	instance := testModify[ConfigMap, ConfigMapOptions](
+	instance := testModify(
 		t,
 		(*Client).CreateConfigMap,
 		newResource,
@@ -48,7 +48,7 @@ func TestCreateConfigMap(t *testing.T) {
 
 func TestUpdateConfigMap(t *testing.T) {
 	updatedResource := ConfigMapOptions{ID: "cfg-dsse2"}
-	instance := testModify[ConfigMap, ConfigMapOptions](
+	instance := testModify(
 		t,
 		(*Client).UpdateConfigMap,
 		updatedResource,
@@ -61,7 +61,7 @@ func TestUpdateConfigMap(t *testing.T) {
 }
 
 func TestDestroyConfigMap(t *testing.T) {
-	deletedResource := testModify[ConfigMap, string](
+	deletedResource := testModify(
 		t,
 		(*Client).DestroyConfigMap,
 		"cfg-dsse2",

@@ -11,7 +11,7 @@ import (
 )
 
 func TestFirewallRules(t *testing.T) {
-	instance := testAll[FirewallRule](
+	instance := testAll(
 		t,
 		(*Client).FirewallRules,
 		"FirewallRule",
@@ -22,7 +22,7 @@ func TestFirewallRules(t *testing.T) {
 }
 
 func TestFirewallRule(t *testing.T) {
-	instance := testInstance[FirewallRule](
+	instance := testInstance(
 		t,
 		(*Client).FirewallRule,
 		"FirewallRule",
@@ -35,7 +35,7 @@ func TestFirewallRule(t *testing.T) {
 
 func TestCreateFirewallRule(t *testing.T) {
 	newResource := FirewallRuleOptions{}
-	instance := testModify[FirewallRule, FirewallRuleOptions](
+	instance := testModify(
 		t,
 		(*Client).CreateFirewallRule,
 		newResource,
@@ -49,7 +49,7 @@ func TestCreateFirewallRule(t *testing.T) {
 
 func TestUpdateFirewallRule(t *testing.T) {
 	updatedResource := FirewallRuleOptions{ID: "fwr-k32ls"}
-	instance := testModify[FirewallRule, FirewallRuleOptions](
+	instance := testModify(
 		t,
 		(*Client).UpdateFirewallRule,
 		updatedResource,
@@ -62,7 +62,7 @@ func TestUpdateFirewallRule(t *testing.T) {
 }
 
 func TestDestroyFirewallRule(t *testing.T) {
-	deletedResource := testModify[FirewallRule, string](
+	deletedResource := testModify(
 		t,
 		(*Client).DestroyFirewallRule,
 		"fwr-k32ls",

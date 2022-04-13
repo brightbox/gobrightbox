@@ -11,7 +11,7 @@ import (
 )
 
 func TestAddNodesToLoadBalancer(t *testing.T) {
-	instance := testLink[LoadBalancer, []LoadBalancerNode](
+	instance := testLink(
 		t,
 		(*Client).AddNodesToLoadBalancer,
 		"lba-1235f",
@@ -25,7 +25,7 @@ func TestAddNodesToLoadBalancer(t *testing.T) {
 }
 
 func TestRemoveNodesFromLoadBalancer(t *testing.T) {
-	instance := testLink[LoadBalancer, []LoadBalancerNode](
+	instance := testLink(
 		t,
 		(*Client).RemoveNodesFromLoadBalancer,
 		"lba-1235f",
@@ -39,7 +39,7 @@ func TestRemoveNodesFromLoadBalancer(t *testing.T) {
 }
 
 func TestAddListenersToLoadBalancer(t *testing.T) {
-	instance := testLink[LoadBalancer, []LoadBalancerListener](
+	instance := testLink(
 		t,
 		(*Client).AddListenersToLoadBalancer,
 		"lba-1235f",
@@ -60,7 +60,7 @@ func TestAddListenersToLoadBalancer(t *testing.T) {
 }
 
 func TestRemoveListenersFromLoadBalancer(t *testing.T) {
-	instance := testLink[LoadBalancer, []LoadBalancerListener](
+	instance := testLink(
 		t,
 		(*Client).RemoveListenersFromLoadBalancer,
 		"lba-1235f",

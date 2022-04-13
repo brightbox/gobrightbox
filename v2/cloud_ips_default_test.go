@@ -10,7 +10,7 @@ import (
 )
 
 func TestCloudIPs(t *testing.T) {
-	instance := testAll[CloudIP](
+	instance := testAll(
 		t,
 		(*Client).CloudIPs,
 		"CloudIP",
@@ -21,7 +21,7 @@ func TestCloudIPs(t *testing.T) {
 }
 
 func TestCloudIP(t *testing.T) {
-	instance := testInstance[CloudIP](
+	instance := testInstance(
 		t,
 		(*Client).CloudIP,
 		"CloudIP",
@@ -34,7 +34,7 @@ func TestCloudIP(t *testing.T) {
 
 func TestCreateCloudIP(t *testing.T) {
 	newResource := CloudIPOptions{}
-	instance := testModify[CloudIP, CloudIPOptions](
+	instance := testModify(
 		t,
 		(*Client).CreateCloudIP,
 		newResource,
@@ -48,7 +48,7 @@ func TestCreateCloudIP(t *testing.T) {
 
 func TestUpdateCloudIP(t *testing.T) {
 	updatedResource := CloudIPOptions{ID: "cip-k4a25"}
-	instance := testModify[CloudIP, CloudIPOptions](
+	instance := testModify(
 		t,
 		(*Client).UpdateCloudIP,
 		updatedResource,
@@ -61,7 +61,7 @@ func TestUpdateCloudIP(t *testing.T) {
 }
 
 func TestDestroyCloudIP(t *testing.T) {
-	deletedResource := testModify[CloudIP, string](
+	deletedResource := testModify(
 		t,
 		(*Client).DestroyCloudIP,
 		"cip-k4a25",

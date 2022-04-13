@@ -10,7 +10,7 @@ import (
 )
 
 func TestAPIClients(t *testing.T) {
-	instance := testAll[APIClient](
+	instance := testAll(
 		t,
 		(*Client).APIClients,
 		"APIClient",
@@ -21,7 +21,7 @@ func TestAPIClients(t *testing.T) {
 }
 
 func TestAPIClient(t *testing.T) {
-	instance := testInstance[APIClient](
+	instance := testInstance(
 		t,
 		(*Client).APIClient,
 		"APIClient",
@@ -34,7 +34,7 @@ func TestAPIClient(t *testing.T) {
 
 func TestCreateAPIClient(t *testing.T) {
 	newResource := APIClientOptions{}
-	instance := testModify[APIClient, APIClientOptions](
+	instance := testModify(
 		t,
 		(*Client).CreateAPIClient,
 		newResource,
@@ -48,7 +48,7 @@ func TestCreateAPIClient(t *testing.T) {
 
 func TestUpdateAPIClient(t *testing.T) {
 	updatedResource := APIClientOptions{ID: "cli-dsse2"}
-	instance := testModify[APIClient, APIClientOptions](
+	instance := testModify(
 		t,
 		(*Client).UpdateAPIClient,
 		updatedResource,
@@ -61,7 +61,7 @@ func TestUpdateAPIClient(t *testing.T) {
 }
 
 func TestDestroyAPIClient(t *testing.T) {
-	deletedResource := testModify[APIClient, string](
+	deletedResource := testModify(
 		t,
 		(*Client).DestroyAPIClient,
 		"cli-dsse2",
@@ -74,7 +74,7 @@ func TestDestroyAPIClient(t *testing.T) {
 }
 
 func TestResetAPIClientPassword(t *testing.T) {
-	instance := testModify[APIClient, string](
+	instance := testModify(
 		t,
 		(*Client).ResetAPIClientPassword,
 		"cli-dsse2",

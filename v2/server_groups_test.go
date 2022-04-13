@@ -10,7 +10,7 @@ import (
 )
 
 func TestAddServersToServerGroup(t *testing.T) {
-	instance := testLink[ServerGroup, ServerGroupMemberList](
+	instance := testLink(
 		t,
 		(*Client).AddServersToServerGroup,
 		"grp-sda44",
@@ -24,7 +24,7 @@ func TestAddServersToServerGroup(t *testing.T) {
 }
 
 func TestRemoveServersFromServerGroup(t *testing.T) {
-	instance := testLink[ServerGroup, ServerGroupMemberList](
+	instance := testLink(
 		t,
 		(*Client).RemoveServersFromServerGroup,
 		"grp-sda44",
