@@ -53,8 +53,8 @@ type VolumeAttachment struct {
 // VolumeNewSize is used in conjunction with ResizeVolume
 // to specify the change in the disk size
 type VolumeNewSize struct {
-	From int `json:"from"`
-	To   int `json:"to"`
+	From uint `json:"from"`
+	To   uint `json:"to"`
 }
 
 // AttachVolume issues a request to attach the volume to a particular server and
