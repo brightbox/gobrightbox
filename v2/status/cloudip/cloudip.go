@@ -48,7 +48,7 @@ func (i Status) MarshalText() ([]byte, error) {
 	case Unmapped:
 		return []byte("unmapped"), nil
 	}
-	return nil, fmt.Errorf("%v is not a valid cloudip.Status", i)
+	return nil, fmt.Errorf("%d is not a valid cloudip.Status", i)
 }
 
 // UnmarshalText implements the text unmarshaller method

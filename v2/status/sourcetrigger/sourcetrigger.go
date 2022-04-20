@@ -48,7 +48,7 @@ func (i Status) MarshalText() ([]byte, error) {
 	case Schedule:
 		return []byte("schedule"), nil
 	}
-	return nil, fmt.Errorf("%v is not a valid sourcetrigger.Status", i)
+	return nil, fmt.Errorf("%d is not a valid sourcetrigger.Status", i)
 }
 
 // UnmarshalText implements the text unmarshaller method

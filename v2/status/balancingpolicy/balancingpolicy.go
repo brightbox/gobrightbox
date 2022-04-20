@@ -55,7 +55,7 @@ func (i Status) MarshalText() ([]byte, error) {
 	case SourceAddress:
 		return []byte("source-address"), nil
 	}
-	return nil, fmt.Errorf("%v is not a valid balancingpolicy.Status", i)
+	return nil, fmt.Errorf("%d is not a valid balancingpolicy.Status", i)
 }
 
 // UnmarshalText implements the text unmarshaller method

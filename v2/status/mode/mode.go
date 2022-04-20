@@ -48,7 +48,7 @@ func (i Status) MarshalText() ([]byte, error) {
 	case Route:
 		return []byte("route"), nil
 	}
-	return nil, fmt.Errorf("%v is not a valid mode.Status", i)
+	return nil, fmt.Errorf("%d is not a valid mode.Status", i)
 }
 
 // UnmarshalText implements the text unmarshaller method

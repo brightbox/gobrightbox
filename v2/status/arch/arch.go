@@ -48,7 +48,7 @@ func (i Status) MarshalText() ([]byte, error) {
 	case I686:
 		return []byte("i686"), nil
 	}
-	return nil, fmt.Errorf("%v is not a valid arch.Status", i)
+	return nil, fmt.Errorf("%d is not a valid arch.Status", i)
 }
 
 // UnmarshalText implements the text unmarshaller method

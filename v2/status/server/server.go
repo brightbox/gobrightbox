@@ -83,7 +83,7 @@ func (i Status) MarshalText() ([]byte, error) {
 	case Unavailable:
 		return []byte("unavailable"), nil
 	}
-	return nil, fmt.Errorf("%v is not a valid server.Status", i)
+	return nil, fmt.Errorf("%d is not a valid server.Status", i)
 }
 
 // UnmarshalText implements the text unmarshaller method

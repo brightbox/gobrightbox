@@ -55,7 +55,7 @@ func (i Status) MarshalText() ([]byte, error) {
 	case Deprecated:
 		return []byte("deprecated"), nil
 	}
-	return nil, fmt.Errorf("%v is not a valid servertype.Status", i)
+	return nil, fmt.Errorf("%d is not a valid servertype.Status", i)
 }
 
 // UnmarshalText implements the text unmarshaller method

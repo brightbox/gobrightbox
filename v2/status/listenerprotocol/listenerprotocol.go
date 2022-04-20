@@ -55,7 +55,7 @@ func (i Status) MarshalText() ([]byte, error) {
 	case Https:
 		return []byte("https"), nil
 	}
-	return nil, fmt.Errorf("%v is not a valid listenerprotocol.Status", i)
+	return nil, fmt.Errorf("%d is not a valid listenerprotocol.Status", i)
 }
 
 // UnmarshalText implements the text unmarshaller method

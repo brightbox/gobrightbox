@@ -48,7 +48,7 @@ func (i Status) MarshalText() ([]byte, error) {
 	case Snapshot:
 		return []byte("snapshot"), nil
 	}
-	return nil, fmt.Errorf("%v is not a valid sourcetype.Status", i)
+	return nil, fmt.Errorf("%d is not a valid sourcetype.Status", i)
 }
 
 // UnmarshalText implements the text unmarshaller method

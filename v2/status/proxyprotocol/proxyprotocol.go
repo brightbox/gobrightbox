@@ -62,7 +62,7 @@ func (i Status) MarshalText() ([]byte, error) {
 	case V2SslCn:
 		return []byte("v2-ssl-cn"), nil
 	}
-	return nil, fmt.Errorf("%v is not a valid proxyprotocol.Status", i)
+	return nil, fmt.Errorf("%d is not a valid proxyprotocol.Status", i)
 }
 
 // UnmarshalText implements the text unmarshaller method

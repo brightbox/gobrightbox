@@ -48,7 +48,7 @@ func (i Status) MarshalText() ([]byte, error) {
 	case Network:
 		return []byte("network"), nil
 	}
-	return nil, fmt.Errorf("%v is not a valid storagetype.Status", i)
+	return nil, fmt.Errorf("%d is not a valid storagetype.Status", i)
 }
 
 // UnmarshalText implements the text unmarshaller method

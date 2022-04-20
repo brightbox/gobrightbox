@@ -48,7 +48,7 @@ func (i Status) MarshalText() ([]byte, error) {
 	case Http:
 		return []byte("http"), nil
 	}
-	return nil, fmt.Errorf("%v is not a valid healthchecktype.Status", i)
+	return nil, fmt.Errorf("%d is not a valid healthchecktype.Status", i)
 }
 
 // UnmarshalText implements the text unmarshaller method

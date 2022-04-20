@@ -119,7 +119,7 @@ func (i Status) MarshalText() ([]byte, error) {
     NEXT
   end << <<-FINAL
 	}
-  return nil, fmt.Errorf("%v is not a valid #{package_name}.Status", i)
+  return nil, fmt.Errorf("%d is not a valid #{package_name}.Status", i)
 }
 
 FINAL

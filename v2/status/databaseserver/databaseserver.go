@@ -76,7 +76,7 @@ func (i Status) MarshalText() ([]byte, error) {
 	case Failed:
 		return []byte("failed"), nil
 	}
-	return nil, fmt.Errorf("%v is not a valid databaseserver.Status", i)
+	return nil, fmt.Errorf("%d is not a valid databaseserver.Status", i)
 }
 
 // UnmarshalText implements the text unmarshaller method

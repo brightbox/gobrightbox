@@ -90,7 +90,7 @@ func (i Status) MarshalText() ([]byte, error) {
 	case Deleted:
 		return []byte("deleted"), nil
 	}
-	return nil, fmt.Errorf("%v is not a valid account.Status", i)
+	return nil, fmt.Errorf("%d is not a valid account.Status", i)
 }
 
 // UnmarshalText implements the text unmarshaller method

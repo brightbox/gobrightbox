@@ -69,7 +69,7 @@ func (i Status) MarshalText() ([]byte, error) {
 	case Ended:
 		return []byte("ended"), nil
 	}
-	return nil, fmt.Errorf("%v is not a valid collaboration.Status", i)
+	return nil, fmt.Errorf("%d is not a valid collaboration.Status", i)
 }
 
 // UnmarshalText implements the text unmarshaller method

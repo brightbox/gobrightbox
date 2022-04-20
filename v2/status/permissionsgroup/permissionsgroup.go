@@ -48,7 +48,7 @@ func (i Status) MarshalText() ([]byte, error) {
 	case Storage:
 		return []byte("storage"), nil
 	}
-	return nil, fmt.Errorf("%v is not a valid permissionsgroup.Status", i)
+	return nil, fmt.Errorf("%d is not a valid permissionsgroup.Status", i)
 }
 
 // UnmarshalText implements the text unmarshaller method
