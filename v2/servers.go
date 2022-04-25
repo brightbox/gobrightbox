@@ -54,17 +54,19 @@ type ServerConsole struct {
 // ServerOptions is used in conjunction with CreateServer and UpdateServer to
 // create and update servers.
 type ServerOptions struct {
-	ID                string          `json:"-"`
-	Image             *string         `json:"image,omitempty"`
-	Name              *string         `json:"name,omitempty"`
-	ServerType        *string         `json:"server_type,omitempty"`
-	Zone              *string         `json:"zone,omitempty"`
-	UserData          *string         `json:"user_data,omitempty"`
-	ServerGroups      []string        `json:"server_groups,omitempty"`
-	CompatibilityMode *bool           `json:"compatibility_mode,omitempty"`
-	DiskEncrypted     *bool           `json:"disk_encrypted,omitempty"`
-	CloudIP           *bool           `json:"cloud_ip,omitempty"`
-	Volumes           []VolumeOptions `json:"volumes,omitempty"`
+	ID                 string          `json:"-"`
+	Image              *string         `json:"image,omitempty"`
+	Name               *string         `json:"name,omitempty"`
+	ServerType         *string         `json:"server_type,omitempty"`
+	Zone               *string         `json:"zone,omitempty"`
+	UserData           *string         `json:"user_data,omitempty"`
+	SnapshotsRetention *string         `json:"snapshots_retention,omitempty"`
+	SnapshotsSchedule  *string         `json:"snapshots_schedule,omitempty"`
+	ServerGroups       []string        `json:"server_groups,omitempty"`
+	CompatibilityMode  *bool           `json:"compatibility_mode,omitempty"`
+	DiskEncrypted      *bool           `json:"disk_encrypted,omitempty"`
+	CloudIP            *bool           `json:"cloud_ip,omitempty"`
+	Volumes            []VolumeOptions `json:"volumes,omitempty"`
 }
 
 // ServerNewSize is used in conjunction with ResizeServer
