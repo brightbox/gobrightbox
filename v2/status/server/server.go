@@ -2,7 +2,11 @@
 
 package server
 
-import "fmt"
+import (
+	"encoding/json"
+	"fmt"
+	"reflect"
+)
 
 // Status is an enumerated type
 type Status uint8
@@ -62,7 +66,8 @@ func ParseStatus(name string) (Status, error) {
 	case "unavailable":
 		return Unavailable, nil
 	}
-	return Status(0), fmt.Errorf("%s is not a valid server.Status", name)
+	var zero Status
+	return zero, fmt.Errorf("%s is not a valid server.Status", name)
 }
 
 // MarshalText implements the text marshaller method
@@ -91,7 +96,10 @@ func (i *Status) UnmarshalText(text []byte) error {
 	name := string(text)
 	tmp, err := ParseStatus(name)
 	if err != nil {
-		return err
+		return &json.UnmarshalTypeError{
+			Value: name,
+			Type:  reflect.TypeOf(i),
+		}
 	}
 	*i = tmp
 	return nil

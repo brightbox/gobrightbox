@@ -16,8 +16,8 @@ func TestCreateServerWithNetworkDisk(t *testing.T) {
 		Name: &name,
 		Volumes: []VolumeEntry{
 			VolumeEntry{
-				Image: image,
 				Size:  size,
+				Image: image,
 			},
 		},
 	}

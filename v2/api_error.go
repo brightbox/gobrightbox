@@ -61,6 +61,7 @@ func (e *APIError) Error() string {
 }
 
 // Unwrap implements the error wrapping interface
+// Returns the parse errors from the JSON parser and Unmarshal interface
 func (e *APIError) Unwrap() error {
 	return e.ParseError
 }

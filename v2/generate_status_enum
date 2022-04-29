@@ -31,7 +31,11 @@ def file_header(package_name)
 
 package #{package_name}
 
-import "fmt"
+import (
+    "fmt"
+    "encoding/json"
+    "reflect"
+)
 
   ENDFUNC
 end
@@ -100,7 +104,8 @@ func ParseStatus(name string) (Status, error) {
     NEXT
   end << <<-FINAL
 	}
-  return Status(0), fmt.Errorf("%s is not a valid #{package_name}.Status", name)
+  var zero Status
+  return zero, fmt.Errorf("%s is not a valid #{package_name}.Status", name)
 }
 
 FINAL
@@ -132,7 +137,10 @@ func (i *Status) UnmarshalText(text []byte) error {
 	name := string(text)
 	tmp, err := ParseStatus(name)
 	if err != nil {
-		return err
+		return &json.UnmarshalTypeError{
+			Value: name,
+			Type:  reflect.TypeOf(i),
+		}
 	}
 	*i = tmp
 	return nil

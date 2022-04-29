@@ -80,8 +80,8 @@ type ServerNewSize struct {
 // be given
 type VolumeEntry struct {
 	Volume string `json:"volume,omitempty"`
-	Image  string `json:"image,omitempty"`
 	Size   uint   `json:"size,omitempty"`
+	Image  string `json:"image,omitempty"`
 }
 
 // ResizeServer issues a request to change the server type of a server

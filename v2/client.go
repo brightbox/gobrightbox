@@ -1,6 +1,8 @@
 package brightbox
 
 import (
+	"errors"
+	"fmt"
 	"bytes"
 	"context"
 	"encoding/json"
@@ -155,18 +157,30 @@ func apiCommand[O any](
 
 func jsonResponse[O any](res *http.Response, hardcoreDecode bool) (*O, error) {
 	if res.StatusCode >= 200 && res.StatusCode <= 299 {
-		result := new(O)
 		decode := json.NewDecoder(res.Body)
 		if hardcoreDecode {
 			decode.DisallowUnknownFields()
 		}
+		result := new(O)
 		err := decode.Decode(result)
 		if err != nil {
+			unmarshalError := new(json.UnmarshalTypeError)
+			if errors.As(err, &unmarshalError) {
+				unmarshalError.Offset = decode.InputOffset()
+			}
 			return nil, &APIError{
 				RequestURL: res.Request.URL,
 				StatusCode: res.StatusCode,
 				Status:     res.Status,
 				ParseError: err,
+			}
+		}
+		if decode.More() {
+			return nil, &APIError{
+				RequestURL: res.Request.URL,
+				StatusCode: res.StatusCode,
+				Status:     res.Status,
+				ParseError: fmt.Errorf("Reponse has additional unparsed data at position %d", decode.InputOffset()),
 			}
 		}
 		return result, err

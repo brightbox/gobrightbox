@@ -63,3 +63,28 @@ func TestParseError(t *testing.T) {
 		assert.ErrorType(t, err, jsonError)
 	}
 }
+
+func TestUnmarshalError(t *testing.T) {
+	ts, client, err := SetupConnection(
+		&APIMock{
+			T:            t,
+			ExpectMethod: "GET",
+			ExpectURL:    "/1.0/servers/srv-testy",
+			ExpectBody:   "",
+			GiveStatus:   200,
+			GiveBody:     `{"status": "available"}`,
+		},
+	)
+	defer ts.Close()
+	assert.NilError(t, err)
+
+	instance, err := client.Server(context.Background(), "srv-testy")
+	assert.Assert(t, is.Nil(instance))
+	unmarshalError := new(json.UnmarshalTypeError)
+	if errors.As(err, &unmarshalError) {
+		assert.Equal(t, unmarshalError.Offset, int64(23))
+		assert.Error(t, unmarshalError, "json: cannot unmarshal available into Go struct field Server.Status of type *server.Status")
+	} else {
+		assert.ErrorType(t, err, unmarshalError)
+	}
+}
