@@ -54,25 +54,34 @@ type ServerConsole struct {
 // ServerOptions is used in conjunction with CreateServer and UpdateServer to
 // create and update servers.
 type ServerOptions struct {
-	ID                 string          `json:"-"`
-	Image              *string         `json:"image,omitempty"`
-	Name               *string         `json:"name,omitempty"`
-	ServerType         *string         `json:"server_type,omitempty"`
-	Zone               *string         `json:"zone,omitempty"`
-	UserData           *string         `json:"user_data,omitempty"`
-	SnapshotsRetention *string         `json:"snapshots_retention,omitempty"`
-	SnapshotsSchedule  *string         `json:"snapshots_schedule,omitempty"`
-	ServerGroups       []string        `json:"server_groups,omitempty"`
-	CompatibilityMode  *bool           `json:"compatibility_mode,omitempty"`
-	DiskEncrypted      *bool           `json:"disk_encrypted,omitempty"`
-	CloudIP            *bool           `json:"cloud_ip,omitempty"`
-	Volumes            []VolumeOptions `json:"volumes,omitempty"`
+	ID                 string        `json:"-"`
+	Image              *string       `json:"image,omitempty"`
+	Name               *string       `json:"name,omitempty"`
+	ServerType         *string       `json:"server_type,omitempty"`
+	Zone               *string       `json:"zone,omitempty"`
+	UserData           *string       `json:"user_data,omitempty"`
+	SnapshotsRetention *string       `json:"snapshots_retention,omitempty"`
+	SnapshotsSchedule  *string       `json:"snapshots_schedule,omitempty"`
+	ServerGroups       []string      `json:"server_groups,omitempty"`
+	CompatibilityMode  *bool         `json:"compatibility_mode,omitempty"`
+	DiskEncrypted      *bool         `json:"disk_encrypted,omitempty"`
+	CloudIP            *bool         `json:"cloud_ip,omitempty"`
+	Volumes            []VolumeEntry `json:"volumes,omitempty"`
 }
 
 // ServerNewSize is used in conjunction with ResizeServer
 // to specify the new Server type for the Server
 type ServerNewSize struct {
 	NewType string `json:"new_type"`
+}
+
+// VolumeEntry is used within ServerOptions to specify the boot
+// volume for a server on creation. Either volume or image/disk size can
+// be given
+type VolumeEntry struct {
+	Volume string `json:"volume,omitempty"`
+	Image  string `json:"image,omitempty"`
+	Size   uint   `json:"size,omitempty"`
 }
 
 // ResizeServer issues a request to change the server type of a server

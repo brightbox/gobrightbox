@@ -14,8 +14,8 @@ func TestCreateServerWithNetworkDisk(t *testing.T) {
 	var size uint = 12345
 	newAC := ServerOptions{
 		Name: &name,
-		Volumes: []VolumeOptions{
-			VolumeOptions{
+		Volumes: []VolumeEntry{
+			VolumeEntry{
 				Image: image,
 				Size:  size,
 			},
