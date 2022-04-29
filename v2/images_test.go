@@ -3,7 +3,7 @@ package brightbox
 import (
 	"testing"
 
-	"github.com/brightbox/gobrightbox/v2/status/arch"
+	"github.com/brightbox/gobrightbox/v2/enums/arch"
 	"gotest.tools/v3/assert"
 )
 

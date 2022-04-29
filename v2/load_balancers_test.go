@@ -4,8 +4,8 @@ import (
 	"path"
 	"testing"
 
-	"github.com/brightbox/gobrightbox/v2/status/listenerprotocol"
-	"github.com/brightbox/gobrightbox/v2/status/proxyprotocol"
+	"github.com/brightbox/gobrightbox/v2/enums/listenerprotocol"
+	"github.com/brightbox/gobrightbox/v2/enums/proxyprotocol"
 
 	"gotest.tools/v3/assert"
 )

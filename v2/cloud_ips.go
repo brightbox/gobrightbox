@@ -4,14 +4,14 @@ import (
 	"context"
 	"path"
 
-	"github.com/brightbox/gobrightbox/v2/status/cloudip"
-	"github.com/brightbox/gobrightbox/v2/status/mode"
-	"github.com/brightbox/gobrightbox/v2/status/transportprotocol"
+	"github.com/brightbox/gobrightbox/v2/enums/cloudipstatus"
+	"github.com/brightbox/gobrightbox/v2/enums/mode"
+	"github.com/brightbox/gobrightbox/v2/enums/transportprotocol"
 )
 
-//go:generate ./generate_status_enum cloudip mapped unmapped
-//go:generate ./generate_status_enum mode nat route
-//go:generate ./generate_status_enum transportprotocol tcp udp
+//go:generate ./generate_enum cloudipstatus mapped unmapped
+//go:generate ./generate_enum mode nat route
+//go:generate ./generate_enum transportprotocol tcp udp
 
 // CloudIP represents a Cloud IP
 // https://api.gb1.brightbox.com/1.0/#cloud_ip
@@ -19,13 +19,13 @@ type CloudIP struct {
 	ResourceRef
 	ID              string
 	Name            string
-	PublicIP        string `json:"public_ip"`
-	PublicIPv4      string `json:"public_ipv4"`
-	PublicIPv6      string `json:"public_ipv6"`
-	Status          cloudip.Status
-	ReverseDNS      string `json:"reverse_dns"`
+	PublicIP        string             `json:"public_ip"`
+	PublicIPv4      string             `json:"public_ipv4"`
+	PublicIPv6      string             `json:"public_ipv6"`
+	Status          cloudipstatus.Enum `json:"status"`
+	ReverseDNS      string             `json:"reverse_dns"`
 	Fqdn            string
-	Mode            mode.Status
+	Mode            mode.Enum
 	Account         *Account
 	Interface       *Interface
 	Server          *Server
@@ -37,9 +37,9 @@ type CloudIP struct {
 
 // PortTranslator represents a port translator on a Cloud IP
 type PortTranslator struct {
-	Incoming uint16                   `json:"incoming"`
-	Outgoing uint16                   `json:"outgoing"`
-	Protocol transportprotocol.Status `json:"protocol,omitempty"`
+	Incoming uint16                 `json:"incoming"`
+	Outgoing uint16                 `json:"outgoing"`
+	Protocol transportprotocol.Enum `json:"protocol,omitempty"`
 }
 
 // CloudIPOptions is used in conjunction with CreateCloudIP and UpdateCloudIP to
@@ -47,7 +47,7 @@ type PortTranslator struct {
 type CloudIPOptions struct {
 	ID              string           `json:"-"`
 	ReverseDNS      *string          `json:"reverse_dns,omitempty"`
-	Mode            mode.Status      `json:"mode,omitempty"`
+	Mode            mode.Enum        `json:"mode,omitempty"`
 	Name            *string          `json:"name,omitempty"`
 	PortTranslators []PortTranslator `json:"port_translators,omitempty"`
 }

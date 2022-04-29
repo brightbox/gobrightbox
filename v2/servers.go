@@ -5,10 +5,10 @@ import (
 	"path"
 	"time"
 
-	"github.com/brightbox/gobrightbox/v2/status/server"
+	"github.com/brightbox/gobrightbox/v2/enums/serverstatus"
 )
 
-//go:generate ./generate_status_enum server creating active inactive deleting deleted failed unavailable
+//go:generate ./generate_enum serverstatus creating active inactive deleting deleted failed unavailable
 //go:generate ./generate_server_commands
 
 // Server represents a Cloud Server
@@ -19,7 +19,7 @@ type Server struct {
 	ServerConsole
 	ID                      string
 	Name                    string
-	Status                  server.Status
+	Status                  serverstatus.Enum `json:"status"`
 	Hostname                string
 	Fqdn                    string
 	UserData                string     `json:"user_data"`

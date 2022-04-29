@@ -5,15 +5,15 @@ import (
 	"path"
 	"time"
 
-	"github.com/brightbox/gobrightbox/v2/status/filesystemtype"
-	"github.com/brightbox/gobrightbox/v2/status/storagetype"
-	"github.com/brightbox/gobrightbox/v2/status/volume"
-	"github.com/brightbox/gobrightbox/v2/status/volumetype"
+	"github.com/brightbox/gobrightbox/v2/enums/filesystemtype"
+	"github.com/brightbox/gobrightbox/v2/enums/storagetype"
+	"github.com/brightbox/gobrightbox/v2/enums/volumestatus"
+	"github.com/brightbox/gobrightbox/v2/enums/volumetype"
 )
 
-//go:generate ./generate_status_enum volume creating attached detached deleting deleted failed
-//go:generate ./generate_status_enum filesystemtype xfs ext4
-//go:generate ./generate_status_enum volumetype image volume raw
+//go:generate ./generate_enum volumestatus creating attached detached deleting deleted failed
+//go:generate ./generate_enum filesystemtype xfs ext4
+//go:generate ./generate_enum volumetype image volume raw
 
 // Volume represents a Brightbox Volume
 // https://api.gb1.brightbox.com/1.0/#volume
@@ -21,22 +21,22 @@ type Volume struct {
 	ResourceRef
 	ID               string
 	Name             string
-	Status           volume.Status
+	Status           volumestatus.Enum
 	Description      string
 	DeleteWithServer bool `json:"delete_with_server"`
 	Boot             bool
 	Encrypted        bool
-	FilesystemLabel  string                `json:"filesystem_label"`
-	FilesystemType   filesystemtype.Status `json:"filesystem_type"`
+	FilesystemLabel  string              `json:"filesystem_label"`
+	FilesystemType   filesystemtype.Enum `json:"filesystem_type"`
 	Locked           bool
 	Serial           string
 	Size             uint
 	Source           string
-	SourceType       volumetype.Status  `json:"source_type"`
-	StorageType      storagetype.Status `json:"storage_type"`
-	CreatedAt        *time.Time         `json:"created_at"`
-	DeletedAt        *time.Time         `json:"deleted_at"`
-	UpdatedAt        *time.Time         `json:"updated_at"`
+	SourceType       volumetype.Enum  `json:"source_type"`
+	StorageType      storagetype.Enum `json:"storage_type"`
+	CreatedAt        *time.Time       `json:"created_at"`
+	DeletedAt        *time.Time       `json:"deleted_at"`
+	UpdatedAt        *time.Time       `json:"updated_at"`
 	Server           *Server
 	Account          *Account
 	Image            *Image
@@ -45,16 +45,16 @@ type Volume struct {
 // VolumeOptions is used to create and update volumes
 // create and update servers.
 type VolumeOptions struct {
-	ID               string                `json:"-"`
-	Name             *string               `json:"name,omitempty"`
-	Description      *string               `json:"description,omitempty"`
-	Serial           *string               `json:"serial,omitempty"`
-	DeleteWithServer *bool                 `json:"delete_with_server,omitempty"`
-	FilesystemLabel  *string               `json:"filesystem_label,omitempty"`
-	FilesystemType   filesystemtype.Status `json:"filesystem_type,omitempty"`
-	Size             *uint                 `json:"size,omitempty"`
-	Image            *string               `json:"image,omitempty"`
-	Encrypted        *bool                 `json:"encrypted,omitempty"`
+	ID               string              `json:"-"`
+	Name             *string             `json:"name,omitempty"`
+	Description      *string             `json:"description,omitempty"`
+	Serial           *string             `json:"serial,omitempty"`
+	DeleteWithServer *bool               `json:"delete_with_server,omitempty"`
+	FilesystemLabel  *string             `json:"filesystem_label,omitempty"`
+	FilesystemType   filesystemtype.Enum `json:"filesystem_type,omitempty"`
+	Size             *uint               `json:"size,omitempty"`
+	Image            *string             `json:"image,omitempty"`
+	Encrypted        *bool               `json:"encrypted,omitempty"`
 }
 
 // VolumeAttachment is used in conjunction with AttachVolume and DetachVolume

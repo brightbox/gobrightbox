@@ -4,7 +4,7 @@ import (
 	"path"
 	"testing"
 
-	"github.com/brightbox/gobrightbox/v2/status/server"
+	"github.com/brightbox/gobrightbox/v2/enums/serverstatus"
 	"gotest.tools/v3/assert"
 )
 
@@ -31,7 +31,7 @@ func TestCreateServerWithNetworkDisk(t *testing.T) {
 		`{"name":"myserver","volumes":[{"size":12345,"image":"img-linux"}]}`,
 	)
 	assert.Equal(t, instance.ID, "srv-lv426")
-	assert.Assert(t, instance.Status == server.Active)
+	assert.Assert(t, instance.Status == serverstatus.Active)
 }
 
 func TestResizeServer(t *testing.T) {

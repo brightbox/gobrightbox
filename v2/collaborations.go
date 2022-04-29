@@ -5,10 +5,10 @@ import (
 	"path"
 	"time"
 
-	"github.com/brightbox/gobrightbox/v2/status/collaboration"
+	"github.com/brightbox/gobrightbox/v2/enums/collaborationstatus"
 )
 
-//go:generate ./generate_status_enum collaboration pending accepted rejected cancelled ended
+//go:generate ./generate_enum collaborationstatus pending accepted rejected cancelled ended
 
 // Collaboration represents an API client.
 // https://api.gb1.brightbox.com/1.0/#api_client
@@ -18,7 +18,7 @@ type Collaboration struct {
 	Email      string
 	Role       string
 	RoleLabel  string `json:"role_label"`
-	Status     collaboration.Status
+	Status     collaborationstatus.Enum
 	CreatedAt  *time.Time `json:"created_at"`
 	StartedAt  *time.Time `json:"started_at"`
 	FinishedAt *time.Time `json:"finished_at"`

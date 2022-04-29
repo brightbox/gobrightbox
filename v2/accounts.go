@@ -3,10 +3,10 @@ package brightbox
 import (
 	"time"
 
-	"github.com/brightbox/gobrightbox/v2/status/account"
+	"github.com/brightbox/gobrightbox/v2/enums/accountstatus"
 )
 
-//go:generate ./generate_status_enum account pending active overdue warning suspended terminated closed deleted
+//go:generate ./generate_enum accountstatus pending active overdue warning suspended terminated closed deleted
 
 // Account represents a Brightbox Cloud Account
 // https://api.gb1.brightbox.com/1.0/#account
@@ -14,9 +14,9 @@ type Account struct {
 	ResourceRef
 	ID                    string
 	Name                  string
-	Status                account.Status
-	Address1              string `json:"address_1"`
-	Address2              string `json:"address_2"`
+	Status                accountstatus.Enum `json:"status"`
+	Address1              string             `json:"address_1"`
+	Address2              string             `json:"address_2"`
 	City                  string
 	County                string
 	Postcode              string

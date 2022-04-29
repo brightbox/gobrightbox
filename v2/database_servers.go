@@ -3,10 +3,10 @@ package brightbox
 import (
 	"time"
 
-	"github.com/brightbox/gobrightbox/v2/status/databaseserver"
+	"github.com/brightbox/gobrightbox/v2/enums/databaseserverstatus"
 )
 
-//go:generate ./generate_status_enum databaseserver creating active deleting deleted failing failed
+//go:generate ./generate_enum databaseserverstatus creating active deleting deleted failing failed
 
 // DatabaseServer represents a database server.
 // https://api.gb1.brightbox.com/1.0/#database_server
@@ -15,7 +15,7 @@ type DatabaseServer struct {
 	ID                      string
 	Name                    string
 	Description             string
-	Status                  databaseserver.Status
+	Status                  databaseserverstatus.Enum
 	DatabaseEngine          string   `json:"database_engine"`
 	DatabaseVersion         string   `json:"database_version"`
 	AdminUsername           string   `json:"admin_username"`

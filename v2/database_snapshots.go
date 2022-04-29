@@ -3,10 +3,10 @@ package brightbox
 import (
 	"time"
 
-	"github.com/brightbox/gobrightbox/v2/status/databasesnapshot"
+	"github.com/brightbox/gobrightbox/v2/enums/databasesnapshotstatus"
 )
 
-//go:generate ./generate_status_enum databasesnapshot creating available deleting deleted failed
+//go:generate ./generate_enum databasesnapshotstatus creating available deleting deleted failed
 
 // DatabaseSnapshot represents a snapshot of a database server.
 // https://api.gb1.brightbox.com/1.0/#databaseSnapshot
@@ -15,7 +15,7 @@ type DatabaseSnapshot struct {
 	ID              string
 	Name            string
 	Description     string
-	Status          databasesnapshot.Status
+	Status          databasesnapshotstatus.Enum
 	DatabaseEngine  string `json:"database_engine"`
 	DatabaseVersion string `json:"database_version"`
 	Source          string

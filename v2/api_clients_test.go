@@ -3,7 +3,7 @@ package brightbox
 import (
 	"testing"
 
-	"github.com/brightbox/gobrightbox/v2/status/permissionsgroup"
+	"github.com/brightbox/gobrightbox/v2/enums/permissionsgroup"
 	"gotest.tools/v3/assert"
 )
 

@@ -5,18 +5,18 @@ import (
 	"path"
 	"time"
 
-	"github.com/brightbox/gobrightbox/v2/status/balancingpolicy"
-	"github.com/brightbox/gobrightbox/v2/status/healthchecktype"
-	"github.com/brightbox/gobrightbox/v2/status/listenerprotocol"
-	"github.com/brightbox/gobrightbox/v2/status/loadbalancer"
-	"github.com/brightbox/gobrightbox/v2/status/proxyprotocol"
+	"github.com/brightbox/gobrightbox/v2/enums/balancingpolicy"
+	"github.com/brightbox/gobrightbox/v2/enums/healthchecktype"
+	"github.com/brightbox/gobrightbox/v2/enums/listenerprotocol"
+	"github.com/brightbox/gobrightbox/v2/enums/loadbalancerstatus"
+	"github.com/brightbox/gobrightbox/v2/enums/proxyprotocol"
 )
 
-//go:generate ./generate_status_enum loadbalancer creating active deleting deleted failing failed
-//go:generate ./generate_status_enum proxyprotocol v1 v2 v2-ssl v2-ssl-cn
-//go:generate ./generate_status_enum balancingpolicy least-connections round-robin source-address
-//go:generate ./generate_status_enum healthchecktype tcp http
-//go:generate ./generate_status_enum listenerprotocol tcp http https
+//go:generate ./generate_enum loadbalancerstatus creating active deleting deleted failing failed
+//go:generate ./generate_enum proxyprotocol v1 v2 v2-ssl v2-ssl-cn
+//go:generate ./generate_enum balancingpolicy least-connections round-robin source-address
+//go:generate ./generate_enum healthchecktype tcp http
+//go:generate ./generate_enum listenerprotocol tcp http https
 
 // LoadBalancer represents a Load Balancer
 // https://api.gb1.brightbox.com/1.0/#load_balancer
@@ -24,12 +24,12 @@ type LoadBalancer struct {
 	ResourceRef
 	ID                string
 	Name              string
-	Status            loadbalancer.Status
+	Status            loadbalancerstatus.Enum
 	Locked            bool
 	HTTPSRedirect     bool   `json:"https_redirect"`
 	SslMinimumVersion string `json:"ssl_minimum_version"`
 	BufferSize        uint   `json:"buffer_size"`
-	Policy            balancingpolicy.Status
+	Policy            balancingpolicy.Enum
 	Listeners         []LoadBalancerListener
 	Healthcheck       LoadBalancerHealthcheck
 	Certificate       *LoadBalancerAcmeCertificate
@@ -65,22 +65,22 @@ type LoadBalancerAcmeDomain struct {
 
 // LoadBalancerHealthcheck represents a health check on a LoadBalancer
 type LoadBalancerHealthcheck struct {
-	Type          healthchecktype.Status `json:"type"`
-	Port          uint16                 `json:"port"`
-	Request       string                 `json:"request,omitempty"`
-	Interval      uint                   `json:"interval,omitempty"`
-	Timeout       uint                   `json:"timeout,omitempty"`
-	ThresholdUp   uint                   `json:"threshold_up,omitempty"`
-	ThresholdDown uint                   `json:"threshold_down,omitempty"`
+	Type          healthchecktype.Enum `json:"type"`
+	Port          uint16               `json:"port"`
+	Request       string               `json:"request,omitempty"`
+	Interval      uint                 `json:"interval,omitempty"`
+	Timeout       uint                 `json:"timeout,omitempty"`
+	ThresholdUp   uint                 `json:"threshold_up,omitempty"`
+	ThresholdDown uint                 `json:"threshold_down,omitempty"`
 }
 
 // LoadBalancerListener represents a listener on a LoadBalancer
 type LoadBalancerListener struct {
-	Protocol      listenerprotocol.Status `json:"protocol,omitempty"`
-	In            uint16                  `json:"in,omitempty"`
-	Out           uint16                  `json:"out,omitempty"`
-	Timeout       uint                    `json:"timeout,omitempty"`
-	ProxyProtocol proxyprotocol.Status    `json:"proxy_protocol,omitempty"`
+	Protocol      listenerprotocol.Enum `json:"protocol,omitempty"`
+	In            uint16                `json:"in,omitempty"`
+	Out           uint16                `json:"out,omitempty"`
+	Timeout       uint                  `json:"timeout,omitempty"`
+	ProxyProtocol proxyprotocol.Enum    `json:"proxy_protocol,omitempty"`
 }
 
 // LoadBalancerOptions is used in conjunction with CreateLoadBalancer and
@@ -89,7 +89,7 @@ type LoadBalancerOptions struct {
 	ID                    string                   `json:"-"`
 	Name                  *string                  `json:"name,omitempty"`
 	Nodes                 []LoadBalancerNode       `json:"nodes,omitempty"`
-	Policy                balancingpolicy.Status   `json:"policy,omitempty"`
+	Policy                balancingpolicy.Enum     `json:"policy,omitempty"`
 	Listeners             []LoadBalancerListener   `json:"listeners,omitempty"`
 	Healthcheck           *LoadBalancerHealthcheck `json:"healthcheck,omitempty"`
 	Domains               *[]string                `json:"domains,omitempty"`
