@@ -180,7 +180,7 @@ func jsonResponse[O any](res *http.Response, hardcoreDecode bool) (*O, error) {
 				RequestURL: res.Request.URL,
 				StatusCode: res.StatusCode,
 				Status:     res.Status,
-				ParseError: fmt.Errorf("Reponse has additional unparsed data at position %d", decode.InputOffset()),
+				ParseError: fmt.Errorf("Response body has additional unparsed data at position %d", decode.InputOffset()+1),
 			}
 		}
 		return result, err

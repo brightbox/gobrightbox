@@ -64,6 +64,27 @@ func TestParseError(t *testing.T) {
 	}
 }
 
+func TestParseShortfall(t *testing.T) {
+	ts, client, err := SetupConnection(
+		&APIMock{
+			T:            t,
+			ExpectMethod: "POST",
+			ExpectURL:    "/1.0/api_clients",
+			ExpectBody:   `{"name":"new client"}`,
+			GiveStatus:   200,
+			GiveBody:     `{"id": "1"}{"id": "2"}`,
+		},
+	)
+	defer ts.Close()
+	assert.NilError(t, err)
+
+	name := "new client"
+	instance, err := client.CreateAPIClient(context.Background(), APIClientOptions{Name: &name})
+	assert.Assert(t, is.Nil(instance))
+	jsonError := errors.Unwrap(err)
+	assert.Error(t, jsonError, "Response body has additional unparsed data at position 12")
+}
+
 func TestUnmarshalError(t *testing.T) {
 	ts, client, err := SetupConnection(
 		&APIMock{
