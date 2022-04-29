@@ -77,7 +77,7 @@ func (i *Status) UnmarshalText(text []byte) error {
 	if err != nil {
 		return &json.UnmarshalTypeError{
 			Value: name,
-			Type:  reflect.TypeOf(i),
+			Type:  reflect.TypeOf(*i),
 		}
 	}
 	*i = tmp

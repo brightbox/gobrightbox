@@ -104,7 +104,7 @@ func TestUnmarshalError(t *testing.T) {
 	unmarshalError := new(json.UnmarshalTypeError)
 	if errors.As(err, &unmarshalError) {
 		assert.Equal(t, unmarshalError.Offset, int64(23))
-		assert.Error(t, unmarshalError, "json: cannot unmarshal available into Go struct field Server.Status of type *server.Status")
+		assert.Error(t, unmarshalError, "json: cannot unmarshal available into Go struct field Server.Status of type server.Status")
 	} else {
 		assert.ErrorType(t, err, unmarshalError)
 	}
