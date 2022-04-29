@@ -14,7 +14,7 @@ type Enum uint8
 const (
 	// Manual is an enumeration for sourcetrigger.Enum
 	Manual Enum = iota + 1
-	// Schedule is an enumeration for Enum
+	// Schedule is an enumeration for sourcetrigger.Enum
 	Schedule
 )
 

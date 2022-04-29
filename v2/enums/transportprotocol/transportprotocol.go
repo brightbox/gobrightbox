@@ -14,7 +14,7 @@ type Enum uint8
 const (
 	// Tcp is an enumeration for transportprotocol.Enum
 	Tcp Enum = iota + 1
-	// Udp is an enumeration for Enum
+	// Udp is an enumeration for transportprotocol.Enum
 	Udp
 )
 

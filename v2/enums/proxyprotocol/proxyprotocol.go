@@ -14,11 +14,11 @@ type Enum uint8
 const (
 	// V1 is an enumeration for proxyprotocol.Enum
 	V1 Enum = iota + 1
-	// V2 is an enumeration for Enum
+	// V2 is an enumeration for proxyprotocol.Enum
 	V2
-	// V2Ssl is an enumeration for Enum
+	// V2Ssl is an enumeration for proxyprotocol.Enum
 	V2Ssl
-	// V2SslCn is an enumeration for Enum
+	// V2SslCn is an enumeration for proxyprotocol.Enum
 	V2SslCn
 )
 

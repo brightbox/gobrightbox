@@ -14,9 +14,9 @@ type Enum uint8
 const (
 	// LeastConnections is an enumeration for balancingpolicy.Enum
 	LeastConnections Enum = iota + 1
-	// RoundRobin is an enumeration for Enum
+	// RoundRobin is an enumeration for balancingpolicy.Enum
 	RoundRobin
-	// SourceAddress is an enumeration for Enum
+	// SourceAddress is an enumeration for balancingpolicy.Enum
 	SourceAddress
 )
 

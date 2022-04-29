@@ -14,17 +14,17 @@ type Enum uint8
 const (
 	// Creating is an enumeration for serverstatus.Enum
 	Creating Enum = iota + 1
-	// Active is an enumeration for Enum
+	// Active is an enumeration for serverstatus.Enum
 	Active
-	// Inactive is an enumeration for Enum
+	// Inactive is an enumeration for serverstatus.Enum
 	Inactive
-	// Deleting is an enumeration for Enum
+	// Deleting is an enumeration for serverstatus.Enum
 	Deleting
-	// Deleted is an enumeration for Enum
+	// Deleted is an enumeration for serverstatus.Enum
 	Deleted
-	// Failed is an enumeration for Enum
+	// Failed is an enumeration for serverstatus.Enum
 	Failed
-	// Unavailable is an enumeration for Enum
+	// Unavailable is an enumeration for serverstatus.Enum
 	Unavailable
 )
 

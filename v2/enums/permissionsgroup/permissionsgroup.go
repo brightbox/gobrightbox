@@ -14,7 +14,7 @@ type Enum uint8
 const (
 	// Full is an enumeration for permissionsgroup.Enum
 	Full Enum = iota + 1
-	// Storage is an enumeration for Enum
+	// Storage is an enumeration for permissionsgroup.Enum
 	Storage
 )
 

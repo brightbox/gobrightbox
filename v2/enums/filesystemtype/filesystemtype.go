@@ -14,7 +14,7 @@ type Enum uint8
 const (
 	// Xfs is an enumeration for filesystemtype.Enum
 	Xfs Enum = iota + 1
-	// Ext4 is an enumeration for Enum
+	// Ext4 is an enumeration for filesystemtype.Enum
 	Ext4
 )
 

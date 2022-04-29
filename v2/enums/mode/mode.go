@@ -14,7 +14,7 @@ type Enum uint8
 const (
 	// Nat is an enumeration for mode.Enum
 	Nat Enum = iota + 1
-	// Route is an enumeration for Enum
+	// Route is an enumeration for mode.Enum
 	Route
 )
 

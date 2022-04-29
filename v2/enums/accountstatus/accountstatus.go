@@ -14,19 +14,19 @@ type Enum uint8
 const (
 	// Pending is an enumeration for accountstatus.Enum
 	Pending Enum = iota + 1
-	// Active is an enumeration for Enum
+	// Active is an enumeration for accountstatus.Enum
 	Active
-	// Overdue is an enumeration for Enum
+	// Overdue is an enumeration for accountstatus.Enum
 	Overdue
-	// Warning is an enumeration for Enum
+	// Warning is an enumeration for accountstatus.Enum
 	Warning
-	// Suspended is an enumeration for Enum
+	// Suspended is an enumeration for accountstatus.Enum
 	Suspended
-	// Terminated is an enumeration for Enum
+	// Terminated is an enumeration for accountstatus.Enum
 	Terminated
-	// Closed is an enumeration for Enum
+	// Closed is an enumeration for accountstatus.Enum
 	Closed
-	// Deleted is an enumeration for Enum
+	// Deleted is an enumeration for accountstatus.Enum
 	Deleted
 )
 

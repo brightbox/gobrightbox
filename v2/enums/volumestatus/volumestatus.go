@@ -14,15 +14,15 @@ type Enum uint8
 const (
 	// Creating is an enumeration for volumestatus.Enum
 	Creating Enum = iota + 1
-	// Attached is an enumeration for Enum
+	// Attached is an enumeration for volumestatus.Enum
 	Attached
-	// Detached is an enumeration for Enum
+	// Detached is an enumeration for volumestatus.Enum
 	Detached
-	// Deleting is an enumeration for Enum
+	// Deleting is an enumeration for volumestatus.Enum
 	Deleting
-	// Deleted is an enumeration for Enum
+	// Deleted is an enumeration for volumestatus.Enum
 	Deleted
-	// Failed is an enumeration for Enum
+	// Failed is an enumeration for volumestatus.Enum
 	Failed
 )
 

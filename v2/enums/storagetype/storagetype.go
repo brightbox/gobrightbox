@@ -14,7 +14,7 @@ type Enum uint8
 const (
 	// Local is an enumeration for storagetype.Enum
 	Local Enum = iota + 1
-	// Network is an enumeration for Enum
+	// Network is an enumeration for storagetype.Enum
 	Network
 )
 

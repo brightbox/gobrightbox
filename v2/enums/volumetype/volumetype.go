@@ -14,9 +14,9 @@ type Enum uint8
 const (
 	// Image is an enumeration for volumetype.Enum
 	Image Enum = iota + 1
-	// Volume is an enumeration for Enum
+	// Volume is an enumeration for volumetype.Enum
 	Volume
-	// Raw is an enumeration for Enum
+	// Raw is an enumeration for volumetype.Enum
 	Raw
 )
 

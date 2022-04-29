@@ -14,13 +14,13 @@ type Enum uint8
 const (
 	// Pending is an enumeration for collaborationstatus.Enum
 	Pending Enum = iota + 1
-	// Accepted is an enumeration for Enum
+	// Accepted is an enumeration for collaborationstatus.Enum
 	Accepted
-	// Rejected is an enumeration for Enum
+	// Rejected is an enumeration for collaborationstatus.Enum
 	Rejected
-	// Cancelled is an enumeration for Enum
+	// Cancelled is an enumeration for collaborationstatus.Enum
 	Cancelled
-	// Ended is an enumeration for Enum
+	// Ended is an enumeration for collaborationstatus.Enum
 	Ended
 )
 

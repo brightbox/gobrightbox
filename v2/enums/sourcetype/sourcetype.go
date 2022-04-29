@@ -14,7 +14,7 @@ type Enum uint8
 const (
 	// Upload is an enumeration for sourcetype.Enum
 	Upload Enum = iota + 1
-	// Snapshot is an enumeration for Enum
+	// Snapshot is an enumeration for sourcetype.Enum
 	Snapshot
 )
 

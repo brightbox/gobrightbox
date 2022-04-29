@@ -14,7 +14,7 @@ type Enum uint8
 const (
 	// X86_64 is an enumeration for arch.Enum
 	X86_64 Enum = iota + 1
-	// I686 is an enumeration for Enum
+	// I686 is an enumeration for arch.Enum
 	I686
 )
 

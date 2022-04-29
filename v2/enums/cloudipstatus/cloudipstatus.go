@@ -14,7 +14,7 @@ type Enum uint8
 const (
 	// Mapped is an enumeration for cloudipstatus.Enum
 	Mapped Enum = iota + 1
-	// Unmapped is an enumeration for Enum
+	// Unmapped is an enumeration for cloudipstatus.Enum
 	Unmapped
 )
 

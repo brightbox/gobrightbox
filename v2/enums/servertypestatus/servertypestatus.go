@@ -14,9 +14,9 @@ type Enum uint8
 const (
 	// Experimental is an enumeration for servertypestatus.Enum
 	Experimental Enum = iota + 1
-	// Available is an enumeration for Enum
+	// Available is an enumeration for servertypestatus.Enum
 	Available
-	// Deprecated is an enumeration for Enum
+	// Deprecated is an enumeration for servertypestatus.Enum
 	Deprecated
 )
 

@@ -14,17 +14,17 @@ type Enum uint8
 const (
 	// Creating is an enumeration for imagestatus.Enum
 	Creating Enum = iota + 1
-	// Available is an enumeration for Enum
+	// Available is an enumeration for imagestatus.Enum
 	Available
-	// Deprecated is an enumeration for Enum
+	// Deprecated is an enumeration for imagestatus.Enum
 	Deprecated
-	// Unavailable is an enumeration for Enum
+	// Unavailable is an enumeration for imagestatus.Enum
 	Unavailable
-	// Deleting is an enumeration for Enum
+	// Deleting is an enumeration for imagestatus.Enum
 	Deleting
-	// Deleted is an enumeration for Enum
+	// Deleted is an enumeration for imagestatus.Enum
 	Deleted
-	// Failed is an enumeration for Enum
+	// Failed is an enumeration for imagestatus.Enum
 	Failed
 )
 

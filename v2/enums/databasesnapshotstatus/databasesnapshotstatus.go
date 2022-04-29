@@ -14,13 +14,13 @@ type Enum uint8
 const (
 	// Creating is an enumeration for databasesnapshotstatus.Enum
 	Creating Enum = iota + 1
-	// Available is an enumeration for Enum
+	// Available is an enumeration for databasesnapshotstatus.Enum
 	Available
-	// Deleting is an enumeration for Enum
+	// Deleting is an enumeration for databasesnapshotstatus.Enum
 	Deleting
-	// Deleted is an enumeration for Enum
+	// Deleted is an enumeration for databasesnapshotstatus.Enum
 	Deleted
-	// Failed is an enumeration for Enum
+	// Failed is an enumeration for databasesnapshotstatus.Enum
 	Failed
 )
 

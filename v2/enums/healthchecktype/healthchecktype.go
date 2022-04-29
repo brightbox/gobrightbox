@@ -14,7 +14,7 @@ type Enum uint8
 const (
 	// Tcp is an enumeration for healthchecktype.Enum
 	Tcp Enum = iota + 1
-	// Http is an enumeration for Enum
+	// Http is an enumeration for healthchecktype.Enum
 	Http
 )
 

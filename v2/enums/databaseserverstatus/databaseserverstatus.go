@@ -14,15 +14,15 @@ type Enum uint8
 const (
 	// Creating is an enumeration for databaseserverstatus.Enum
 	Creating Enum = iota + 1
-	// Active is an enumeration for Enum
+	// Active is an enumeration for databaseserverstatus.Enum
 	Active
-	// Deleting is an enumeration for Enum
+	// Deleting is an enumeration for databaseserverstatus.Enum
 	Deleting
-	// Deleted is an enumeration for Enum
+	// Deleted is an enumeration for databaseserverstatus.Enum
 	Deleted
-	// Failing is an enumeration for Enum
+	// Failing is an enumeration for databaseserverstatus.Enum
 	Failing
-	// Failed is an enumeration for Enum
+	// Failed is an enumeration for databaseserverstatus.Enum
 	Failed
 )
 

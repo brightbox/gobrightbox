@@ -14,9 +14,9 @@ type Enum uint8
 const (
 	// Tcp is an enumeration for listenerprotocol.Enum
 	Tcp Enum = iota + 1
-	// Http is an enumeration for Enum
+	// Http is an enumeration for listenerprotocol.Enum
 	Http
-	// Https is an enumeration for Enum
+	// Https is an enumeration for listenerprotocol.Enum
 	Https
 )
 
