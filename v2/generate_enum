@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'fileutils'
+require 'optparse'
 
 def snake_case(str)
   return str.downcase if str =~ /\A[A-Z]+\z/
@@ -13,10 +14,10 @@ def make_identifier(str)
   str.split(/[_-](?!\d)/).collect(&:capitalize).join
 end
 
-def generate_enumeration(file_name, package_name, states)
+def generate_enumeration(file_name, package_name, states, iota_offset)
   File.open(file_name, 'w') do |f|
     f << file_header(package_name)
-    f << generate_states(package_name, states)
+    f << generate_states(package_name, states, iota_offset)
     f << generate_valid_strings(states)
     f << stringer
     f << generate_parser(package_name, states)
@@ -40,7 +41,7 @@ import (
   ENDFUNC
 end
 
-def generate_states(package_name, states)
+def generate_states(package_name, states, iota_offset)
   first = make_identifier(states[0])
   result = <<-FIRST
 // Enum is an enumerated type
@@ -48,7 +49,7 @@ type Enum uint8
 
 const (
   // #{first} is an enumeration for #{package_name}.Enum
-	#{first} Enum = iota + 1
+	#{first} Enum = iota + #{iota_offset}
   FIRST
   states[1..-1].reduce(result) do |memo, state|
     identifier = make_identifier(state)
@@ -149,12 +150,24 @@ func (i *Enum) UnmarshalText(text []byte) error {
   ENDFUNC
 end
 
+# Check if the zero value is to be used in this enumeration
+iota = 1
+OptionParser.new do |opts|
+  opts.on('-z', 'Make first enumeration the default') do |default|
+    iota = default ? 0 : 1
+  end
+end.parse!
+
+# First argument is the package name
 package_name = ARGV.shift
 if package_name.to_s.empty? || ARGV.empty?
   STDERR.puts('Need a package name and at least one enumeration')
   exit 1
 end
-FileUtils.mkdir_p(File.join('enums', package_name))
-file_name = File.join('enums', package_name, "#{package_name}.go")
-generate_enumeration(file_name, package_name, ARGV)
+enum_dir = File.join('enums', package_name)
+file_name = File.join(enum_dir, "#{package_name}.go")
+FileUtils.mkdir_p(enum_dir)
+
+# Generate the enumeration from the rest of the arguments
+generate_enumeration(file_name, package_name, ARGV, iota)
 exec('gofmt', '-w', file_name)
