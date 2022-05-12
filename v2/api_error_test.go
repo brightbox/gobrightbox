@@ -101,7 +101,7 @@ func TestUnmarshalError(t *testing.T) {
 
 	instance, err := client.Server(context.Background(), "srv-testy")
 	assert.Assert(t, is.Nil(instance))
-	unmarshalError := new(json.UnmarshalTypeError)
+	var unmarshalError *json.UnmarshalTypeError
 	if errors.As(err, &unmarshalError) {
 		assert.Equal(t, unmarshalError.Offset, int64(23))
 		assert.Error(t, unmarshalError, "json: cannot unmarshal available into Go struct field Server.status of type serverstatus.Enum")

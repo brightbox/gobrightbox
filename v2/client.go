@@ -164,7 +164,7 @@ func jsonResponse[O any](res *http.Response, hardcoreDecode bool) (*O, error) {
 		result := new(O)
 		err := decode.Decode(result)
 		if err != nil {
-			unmarshalError := new(json.UnmarshalTypeError)
+			var unmarshalError *json.UnmarshalTypeError
 			if errors.As(err, &unmarshalError) {
 				unmarshalError.Offset = decode.InputOffset()
 			}
