@@ -211,6 +211,7 @@ func jsonRequest(ctx context.Context, q *Client, method string, relURL string, b
 	if err != nil {
 		return nil, err
 	}
+	absUrl.RawQuery = q.baseURL.RawQuery
 	buf, err := jsonReader(body)
 	if err != nil {
 		return nil, err
