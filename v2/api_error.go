@@ -3,6 +3,7 @@ package brightbox
 import (
 	"fmt"
 	"net/url"
+	"strings"
 )
 
 // APIError can be returned when an API request fails. It provides any error
@@ -37,27 +38,19 @@ type APIError struct {
 
 // Error implements the error interface
 func (e *APIError) Error() string {
-	var url string
-	if e.RequestURL != nil {
-		url = e.RequestURL.String()
-	}
-	var msg string
 	if e.AuthError != "" {
-		msg = fmt.Sprintf("%s, %s", e.AuthError, e.AuthErrorDescription)
+		return fmt.Sprintf("%s, %s", e.AuthError, e.AuthErrorDescription)
 	}
 	if e.ErrorName != "" {
-		msg = e.ErrorName
-		if len(e.Errors) == 1 {
-			msg = msg + ": " + e.Errors[0]
-		} else if len(e.Errors) > 1 {
-			msg = fmt.Sprintf("%s: %s", msg, e.Errors)
+		if len(e.Errors) == 0 {
+			return e.ErrorName
 		}
-
+		return fmt.Sprintf("%s: %s", e.ErrorName, strings.Join(e.Errors, ": "))
 	}
-	if msg == "" {
-		msg = fmt.Sprintf("%s: %s", e.Status, url)
+	if e.ParseError != nil {
+		return fmt.Sprintf("ParseError at %s: %s", e.RequestURL, e.ParseError.Error())
 	}
-	return msg
+	return fmt.Sprintf("HttpError at %s: %s", e.RequestURL, e.Status)
 }
 
 // Unwrap implements the error wrapping interface

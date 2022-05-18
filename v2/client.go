@@ -1,11 +1,11 @@
 package brightbox
 
 import (
-	"errors"
-	"fmt"
 	"bytes"
 	"context"
 	"encoding/json"
+	"errors"
+	"fmt"
 	"golang.org/x/oauth2"
 	"io"
 	"net/http"
@@ -197,11 +197,13 @@ func newAPIError(res *http.Response) *APIError {
 		StatusCode: res.StatusCode,
 		Status:     res.Status,
 	}
-	body, err := io.ReadAll(res.Body)
-	if err == nil {
-		err = json.Unmarshal(body, &apierr)
+	var body []byte
+	body, apierr.ParseError = io.ReadAll(res.Body)
+
+	if len(body) > 0 {
+		err := json.Unmarshal(body, &apierr)
+		apierr.ParseError = err
 	}
-	apierr.ParseError = err
 	apierr.ResponseBody = body
 	return &apierr
 }
