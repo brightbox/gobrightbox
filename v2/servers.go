@@ -38,7 +38,7 @@ type Server struct {
 	ServerType              *ServerType   `json:"server_type"`
 	CloudIPs                []CloudIP     `json:"cloud_ips"`
 	ServerGroups            []ServerGroup `json:"server_groups"`
-	Snapshots               []Server
+	Snapshots               []Image
 	Interfaces              []Interface
 	Volumes                 []Volume
 }
