@@ -26,9 +26,9 @@ type Server struct {
 	CreatedAt               *time.Time `json:"created_at"`
 	DeletedAt               *time.Time `json:"deleted_at"`
 	StartedAt               *time.Time `json:"started_at"`
-	SnapshotsSchedule       *string    `json:"snapshots_schedule"`
+	SnapshotsSchedule       string     `json:"snapshots_schedule"`
 	SnapshotsScheduleNextAt *time.Time `json:"snapshots_schedule_next_at"`
-	SnapshotsRetention      *string    `json:"snapshots_retention"`
+	SnapshotsRetention      string     `json:"snapshots_retention"`
 	Locked                  bool       `json:"locked"`
 	CompatibilityMode       bool       `json:"compatibility_mode"`
 	DiskEncrypted           bool       `json:"disk_encrypted"`

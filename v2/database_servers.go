@@ -20,8 +20,8 @@ type DatabaseServer struct {
 	DatabaseVersion         string   `json:"database_version"`
 	AdminUsername           string   `json:"admin_username"`
 	AdminPassword           string   `json:"admin_password"`
-	SnapshotsRetention      *string  `json:"snapshots_retention"`
-	SnapshotsSchedule       *string  `json:"snapshots_schedule"`
+	SnapshotsRetention      string   `json:"snapshots_retention"`
+	SnapshotsSchedule       string   `json:"snapshots_schedule"`
 	AllowAccess             []string `json:"allow_access"`
 	MaintenanceWeekday      uint8    `json:"maintenance_weekday"`
 	MaintenanceHour         uint8    `json:"maintenance_hour"`
