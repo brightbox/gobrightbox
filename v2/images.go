@@ -42,13 +42,16 @@ type Image struct {
 
 // ImageOptions is used to create and update machine images
 type ImageOptions struct {
-	ID                string    `json:"-"`
-	Name              *string   `json:"name,omitempty"`
-	Username          *string   `json:"username,omitempty"`
-	Status            *string   `json:"status,omitempty"`
-	Description       *string   `json:"description,omitempty"`
-	Source            string    `json:"source,omitempty"`
-	Arch              arch.Enum `json:"arch,omitempty"`
-	Public            *bool     `json:"public,omitempty"`
-	CompatibilityMode *bool     `json:"compatibility_mode,omitempty"`
+	ID                string           `json:"-"`
+	Name              *string          `json:"name,omitempty"`
+	Username          *string          `json:"username,omitempty"`
+	Description       *string          `json:"description,omitempty"`
+	MinRAM            *uint            `json:"min_ram,omitempty"`
+	Server            string           `json:"server,omitempty"`
+	Source            string           `json:"source,omitempty"`
+	Volume            string           `json:"volume,omitempty"`
+	Arch              arch.Enum        `json:"arch,omitempty"`
+	Status            imagestatus.Enum `json:"status,omitempty"`
+	Public            *bool            `json:"public,omitempty"`
+	CompatibilityMode *bool            `json:"compatibility_mode,omitempty"`
 }
