@@ -1,9 +1,22 @@
-# Brightbox Golang Client
+# Brightbox Go Library
 
-`gobrightbox` is a [Brightbox Cloud](https://www.brightbox.com) [API](https://api.gb1.brightbox.com/1.0/)
-client implementation written in [Go](http://golang.org/).
+[![Go Reference](https://pkg.go.dev/badge/github.com/brightbox/gobrightbox.svg)](https://pkg.go.dev/github.com/brightbox/gobrightbox)
 
-Documentation is available at [godoc.org](http://godoc.org/github.com/brightbox/gobrightbox).
+`gobrightbox` is a [Brightbox](https://www.brightbox.com) [API](https://api.gb1.brightbox.com/1.0/)
+client library written in [Go](http://golang.org/).
+
+Documentation is available at [pkg.go.dev](https://pkg.go.dev/github.com/brightbox/gobrightbox)
+
+The following are the instructions for version 1 of the GO library.
+
+[version 2 instructions](v2/README.md) are in the v2 directory.
+
+## Install
+```sh
+go get github.com/brightbox/gobrightbox@vX.Y.Z
+```
+
+where X.Y.Z is the [version](https://github.com/brightbox/gobrightbox/releases) you need.
 
 ## Authentication
 
@@ -12,7 +25,7 @@ This client does not itself handle authentication. Instead, use the standard
 [authenticate](https://api.gb1.brightbox.com/1.0/#authentication) and create
 tokens.
 
-## Currently implemented
+## Supported Objects
 
 * Full [Server](https://api.gb1.brightbox.com/1.0/#server) support
 * Full [Server Group](https://api.gb1.brightbox.com/1.0/#server_group) support
@@ -24,21 +37,12 @@ tokens.
 * Basic [Image](https://api.gb1.brightbox.com/1.0/#image) support
 * Basic event stream support
 
-## TODO
-
-* Orbit storage support
-* Collaboration support
-* User support
-* Account support
-* Cloud SQL Snapshot support
-* Cloud SQL Type support
-
 ## Help
 
 If you need help using this library, drop an email to support at brightbox dot com.
 
-## License
+## Licence
 
 This code is released under an MIT License.
 
-Copyright (c) 2015-2016 Brightbox Systems Ltd.
+Copyright (c) 2015-2022 Brightbox Systems Ltd.
