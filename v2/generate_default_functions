@@ -253,8 +253,8 @@ end
 def path_constant(struct, pathname)
   <<-ENDFUNC
 const (
-	// #{struct}APIPath returns the relative URL path to the #{struct} endpoint
-	#{struct}APIPath = "#{pathname}"
+  // #{struct.downcase}APIPath returns the relative URL path to the #{struct} endpoint
+  #{struct.downcase}APIPath = "#{pathname}"
 )
 
   ENDFUNC
@@ -264,7 +264,7 @@ def collection_function(struct, plural)
   <<-ENDFUNC
 // #{plural} returns the collection view for #{struct}
 func (c *Client) #{plural}(ctx context.Context) ([]#{struct}, error) {
-  return APIGetCollection[#{struct}](ctx, c, #{struct}APIPath)
+  return apiGetCollection[#{struct}](ctx, c, #{struct.downcase}APIPath)
 }
 
   ENDFUNC
@@ -274,7 +274,7 @@ def instance_function(struct)
   <<-ENDFUNC
 // #{struct} retrieves a detailed view of one resource
 func (c *Client) #{struct}(ctx context.Context, identifier string) (*#{struct}, error) {
-	return APIGet[#{struct}](ctx, c, path.Join(#{struct}APIPath, identifier))
+	return apiGet[#{struct}](ctx, c, path.Join(#{struct.downcase}APIPath, identifier))
 }
 
   ENDFUNC
@@ -307,7 +307,7 @@ def create_function(struct)
 // It takes an instance of #{struct}Options. Not all attributes can be
 // specified at create time (such as ID, which is allocated for you).
 func (c *Client) Create#{struct}(ctx context.Context, new#{struct} #{struct}Options) (*#{struct}, error) {
-	return APIPost[#{struct}](ctx, c, #{struct}APIPath, new#{struct})
+	return apiPost[#{struct}](ctx, c, #{struct.downcase}APIPath, new#{struct})
 }
 
   ENDFUNC
@@ -321,7 +321,7 @@ def update_function(struct)
 // It takes an instance of #{struct}Options. Specify the resource you
 // want to update using the ID field.
 func (c *Client) Update#{struct}(ctx context.Context, update#{struct} #{struct}Options) (*#{struct}, error) {
-	return APIPut[#{struct}](ctx, c, path.Join(#{struct}APIPath, update#{struct}.ID), update#{struct})
+	return apiPut[#{struct}](ctx, c, path.Join(#{struct.downcase}APIPath, update#{struct}.ID), update#{struct})
 }
 
   ENDFUNC
@@ -331,7 +331,7 @@ def destroy_function(struct)
   <<-ENDFUNC
 // Destroy#{struct} destroys an existing resource.
 func (c *Client) Destroy#{struct}(ctx context.Context, identifier string) (*#{struct}, error) {
-	return APIDelete[#{struct}](ctx, c, path.Join(#{struct}APIPath, identifier))
+	return apiDelete[#{struct}](ctx, c, path.Join(#{struct.downcase}APIPath, identifier))
 }
 
   ENDFUNC
@@ -341,12 +341,12 @@ def lock_functions(struct)
   <<-ENDFUNC
 // Lock#{struct} locks a resource against destroy requests
 func (c *Client) Lock#{struct}(ctx context.Context, identifier string) (*#{struct}, error) {
-	return APIPut[#{struct}](ctx, c, path.Join(#{struct}APIPath, identifier, "lock_resource"), nil)
+	return apiPut[#{struct}](ctx, c, path.Join(#{struct.downcase}APIPath, identifier, "lock_resource"), nil)
 }
 
 // Unlock#{struct} unlocks a resource, re-enabling destroy requests
 func (c *Client) Unlock#{struct}(ctx context.Context, identifier string) (*#{struct}, error) {
-	return APIPut[#{struct}](ctx, c, path.Join(#{struct}APIPath, identifier, "unlock_resource"), nil)
+	return apiPut[#{struct}](ctx, c, path.Join(#{struct.downcase}APIPath, identifier, "unlock_resource"), nil)
 }
   ENDFUNC
 end
@@ -367,7 +367,7 @@ def reset_password_function(struct, endpoint)
 // in the returned resource. This is the only time the new password is
 // available in plaintext.
 func (c *Client) Reset#{struct}Password(ctx context.Context, identifier string) (*#{struct}, error) {
-  return APIPost[#{struct}](ctx, c, path.Join(#{struct}APIPath, identifier, "#{endpoint}"), nil)
+  return apiPost[#{struct}](ctx, c, path.Join(#{struct.downcase}APIPath, identifier, "#{endpoint}"), nil)
 }
 
   ENDFUNC

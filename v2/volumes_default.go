@@ -6,18 +6,18 @@ import "context"
 import "path"
 
 const (
-	// VolumeAPIPath returns the relative URL path to the Volume endpoint
-	VolumeAPIPath = "volumes"
+	// volumeAPIPath returns the relative URL path to the Volume endpoint
+	volumeAPIPath = "volumes"
 )
 
 // Volumes returns the collection view for Volume
 func (c *Client) Volumes(ctx context.Context) ([]Volume, error) {
-	return APIGetCollection[Volume](ctx, c, VolumeAPIPath)
+	return apiGetCollection[Volume](ctx, c, volumeAPIPath)
 }
 
 // Volume retrieves a detailed view of one resource
 func (c *Client) Volume(ctx context.Context, identifier string) (*Volume, error) {
-	return APIGet[Volume](ctx, c, path.Join(VolumeAPIPath, identifier))
+	return apiGet[Volume](ctx, c, path.Join(volumeAPIPath, identifier))
 }
 
 // CreateVolume creates a new resource from the supplied option map.
@@ -25,7 +25,7 @@ func (c *Client) Volume(ctx context.Context, identifier string) (*Volume, error)
 // It takes an instance of VolumeOptions. Not all attributes can be
 // specified at create time (such as ID, which is allocated for you).
 func (c *Client) CreateVolume(ctx context.Context, newVolume VolumeOptions) (*Volume, error) {
-	return APIPost[Volume](ctx, c, VolumeAPIPath, newVolume)
+	return apiPost[Volume](ctx, c, volumeAPIPath, newVolume)
 }
 
 // UpdateVolume updates an existing resources's attributes. Not all
@@ -34,22 +34,22 @@ func (c *Client) CreateVolume(ctx context.Context, newVolume VolumeOptions) (*Vo
 // It takes an instance of VolumeOptions. Specify the resource you
 // want to update using the ID field.
 func (c *Client) UpdateVolume(ctx context.Context, updateVolume VolumeOptions) (*Volume, error) {
-	return APIPut[Volume](ctx, c, path.Join(VolumeAPIPath, updateVolume.ID), updateVolume)
+	return apiPut[Volume](ctx, c, path.Join(volumeAPIPath, updateVolume.ID), updateVolume)
 }
 
 // DestroyVolume destroys an existing resource.
 func (c *Client) DestroyVolume(ctx context.Context, identifier string) (*Volume, error) {
-	return APIDelete[Volume](ctx, c, path.Join(VolumeAPIPath, identifier))
+	return apiDelete[Volume](ctx, c, path.Join(volumeAPIPath, identifier))
 }
 
 // LockVolume locks a resource against destroy requests
 func (c *Client) LockVolume(ctx context.Context, identifier string) (*Volume, error) {
-	return APIPut[Volume](ctx, c, path.Join(VolumeAPIPath, identifier, "lock_resource"), nil)
+	return apiPut[Volume](ctx, c, path.Join(volumeAPIPath, identifier, "lock_resource"), nil)
 }
 
 // UnlockVolume unlocks a resource, re-enabling destroy requests
 func (c *Client) UnlockVolume(ctx context.Context, identifier string) (*Volume, error) {
-	return APIPut[Volume](ctx, c, path.Join(VolumeAPIPath, identifier, "unlock_resource"), nil)
+	return apiPut[Volume](ctx, c, path.Join(volumeAPIPath, identifier, "unlock_resource"), nil)
 }
 
 // CreatedAt implements the CreateDated interface for Volume

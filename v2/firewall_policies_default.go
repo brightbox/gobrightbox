@@ -6,18 +6,18 @@ import "context"
 import "path"
 
 const (
-	// FirewallPolicyAPIPath returns the relative URL path to the FirewallPolicy endpoint
-	FirewallPolicyAPIPath = "firewall_policies"
+	// firewallpolicyAPIPath returns the relative URL path to the FirewallPolicy endpoint
+	firewallpolicyAPIPath = "firewall_policies"
 )
 
 // FirewallPolicies returns the collection view for FirewallPolicy
 func (c *Client) FirewallPolicies(ctx context.Context) ([]FirewallPolicy, error) {
-	return APIGetCollection[FirewallPolicy](ctx, c, FirewallPolicyAPIPath)
+	return apiGetCollection[FirewallPolicy](ctx, c, firewallpolicyAPIPath)
 }
 
 // FirewallPolicy retrieves a detailed view of one resource
 func (c *Client) FirewallPolicy(ctx context.Context, identifier string) (*FirewallPolicy, error) {
-	return APIGet[FirewallPolicy](ctx, c, path.Join(FirewallPolicyAPIPath, identifier))
+	return apiGet[FirewallPolicy](ctx, c, path.Join(firewallpolicyAPIPath, identifier))
 }
 
 // CreateFirewallPolicy creates a new resource from the supplied option map.
@@ -25,7 +25,7 @@ func (c *Client) FirewallPolicy(ctx context.Context, identifier string) (*Firewa
 // It takes an instance of FirewallPolicyOptions. Not all attributes can be
 // specified at create time (such as ID, which is allocated for you).
 func (c *Client) CreateFirewallPolicy(ctx context.Context, newFirewallPolicy FirewallPolicyOptions) (*FirewallPolicy, error) {
-	return APIPost[FirewallPolicy](ctx, c, FirewallPolicyAPIPath, newFirewallPolicy)
+	return apiPost[FirewallPolicy](ctx, c, firewallpolicyAPIPath, newFirewallPolicy)
 }
 
 // UpdateFirewallPolicy updates an existing resources's attributes. Not all
@@ -34,12 +34,12 @@ func (c *Client) CreateFirewallPolicy(ctx context.Context, newFirewallPolicy Fir
 // It takes an instance of FirewallPolicyOptions. Specify the resource you
 // want to update using the ID field.
 func (c *Client) UpdateFirewallPolicy(ctx context.Context, updateFirewallPolicy FirewallPolicyOptions) (*FirewallPolicy, error) {
-	return APIPut[FirewallPolicy](ctx, c, path.Join(FirewallPolicyAPIPath, updateFirewallPolicy.ID), updateFirewallPolicy)
+	return apiPut[FirewallPolicy](ctx, c, path.Join(firewallpolicyAPIPath, updateFirewallPolicy.ID), updateFirewallPolicy)
 }
 
 // DestroyFirewallPolicy destroys an existing resource.
 func (c *Client) DestroyFirewallPolicy(ctx context.Context, identifier string) (*FirewallPolicy, error) {
-	return APIDelete[FirewallPolicy](ctx, c, path.Join(FirewallPolicyAPIPath, identifier))
+	return apiDelete[FirewallPolicy](ctx, c, path.Join(firewallpolicyAPIPath, identifier))
 }
 
 // CreatedAt implements the CreateDated interface for FirewallPolicy

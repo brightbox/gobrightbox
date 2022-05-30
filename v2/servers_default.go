@@ -6,18 +6,18 @@ import "context"
 import "path"
 
 const (
-	// ServerAPIPath returns the relative URL path to the Server endpoint
-	ServerAPIPath = "servers"
+	// serverAPIPath returns the relative URL path to the Server endpoint
+	serverAPIPath = "servers"
 )
 
 // Servers returns the collection view for Server
 func (c *Client) Servers(ctx context.Context) ([]Server, error) {
-	return APIGetCollection[Server](ctx, c, ServerAPIPath)
+	return apiGetCollection[Server](ctx, c, serverAPIPath)
 }
 
 // Server retrieves a detailed view of one resource
 func (c *Client) Server(ctx context.Context, identifier string) (*Server, error) {
-	return APIGet[Server](ctx, c, path.Join(ServerAPIPath, identifier))
+	return apiGet[Server](ctx, c, path.Join(serverAPIPath, identifier))
 }
 
 // CreateServer creates a new resource from the supplied option map.
@@ -25,7 +25,7 @@ func (c *Client) Server(ctx context.Context, identifier string) (*Server, error)
 // It takes an instance of ServerOptions. Not all attributes can be
 // specified at create time (such as ID, which is allocated for you).
 func (c *Client) CreateServer(ctx context.Context, newServer ServerOptions) (*Server, error) {
-	return APIPost[Server](ctx, c, ServerAPIPath, newServer)
+	return apiPost[Server](ctx, c, serverAPIPath, newServer)
 }
 
 // UpdateServer updates an existing resources's attributes. Not all
@@ -34,22 +34,22 @@ func (c *Client) CreateServer(ctx context.Context, newServer ServerOptions) (*Se
 // It takes an instance of ServerOptions. Specify the resource you
 // want to update using the ID field.
 func (c *Client) UpdateServer(ctx context.Context, updateServer ServerOptions) (*Server, error) {
-	return APIPut[Server](ctx, c, path.Join(ServerAPIPath, updateServer.ID), updateServer)
+	return apiPut[Server](ctx, c, path.Join(serverAPIPath, updateServer.ID), updateServer)
 }
 
 // DestroyServer destroys an existing resource.
 func (c *Client) DestroyServer(ctx context.Context, identifier string) (*Server, error) {
-	return APIDelete[Server](ctx, c, path.Join(ServerAPIPath, identifier))
+	return apiDelete[Server](ctx, c, path.Join(serverAPIPath, identifier))
 }
 
 // LockServer locks a resource against destroy requests
 func (c *Client) LockServer(ctx context.Context, identifier string) (*Server, error) {
-	return APIPut[Server](ctx, c, path.Join(ServerAPIPath, identifier, "lock_resource"), nil)
+	return apiPut[Server](ctx, c, path.Join(serverAPIPath, identifier, "lock_resource"), nil)
 }
 
 // UnlockServer unlocks a resource, re-enabling destroy requests
 func (c *Client) UnlockServer(ctx context.Context, identifier string) (*Server, error) {
-	return APIPut[Server](ctx, c, path.Join(ServerAPIPath, identifier, "unlock_resource"), nil)
+	return apiPut[Server](ctx, c, path.Join(serverAPIPath, identifier, "unlock_resource"), nil)
 }
 
 // CreatedAt implements the CreateDated interface for Server

@@ -6,18 +6,18 @@ import "context"
 import "path"
 
 const (
-	// CollaborationAPIPath returns the relative URL path to the Collaboration endpoint
-	CollaborationAPIPath = "collaborations"
+	// collaborationAPIPath returns the relative URL path to the Collaboration endpoint
+	collaborationAPIPath = "collaborations"
 )
 
 // Collaborations returns the collection view for Collaboration
 func (c *Client) Collaborations(ctx context.Context) ([]Collaboration, error) {
-	return APIGetCollection[Collaboration](ctx, c, CollaborationAPIPath)
+	return apiGetCollection[Collaboration](ctx, c, collaborationAPIPath)
 }
 
 // Collaboration retrieves a detailed view of one resource
 func (c *Client) Collaboration(ctx context.Context, identifier string) (*Collaboration, error) {
-	return APIGet[Collaboration](ctx, c, path.Join(CollaborationAPIPath, identifier))
+	return apiGet[Collaboration](ctx, c, path.Join(collaborationAPIPath, identifier))
 }
 
 // CreateCollaboration creates a new resource from the supplied option map.
@@ -25,12 +25,12 @@ func (c *Client) Collaboration(ctx context.Context, identifier string) (*Collabo
 // It takes an instance of CollaborationOptions. Not all attributes can be
 // specified at create time (such as ID, which is allocated for you).
 func (c *Client) CreateCollaboration(ctx context.Context, newCollaboration CollaborationOptions) (*Collaboration, error) {
-	return APIPost[Collaboration](ctx, c, CollaborationAPIPath, newCollaboration)
+	return apiPost[Collaboration](ctx, c, collaborationAPIPath, newCollaboration)
 }
 
 // DestroyCollaboration destroys an existing resource.
 func (c *Client) DestroyCollaboration(ctx context.Context, identifier string) (*Collaboration, error) {
-	return APIDelete[Collaboration](ctx, c, path.Join(CollaborationAPIPath, identifier))
+	return apiDelete[Collaboration](ctx, c, path.Join(collaborationAPIPath, identifier))
 }
 
 // CreatedAt implements the CreateDated interface for Collaboration

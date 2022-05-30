@@ -87,10 +87,10 @@ type VolumeEntry struct {
 // ResizeServer issues a request to change the server type of a server
 // changing the amount of cpu and ram it has.
 func (c *Client) ResizeServer(ctx context.Context, identifier string, newSize ServerNewSize) (*Server, error) {
-	return APIPost[Server](
+	return apiPost[Server](
 		ctx,
 		c,
-		path.Join(ServerAPIPath, identifier, "resize"),
+		path.Join(serverAPIPath, identifier, "resize"),
 		newSize,
 	)
 }

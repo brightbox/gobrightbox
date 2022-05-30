@@ -6,16 +6,16 @@ import "context"
 import "path"
 
 const (
-	// InterfaceAPIPath returns the relative URL path to the Interface endpoint
-	InterfaceAPIPath = "interfaces"
+	// interfaceAPIPath returns the relative URL path to the Interface endpoint
+	interfaceAPIPath = "interfaces"
 )
 
 // Interfaces returns the collection view for Interface
 func (c *Client) Interfaces(ctx context.Context) ([]Interface, error) {
-	return APIGetCollection[Interface](ctx, c, InterfaceAPIPath)
+	return apiGetCollection[Interface](ctx, c, interfaceAPIPath)
 }
 
 // Interface retrieves a detailed view of one resource
 func (c *Client) Interface(ctx context.Context, identifier string) (*Interface, error) {
-	return APIGet[Interface](ctx, c, path.Join(InterfaceAPIPath, identifier))
+	return apiGet[Interface](ctx, c, path.Join(interfaceAPIPath, identifier))
 }

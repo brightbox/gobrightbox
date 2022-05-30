@@ -62,20 +62,20 @@ type CloudIPAttachment struct {
 // destination can be an identifier of any resource capable of receiving a Cloud
 // IP, such as a server interface, a load balancer, or a cloud sql instace.
 func (c *Client) MapCloudIP(ctx context.Context, identifier string, attachment CloudIPAttachment) (*CloudIP, error) {
-	return APIPost[CloudIP](
+	return apiPost[CloudIP](
 		ctx,
 		c,
-		path.Join(CloudIPAPIPath, identifier, "map"),
+		path.Join(cloudipAPIPath, identifier, "map"),
 		attachment,
 	)
 }
 
 // UnMapCloudIP issues a request to unmap the cloud ip.
 func (c *Client) UnMapCloudIP(ctx context.Context, identifier string) (*CloudIP, error) {
-	return APIPost[CloudIP](
+	return apiPost[CloudIP](
 		ctx,
 		c,
-		path.Join(CloudIPAPIPath, identifier, "unmap"),
+		path.Join(cloudipAPIPath, identifier, "unmap"),
 		nil,
 	)
 }

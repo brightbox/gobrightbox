@@ -6,18 +6,18 @@ import "context"
 import "path"
 
 const (
-	// AccountAPIPath returns the relative URL path to the Account endpoint
-	AccountAPIPath = "accounts"
+	// accountAPIPath returns the relative URL path to the Account endpoint
+	accountAPIPath = "accounts"
 )
 
 // Accounts returns the collection view for Account
 func (c *Client) Accounts(ctx context.Context) ([]Account, error) {
-	return APIGetCollection[Account](ctx, c, AccountAPIPath)
+	return apiGetCollection[Account](ctx, c, accountAPIPath)
 }
 
 // Account retrieves a detailed view of one resource
 func (c *Client) Account(ctx context.Context, identifier string) (*Account, error) {
-	return APIGet[Account](ctx, c, path.Join(AccountAPIPath, identifier))
+	return apiGet[Account](ctx, c, path.Join(accountAPIPath, identifier))
 }
 
 // UpdateAccount updates an existing resources's attributes. Not all
@@ -26,7 +26,7 @@ func (c *Client) Account(ctx context.Context, identifier string) (*Account, erro
 // It takes an instance of AccountOptions. Specify the resource you
 // want to update using the ID field.
 func (c *Client) UpdateAccount(ctx context.Context, updateAccount AccountOptions) (*Account, error) {
-	return APIPut[Account](ctx, c, path.Join(AccountAPIPath, updateAccount.ID), updateAccount)
+	return apiPut[Account](ctx, c, path.Join(accountAPIPath, updateAccount.ID), updateAccount)
 }
 
 // CreatedAt implements the CreateDated interface for Account
@@ -38,5 +38,5 @@ func (s Account) CreatedAtUnix() int64 {
 // in the returned resource. This is the only time the new password is
 // available in plaintext.
 func (c *Client) ResetAccountPassword(ctx context.Context, identifier string) (*Account, error) {
-	return APIPost[Account](ctx, c, path.Join(AccountAPIPath, identifier, "reset_ftp_password"), nil)
+	return apiPost[Account](ctx, c, path.Join(accountAPIPath, identifier, "reset_ftp_password"), nil)
 }

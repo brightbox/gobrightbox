@@ -6,18 +6,18 @@ import "context"
 import "path"
 
 const (
-	// ServerGroupAPIPath returns the relative URL path to the ServerGroup endpoint
-	ServerGroupAPIPath = "server_groups"
+	// servergroupAPIPath returns the relative URL path to the ServerGroup endpoint
+	servergroupAPIPath = "server_groups"
 )
 
 // ServerGroups returns the collection view for ServerGroup
 func (c *Client) ServerGroups(ctx context.Context) ([]ServerGroup, error) {
-	return APIGetCollection[ServerGroup](ctx, c, ServerGroupAPIPath)
+	return apiGetCollection[ServerGroup](ctx, c, servergroupAPIPath)
 }
 
 // ServerGroup retrieves a detailed view of one resource
 func (c *Client) ServerGroup(ctx context.Context, identifier string) (*ServerGroup, error) {
-	return APIGet[ServerGroup](ctx, c, path.Join(ServerGroupAPIPath, identifier))
+	return apiGet[ServerGroup](ctx, c, path.Join(servergroupAPIPath, identifier))
 }
 
 // CreateServerGroup creates a new resource from the supplied option map.
@@ -25,7 +25,7 @@ func (c *Client) ServerGroup(ctx context.Context, identifier string) (*ServerGro
 // It takes an instance of ServerGroupOptions. Not all attributes can be
 // specified at create time (such as ID, which is allocated for you).
 func (c *Client) CreateServerGroup(ctx context.Context, newServerGroup ServerGroupOptions) (*ServerGroup, error) {
-	return APIPost[ServerGroup](ctx, c, ServerGroupAPIPath, newServerGroup)
+	return apiPost[ServerGroup](ctx, c, servergroupAPIPath, newServerGroup)
 }
 
 // UpdateServerGroup updates an existing resources's attributes. Not all
@@ -34,12 +34,12 @@ func (c *Client) CreateServerGroup(ctx context.Context, newServerGroup ServerGro
 // It takes an instance of ServerGroupOptions. Specify the resource you
 // want to update using the ID field.
 func (c *Client) UpdateServerGroup(ctx context.Context, updateServerGroup ServerGroupOptions) (*ServerGroup, error) {
-	return APIPut[ServerGroup](ctx, c, path.Join(ServerGroupAPIPath, updateServerGroup.ID), updateServerGroup)
+	return apiPut[ServerGroup](ctx, c, path.Join(servergroupAPIPath, updateServerGroup.ID), updateServerGroup)
 }
 
 // DestroyServerGroup destroys an existing resource.
 func (c *Client) DestroyServerGroup(ctx context.Context, identifier string) (*ServerGroup, error) {
-	return APIDelete[ServerGroup](ctx, c, path.Join(ServerGroupAPIPath, identifier))
+	return apiDelete[ServerGroup](ctx, c, path.Join(servergroupAPIPath, identifier))
 }
 
 // CreatedAt implements the CreateDated interface for ServerGroup

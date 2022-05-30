@@ -6,18 +6,18 @@ import "context"
 import "path"
 
 const (
-	// ConfigMapAPIPath returns the relative URL path to the ConfigMap endpoint
-	ConfigMapAPIPath = "config_maps"
+	// configmapAPIPath returns the relative URL path to the ConfigMap endpoint
+	configmapAPIPath = "config_maps"
 )
 
 // ConfigMaps returns the collection view for ConfigMap
 func (c *Client) ConfigMaps(ctx context.Context) ([]ConfigMap, error) {
-	return APIGetCollection[ConfigMap](ctx, c, ConfigMapAPIPath)
+	return apiGetCollection[ConfigMap](ctx, c, configmapAPIPath)
 }
 
 // ConfigMap retrieves a detailed view of one resource
 func (c *Client) ConfigMap(ctx context.Context, identifier string) (*ConfigMap, error) {
-	return APIGet[ConfigMap](ctx, c, path.Join(ConfigMapAPIPath, identifier))
+	return apiGet[ConfigMap](ctx, c, path.Join(configmapAPIPath, identifier))
 }
 
 // CreateConfigMap creates a new resource from the supplied option map.
@@ -25,7 +25,7 @@ func (c *Client) ConfigMap(ctx context.Context, identifier string) (*ConfigMap, 
 // It takes an instance of ConfigMapOptions. Not all attributes can be
 // specified at create time (such as ID, which is allocated for you).
 func (c *Client) CreateConfigMap(ctx context.Context, newConfigMap ConfigMapOptions) (*ConfigMap, error) {
-	return APIPost[ConfigMap](ctx, c, ConfigMapAPIPath, newConfigMap)
+	return apiPost[ConfigMap](ctx, c, configmapAPIPath, newConfigMap)
 }
 
 // UpdateConfigMap updates an existing resources's attributes. Not all
@@ -34,10 +34,10 @@ func (c *Client) CreateConfigMap(ctx context.Context, newConfigMap ConfigMapOpti
 // It takes an instance of ConfigMapOptions. Specify the resource you
 // want to update using the ID field.
 func (c *Client) UpdateConfigMap(ctx context.Context, updateConfigMap ConfigMapOptions) (*ConfigMap, error) {
-	return APIPut[ConfigMap](ctx, c, path.Join(ConfigMapAPIPath, updateConfigMap.ID), updateConfigMap)
+	return apiPut[ConfigMap](ctx, c, path.Join(configmapAPIPath, updateConfigMap.ID), updateConfigMap)
 }
 
 // DestroyConfigMap destroys an existing resource.
 func (c *Client) DestroyConfigMap(ctx context.Context, identifier string) (*ConfigMap, error) {
-	return APIDelete[ConfigMap](ctx, c, path.Join(ConfigMapAPIPath, identifier))
+	return apiDelete[ConfigMap](ctx, c, path.Join(configmapAPIPath, identifier))
 }

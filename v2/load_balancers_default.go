@@ -6,18 +6,18 @@ import "context"
 import "path"
 
 const (
-	// LoadBalancerAPIPath returns the relative URL path to the LoadBalancer endpoint
-	LoadBalancerAPIPath = "load_balancers"
+	// loadbalancerAPIPath returns the relative URL path to the LoadBalancer endpoint
+	loadbalancerAPIPath = "load_balancers"
 )
 
 // LoadBalancers returns the collection view for LoadBalancer
 func (c *Client) LoadBalancers(ctx context.Context) ([]LoadBalancer, error) {
-	return APIGetCollection[LoadBalancer](ctx, c, LoadBalancerAPIPath)
+	return apiGetCollection[LoadBalancer](ctx, c, loadbalancerAPIPath)
 }
 
 // LoadBalancer retrieves a detailed view of one resource
 func (c *Client) LoadBalancer(ctx context.Context, identifier string) (*LoadBalancer, error) {
-	return APIGet[LoadBalancer](ctx, c, path.Join(LoadBalancerAPIPath, identifier))
+	return apiGet[LoadBalancer](ctx, c, path.Join(loadbalancerAPIPath, identifier))
 }
 
 // CreateLoadBalancer creates a new resource from the supplied option map.
@@ -25,7 +25,7 @@ func (c *Client) LoadBalancer(ctx context.Context, identifier string) (*LoadBala
 // It takes an instance of LoadBalancerOptions. Not all attributes can be
 // specified at create time (such as ID, which is allocated for you).
 func (c *Client) CreateLoadBalancer(ctx context.Context, newLoadBalancer LoadBalancerOptions) (*LoadBalancer, error) {
-	return APIPost[LoadBalancer](ctx, c, LoadBalancerAPIPath, newLoadBalancer)
+	return apiPost[LoadBalancer](ctx, c, loadbalancerAPIPath, newLoadBalancer)
 }
 
 // UpdateLoadBalancer updates an existing resources's attributes. Not all
@@ -34,22 +34,22 @@ func (c *Client) CreateLoadBalancer(ctx context.Context, newLoadBalancer LoadBal
 // It takes an instance of LoadBalancerOptions. Specify the resource you
 // want to update using the ID field.
 func (c *Client) UpdateLoadBalancer(ctx context.Context, updateLoadBalancer LoadBalancerOptions) (*LoadBalancer, error) {
-	return APIPut[LoadBalancer](ctx, c, path.Join(LoadBalancerAPIPath, updateLoadBalancer.ID), updateLoadBalancer)
+	return apiPut[LoadBalancer](ctx, c, path.Join(loadbalancerAPIPath, updateLoadBalancer.ID), updateLoadBalancer)
 }
 
 // DestroyLoadBalancer destroys an existing resource.
 func (c *Client) DestroyLoadBalancer(ctx context.Context, identifier string) (*LoadBalancer, error) {
-	return APIDelete[LoadBalancer](ctx, c, path.Join(LoadBalancerAPIPath, identifier))
+	return apiDelete[LoadBalancer](ctx, c, path.Join(loadbalancerAPIPath, identifier))
 }
 
 // LockLoadBalancer locks a resource against destroy requests
 func (c *Client) LockLoadBalancer(ctx context.Context, identifier string) (*LoadBalancer, error) {
-	return APIPut[LoadBalancer](ctx, c, path.Join(LoadBalancerAPIPath, identifier, "lock_resource"), nil)
+	return apiPut[LoadBalancer](ctx, c, path.Join(loadbalancerAPIPath, identifier, "lock_resource"), nil)
 }
 
 // UnlockLoadBalancer unlocks a resource, re-enabling destroy requests
 func (c *Client) UnlockLoadBalancer(ctx context.Context, identifier string) (*LoadBalancer, error) {
-	return APIPut[LoadBalancer](ctx, c, path.Join(LoadBalancerAPIPath, identifier, "unlock_resource"), nil)
+	return apiPut[LoadBalancer](ctx, c, path.Join(loadbalancerAPIPath, identifier, "unlock_resource"), nil)
 }
 
 // CreatedAt implements the CreateDated interface for LoadBalancer

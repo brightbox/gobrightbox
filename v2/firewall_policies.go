@@ -40,10 +40,10 @@ type FirewallPolicyAttachment struct {
 // ApplyFirewallPolicy issues a request to apply the given firewall policy to
 // the given server group.
 func (c *Client) ApplyFirewallPolicy(ctx context.Context, identifier string, attachment FirewallPolicyAttachment) (*FirewallPolicy, error) {
-	return APIPost[FirewallPolicy](
+	return apiPost[FirewallPolicy](
 		ctx,
 		c,
-		path.Join(FirewallPolicyAPIPath, identifier, "apply_to"),
+		path.Join(firewallpolicyAPIPath, identifier, "apply_to"),
 		attachment,
 	)
 
@@ -52,10 +52,10 @@ func (c *Client) ApplyFirewallPolicy(ctx context.Context, identifier string, att
 // RemoveFirewallPolicy issues a request to remove the given firewall policy from
 // the given server group.
 func (c *Client) RemoveFirewallPolicy(ctx context.Context, identifier string, serverGroup FirewallPolicyAttachment) (*FirewallPolicy, error) {
-	return APIPost[FirewallPolicy](
+	return apiPost[FirewallPolicy](
 		ctx,
 		c,
-		path.Join(FirewallPolicyAPIPath, identifier, "remove"),
+		path.Join(firewallpolicyAPIPath, identifier, "remove"),
 		serverGroup,
 	)
 }

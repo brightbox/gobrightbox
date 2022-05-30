@@ -73,20 +73,20 @@ type VolumeNewSize struct {
 // AttachVolume issues a request to attach the volume to a particular server and
 // optionally mark it as the boot volume
 func (c *Client) AttachVolume(ctx context.Context, identifier string, attachment VolumeAttachment) (*Volume, error) {
-	return APIPost[Volume](
+	return apiPost[Volume](
 		ctx,
 		c,
-		path.Join(VolumeAPIPath, identifier, "attach"),
+		path.Join(volumeAPIPath, identifier, "attach"),
 		attachment,
 	)
 }
 
 // DetachVolume issues a request to disconnect a volume from a server
 func (c *Client) DetachVolume(ctx context.Context, identifier string) (*Volume, error) {
-	return APIPost[Volume](
+	return apiPost[Volume](
 		ctx,
 		c,
-		path.Join(VolumeAPIPath, identifier, "detach"),
+		path.Join(volumeAPIPath, identifier, "detach"),
 		nil,
 	)
 }
@@ -94,10 +94,10 @@ func (c *Client) DetachVolume(ctx context.Context, identifier string) (*Volume, 
 // ResizeVolume issues a request to change the size of a volume.
 // The old size has to be specified as well as the new one.
 func (c *Client) ResizeVolume(ctx context.Context, identifier string, newSize VolumeNewSize) (*Volume, error) {
-	return APIPost[Volume](
+	return apiPost[Volume](
 		ctx,
 		c,
-		path.Join(VolumeAPIPath, identifier, "resize"),
+		path.Join(volumeAPIPath, identifier, "resize"),
 		newSize,
 	)
 }

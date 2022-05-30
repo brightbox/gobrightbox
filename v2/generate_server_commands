@@ -52,7 +52,7 @@ def generate_server_command(command, text)
   <<-ENDFUNC
 // #{identifier} #{text}
 func (c *Client) #{identifier}(ctx context.Context, identifier string) (*Server, error) {
-	return APIPost[Server](ctx, c, path.Join(ServerAPIPath, identifier, "#{command}"), nil)
+	return apiPost[Server](ctx, c, path.Join(serverAPIPath, identifier, "#{command}"), nil)
 }
 
   ENDFUNC

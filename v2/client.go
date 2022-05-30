@@ -56,11 +56,11 @@ func (q *Client) DisallowUnknownFields() {
 	q.hardcoreDecode = true
 }
 
-// APIGet makes a GET request to the API
+// apiGet makes a GET request to the API
 // and decoding any JSON response.
 //
 // relUrl is the relative path of the endpoint to the base URL, e.g. "servers".
-func APIGet[O any](
+func apiGet[O any](
 	ctx context.Context,
 	q *Client,
 	relUrl string,
@@ -68,30 +68,30 @@ func APIGet[O any](
 	return apiCommand[O](ctx, q, "GET", relUrl)
 }
 
-// APIGetCollection makes a GET request to the API
+// apiGetCollection makes a GET request to the API
 // and decoding any JSON response into an appropriate slice
 //
 // relUrl is the relative path of the endpoint to the base URL, e.g. "servers".
-func APIGetCollection[O any](
+func apiGetCollection[O any](
 	ctx context.Context,
 	q *Client,
 	relUrl string,
 ) ([]O, error) {
-	collection, err := APIGet[[]O](ctx, q, relUrl)
+	collection, err := apiGet[[]O](ctx, q, relUrl)
 	if collection == nil {
 		return nil, err
 	}
 	return *collection, err
 }
 
-// APIPost makes a POST request to the API, JSON encoding any given data
+// apiPost makes a POST request to the API, JSON encoding any given data
 // and decoding any JSON response.
 //
 // relUrl is the relative path of the endpoint to the base URL, e.g. "servers".
 //
 // if reqBody is non-nil, it will be Marshaled to JSON and set as the request
 // body.
-func APIPost[O any](
+func apiPost[O any](
 	ctx context.Context,
 	q *Client,
 	relUrl string,
@@ -100,14 +100,14 @@ func APIPost[O any](
 	return apiObject[O](ctx, q, "POST", relUrl, reqBody)
 }
 
-// APIPut makes a PUT request to the API, JSON encoding any given data
+// apiPut makes a PUT request to the API, JSON encoding any given data
 // and decoding any JSON response.
 //
 // relUrl is the relative path of the endpoint to the base URL, e.g. "servers".
 //
 // if reqBody is non-nil, it will be Marshaled to JSON and set as the request
 // body.
-func APIPut[O any](
+func apiPut[O any](
 	ctx context.Context,
 	q *Client,
 	relUrl string,
@@ -116,10 +116,10 @@ func APIPut[O any](
 	return apiObject[O](ctx, q, "PUT", relUrl, reqBody)
 }
 
-// APIDelete makes a DELETE request to the API
+// apiDelete makes a DELETE request to the API
 //
 // relUrl is the relative path of the endpoint to the base URL, e.g. "servers".
-func APIDelete[O any](
+func apiDelete[O any](
 	ctx context.Context,
 	q *Client,
 	relUrl string,

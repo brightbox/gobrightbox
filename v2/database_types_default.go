@@ -6,16 +6,16 @@ import "context"
 import "path"
 
 const (
-	// DatabaseServerTypeAPIPath returns the relative URL path to the DatabaseServerType endpoint
-	DatabaseServerTypeAPIPath = "database_types"
+	// databaseservertypeAPIPath returns the relative URL path to the DatabaseServerType endpoint
+	databaseservertypeAPIPath = "database_types"
 )
 
 // DatabaseServerTypes returns the collection view for DatabaseServerType
 func (c *Client) DatabaseServerTypes(ctx context.Context) ([]DatabaseServerType, error) {
-	return APIGetCollection[DatabaseServerType](ctx, c, DatabaseServerTypeAPIPath)
+	return apiGetCollection[DatabaseServerType](ctx, c, databaseservertypeAPIPath)
 }
 
 // DatabaseServerType retrieves a detailed view of one resource
 func (c *Client) DatabaseServerType(ctx context.Context, identifier string) (*DatabaseServerType, error) {
-	return APIGet[DatabaseServerType](ctx, c, path.Join(DatabaseServerTypeAPIPath, identifier))
+	return apiGet[DatabaseServerType](ctx, c, path.Join(databaseservertypeAPIPath, identifier))
 }

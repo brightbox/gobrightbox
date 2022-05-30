@@ -6,18 +6,18 @@ import "context"
 import "path"
 
 const (
-	// DatabaseServerAPIPath returns the relative URL path to the DatabaseServer endpoint
-	DatabaseServerAPIPath = "database_servers"
+	// databaseserverAPIPath returns the relative URL path to the DatabaseServer endpoint
+	databaseserverAPIPath = "database_servers"
 )
 
 // DatabaseServers returns the collection view for DatabaseServer
 func (c *Client) DatabaseServers(ctx context.Context) ([]DatabaseServer, error) {
-	return APIGetCollection[DatabaseServer](ctx, c, DatabaseServerAPIPath)
+	return apiGetCollection[DatabaseServer](ctx, c, databaseserverAPIPath)
 }
 
 // DatabaseServer retrieves a detailed view of one resource
 func (c *Client) DatabaseServer(ctx context.Context, identifier string) (*DatabaseServer, error) {
-	return APIGet[DatabaseServer](ctx, c, path.Join(DatabaseServerAPIPath, identifier))
+	return apiGet[DatabaseServer](ctx, c, path.Join(databaseserverAPIPath, identifier))
 }
 
 // CreateDatabaseServer creates a new resource from the supplied option map.
@@ -25,7 +25,7 @@ func (c *Client) DatabaseServer(ctx context.Context, identifier string) (*Databa
 // It takes an instance of DatabaseServerOptions. Not all attributes can be
 // specified at create time (such as ID, which is allocated for you).
 func (c *Client) CreateDatabaseServer(ctx context.Context, newDatabaseServer DatabaseServerOptions) (*DatabaseServer, error) {
-	return APIPost[DatabaseServer](ctx, c, DatabaseServerAPIPath, newDatabaseServer)
+	return apiPost[DatabaseServer](ctx, c, databaseserverAPIPath, newDatabaseServer)
 }
 
 // UpdateDatabaseServer updates an existing resources's attributes. Not all
@@ -34,22 +34,22 @@ func (c *Client) CreateDatabaseServer(ctx context.Context, newDatabaseServer Dat
 // It takes an instance of DatabaseServerOptions. Specify the resource you
 // want to update using the ID field.
 func (c *Client) UpdateDatabaseServer(ctx context.Context, updateDatabaseServer DatabaseServerOptions) (*DatabaseServer, error) {
-	return APIPut[DatabaseServer](ctx, c, path.Join(DatabaseServerAPIPath, updateDatabaseServer.ID), updateDatabaseServer)
+	return apiPut[DatabaseServer](ctx, c, path.Join(databaseserverAPIPath, updateDatabaseServer.ID), updateDatabaseServer)
 }
 
 // DestroyDatabaseServer destroys an existing resource.
 func (c *Client) DestroyDatabaseServer(ctx context.Context, identifier string) (*DatabaseServer, error) {
-	return APIDelete[DatabaseServer](ctx, c, path.Join(DatabaseServerAPIPath, identifier))
+	return apiDelete[DatabaseServer](ctx, c, path.Join(databaseserverAPIPath, identifier))
 }
 
 // LockDatabaseServer locks a resource against destroy requests
 func (c *Client) LockDatabaseServer(ctx context.Context, identifier string) (*DatabaseServer, error) {
-	return APIPut[DatabaseServer](ctx, c, path.Join(DatabaseServerAPIPath, identifier, "lock_resource"), nil)
+	return apiPut[DatabaseServer](ctx, c, path.Join(databaseserverAPIPath, identifier, "lock_resource"), nil)
 }
 
 // UnlockDatabaseServer unlocks a resource, re-enabling destroy requests
 func (c *Client) UnlockDatabaseServer(ctx context.Context, identifier string) (*DatabaseServer, error) {
-	return APIPut[DatabaseServer](ctx, c, path.Join(DatabaseServerAPIPath, identifier, "unlock_resource"), nil)
+	return apiPut[DatabaseServer](ctx, c, path.Join(databaseserverAPIPath, identifier, "unlock_resource"), nil)
 }
 
 // CreatedAt implements the CreateDated interface for DatabaseServer
@@ -61,5 +61,5 @@ func (s DatabaseServer) CreatedAtUnix() int64 {
 // in the returned resource. This is the only time the new password is
 // available in plaintext.
 func (c *Client) ResetDatabaseServerPassword(ctx context.Context, identifier string) (*DatabaseServer, error) {
-	return APIPost[DatabaseServer](ctx, c, path.Join(DatabaseServerAPIPath, identifier, "reset_password"), nil)
+	return apiPost[DatabaseServer](ctx, c, path.Join(databaseserverAPIPath, identifier, "reset_password"), nil)
 }

@@ -6,18 +6,18 @@ import "context"
 import "path"
 
 const (
-	// APIClientAPIPath returns the relative URL path to the APIClient endpoint
-	APIClientAPIPath = "api_clients"
+	// apiclientAPIPath returns the relative URL path to the APIClient endpoint
+	apiclientAPIPath = "api_clients"
 )
 
 // APIClients returns the collection view for APIClient
 func (c *Client) APIClients(ctx context.Context) ([]APIClient, error) {
-	return APIGetCollection[APIClient](ctx, c, APIClientAPIPath)
+	return apiGetCollection[APIClient](ctx, c, apiclientAPIPath)
 }
 
 // APIClient retrieves a detailed view of one resource
 func (c *Client) APIClient(ctx context.Context, identifier string) (*APIClient, error) {
-	return APIGet[APIClient](ctx, c, path.Join(APIClientAPIPath, identifier))
+	return apiGet[APIClient](ctx, c, path.Join(apiclientAPIPath, identifier))
 }
 
 // CreateAPIClient creates a new resource from the supplied option map.
@@ -25,7 +25,7 @@ func (c *Client) APIClient(ctx context.Context, identifier string) (*APIClient, 
 // It takes an instance of APIClientOptions. Not all attributes can be
 // specified at create time (such as ID, which is allocated for you).
 func (c *Client) CreateAPIClient(ctx context.Context, newAPIClient APIClientOptions) (*APIClient, error) {
-	return APIPost[APIClient](ctx, c, APIClientAPIPath, newAPIClient)
+	return apiPost[APIClient](ctx, c, apiclientAPIPath, newAPIClient)
 }
 
 // UpdateAPIClient updates an existing resources's attributes. Not all
@@ -34,17 +34,17 @@ func (c *Client) CreateAPIClient(ctx context.Context, newAPIClient APIClientOpti
 // It takes an instance of APIClientOptions. Specify the resource you
 // want to update using the ID field.
 func (c *Client) UpdateAPIClient(ctx context.Context, updateAPIClient APIClientOptions) (*APIClient, error) {
-	return APIPut[APIClient](ctx, c, path.Join(APIClientAPIPath, updateAPIClient.ID), updateAPIClient)
+	return apiPut[APIClient](ctx, c, path.Join(apiclientAPIPath, updateAPIClient.ID), updateAPIClient)
 }
 
 // DestroyAPIClient destroys an existing resource.
 func (c *Client) DestroyAPIClient(ctx context.Context, identifier string) (*APIClient, error) {
-	return APIDelete[APIClient](ctx, c, path.Join(APIClientAPIPath, identifier))
+	return apiDelete[APIClient](ctx, c, path.Join(apiclientAPIPath, identifier))
 }
 
 // ResetAPIClientPassword resets the password in APIClient, returning it
 // in the returned resource. This is the only time the new password is
 // available in plaintext.
 func (c *Client) ResetAPIClientPassword(ctx context.Context, identifier string) (*APIClient, error) {
-	return APIPost[APIClient](ctx, c, path.Join(APIClientAPIPath, identifier, "reset_secret"), nil)
+	return apiPost[APIClient](ctx, c, path.Join(apiclientAPIPath, identifier, "reset_secret"), nil)
 }

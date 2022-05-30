@@ -6,18 +6,18 @@ import "context"
 import "path"
 
 const (
-	// CloudIPAPIPath returns the relative URL path to the CloudIP endpoint
-	CloudIPAPIPath = "cloud_ips"
+	// cloudipAPIPath returns the relative URL path to the CloudIP endpoint
+	cloudipAPIPath = "cloud_ips"
 )
 
 // CloudIPs returns the collection view for CloudIP
 func (c *Client) CloudIPs(ctx context.Context) ([]CloudIP, error) {
-	return APIGetCollection[CloudIP](ctx, c, CloudIPAPIPath)
+	return apiGetCollection[CloudIP](ctx, c, cloudipAPIPath)
 }
 
 // CloudIP retrieves a detailed view of one resource
 func (c *Client) CloudIP(ctx context.Context, identifier string) (*CloudIP, error) {
-	return APIGet[CloudIP](ctx, c, path.Join(CloudIPAPIPath, identifier))
+	return apiGet[CloudIP](ctx, c, path.Join(cloudipAPIPath, identifier))
 }
 
 // CreateCloudIP creates a new resource from the supplied option map.
@@ -25,7 +25,7 @@ func (c *Client) CloudIP(ctx context.Context, identifier string) (*CloudIP, erro
 // It takes an instance of CloudIPOptions. Not all attributes can be
 // specified at create time (such as ID, which is allocated for you).
 func (c *Client) CreateCloudIP(ctx context.Context, newCloudIP CloudIPOptions) (*CloudIP, error) {
-	return APIPost[CloudIP](ctx, c, CloudIPAPIPath, newCloudIP)
+	return apiPost[CloudIP](ctx, c, cloudipAPIPath, newCloudIP)
 }
 
 // UpdateCloudIP updates an existing resources's attributes. Not all
@@ -34,10 +34,10 @@ func (c *Client) CreateCloudIP(ctx context.Context, newCloudIP CloudIPOptions) (
 // It takes an instance of CloudIPOptions. Specify the resource you
 // want to update using the ID field.
 func (c *Client) UpdateCloudIP(ctx context.Context, updateCloudIP CloudIPOptions) (*CloudIP, error) {
-	return APIPut[CloudIP](ctx, c, path.Join(CloudIPAPIPath, updateCloudIP.ID), updateCloudIP)
+	return apiPut[CloudIP](ctx, c, path.Join(cloudipAPIPath, updateCloudIP.ID), updateCloudIP)
 }
 
 // DestroyCloudIP destroys an existing resource.
 func (c *Client) DestroyCloudIP(ctx context.Context, identifier string) (*CloudIP, error) {
-	return APIDelete[CloudIP](ctx, c, path.Join(CloudIPAPIPath, identifier))
+	return apiDelete[CloudIP](ctx, c, path.Join(cloudipAPIPath, identifier))
 }

@@ -6,18 +6,18 @@ import "context"
 import "path"
 
 const (
-	// UserAPIPath returns the relative URL path to the User endpoint
-	UserAPIPath = "users"
+	// userAPIPath returns the relative URL path to the User endpoint
+	userAPIPath = "users"
 )
 
 // Users returns the collection view for User
 func (c *Client) Users(ctx context.Context) ([]User, error) {
-	return APIGetCollection[User](ctx, c, UserAPIPath)
+	return apiGetCollection[User](ctx, c, userAPIPath)
 }
 
 // User retrieves a detailed view of one resource
 func (c *Client) User(ctx context.Context, identifier string) (*User, error) {
-	return APIGet[User](ctx, c, path.Join(UserAPIPath, identifier))
+	return apiGet[User](ctx, c, path.Join(userAPIPath, identifier))
 }
 
 // UpdateUser updates an existing resources's attributes. Not all
@@ -26,7 +26,7 @@ func (c *Client) User(ctx context.Context, identifier string) (*User, error) {
 // It takes an instance of UserOptions. Specify the resource you
 // want to update using the ID field.
 func (c *Client) UpdateUser(ctx context.Context, updateUser UserOptions) (*User, error) {
-	return APIPut[User](ctx, c, path.Join(UserAPIPath, updateUser.ID), updateUser)
+	return apiPut[User](ctx, c, path.Join(userAPIPath, updateUser.ID), updateUser)
 }
 
 // CreatedAt implements the CreateDated interface for User

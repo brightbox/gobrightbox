@@ -109,10 +109,10 @@ type LoadBalancerNode struct {
 
 // AddNodesToLoadBalancer adds nodes to an existing load balancer.
 func (c *Client) AddNodesToLoadBalancer(ctx context.Context, identifier string, nodes []LoadBalancerNode) (*LoadBalancer, error) {
-	return APIPost[LoadBalancer](
+	return apiPost[LoadBalancer](
 		ctx,
 		c,
-		path.Join(LoadBalancerAPIPath, identifier, "add_nodes"),
+		path.Join(loadbalancerAPIPath, identifier, "add_nodes"),
 		nodes,
 	)
 
@@ -120,20 +120,20 @@ func (c *Client) AddNodesToLoadBalancer(ctx context.Context, identifier string, 
 
 // RemoveNodesFromLoadBalancer removes nodes from an existing load balancer.
 func (c *Client) RemoveNodesFromLoadBalancer(ctx context.Context, identifier string, nodes []LoadBalancerNode) (*LoadBalancer, error) {
-	return APIPost[LoadBalancer](
+	return apiPost[LoadBalancer](
 		ctx,
 		c,
-		path.Join(LoadBalancerAPIPath, identifier, "remove_nodes"),
+		path.Join(loadbalancerAPIPath, identifier, "remove_nodes"),
 		nodes,
 	)
 }
 
 // AddListenersToLoadBalancer adds listeners to an existing load balancer.
 func (c *Client) AddListenersToLoadBalancer(ctx context.Context, identifier string, listeners []LoadBalancerListener) (*LoadBalancer, error) {
-	return APIPost[LoadBalancer](
+	return apiPost[LoadBalancer](
 		ctx,
 		c,
-		path.Join(LoadBalancerAPIPath, identifier, "add_listeners"),
+		path.Join(loadbalancerAPIPath, identifier, "add_listeners"),
 		listeners,
 	)
 
@@ -141,10 +141,10 @@ func (c *Client) AddListenersToLoadBalancer(ctx context.Context, identifier stri
 
 // RemoveListenersFromLoadBalancer removes listeners from an existing load balancer.
 func (c *Client) RemoveListenersFromLoadBalancer(ctx context.Context, identifier string, listeners []LoadBalancerListener) (*LoadBalancer, error) {
-	return APIPost[LoadBalancer](
+	return apiPost[LoadBalancer](
 		ctx,
 		c,
-		path.Join(LoadBalancerAPIPath, identifier, "remove_listeners"),
+		path.Join(loadbalancerAPIPath, identifier, "remove_listeners"),
 		listeners,
 	)
 }

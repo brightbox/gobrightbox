@@ -6,18 +6,18 @@ import "context"
 import "path"
 
 const (
-	// DatabaseSnapshotAPIPath returns the relative URL path to the DatabaseSnapshot endpoint
-	DatabaseSnapshotAPIPath = "database_snapshots"
+	// databasesnapshotAPIPath returns the relative URL path to the DatabaseSnapshot endpoint
+	databasesnapshotAPIPath = "database_snapshots"
 )
 
 // DatabaseSnapshots returns the collection view for DatabaseSnapshot
 func (c *Client) DatabaseSnapshots(ctx context.Context) ([]DatabaseSnapshot, error) {
-	return APIGetCollection[DatabaseSnapshot](ctx, c, DatabaseSnapshotAPIPath)
+	return apiGetCollection[DatabaseSnapshot](ctx, c, databasesnapshotAPIPath)
 }
 
 // DatabaseSnapshot retrieves a detailed view of one resource
 func (c *Client) DatabaseSnapshot(ctx context.Context, identifier string) (*DatabaseSnapshot, error) {
-	return APIGet[DatabaseSnapshot](ctx, c, path.Join(DatabaseSnapshotAPIPath, identifier))
+	return apiGet[DatabaseSnapshot](ctx, c, path.Join(databasesnapshotAPIPath, identifier))
 }
 
 // UpdateDatabaseSnapshot updates an existing resources's attributes. Not all
@@ -26,22 +26,22 @@ func (c *Client) DatabaseSnapshot(ctx context.Context, identifier string) (*Data
 // It takes an instance of DatabaseSnapshotOptions. Specify the resource you
 // want to update using the ID field.
 func (c *Client) UpdateDatabaseSnapshot(ctx context.Context, updateDatabaseSnapshot DatabaseSnapshotOptions) (*DatabaseSnapshot, error) {
-	return APIPut[DatabaseSnapshot](ctx, c, path.Join(DatabaseSnapshotAPIPath, updateDatabaseSnapshot.ID), updateDatabaseSnapshot)
+	return apiPut[DatabaseSnapshot](ctx, c, path.Join(databasesnapshotAPIPath, updateDatabaseSnapshot.ID), updateDatabaseSnapshot)
 }
 
 // DestroyDatabaseSnapshot destroys an existing resource.
 func (c *Client) DestroyDatabaseSnapshot(ctx context.Context, identifier string) (*DatabaseSnapshot, error) {
-	return APIDelete[DatabaseSnapshot](ctx, c, path.Join(DatabaseSnapshotAPIPath, identifier))
+	return apiDelete[DatabaseSnapshot](ctx, c, path.Join(databasesnapshotAPIPath, identifier))
 }
 
 // LockDatabaseSnapshot locks a resource against destroy requests
 func (c *Client) LockDatabaseSnapshot(ctx context.Context, identifier string) (*DatabaseSnapshot, error) {
-	return APIPut[DatabaseSnapshot](ctx, c, path.Join(DatabaseSnapshotAPIPath, identifier, "lock_resource"), nil)
+	return apiPut[DatabaseSnapshot](ctx, c, path.Join(databasesnapshotAPIPath, identifier, "lock_resource"), nil)
 }
 
 // UnlockDatabaseSnapshot unlocks a resource, re-enabling destroy requests
 func (c *Client) UnlockDatabaseSnapshot(ctx context.Context, identifier string) (*DatabaseSnapshot, error) {
-	return APIPut[DatabaseSnapshot](ctx, c, path.Join(DatabaseSnapshotAPIPath, identifier, "unlock_resource"), nil)
+	return apiPut[DatabaseSnapshot](ctx, c, path.Join(databasesnapshotAPIPath, identifier, "unlock_resource"), nil)
 }
 
 // CreatedAt implements the CreateDated interface for DatabaseSnapshot

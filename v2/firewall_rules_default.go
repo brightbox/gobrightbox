@@ -6,18 +6,18 @@ import "context"
 import "path"
 
 const (
-	// FirewallRuleAPIPath returns the relative URL path to the FirewallRule endpoint
-	FirewallRuleAPIPath = "firewall_rules"
+	// firewallruleAPIPath returns the relative URL path to the FirewallRule endpoint
+	firewallruleAPIPath = "firewall_rules"
 )
 
 // FirewallRules returns the collection view for FirewallRule
 func (c *Client) FirewallRules(ctx context.Context) ([]FirewallRule, error) {
-	return APIGetCollection[FirewallRule](ctx, c, FirewallRuleAPIPath)
+	return apiGetCollection[FirewallRule](ctx, c, firewallruleAPIPath)
 }
 
 // FirewallRule retrieves a detailed view of one resource
 func (c *Client) FirewallRule(ctx context.Context, identifier string) (*FirewallRule, error) {
-	return APIGet[FirewallRule](ctx, c, path.Join(FirewallRuleAPIPath, identifier))
+	return apiGet[FirewallRule](ctx, c, path.Join(firewallruleAPIPath, identifier))
 }
 
 // CreateFirewallRule creates a new resource from the supplied option map.
@@ -25,7 +25,7 @@ func (c *Client) FirewallRule(ctx context.Context, identifier string) (*Firewall
 // It takes an instance of FirewallRuleOptions. Not all attributes can be
 // specified at create time (such as ID, which is allocated for you).
 func (c *Client) CreateFirewallRule(ctx context.Context, newFirewallRule FirewallRuleOptions) (*FirewallRule, error) {
-	return APIPost[FirewallRule](ctx, c, FirewallRuleAPIPath, newFirewallRule)
+	return apiPost[FirewallRule](ctx, c, firewallruleAPIPath, newFirewallRule)
 }
 
 // UpdateFirewallRule updates an existing resources's attributes. Not all
@@ -34,12 +34,12 @@ func (c *Client) CreateFirewallRule(ctx context.Context, newFirewallRule Firewal
 // It takes an instance of FirewallRuleOptions. Specify the resource you
 // want to update using the ID field.
 func (c *Client) UpdateFirewallRule(ctx context.Context, updateFirewallRule FirewallRuleOptions) (*FirewallRule, error) {
-	return APIPut[FirewallRule](ctx, c, path.Join(FirewallRuleAPIPath, updateFirewallRule.ID), updateFirewallRule)
+	return apiPut[FirewallRule](ctx, c, path.Join(firewallruleAPIPath, updateFirewallRule.ID), updateFirewallRule)
 }
 
 // DestroyFirewallRule destroys an existing resource.
 func (c *Client) DestroyFirewallRule(ctx context.Context, identifier string) (*FirewallRule, error) {
-	return APIDelete[FirewallRule](ctx, c, path.Join(FirewallRuleAPIPath, identifier))
+	return apiDelete[FirewallRule](ctx, c, path.Join(firewallruleAPIPath, identifier))
 }
 
 // CreatedAt implements the CreateDated interface for FirewallRule

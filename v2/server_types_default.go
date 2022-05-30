@@ -8,18 +8,18 @@ import "path"
 import "fmt"
 
 const (
-	// ServerTypeAPIPath returns the relative URL path to the ServerType endpoint
-	ServerTypeAPIPath = "server_types"
+	// servertypeAPIPath returns the relative URL path to the ServerType endpoint
+	servertypeAPIPath = "server_types"
 )
 
 // ServerTypes returns the collection view for ServerType
 func (c *Client) ServerTypes(ctx context.Context) ([]ServerType, error) {
-	return APIGetCollection[ServerType](ctx, c, ServerTypeAPIPath)
+	return apiGetCollection[ServerType](ctx, c, servertypeAPIPath)
 }
 
 // ServerType retrieves a detailed view of one resource
 func (c *Client) ServerType(ctx context.Context, identifier string) (*ServerType, error) {
-	return APIGet[ServerType](ctx, c, path.Join(ServerTypeAPIPath, identifier))
+	return apiGet[ServerType](ctx, c, path.Join(servertypeAPIPath, identifier))
 }
 
 // ServerType retrieves a detailed view of one resource using a handle

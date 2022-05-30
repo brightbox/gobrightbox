@@ -41,20 +41,20 @@ type ServerGroupMemberList struct {
 
 // AddServersToServerGroup adds servers to an existing server group
 func (c *Client) AddServersToServerGroup(ctx context.Context, identifier string, attachment ServerGroupMemberList) (*ServerGroup, error) {
-	return APIPost[ServerGroup](
+	return apiPost[ServerGroup](
 		ctx,
 		c,
-		path.Join(ServerGroupAPIPath, identifier, "add_servers"),
+		path.Join(servergroupAPIPath, identifier, "add_servers"),
 		attachment,
 	)
 }
 
 // RemoveServersFromServerGroup remove servers from an existing server group
 func (c *Client) RemoveServersFromServerGroup(ctx context.Context, identifier string, attachment ServerGroupMemberList) (*ServerGroup, error) {
-	return APIPost[ServerGroup](
+	return apiPost[ServerGroup](
 		ctx,
 		c,
-		path.Join(ServerGroupAPIPath, identifier, "remove_servers"),
+		path.Join(servergroupAPIPath, identifier, "remove_servers"),
 		attachment,
 	)
 }
@@ -65,10 +65,10 @@ func (c *Client) MoveServersToServerGroup(ctx context.Context, from string, to s
 		ServerGroupMemberList
 		Destination string `json:"destination"`
 	}{servers, to}
-	return APIPost[ServerGroup](
+	return apiPost[ServerGroup](
 		ctx,
 		c,
-		path.Join(ServerGroupAPIPath, from, "move_servers"),
+		path.Join(servergroupAPIPath, from, "move_servers"),
 		opts,
 	)
 }

@@ -8,18 +8,18 @@ import "path"
 import "fmt"
 
 const (
-	// ZoneAPIPath returns the relative URL path to the Zone endpoint
-	ZoneAPIPath = "zones"
+	// zoneAPIPath returns the relative URL path to the Zone endpoint
+	zoneAPIPath = "zones"
 )
 
 // Zones returns the collection view for Zone
 func (c *Client) Zones(ctx context.Context) ([]Zone, error) {
-	return APIGetCollection[Zone](ctx, c, ZoneAPIPath)
+	return apiGetCollection[Zone](ctx, c, zoneAPIPath)
 }
 
 // Zone retrieves a detailed view of one resource
 func (c *Client) Zone(ctx context.Context, identifier string) (*Zone, error) {
-	return APIGet[Zone](ctx, c, path.Join(ZoneAPIPath, identifier))
+	return apiGet[Zone](ctx, c, path.Join(zoneAPIPath, identifier))
 }
 
 // Zone retrieves a detailed view of one resource using a handle
