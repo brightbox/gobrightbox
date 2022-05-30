@@ -11,7 +11,7 @@ import (
 )
 
 // Authenticate using OAuth2 password credentials, and get a list of configMaps
-func ExamplePasswordCredentials() {
+func ExampleConnect() {
 	// Brightbox username and password
 	userName := "john@example.com"
 	userPassword := "mypassword"
