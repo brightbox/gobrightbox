@@ -6,7 +6,7 @@ import (
 	"github.com/brightbox/gobrightbox/v2/endpoint"
 )
 
-func ExampleAPIURL() {
+func ExampleConfig() {
 	testConfig := &endpoint.Config{
 		BaseURL: "https://api.gb2.brightbox.com",
 		Version: "2.0",
@@ -18,7 +18,7 @@ func ExampleAPIURL() {
 	// Output: https://api.gb2.brightbox.com/2.0/
 }
 
-func ExampleAPIURL_defaults() {
+func ExampleConfig_defaults() {
 	testConfig := &endpoint.Config{}
 	u, err := testConfig.APIURL()
 	if err == nil {
@@ -27,7 +27,7 @@ func ExampleAPIURL_defaults() {
 	// Output: https://api.gb1.brightbox.com/1.0/
 }
 
-func ExampleAPIURL_account() {
+func ExampleConfig_account() {
 	testConfig := &endpoint.Config{
 		BaseURL: "https://api.gb2.brightbox.com",
 		Version: "2.0",
@@ -40,7 +40,7 @@ func ExampleAPIURL_account() {
 	// Output: https://api.gb2.brightbox.com/2.0/?account_id=acc-testy
 }
 
-func ExampleTokenURL() {
+func ExampleConfig_token() {
 	testConfig := &endpoint.Config{}
 	url, err := testConfig.TokenURL()
 	if err == nil {
@@ -49,7 +49,7 @@ func ExampleTokenURL() {
 	// Output: https://api.gb1.brightbox.com/token/
 }
 
-func ExampleStorageURL() {
+func ExampleConfig_storage() {
 	testConfig := &endpoint.Config{
 		BaseURL: "https://files.gb2.brightbox.com",
 		Version: "v2",
@@ -61,7 +61,7 @@ func ExampleStorageURL() {
 	// Output: https://files.gb2.brightbox.com/v2/
 }
 
-func ExampleStorageURL_defaults() {
+func ExampleConfig_storageDefaults() {
 	testConfig := &endpoint.Config{}
 	u, err := testConfig.StorageURL()
 	if err == nil {
@@ -70,7 +70,7 @@ func ExampleStorageURL_defaults() {
 	// Output: https://orbit.brightbox.com/v1/
 }
 
-func ExampleStorageURL_account() {
+func ExampleConfig_storageAccount() {
 	testConfig := &endpoint.Config{
 		Account: "acc-testy",
 	}
