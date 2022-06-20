@@ -9,9 +9,9 @@ import (
 	"github.com/brightbox/gobrightbox/v2/clientcredentials"
 )
 
-// Authenticate using an API Client identifier and secret, and get a list of
-// configMaps
-func ExampleConnect_fourth() {
+// Authenticate using an API Client identifier and secret, and obtain a
+// ServerType by its handle
+func ExampleConnect_server_type_by_handle() {
 	// Brightbox client details issued on a specific account
 	clientID := "cli-xxxxx"
 	clientSecret := "somesecret"

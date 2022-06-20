@@ -9,7 +9,7 @@ Documentation is available at [pkg.go.dev](https://pkg.go.dev/github.com/brightb
 
 The following are the instructions for version 1 of the GO library.
 
-[version 2 instructions](v2/README.md) are in the v2 directory.
+[version 2 instructions](https://pkg.go.dev/github.com/brightbox/gobrightbox/v2) are in the v2 directory.
 
 ## Install
 ```sh

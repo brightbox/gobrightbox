@@ -12,7 +12,7 @@ import (
 
 // Authenticate using an API Client identifier and secret, and get a list of
 // configMaps, but in a different region
-func ExampleConnect_third() {
+func ExampleConnect_different_region() {
 	// Brightbox client details issued on a specific account
 	clientID := "cli-xxxxx"
 	clientSecret := "somesecret"

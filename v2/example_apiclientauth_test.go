@@ -11,7 +11,7 @@ import (
 
 // Authenticate using an API Client identifier and secret, and get a list of
 // configMaps
-func ExampleConnect_second() {
+func ExampleConnect_api_client_auth() {
 	// Brightbox client details issued on a specific account
 	clientID := "cli-xxxxx"
 	clientSecret := "somesecret"
