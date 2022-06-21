@@ -27,7 +27,7 @@ import (
 //
 // Scopes specify optional requested permissions. Leave blank to
 // request a token that can be used for all Brightbox API operations. Use
-// InfrastructureScope or OrbitScope to restrict the token to those areas.
+// [InfrastructureScope] or [OrbitScope] to restrict the token to those areas.
 type Config struct {
 	BaseURL string
 	Version string
@@ -40,6 +40,8 @@ type Config struct {
 //
 // If Account is set, then a query parameter will be added to the URL to
 // reference that account.
+//
+// APIURL is part of the [brightbox.Oauth2] access interface.
 func (c *Config) APIURL() (*url.URL, error) {
 	var rawURL string
 	var rawVersion string

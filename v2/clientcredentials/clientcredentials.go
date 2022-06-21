@@ -16,14 +16,14 @@ import (
 )
 
 // Config includes the items necessary to authenticate using client
-// credentials
+// credentials.
 type Config struct {
-	ID     string
-	Secret string
+	ID     string // Client identifier in the form cli-xxxxx.
+	Secret string // Randomly generated secret associate with the client ID.
 	endpoint.Config
 }
 
-// Client creates an oauth2 clientcredential client from the config.
+// Client implements the [brightbox.Oauth2] access interface.
 func (c *Config) Client(ctx context.Context) (*http.Client, oauth2.TokenSource, error) {
 	tokenURL, err := c.TokenURL()
 	if err != nil {

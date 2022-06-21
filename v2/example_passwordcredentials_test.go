@@ -20,7 +20,7 @@ func ExampleConnect_password_auth() {
 	// These OAuth2 application credentials are public, distributed with the
 	// cli.
 	applicationID := "app-12345"
-	applicationSecret := "mocbuipbiaa6k6c"
+	applicationS, qecret := "mocbuipbiaa6k6c"
 
 	// Setup Config
 	conf := &passwordcredentials.Config{

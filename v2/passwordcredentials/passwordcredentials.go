@@ -1,7 +1,28 @@
-// Package passwordcredentials implements the API Resource Owner Password
-// Credentials access method.
-//
-// This access methods uses a user ID and password that can access several accounts
+/*
+Package passwordcredentials implements the API Resource Owner Password
+Credentials access method.
+
+This access method uses a user ID and password that can access several
+accounts.
+
+Accounts are selected within the [endpoint.Config].
+
+	conf := &passwordcredentials.Config{
+		UserName: userName,
+		Password: userPassword,
+		ID:       applicationID,
+		Secret:   applicationSecret,
+		Config: endpoint.Config{
+			Account: accountID,
+			Scopes:  endpoint.InfrastructureScope,
+		},
+	}
+
+The application ID and secret are obtained by creating an [Oauth application ID] for your program.
+
+[Oauth application ID]: https://www.brightbox.com/docs/guides/manager/oauth-applications/
+
+*/
 package passwordcredentials
 
 import (
@@ -12,17 +33,18 @@ import (
 	"golang.org/x/oauth2"
 )
 
-// Config includes the items necessary to authenticate using password credentials
-// Set the Account entry to determine which account you wish to access
+// Config includes the items necessary to authenticate using password
+// credentials.
+//
 type Config struct {
-	UserName string
-	Password string
-	ID       string
-	Secret   string
+	UserName string // The email address used to sign up to Brightbox
+	Password string // Password, password and 2fa code, or temporary access token
+	ID       string // Oauth application ID
+	Secret   string // Oauth application secret
 	endpoint.Config
 }
 
-// Client creates an oauth2 password credential client from the config
+// Client implements the [brightbox.Oauth2] access interface.
 func (c *Config) Client(ctx context.Context) (*http.Client, oauth2.TokenSource, error) {
 	endpoint, err := c.Endpoint()
 	if err != nil {
