@@ -105,3 +105,17 @@ func TestServerCreatedAtUnix(t *testing.T) {
 	target := Server{CreatedAt: &tm}
 	assert.Equal(t, target.CreatedAtUnix(), tm.Unix())
 }
+
+func TestResizeServer(t *testing.T) {
+	instance := testLink(
+		t,
+		(*Client).ResizeServer,
+		"srv-lv426",
+		ServerNewSize{"typ-12345"},
+		"server",
+		"POST",
+		path.Join("servers", "srv-lv426", "resize"),
+		`{"new_type":"typ-12345"}`,
+	)
+	assert.Equal(t, instance.ID, "srv-lv426")
+}

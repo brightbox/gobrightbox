@@ -56,3 +56,9 @@ func (c *Client) UnlockVolume(ctx context.Context, identifier string) (*Volume, 
 func (s Volume) CreatedAtUnix() int64 {
 	return s.CreatedAt.Unix()
 }
+
+// ResizeVolume issues a request to change the server type of a server
+// changing the amount of cpu and ram it has.
+func (c *Client) ResizeVolume(ctx context.Context, identifier string, newSize VolumeNewSize) (*Volume, error) {
+	return apiPost[Volume](ctx, c, path.Join(volumeAPIPath, identifier, "resize"), newSize)
+}

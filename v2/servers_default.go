@@ -56,3 +56,9 @@ func (c *Client) UnlockServer(ctx context.Context, identifier string) (*Server, 
 func (s Server) CreatedAtUnix() int64 {
 	return s.CreatedAt.Unix()
 }
+
+// ResizeServer issues a request to change the server type of a server
+// changing the amount of cpu and ram it has.
+func (c *Client) ResizeServer(ctx context.Context, identifier string, newSize ServerNewSize) (*Server, error) {
+	return apiPost[Server](ctx, c, path.Join(serverAPIPath, identifier, "resize"), newSize)
+}

@@ -90,14 +90,3 @@ func (c *Client) DetachVolume(ctx context.Context, identifier string) (*Volume, 
 		nil,
 	)
 }
-
-// ResizeVolume issues a request to change the size of a volume.
-// The old size has to be specified as well as the new one.
-func (c *Client) ResizeVolume(ctx context.Context, identifier string, newSize VolumeNewSize) (*Volume, error) {
-	return apiPost[Volume](
-		ctx,
-		c,
-		path.Join(volumeAPIPath, identifier, "resize"),
-		newSize,
-	)
-}

@@ -1,7 +1,6 @@
 package brightbox
 
 import (
-	"path"
 	"testing"
 
 	"github.com/brightbox/gobrightbox/v2/enums/serverstatus"
@@ -32,18 +31,4 @@ func TestCreateServerWithNetworkDisk(t *testing.T) {
 	)
 	assert.Equal(t, instance.ID, "srv-lv426")
 	assert.Assert(t, instance.Status == serverstatus.Active)
-}
-
-func TestResizeServer(t *testing.T) {
-	instance := testLink(
-		t,
-		(*Client).ResizeServer,
-		"srv-lv426",
-		ServerNewSize{"typ-12345"},
-		"server",
-		"POST",
-		path.Join("servers", "srv-lv426", "resize"),
-		`{"new_type":"typ-12345"}`,
-	)
-	assert.Equal(t, instance.ID, "srv-lv426")
 }

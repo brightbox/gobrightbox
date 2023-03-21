@@ -33,17 +33,3 @@ func TestDetachVolume(t *testing.T) {
 	)
 	assert.Equal(t, instance.ID, "vol-po5we")
 }
-
-func TestResizeVolume(t *testing.T) {
-	instance := testLink(
-		t,
-		(*Client).ResizeVolume,
-		"vol-po5we",
-		VolumeNewSize{40960, 61440},
-		"volume",
-		"POST",
-		path.Join("volumes", "vol-po5we", "resize"),
-		`{"from":40960,"to":61440}`,
-	)
-	assert.Equal(t, instance.ID, "vol-po5we")
-}

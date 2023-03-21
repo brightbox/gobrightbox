@@ -1,8 +1,6 @@
 package brightbox
 
 import (
-	"context"
-	"path"
 	"time"
 
 	"github.com/brightbox/gobrightbox/v2/enums/serverstatus"
@@ -82,15 +80,4 @@ type VolumeEntry struct {
 	Volume string `json:"volume,omitempty"`
 	Size   uint   `json:"size,omitempty"`
 	Image  string `json:"image,omitempty"`
-}
-
-// ResizeServer issues a request to change the server type of a server
-// changing the amount of cpu and ram it has.
-func (c *Client) ResizeServer(ctx context.Context, identifier string, newSize ServerNewSize) (*Server, error) {
-	return apiPost[Server](
-		ctx,
-		c,
-		path.Join(serverAPIPath, identifier, "resize"),
-		newSize,
-	)
 }
