@@ -27,10 +27,12 @@ ConfigMap:
   jsonpath: config_map
 DatabaseServer:
   path: database_servers
-  crud: [create, update, delete, lock, createdate]
+  crud: [create, update, delete, lock, createdate, resize, reset]
   testid: dbs-123ab
   jsonpath: database_server
   password: reset_password
+  resize_request: '"dbt-12345"'
+  resize_response: '{"new_type":"dbt-12345"}'
 DatabaseSnapshot:
   path: database_snapshots
   crud: [update, delete, lock, createdate]

@@ -118,3 +118,30 @@ func TestResetDatabaseServerPassword(t *testing.T) {
 	)
 	assert.Equal(t, instance.ID, "dbs-123ab")
 }
+
+func TestResizeDatabaseServer(t *testing.T) {
+	instance := testLink(
+		t,
+		(*Client).ResizeDatabaseServer,
+		"dbs-123ab",
+		DatabaseServerNewSize{"dbt-12345"},
+		"database_server",
+		"POST",
+		path.Join("database_servers", "dbs-123ab", "resize"),
+		`{"new_type":"dbt-12345"}`,
+	)
+	assert.Equal(t, instance.ID, "dbs-123ab")
+}
+
+func TestResetDatabaseServer(t *testing.T) {
+	instance := testModify(
+		t,
+		(*Client).ResetDatabaseServer,
+		"dbs-123ab",
+		"database_server",
+		"POST",
+		path.Join("database_servers", "dbs-123ab", "reset"),
+		"",
+	)
+	assert.Equal(t, instance.ID, "dbs-123ab")
+}

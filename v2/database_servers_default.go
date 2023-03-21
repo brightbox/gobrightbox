@@ -63,3 +63,14 @@ func (s DatabaseServer) CreatedAtUnix() int64 {
 func (c *Client) ResetDatabaseServerPassword(ctx context.Context, identifier string) (*DatabaseServer, error) {
 	return apiPost[DatabaseServer](ctx, c, path.Join(databaseserverAPIPath, identifier, "reset_password"), nil)
 }
+
+// ResizeDatabaseServer issues a request to change the server type of a server
+// changing the amount of cpu and ram it has.
+func (c *Client) ResizeDatabaseServer(ctx context.Context, identifier string, newSize DatabaseServerNewSize) (*DatabaseServer, error) {
+	return apiPost[DatabaseServer](ctx, c, path.Join(databaseserverAPIPath, identifier, "resize"), newSize)
+}
+
+// ResetDatabaseServer issues a "reset" instruction to a DatabaseServer
+func (c *Client) ResetDatabaseServer(ctx context.Context, identifier string) (*DatabaseServer, error) {
+	return apiPost[DatabaseServer](ctx, c, path.Join(databaseserverAPIPath, identifier, "reset"), nil)
+}

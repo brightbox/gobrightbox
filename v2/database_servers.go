@@ -53,3 +53,7 @@ type DatabaseServerOptions struct {
 	SnapshotsRetention *string  `json:"snapshots_retention,omitempty"`
 	SnapshotsSchedule  *string  `json:"snapshots_schedule,omitempty"`
 }
+
+// DatabaseServerNewSize is used in conjunction with ResizeDatabaseServer
+// to specify the new DatabaseServerType for the Database Server
+type DatabaseServerNewSize = ServerNewSize
