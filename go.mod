@@ -1,6 +1,8 @@
 // Deprecated: use github.com/brightbox/gobrightbox/v2 instead.
 module github.com/brightbox/gobrightbox
 
+go 1.17
+
 require (
 	github.com/gophercloud/gophercloud v0.1.0
 	github.com/tomnomnom/linkheader v0.0.0-20180905144013-02ca5825eb80
@@ -15,5 +17,3 @@ require (
 	google.golang.org/appengine v1.6.7 // indirect
 	google.golang.org/protobuf v1.28.1 // indirect
 )
-
-go 1.17
