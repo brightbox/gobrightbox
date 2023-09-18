@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	golang.org/x/oauth2 v0.12.0
-	gotest.tools/v3 v3.5.0
+	gotest.tools/v3 v3.5.1
 )
 
 require (
