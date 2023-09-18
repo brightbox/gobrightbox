@@ -7,7 +7,7 @@ require (
 	github.com/gophercloud/gophercloud v0.1.0
 	github.com/tomnomnom/linkheader v0.0.0-20180905144013-02ca5825eb80
 	golang.org/x/oauth2 v0.12.0
-	gotest.tools/v3 v3.5.0
+	gotest.tools/v3 v3.5.1
 )
 
 require (
