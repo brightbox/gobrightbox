@@ -12,7 +12,7 @@ const (
 
 // Servers returns the collection view for Server
 func (c *Client) Servers(ctx context.Context) ([]Server, error) {
-	return apiGetCollection[Server](ctx, c, serverAPIPath)
+	return apiGetCollection[[]Server](ctx, c, serverAPIPath)
 }
 
 // Server retrieves a detailed view of one resource

@@ -6,10 +6,11 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"golang.org/x/oauth2"
 	"io"
 	"net/http"
 	"net/url"
+
+	"golang.org/x/oauth2"
 )
 
 //go:generate ./generate_default_functions paths.yaml
@@ -59,25 +60,25 @@ func (q *Client) DisallowUnknownFields() {
 // apiGet makes a GET request to the API
 // and decoding any JSON response.
 //
-// relUrl is the relative path of the endpoint to the base URL, e.g. "servers".
+// relURL is the relative path of the endpoint to the base URL, e.g. "servers".
 func apiGet[O any](
 	ctx context.Context,
 	q *Client,
-	relUrl string,
+	relURL string,
 ) (*O, error) {
-	return apiCommand[O](ctx, q, "GET", relUrl)
+	return apiCommand[O](ctx, q, "GET", relURL)
 }
 
 // apiGetCollection makes a GET request to the API
 // and decoding any JSON response into an appropriate slice
 //
-// relUrl is the relative path of the endpoint to the base URL, e.g. "servers".
-func apiGetCollection[O any](
+// relURL is the relative path of the endpoint to the base URL, e.g. "servers".
+func apiGetCollection[S ~[]O, O any](
 	ctx context.Context,
 	q *Client,
-	relUrl string,
-) ([]O, error) {
-	collection, err := apiGet[[]O](ctx, q, relUrl)
+	relURL string,
+) (S, error) {
+	collection, err := apiGet[S](ctx, q, relURL)
 	if collection == nil {
 		return nil, err
 	}
@@ -87,54 +88,54 @@ func apiGetCollection[O any](
 // apiPost makes a POST request to the API, JSON encoding any given data
 // and decoding any JSON response.
 //
-// relUrl is the relative path of the endpoint to the base URL, e.g. "servers".
+// relURL is the relative path of the endpoint to the base URL, e.g. "servers".
 //
 // if reqBody is non-nil, it will be Marshaled to JSON and set as the request
 // body.
 func apiPost[O any](
 	ctx context.Context,
 	q *Client,
-	relUrl string,
+	relURL string,
 	reqBody interface{},
 ) (*O, error) {
-	return apiObject[O](ctx, q, "POST", relUrl, reqBody)
+	return apiObject[O](ctx, q, "POST", relURL, reqBody)
 }
 
 // apiPut makes a PUT request to the API, JSON encoding any given data
 // and decoding any JSON response.
 //
-// relUrl is the relative path of the endpoint to the base URL, e.g. "servers".
+// relURL is the relative path of the endpoint to the base URL, e.g. "servers".
 //
 // if reqBody is non-nil, it will be Marshaled to JSON and set as the request
 // body.
 func apiPut[O any](
 	ctx context.Context,
 	q *Client,
-	relUrl string,
+	relURL string,
 	reqBody interface{},
 ) (*O, error) {
-	return apiObject[O](ctx, q, "PUT", relUrl, reqBody)
+	return apiObject[O](ctx, q, "PUT", relURL, reqBody)
 }
 
 // apiDelete makes a DELETE request to the API
 //
-// relUrl is the relative path of the endpoint to the base URL, e.g. "servers".
+// relURL is the relative path of the endpoint to the base URL, e.g. "servers".
 func apiDelete[O any](
 	ctx context.Context,
 	q *Client,
-	relUrl string,
+	relURL string,
 ) (*O, error) {
-	return apiCommand[O](ctx, q, "DELETE", relUrl)
+	return apiCommand[O](ctx, q, "DELETE", relURL)
 }
 
 func apiObject[O any](
 	ctx context.Context,
 	q *Client,
 	method string,
-	relUrl string,
+	relURL string,
 	reqBody interface{},
 ) (*O, error) {
-	req, err := jsonRequest(ctx, q, method, relUrl, reqBody)
+	req, err := jsonRequest(ctx, q, method, relURL, reqBody)
 	if err != nil {
 		return nil, err
 	}
@@ -150,9 +151,9 @@ func apiCommand[O any](
 	ctx context.Context,
 	q *Client,
 	method string,
-	relUrl string,
+	relURL string,
 ) (*O, error) {
-	return apiObject[O](ctx, q, method, relUrl, nil)
+	return apiObject[O](ctx, q, method, relURL, nil)
 }
 
 func jsonResponse[O any](res *http.Response, hardcoreDecode bool) (*O, error) {

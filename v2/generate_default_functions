@@ -308,7 +308,7 @@ def collection_function(struct, plural)
   <<~ENDFUNC
     // #{plural} returns the collection view for #{struct}
     func (c *Client) #{plural}(ctx context.Context) ([]#{struct}, error) {
-      return apiGetCollection[#{struct}](ctx, c, #{struct.downcase}APIPath)
+      return apiGetCollection[[]#{struct}](ctx, c, #{struct.downcase}APIPath)
     }
 
   ENDFUNC

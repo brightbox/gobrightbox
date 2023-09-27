@@ -12,7 +12,7 @@ const (
 
 // Volumes returns the collection view for Volume
 func (c *Client) Volumes(ctx context.Context) ([]Volume, error) {
-	return apiGetCollection[Volume](ctx, c, volumeAPIPath)
+	return apiGetCollection[[]Volume](ctx, c, volumeAPIPath)
 }
 
 // Volume retrieves a detailed view of one resource

@@ -12,7 +12,7 @@ const (
 
 // Users returns the collection view for User
 func (c *Client) Users(ctx context.Context) ([]User, error) {
-	return apiGetCollection[User](ctx, c, userAPIPath)
+	return apiGetCollection[[]User](ctx, c, userAPIPath)
 }
 
 // User retrieves a detailed view of one resource

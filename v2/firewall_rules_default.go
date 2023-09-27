@@ -12,7 +12,7 @@ const (
 
 // FirewallRules returns the collection view for FirewallRule
 func (c *Client) FirewallRules(ctx context.Context) ([]FirewallRule, error) {
-	return apiGetCollection[FirewallRule](ctx, c, firewallruleAPIPath)
+	return apiGetCollection[[]FirewallRule](ctx, c, firewallruleAPIPath)
 }
 
 // FirewallRule retrieves a detailed view of one resource

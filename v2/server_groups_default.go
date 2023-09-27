@@ -12,7 +12,7 @@ const (
 
 // ServerGroups returns the collection view for ServerGroup
 func (c *Client) ServerGroups(ctx context.Context) ([]ServerGroup, error) {
-	return apiGetCollection[ServerGroup](ctx, c, servergroupAPIPath)
+	return apiGetCollection[[]ServerGroup](ctx, c, servergroupAPIPath)
 }
 
 // ServerGroup retrieves a detailed view of one resource

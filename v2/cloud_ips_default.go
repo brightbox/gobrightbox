@@ -12,7 +12,7 @@ const (
 
 // CloudIPs returns the collection view for CloudIP
 func (c *Client) CloudIPs(ctx context.Context) ([]CloudIP, error) {
-	return apiGetCollection[CloudIP](ctx, c, cloudipAPIPath)
+	return apiGetCollection[[]CloudIP](ctx, c, cloudipAPIPath)
 }
 
 // CloudIP retrieves a detailed view of one resource

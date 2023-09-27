@@ -12,7 +12,7 @@ const (
 
 // Accounts returns the collection view for Account
 func (c *Client) Accounts(ctx context.Context) ([]Account, error) {
-	return apiGetCollection[Account](ctx, c, accountAPIPath)
+	return apiGetCollection[[]Account](ctx, c, accountAPIPath)
 }
 
 // Account retrieves a detailed view of one resource

@@ -12,7 +12,7 @@ const (
 
 // LoadBalancers returns the collection view for LoadBalancer
 func (c *Client) LoadBalancers(ctx context.Context) ([]LoadBalancer, error) {
-	return apiGetCollection[LoadBalancer](ctx, c, loadbalancerAPIPath)
+	return apiGetCollection[[]LoadBalancer](ctx, c, loadbalancerAPIPath)
 }
 
 // LoadBalancer retrieves a detailed view of one resource

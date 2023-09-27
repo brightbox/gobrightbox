@@ -12,7 +12,7 @@ const (
 
 // APIClients returns the collection view for APIClient
 func (c *Client) APIClients(ctx context.Context) ([]APIClient, error) {
-	return apiGetCollection[APIClient](ctx, c, apiclientAPIPath)
+	return apiGetCollection[[]APIClient](ctx, c, apiclientAPIPath)
 }
 
 // APIClient retrieves a detailed view of one resource

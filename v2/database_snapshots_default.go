@@ -12,7 +12,7 @@ const (
 
 // DatabaseSnapshots returns the collection view for DatabaseSnapshot
 func (c *Client) DatabaseSnapshots(ctx context.Context) ([]DatabaseSnapshot, error) {
-	return apiGetCollection[DatabaseSnapshot](ctx, c, databasesnapshotAPIPath)
+	return apiGetCollection[[]DatabaseSnapshot](ctx, c, databasesnapshotAPIPath)
 }
 
 // DatabaseSnapshot retrieves a detailed view of one resource

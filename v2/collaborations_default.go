@@ -12,7 +12,7 @@ const (
 
 // Collaborations returns the collection view for Collaboration
 func (c *Client) Collaborations(ctx context.Context) ([]Collaboration, error) {
-	return apiGetCollection[Collaboration](ctx, c, collaborationAPIPath)
+	return apiGetCollection[[]Collaboration](ctx, c, collaborationAPIPath)
 }
 
 // Collaboration retrieves a detailed view of one resource

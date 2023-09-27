@@ -12,7 +12,7 @@ const (
 
 // DatabaseServerTypes returns the collection view for DatabaseServerType
 func (c *Client) DatabaseServerTypes(ctx context.Context) ([]DatabaseServerType, error) {
-	return apiGetCollection[DatabaseServerType](ctx, c, databaseservertypeAPIPath)
+	return apiGetCollection[[]DatabaseServerType](ctx, c, databaseservertypeAPIPath)
 }
 
 // DatabaseServerType retrieves a detailed view of one resource

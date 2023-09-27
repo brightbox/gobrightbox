@@ -12,7 +12,7 @@ const (
 
 // FirewallPolicies returns the collection view for FirewallPolicy
 func (c *Client) FirewallPolicies(ctx context.Context) ([]FirewallPolicy, error) {
-	return apiGetCollection[FirewallPolicy](ctx, c, firewallpolicyAPIPath)
+	return apiGetCollection[[]FirewallPolicy](ctx, c, firewallpolicyAPIPath)
 }
 
 // FirewallPolicy retrieves a detailed view of one resource

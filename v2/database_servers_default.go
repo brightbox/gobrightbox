@@ -12,7 +12,7 @@ const (
 
 // DatabaseServers returns the collection view for DatabaseServer
 func (c *Client) DatabaseServers(ctx context.Context) ([]DatabaseServer, error) {
-	return apiGetCollection[DatabaseServer](ctx, c, databaseserverAPIPath)
+	return apiGetCollection[[]DatabaseServer](ctx, c, databaseserverAPIPath)
 }
 
 // DatabaseServer retrieves a detailed view of one resource

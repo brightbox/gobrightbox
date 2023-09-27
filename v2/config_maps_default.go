@@ -12,7 +12,7 @@ const (
 
 // ConfigMaps returns the collection view for ConfigMap
 func (c *Client) ConfigMaps(ctx context.Context) ([]ConfigMap, error) {
-	return apiGetCollection[ConfigMap](ctx, c, configmapAPIPath)
+	return apiGetCollection[[]ConfigMap](ctx, c, configmapAPIPath)
 }
 
 // ConfigMap retrieves a detailed view of one resource

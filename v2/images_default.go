@@ -12,7 +12,7 @@ const (
 
 // Images returns the collection view for Image
 func (c *Client) Images(ctx context.Context) ([]Image, error) {
-	return apiGetCollection[Image](ctx, c, imageAPIPath)
+	return apiGetCollection[[]Image](ctx, c, imageAPIPath)
 }
 
 // Image retrieves a detailed view of one resource

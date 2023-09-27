@@ -12,7 +12,7 @@ const (
 
 // Interfaces returns the collection view for Interface
 func (c *Client) Interfaces(ctx context.Context) ([]Interface, error) {
-	return apiGetCollection[Interface](ctx, c, interfaceAPIPath)
+	return apiGetCollection[[]Interface](ctx, c, interfaceAPIPath)
 }
 
 // Interface retrieves a detailed view of one resource

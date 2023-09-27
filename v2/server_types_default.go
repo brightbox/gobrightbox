@@ -14,7 +14,7 @@ const (
 
 // ServerTypes returns the collection view for ServerType
 func (c *Client) ServerTypes(ctx context.Context) ([]ServerType, error) {
-	return apiGetCollection[ServerType](ctx, c, servertypeAPIPath)
+	return apiGetCollection[[]ServerType](ctx, c, servertypeAPIPath)
 }
 
 // ServerType retrieves a detailed view of one resource

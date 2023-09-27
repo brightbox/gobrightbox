@@ -14,7 +14,7 @@ const (
 
 // Zones returns the collection view for Zone
 func (c *Client) Zones(ctx context.Context) ([]Zone, error) {
-	return apiGetCollection[Zone](ctx, c, zoneAPIPath)
+	return apiGetCollection[[]Zone](ctx, c, zoneAPIPath)
 }
 
 // Zone retrieves a detailed view of one resource
