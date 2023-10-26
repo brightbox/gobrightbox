@@ -1,6 +1,6 @@
 module github.com/brightbox/gobrightbox/v2
 
-go 1.18
+go 1.20
 
 require (
 	golang.org/x/oauth2 v0.14.0
