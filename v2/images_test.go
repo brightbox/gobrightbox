@@ -8,8 +8,8 @@ import (
 )
 
 func TestCreateImageWithSource(t *testing.T) {
-	pg := "ubuntu-lucid-daily-i64-server-20110509"
-	newResource := ImageOptions{Source: pg}
+	pg := "https://api.gb1.brightbox.com/1.0/images/img-3ikco"
+	newResource := ImageOptions{URL: pg}
 	instance := testModify(
 		t,
 		(*Client).CreateImage,
@@ -17,8 +17,8 @@ func TestCreateImageWithSource(t *testing.T) {
 		"image",
 		"POST",
 		"images",
-		`{"source":"ubuntu-lucid-daily-i64-server-20110509"}`,
+		`{"http_url":"https://api.gb1.brightbox.com/1.0/images/img-3ikco"}`,
 	)
-	assert.Equal(t, instance.Source, pg)
+	assert.Equal(t, instance.URL, pg)
 	assert.Equal(t, instance.Arch, arch.X86_64)
 }

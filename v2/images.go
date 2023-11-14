@@ -48,10 +48,10 @@ type ImageOptions struct {
 	Description       *string          `json:"description,omitempty"`
 	MinRAM            *uint            `json:"min_ram,omitempty"`
 	Server            string           `json:"server,omitempty"`
-	Source            string           `json:"source,omitempty"`
 	Volume            string           `json:"volume,omitempty"`
 	Arch              arch.Enum        `json:"arch,omitempty"`
 	Status            imagestatus.Enum `json:"status,omitempty"`
 	Public            *bool            `json:"public,omitempty"`
 	CompatibilityMode *bool            `json:"compatibility_mode,omitempty"`
+	URL               string           `json:"http_url,omitempty"`
 }
