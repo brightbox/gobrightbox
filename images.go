@@ -27,6 +27,19 @@ type Image struct {
 	LicenceName       string `json:"licence_name"`
 }
 
+type ImageOptions struct {
+	Arch              string `json:"arch"`
+	CompatibilityMode bool   `json:"compatibility_mode"`
+	Description       string `json:"description"`
+	MinRam            int    `json:"min_ram"`
+	Name              string `json:"name"`
+	Public            bool   `json:"public"`
+	Username          string `json:"username"`
+	Server            string `json:"server,omitempty"`
+	Volume            string `json:"volume,omitempty"`
+	HTTPURL           string `json:"http_url,omitempty"`
+}
+
 // Images retrieves a list of all images
 func (c *Client) Images() ([]Image, error) {
 	var images []Image
@@ -54,4 +67,14 @@ func (c *Client) DestroyImage(identifier string) error {
 		return err
 	}
 	return nil
+}
+
+// CreateImage issues a request to create an image
+func (c *Client) CreateImage(newImage *ImageOptions) (*Image, error) {
+	image := new(Image)
+	if _, err := c.MakeAPIRequest("POST", "/1.0/images", newImage, &image); err != nil {
+		return nil, err
+	}
+
+	return image, nil
 }
