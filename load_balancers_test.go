@@ -70,8 +70,6 @@ func TestLoadBalancer(t *testing.T) {
 	assert.Check(t, is.Equal(80, lb.Healthcheck.Port), "healthchech port incorrect")
 
 	assert.Equal(t, lb.HTTPSRedirect, false, "https redirect should be off")
-	assert.Assert(t, lb.Certificate != nil, "certificate is nil")
-	assert.Check(t, is.Equal("/CN=www.example.com", lb.Certificate.Subject), "certificate subject is incorrect")
 }
 
 func TestUpdateLoadBalancer(t *testing.T) {

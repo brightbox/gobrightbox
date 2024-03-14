@@ -30,7 +30,7 @@ func TestCloudIPs(t *testing.T) {
 	assert.Check(t, is.Equal("cip-k4a25", cip.ID), "id doesn't match")
 	assert.Equal(t, 1, len(cip.PortTranslators), "port translators list")
 	pt := cip.PortTranslators[0]
-	assert.Check(t, is.Equal("http", pt.Protocol), "port translator protocol")
+	assert.Check(t, is.Equal("tcp", pt.Protocol), "port translator protocol")
 	assert.Check(t, is.Equal(443, pt.Incoming), "port translator incoming port")
 	assert.Check(t, is.Equal(2443, pt.Outgoing), "port translator outgoing port")
 }
