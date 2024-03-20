@@ -1,42 +1,40 @@
-package gobrightbox
+package brightbox
 
 import (
+	"context"
+	"path"
 	"time"
+
+	"github.com/brightbox/gobrightbox/v2/enums/collaborationstatus"
 )
 
-// Collaboration represents a User's links to it's Accounts
-// https://api.gb1.brightbox.com/1.0/#user
+//go:generate ./generate_enum collaborationstatus pending accepted rejected cancelled ended
+
+// Collaboration represents an API client.
+// https://api.gb1.brightbox.com/1.0/#api_client
 type Collaboration struct {
+	ResourceRef
 	ID         string
 	Email      string
 	Role       string
 	RoleLabel  string `json:"role_label"`
-	Status     string
+	Status     collaborationstatus.Enum
 	CreatedAt  *time.Time `json:"created_at"`
 	StartedAt  *time.Time `json:"started_at"`
 	FinishedAt *time.Time `json:"finished_at"`
-	Account    Account
-	User       User
-	Inviter    User
+	Account    *Account
+	User       *User
+	Inviter    *User
 }
 
-// Collaborations retrieves a list of all the current user's collaborations
-func (c *Client) Collaborations() ([]Collaboration, error) {
-	var cl []Collaboration
-	_, err := c.MakeAPIRequest("GET", "/1.0/user/collaborations", nil, &cl)
-	if err != nil {
-		return nil, err
-	}
-	return cl, err
+// CollaborationOptions is used to create and update api clients
+type CollaborationOptions struct {
+	ID    string  `json:"-"`
+	Email *string `json:"email,omitempty"`
+	Role  *string `json:"role,omitempty"`
 }
 
-// Collaboration retrieves a detailed view of one of the current user's
-// collaborations
-func (c *Client) Collaboration(identifier string) (*Collaboration, error) {
-	col := new(Collaboration)
-	_, err := c.MakeAPIRequest("GET", "/1.0/user/collaborations/"+identifier, nil, col)
-	if err != nil {
-		return nil, err
-	}
-	return col, err
+// ResendCollaboration resends the invitation email to the collaborator.
+func (c *Client) ResendCollaboration(ctx context.Context, identifier string) (*Collaboration, error) {
+	return apiPost[Collaboration](ctx, c, path.Join(collaborationAPIPath, identifier, "resend"), nil)
 }

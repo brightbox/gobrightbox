@@ -1,17 +1,21 @@
-package gobrightbox
+package brightbox
 
 import (
+	"context"
+	"path"
 	"time"
 )
 
 // FirewallPolicy represents a firewall policy.
 // https://api.gb1.brightbox.com/1.0/#firewall_policy
 type FirewallPolicy struct {
+	ResourceRef
 	ID          string
 	Name        string
 	Default     bool
-	CreatedAt   time.Time `json:"created_at"`
 	Description string
+	CreatedAt   *time.Time `json:"created_at"`
+	Account     *Account
 	ServerGroup *ServerGroup   `json:"server_group"`
 	Rules       []FirewallRule `json:"rules"`
 }
@@ -22,90 +26,36 @@ type FirewallPolicyOptions struct {
 	ID          string  `json:"-"`
 	Name        *string `json:"name,omitempty"`
 	Description *string `json:"description,omitempty"`
-	ServerGroup *string `json:"server_group,omitempty"`
+	*FirewallPolicyAttachment
 }
 
-// FirewallPolicies retrieves a list of all firewall policies
-func (c *Client) FirewallPolicies() ([]FirewallPolicy, error) {
-	var policies []FirewallPolicy
-	_, err := c.MakeAPIRequest("GET", "/1.0/firewall_policies", nil, &policies)
-	if err != nil {
-		return nil, err
-	}
-	return policies, err
-}
-
-// FirewallPolicy retrieves a detailed view of one firewall policy
-func (c *Client) FirewallPolicy(identifier string) (*FirewallPolicy, error) {
-	policy := new(FirewallPolicy)
-	_, err := c.MakeAPIRequest("GET", "/1.0/firewall_policies/"+identifier, nil, policy)
-	if err != nil {
-		return nil, err
-	}
-	return policy, err
-}
-
-// CreateFirewallPolicy creates a new firewall policy.
-//
-// It takes a FirewallPolicyOptions struct for specifying name and other
-// attributes. Not all attributes can be specified at create time (such as ID,
-// which is allocated for you)
-func (c *Client) CreateFirewallPolicy(policyOptions *FirewallPolicyOptions) (*FirewallPolicy, error) {
-	policy := new(FirewallPolicy)
-	_, err := c.MakeAPIRequest("POST", "/1.0/firewall_policies", policyOptions, &policy)
-	if err != nil {
-		return nil, err
-	}
-	return policy, nil
-}
-
-// UpdateFirewallPolicy updates an existing firewall policy.
-//
-// It takes a FirewallPolicyOptions struct for specifying name and other
-// attributes. Not all attributes can be update(such as server_group which is
-// instead changed with ApplyFirewallPolicy).
-//
-// Specify the policy you want to update using the ID field
-func (c *Client) UpdateFirewallPolicy(policyOptions *FirewallPolicyOptions) (*FirewallPolicy, error) {
-	policy := new(FirewallPolicy)
-	_, err := c.MakeAPIRequest("PUT", "/1.0/firewall_policies/"+policyOptions.ID, policyOptions, &policy)
-	if err != nil {
-		return nil, err
-	}
-	return policy, nil
-}
-
-// DestroyFirewallPolicy issues a request to destroy the firewall policy
-func (c *Client) DestroyFirewallPolicy(identifier string) error {
-	_, err := c.MakeAPIRequest("DELETE", "/1.0/firewall_policies/"+identifier, nil, nil)
-	if err != nil {
-		return err
-	}
-	return nil
+// FirewallPolicyAttachment is used in conjunction with FirewallPolicyOptions,
+// ApplyFirewallPolicy and RemoveFirewallPolicy to specify the group that
+// the firewall policy should apply to. The ServerGroup parameter should
+// be a server group identifier.
+type FirewallPolicyAttachment struct {
+	ServerGroup string `json:"server_group"`
 }
 
 // ApplyFirewallPolicy issues a request to apply the given firewall policy to
 // the given server group.
-//
-func (c *Client) ApplyFirewallPolicy(policyID string, serverGroupID string) (*FirewallPolicy, error) {
-	policy := new(FirewallPolicy)
-	_, err := c.MakeAPIRequest("POST", "/1.0/firewall_policies/"+policyID+"/apply_to",
-		map[string]string{"server_group": serverGroupID}, &policy)
-	if err != nil {
-		return nil, err
-	}
-	return policy, nil
+func (c *Client) ApplyFirewallPolicy(ctx context.Context, identifier string, attachment FirewallPolicyAttachment) (*FirewallPolicy, error) {
+	return apiPost[FirewallPolicy](
+		ctx,
+		c,
+		path.Join(firewallpolicyAPIPath, identifier, "apply_to"),
+		attachment,
+	)
+
 }
 
 // RemoveFirewallPolicy issues a request to remove the given firewall policy from
 // the given server group.
-//
-func (c *Client) RemoveFirewallPolicy(policyID string, serverGroupID string) (*FirewallPolicy, error) {
-	policy := new(FirewallPolicy)
-	_, err := c.MakeAPIRequest("POST", "/1.0/firewall_policies/"+policyID+"/remove",
-		map[string]string{"server_group": serverGroupID}, &policy)
-	if err != nil {
-		return nil, err
-	}
-	return policy, nil
+func (c *Client) RemoveFirewallPolicy(ctx context.Context, identifier string, serverGroup FirewallPolicyAttachment) (*FirewallPolicy, error) {
+	return apiPost[FirewallPolicy](
+		ctx,
+		c,
+		path.Join(firewallpolicyAPIPath, identifier, "remove"),
+		serverGroup,
+	)
 }

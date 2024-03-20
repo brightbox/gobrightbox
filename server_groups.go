@@ -1,21 +1,24 @@
-package gobrightbox
+package brightbox
 
 import (
+	"context"
+	"path"
 	"time"
 )
 
 // ServerGroup represents a server group
 // https://api.gb1.brightbox.com/1.0/#server_group
 type ServerGroup struct {
+	ResourceRef
 	ID             string
 	Name           string
-	CreatedAt      *time.Time `json:"created_at"`
 	Description    string
 	Default        bool
 	Fqdn           string
-	Account        Account `json:"account"`
-	Servers        []Server
+	CreatedAt      *time.Time `json:"created_at"`
+	Account        *Account
 	FirewallPolicy *FirewallPolicy `json:"firewall_policy"`
+	Servers        []Server
 }
 
 // ServerGroupOptions is used in combination with CreateServerGroup and
@@ -26,125 +29,46 @@ type ServerGroupOptions struct {
 	Description *string `json:"description,omitempty"`
 }
 
-type serverGroupMemberOptions struct {
-	Servers     []serverGroupMember `json:"servers"`
-	Destination string              `json:"destination,omitempty"`
-}
-type serverGroupMember struct {
-	Server string `json:"server,omitempty"`
+// ServerGroupMember is used to add, remove and move a server between server groups
+type ServerGroupMember struct {
+	Server string `json:"server"`
 }
 
-// ServerGroups retrieves a list of all server groups
-func (c *Client) ServerGroups() ([]ServerGroup, error) {
-	var groups []ServerGroup
-	_, err := c.MakeAPIRequest("GET", "/1.0/server_groups", nil, &groups)
-	if err != nil {
-		return nil, err
-	}
-	return groups, err
+// ServerGroupMemberList is used to add, remove and move servers between server groups
+type ServerGroupMemberList struct {
+	Servers []ServerGroupMember `json:"servers"`
 }
 
-// ServerGroup retrieves a detailed view on one server group
-func (c *Client) ServerGroup(identifier string) (*ServerGroup, error) {
-	group := new(ServerGroup)
-	_, err := c.MakeAPIRequest("GET", "/1.0/server_groups/"+identifier, nil, group)
-	if err != nil {
-		return nil, err
-	}
-	return group, err
+// AddServersToServerGroup adds servers to an existing server group
+func (c *Client) AddServersToServerGroup(ctx context.Context, identifier string, attachment ServerGroupMemberList) (*ServerGroup, error) {
+	return apiPost[ServerGroup](
+		ctx,
+		c,
+		path.Join(servergroupAPIPath, identifier, "add_servers"),
+		attachment,
+	)
 }
 
-// CreateServerGroup creates a new server group
-//
-// It takes an instance of ServerGroupOptions. Not all attributes can be
-// specified at create time (such as ID, which is allocated for you).
-func (c *Client) CreateServerGroup(newServerGroup *ServerGroupOptions) (*ServerGroup, error) {
-	group := new(ServerGroup)
-	_, err := c.MakeAPIRequest("POST", "/1.0/server_groups", newServerGroup, &group)
-	if err != nil {
-		return nil, err
-	}
-	return group, nil
+// RemoveServersFromServerGroup remove servers from an existing server group
+func (c *Client) RemoveServersFromServerGroup(ctx context.Context, identifier string, attachment ServerGroupMemberList) (*ServerGroup, error) {
+	return apiPost[ServerGroup](
+		ctx,
+		c,
+		path.Join(servergroupAPIPath, identifier, "remove_servers"),
+		attachment,
+	)
 }
 
-// UpdateServerGroup updates an existing server groups's attributes. Not all
-// attributes can be changed (such as ID).
-//
-// Specify the server group you want to update using the ServerGroupOptions ID
-// field.
-//
-// To change group memberships, use AddServersToServerGroup,
-// RemoveServersFromServerGroup and MoveServersToServerGroup.
-func (c *Client) UpdateServerGroup(updateServerGroup *ServerGroupOptions) (*ServerGroup, error) {
-	group := new(ServerGroup)
-	_, err := c.MakeAPIRequest("PUT", "/1.0/server_groups/"+updateServerGroup.ID, updateServerGroup, &group)
-	if err != nil {
-		return nil, err
-	}
-	return group, nil
-}
-
-// DestroyServerGroup destroys an existing server group
-func (c *Client) DestroyServerGroup(identifier string) error {
-	_, err := c.MakeAPIRequest("DELETE", "/1.0/server_groups/"+identifier, nil, nil)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-// AddServersToServerGroup adds servers to an existing server group.
-//
-// The identifier parameter specifies the destination group.
-//
-// The serverIDs paramater specifies the identifiers of the servers you want to add.
-func (c *Client) AddServersToServerGroup(identifier string, serverIDs []string) (*ServerGroup, error) {
-	group := new(ServerGroup)
-	opts := new(serverGroupMemberOptions)
-	for _, id := range serverIDs {
-		opts.Servers = append(opts.Servers, serverGroupMember{Server: id})
-	}
-	_, err := c.MakeAPIRequest("POST", "/1.0/server_groups/"+identifier+"/add_servers", opts, &group)
-	if err != nil {
-		return nil, err
-	}
-	return group, nil
-}
-
-// RemoveServersFromServerGroup removes servers from an existing server group.
-//
-// The identifier parameter specifies the group.
-//
-// The serverIDs paramater specifies the identifiers of the servers you want to remove.
-func (c *Client) RemoveServersFromServerGroup(identifier string, serverIDs []string) (*ServerGroup, error) {
-	group := new(ServerGroup)
-	opts := new(serverGroupMemberOptions)
-	for _, id := range serverIDs {
-		opts.Servers = append(opts.Servers, serverGroupMember{Server: id})
-	}
-	_, err := c.MakeAPIRequest("POST", "/1.0/server_groups/"+identifier+"/remove_servers", opts, &group)
-	if err != nil {
-		return nil, err
-	}
-	return group, nil
-}
-
-// MoveServersToServerGroup atomically moves servers from one group to another.
-//
-// The src parameter specifies the group to which the servers currently belong
-//
-// The dst parameter specifies the group to which you want to move the servers.
-//
-// The serverIDs parameter specifies the identifiers of the servers you want to move.
-func (c *Client) MoveServersToServerGroup(src string, dst string, serverIDs []string) (*ServerGroup, error) {
-	group := new(ServerGroup)
-	opts := serverGroupMemberOptions{Destination: dst}
-	for _, id := range serverIDs {
-		opts.Servers = append(opts.Servers, serverGroupMember{Server: id})
-	}
-	_, err := c.MakeAPIRequest("POST", "/1.0/server_groups/"+src+"/move_servers", opts, &group)
-	if err != nil {
-		return nil, err
-	}
-	return group, nil
+// MoveServersToServerGroup moves servers between two existing server groups
+func (c *Client) MoveServersToServerGroup(ctx context.Context, from string, to string, servers ServerGroupMemberList) (*ServerGroup, error) {
+	opts := struct {
+		ServerGroupMemberList
+		Destination string `json:"destination"`
+	}{servers, to}
+	return apiPost[ServerGroup](
+		ctx,
+		c,
+		path.Join(servergroupAPIPath, from, "move_servers"),
+		opts,
+	)
 }

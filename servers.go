@@ -1,238 +1,84 @@
-package gobrightbox
+package brightbox
 
 import (
-	"net/url"
 	"time"
+
+	"github.com/brightbox/gobrightbox/v2/enums/serverstatus"
 )
+
+//go:generate ./generate_enum serverstatus creating active inactive deleting deleted failed unavailable
+//go:generate ./generate_server_commands
 
 // Server represents a Cloud Server
 // https://api.gb1.brightbox.com/1.0/#server
+// DeletedAt is nil if the server has not yet been deleted
 type Server struct {
+	ResourceRef
 	ServerConsole
-	ID                string
-	Name              string
-	Status            string
-	Locked            bool
-	Hostname          string
-	Fqdn              string
-	CreatedAt         *time.Time `json:"created_at"`
-	DeletedAt         *time.Time `json:"deleted_at"`
-	StartedAt         *time.Time `json:"started_at"`
-	UserData          string     `json:"user_data"`
-	CompatibilityMode bool       `json:"compatibility_mode"`
-	DiskEncrypted     bool       `json:"disk_encrypted"`
-	Account           Account
-	Image             Image
-	ServerType        ServerType `json:"server_type"`
-	Zone              Zone
-	Snapshots         []Image
-	CloudIPs          []CloudIP `json:"cloud_ips"`
-	Interfaces        []ServerInterface
-	ServerGroups      []ServerGroup `json:"server_groups"`
-	Volumes           []Volume
+	ID                      string
+	Name                    string
+	Status                  serverstatus.Enum `json:"status"`
+	Hostname                string
+	Fqdn                    string
+	UserData                string     `json:"user_data"`
+	CreatedAt               *time.Time `json:"created_at"`
+	DeletedAt               *time.Time `json:"deleted_at"`
+	StartedAt               *time.Time `json:"started_at"`
+	SnapshotsSchedule       string     `json:"snapshots_schedule"`
+	SnapshotsScheduleNextAt *time.Time `json:"snapshots_schedule_next_at"`
+	SnapshotsRetention      string     `json:"snapshots_retention"`
+	Locked                  bool       `json:"locked"`
+	CompatibilityMode       bool       `json:"compatibility_mode"`
+	DiskEncrypted           bool       `json:"disk_encrypted"`
+	Account                 *Account
+	Image                   *Image
+	Zone                    *Zone
+	ServerType              *ServerType   `json:"server_type"`
+	CloudIPs                []CloudIP     `json:"cloud_ips"`
+	ServerGroups            []ServerGroup `json:"server_groups"`
+	Snapshots               []Image
+	Interfaces              []Interface
+	Volumes                 []Volume
 }
 
 // ServerConsole is embedded into Server and contains the fields used in response
 // to an ActivateConsoleForServer request.
 type ServerConsole struct {
-	ConsoleToken        string     `json:"console_token"`
-	ConsoleURL          string     `json:"console_url"`
+	ConsoleToken        *string    `json:"console_token"`
+	ConsoleURL          *string    `json:"console_url"`
 	ConsoleTokenExpires *time.Time `json:"console_token_expires"`
 }
 
 // ServerOptions is used in conjunction with CreateServer and UpdateServer to
 // create and update servers.
+// UserData needs to be base64 encoded.
 type ServerOptions struct {
-	ID                string          `json:"-"`
-	Image             string          `json:"image,omitempty"`
-	Name              *string         `json:"name,omitempty"`
-	ServerType        string          `json:"server_type,omitempty"`
-	Zone              string          `json:"zone,omitempty"`
-	UserData          *string         `json:"user_data,omitempty"`
-	ServerGroups      []string        `json:"server_groups,omitempty"`
-	CompatibilityMode *bool           `json:"compatibility_mode,omitempty"`
-	DiskEncrypted     *bool           `json:"disk_encrypted,omitempty"`
-	Volumes           []VolumeOptions `json:"volumes,omitempty"`
+	ID                 string        `json:"-"`
+	Image              *string       `json:"image,omitempty"`
+	Name               *string       `json:"name,omitempty"`
+	ServerType         *string       `json:"server_type,omitempty"`
+	Zone               *string       `json:"zone,omitempty"`
+	UserData           *string       `json:"user_data,omitempty"`
+	SnapshotsRetention *string       `json:"snapshots_retention,omitempty"`
+	SnapshotsSchedule  *string       `json:"snapshots_schedule,omitempty"`
+	ServerGroups       []string      `json:"server_groups,omitempty"`
+	CompatibilityMode  *bool         `json:"compatibility_mode,omitempty"`
+	DiskEncrypted      *bool         `json:"disk_encrypted,omitempty"`
+	CloudIP            *bool         `json:"cloud_ip,omitempty"`
+	Volumes            []VolumeEntry `json:"volumes,omitempty"`
 }
 
-// ServerInterface represent a server's network interface(s)
-type ServerInterface struct {
-	ID          string
-	MacAddress  string `json:"mac_address"`
-	IPv4Address string `json:"ipv4_address"`
-	IPv6Address string `json:"ipv6_address"`
+// ServerNewSize is used in conjunction with ResizeServer
+// to specify the new Server type for the Server
+type ServerNewSize struct {
+	NewType string `json:"new_type"`
 }
 
-// Servers retrieves a list of all servers
-func (c *Client) Servers() ([]Server, error) {
-	var servers []Server
-	_, err := c.MakeAPIRequest("GET", "/1.0/servers", nil, &servers)
-	if err != nil {
-		return nil, err
-	}
-	return servers, err
-}
-
-// Server retrieves a detailed view of one server
-func (c *Client) Server(identifier string) (*Server, error) {
-	server := new(Server)
-	_, err := c.MakeAPIRequest("GET", "/1.0/servers/"+identifier, nil, server)
-	if err != nil {
-		return nil, err
-	}
-	return server, err
-}
-
-// CreateServer creates a new server.
-//
-// It takes a ServerOptions struct which requires, at minimum, a valid Image
-// identifier. Not all attributes can be specified at create time (such as ID,
-// which is allocated for you)
-func (c *Client) CreateServer(newServer *ServerOptions) (*Server, error) {
-	server := new(Server)
-	_, err := c.MakeAPIRequest("POST", "/1.0/servers", newServer, &server)
-	if err != nil {
-		return nil, err
-	}
-	return server, nil
-}
-
-// UpdateServer updates an existing server's attributes. Not all attributes can
-// be changed after creation time (such as Image, ServerType and Zone).
-//
-// Specify the server you want to update using the ServerOptions ID field
-func (c *Client) UpdateServer(updateServer *ServerOptions) (*Server, error) {
-	server := new(Server)
-	_, err := c.MakeAPIRequest("PUT", "/1.0/servers/"+updateServer.ID, updateServer, &server)
-	if err != nil {
-		return nil, err
-	}
-	return server, nil
-}
-
-// DestroyServer issues a request to destroy the server
-func (c *Client) DestroyServer(identifier string) error {
-	_, err := c.MakeAPIRequest("DELETE", "/1.0/servers/"+identifier, nil, nil)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-// StopServer issues a request to stop ("power off") an existing server
-func (c *Client) StopServer(identifier string) error {
-	_, err := c.MakeAPIRequest("POST", "/1.0/servers/"+identifier+"/stop", nil, nil)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-// StartServer issues a request to start ("power on") an existing server
-func (c *Client) StartServer(identifier string) error {
-	_, err := c.MakeAPIRequest("POST", "/1.0/servers/"+identifier+"/start", nil, nil)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-// RebootServer issues a request to reboot ("ctrl+alt+delete") an existing
-// server
-func (c *Client) RebootServer(identifier string) error {
-	_, err := c.MakeAPIRequest("POST", "/1.0/servers/"+identifier+"/reboot", nil, nil)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-// ResetServer issues a request to reset ("power cycle") an existing server
-func (c *Client) ResetServer(identifier string) error {
-	_, err := c.MakeAPIRequest("POST", "/1.0/servers/"+identifier+"/reset", nil, nil)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-// ShutdownServer issues a request to shut down ("tap the power button") an
-// existing server
-func (c *Client) ShutdownServer(identifier string) error {
-	_, err := c.MakeAPIRequest("POST", "/1.0/servers/"+identifier+"/shutdown", nil, nil)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-// LockServer locks an existing server, preventing it's destruction without
-// first unlocking. Deprecated, use LockResource instead.
-func (c *Client) LockServer(identifier string) error {
-	return c.LockResource(Server{ID: identifier})
-}
-
-// UnlockServer unlocks a previously locked existing server, allowing
-// destruction again. Deprecated, use UnLockResource instead.
-func (c *Client) UnlockServer(identifier string) error {
-	return c.UnLockResource(Server{ID: identifier})
-}
-
-// SnapshotServer issues a request to snapshot the disk of an existing
-// server. The snapshot is allocated an Image ID which is returned within an
-// instance of Image.
-func (c *Client) SnapshotServer(identifier string) (*Image, error) {
-	res, err := c.MakeAPIRequest("POST", "/1.0/servers/"+identifier+"/snapshot", nil, nil)
-	if err != nil {
-		return nil, err
-	}
-	imageID := getLinkRel(res.Header.Get("Link"), "img", "snapshot")
-	if imageID != nil {
-		img := new(Image)
-		img.ID = *imageID
-		return img, nil
-	}
-	return nil, nil
-}
-
-// ActivateConsoleForServer issues a request to enable the graphical console for
-// an existing server. The temporarily allocated ConsoleURL, ConsoleToken and
-// ConsoleTokenExpires data are returned within an instance of Server.
-func (c *Client) ActivateConsoleForServer(identifier string) (*Server, error) {
-	server := new(Server)
-	_, err := c.MakeAPIRequest("POST", "/1.0/servers/"+identifier+"/activate_console", nil, server)
-	if err != nil {
-		return nil, err
-	}
-	return server, nil
-}
-
-// ResizeServer issues a request to change the server type of a server
-// changing the amount of cpu and ram it has.
-func (c *Client) ResizeServer(identifier string, newTypeID string) error {
-	opt := struct {
-		NewType string `json:"new_type"`
-	}{newTypeID}
-	_, err := c.MakeAPIRequest("POST", "/1.0/servers/"+identifier+"/resize", &opt, nil)
-	return err
-}
-
-// FullConsoleURL returns the console url for the server with the token in the
-// query string.  Server needs a ConsoleURL and ConsoleToken, retrieved using
-// ActivateConsoleForServer
-func (s *Server) FullConsoleURL() string {
-	if s.ConsoleURL == "" || s.ConsoleToken == "" {
-		return s.ConsoleURL
-	}
-	u, err := url.Parse(s.ConsoleURL)
-	if u == nil || err != nil {
-		return s.ConsoleURL
-	}
-	values := u.Query()
-	if values.Get("password") != "" {
-		return s.ConsoleURL
-	}
-	values.Set("password", s.ConsoleToken)
-	u.RawQuery = values.Encode()
-	return u.String()
+// VolumeEntry is used within ServerOptions to specify the boot
+// volume for a server on creation. Either volume or image/disk size can
+// be given
+type VolumeEntry struct {
+	Volume string `json:"volume,omitempty"`
+	Size   uint   `json:"size,omitempty"`
+	Image  string `json:"image,omitempty"`
 }

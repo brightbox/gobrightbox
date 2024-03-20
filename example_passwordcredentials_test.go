@@ -1,18 +1,20 @@
-package gobrightbox_test
+package brightbox_test
 
 import (
+	"context"
 	"fmt"
+	"log"
 
-	brightbox "github.com/brightbox/gobrightbox"
-	"golang.org/x/oauth2"
+	brightbox "github.com/brightbox/gobrightbox/v2"
+	"github.com/brightbox/gobrightbox/v2/endpoint"
+	"github.com/brightbox/gobrightbox/v2/passwordcredentials"
 )
 
-// Authenticate using OAuth2 password credentials
-func ExamplePasswordCredentials() {
-	apiURL := "https://api.gb1.brightbox.com"
+// Authenticate using OAuth2 password credentials, and get a list of configMaps
+func ExampleConnect_password_auth() {
 	// Brightbox username and password
 	userName := "john@example.com"
-	password := "mypassword"
+	userPassword := "mypassword"
 	// Users can have multiple accounts, so you need to specify which one
 	accountID := "acc-h3nbk"
 	// These OAuth2 application credentials are public, distributed with the
@@ -20,34 +22,33 @@ func ExamplePasswordCredentials() {
 	applicationID := "app-12345"
 	applicationSecret := "mocbuipbiaa6k6c"
 
-	// Setup OAuth2 authentication.
-	conf := oauth2.Config{
-		ClientID:     applicationID,
-		ClientSecret: applicationSecret,
-		Endpoint: oauth2.Endpoint{
-			TokenURL: apiURL + "/token",
+	// Setup Config
+	conf := &passwordcredentials.Config{
+		UserName: userName,
+		Password: userPassword,
+		ID:       applicationID,
+		Secret:   applicationSecret,
+		Config: endpoint.Config{
+			Account: accountID,
+			Scopes:  endpoint.InfrastructureScope,
 		},
 	}
-	token, err := conf.PasswordCredentialsToken(oauth2.NoContext, userName, password)
-	if err != nil {
-		fmt.Println(err)
-	}
-	oc := conf.Client(oauth2.NoContext, token)
+
+	// Underlying network connection context.
+	ctx := context.Background()
 
 	// Setup connection to API
-	client, err := brightbox.NewClient(apiURL, accountID, oc)
+	client, err := brightbox.Connect(ctx, conf)
 	if err != nil {
-		fmt.Println(err)
-		return
+		log.Fatal(err)
 	}
 
-	// Get a list of servers
-	servers, err := client.Servers()
+	// Get a list of configMaps
+	configMaps, err := client.ConfigMaps(ctx)
 	if err != nil {
-		fmt.Println(err)
-		return
+		log.Fatal(err)
 	}
-	for _, server := range servers {
-		fmt.Printf("id:%s name:%s\n", server.ID, server.Name)
+	for _, configMap := range configMaps {
+		fmt.Printf("id:%s name:%s\n", configMap.ID, configMap.Name)
 	}
 }
