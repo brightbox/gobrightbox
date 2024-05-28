@@ -8,7 +8,7 @@ pipeline {
   }
   agent {
     docker {
-      image 'golang:1.13'
+      image 'golang:1.17'
       label "docker"
       args "-v /tmp:/.cache"
     }
@@ -16,20 +16,20 @@ pipeline {
   stages {
     stage("Prepare dependencies") {
       steps {
-	sh 'go get -u github.com/jstemmer/go-junit-report'
+        sh 'go install github.com/jstemmer/go-junit-report/v2@latest'
         sh 'go mod download'
       }
     }
     stage("Test") {
       steps {
-        sh 'go test -v ./... | go-junit-report | tee report.xml'
+        sh 'go test -v 2>&1 ./... | go-junit-report -set-exit-code > report.xml'
       }
       post {
-	failure {
-	    mail to: 'sysadmin@brightbox.co.uk',
-		 subject: "Gobrightbox Tests Failed: ${currentBuild.fullDisplayName}",
-		 body: "${env.BUILD_URL}"
-	}
+        failure {
+            mail to: 'sysadmin@brightbox.co.uk',
+             subject: "Gobrightbox Tests Failed: ${currentBuild.fullDisplayName}",
+             body: "${env.BUILD_URL}"
+        }
         always {
           junit "report.xml"
         }
