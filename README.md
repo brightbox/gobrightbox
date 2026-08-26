@@ -22,4 +22,4 @@ If you need help using this library, drop an email to support at brightbox dot c
 
 This code is released under an MIT License.
 
-Copyright (c) 2015-2024 Brightbox Systems Ltd.
+Copyright (c) 2015-2026 Brightbox Systems Ltd.
