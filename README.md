@@ -1,6 +1,6 @@
 # Brightbox Go Library
 
-[![Go Reference](https://pkg.go.dev/badge/github.com/brightbox/gobrightbox.svg)](https://pkg.go.dev/github.com/brightbox/gobrightbox/v2)
+[![Go Reference](https://pkg.go.dev/badge/github.com/brightbox/gobrightbox/v2.svg)](https://pkg.go.dev/github.com/brightbox/gobrightbox/v2)
 
 `gobrightbox` is a [Brightbox](https://www.brightbox.com) [API](https://api.gb1.brightbox.com/1.0/)
 client library written in [Go](http://golang.org/).
@@ -9,7 +9,7 @@ Documentation is available at [pkg.go.dev](https://pkg.go.dev/github.com/brightb
 
 ## Install
 ```sh
-go get github.com/brightbox/gobrightbox@vX.Y.Z
+go get github.com/brightbox/gobrightbox/v2@vX.Y.Z
 ```
 
 where X.Y.Z is the [version](https://github.com/brightbox/gobrightbox/releases) you need.
